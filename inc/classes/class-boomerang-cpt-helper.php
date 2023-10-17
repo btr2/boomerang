@@ -48,12 +48,51 @@ class Boomerang_CPT_Helper {
 					'new_item_name'     => sprintf( __( 'New %s', 'boomerang' ), $status_singular ),
 					'menu_name'         => sprintf( '%s', $status_plural ),
 				),
-				'show_ui'           => true,
 				'show_in_rest'      => true,
 				'show_admin_column' => true,
 				'query_var'         => true,
 				'rewrite'           => array(
 					'slug'       => 'status',
+					'with_front' => true,
+				),
+			)
+		);
+
+		$tag_singular = 'Tag';
+		$tag_plural   = 'Tags';
+
+		register_taxonomy(
+			'boomerang_tag',
+			array( 'boomerang' ),
+			array(
+				'hierarchical'      => false,
+				'labels'            => array(
+					'name'              => $tag_plural,
+					'singular_name'     => $tag_singular,
+					// translators: Placeholder %s is the plural label of the boomerang 'status' taxonomy.
+					'search_items'      => sprintf( __( 'Search %s', 'boomerang' ), $tag_plural ),
+					// translators: Placeholder %s is the plural label of the boomerang 'status' taxonomy.
+					'all_items'         => sprintf( __( 'All %s', 'boomerang' ), $tag_plural ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'parent_item'       => sprintf( __( 'Parent %s', 'boomerang' ), $tag_singular ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'parent_item_colon' => sprintf( __( 'Parent %s:', 'boomerang' ), $tag_singular ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'edit_item'         => sprintf( __( 'Edit %s', 'boomerang' ), $tag_singular ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'update_item'       => sprintf( __( 'Update %s', 'boomerang' ), $tag_singular ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'add_new_item'      => sprintf( __( 'Add New %s', 'boomerang' ), $tag_singular ),
+					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
+					'new_item_name'     => sprintf( __( 'New %s', 'boomerang' ), $tag_singular ),
+					'menu_name'         => sprintf( '%s', $tag_plural ),
+				),
+				'show_ui'           => true,
+				'show_in_rest'      => true,
+				'show_admin_column' => true,
+				'query_var'         => true,
+				'rewrite'           => array(
+					'slug'       => 'boomerang_tag',
 					'with_front' => true,
 				),
 			)

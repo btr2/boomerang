@@ -2,7 +2,7 @@
 Tags: feature requests, requests, feedback, roadmap, ideas, suggestions, idea board, request board
 Contributors: bouncingsprout
 Requires at least: 5.2
-Tested up to: 6.2
+Tested up to: 6.3.2
 Requires PHP: 7.0
 Stable tag: 1.0.0
 License: GPLv2 or later
