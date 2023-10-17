@@ -1,0 +1,43 @@
+/**
+Boomerang Form
+ */
+#boomerang-form {
+  .boomerang_select {
+    width: 50%;
+  }
+
+  #bf-footer {
+    display: flex;
+    gap: 10px;
+
+  // Ajax Spinner
+  #bf-spinner {
+    display: none;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: ajax-spinner-spin 2s linear infinite;
+  }
+
+    @keyframes ajax-spinner-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  }
+
+  #bf-result {
+    &.success {
+      color: #00a32a;
+    }
+
+    &.error {
+      color: #9e1313;
+    }
+  }
+}
+
+.select2-container--default {
+   margin-top: 32px;
+ }

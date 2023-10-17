@@ -35,6 +35,7 @@ function boomerang_get_version() {
  */
 function boomerang_init() {
 	require BOOMERANG_PATH . '/inc/classes/class-boomerang-boomerang.php';
+	require BOOMERANG_PATH . '/inc/functions.php';
 
 	$boomerang = new Boomerang_Boomerang();
 }
@@ -43,7 +44,7 @@ add_action( 'init', 'boomerang_init' );
 /**
  * Tasks to run on plugin activation.
  */
-function activate_boomerang() {
+function boomerang_activate() {
 
 	if ( ! class_exists( 'Boomerang_CPT_Helper' ) ) {
 		require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-cpt-helper.php';
@@ -54,4 +55,4 @@ function activate_boomerang() {
 
 	flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'activate_boomerang' );
+register_activation_hook( __FILE__, 'boomerang_activate' );
