@@ -1,0 +1,19 @@
+/* Variables */
+$blue: #027AD0;
+
+/* Custom Header */
+.boomerang-admin-header {
+  .boomerang-title {
+    margin-left: -20px;
+    background-color: $blue;
+    padding: 20px;
+
+    .boomerang-logo {
+      width: 200px;
+    }
+  }
+
+  .boomerang-notices-container {
+    margin: 0;
+  }
+}

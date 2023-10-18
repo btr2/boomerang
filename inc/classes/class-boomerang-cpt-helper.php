@@ -28,7 +28,7 @@ class Boomerang_CPT_Helper {
 			array(
 				'hierarchical'      => true,
 				'labels'            => array(
-					'name'              => $status_plural,
+					'name'              => __( 'Status Center', 'boomerang' ),
 					'singular_name'     => $status_singular,
 					// translators: Placeholder %s is the plural label of the boomerang 'status' taxonomy.
 					'search_items'      => sprintf( __( 'Search %s', 'boomerang' ), $status_plural ),
@@ -45,8 +45,9 @@ class Boomerang_CPT_Helper {
 					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
 					'add_new_item'      => sprintf( __( 'Add New %s', 'boomerang' ), $status_singular ),
 					// translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
-					'new_item_name'     => sprintf( __( 'New %s', 'boomerang' ), $status_singular ),
-					'menu_name'         => sprintf( '%s', $status_plural ),
+					'new_item_name'     => sprintf( $status_singular ),
+					// translators: Name of the Boomerang status menu label.
+					'menu_name'         => __( 'Status Center', 'boomerang' ),
 				),
 				'show_in_rest'      => true,
 				'show_admin_column' => true,
@@ -103,6 +104,7 @@ class Boomerang_CPT_Helper {
 		$slug         = 'boomerang';
 		$cpt_singular = 'Boomerang';
 		$cpt_plural   = 'Boomerangs';
+		$menu_icon    = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDE4MSAyOTIiIGZpbGw9Im5vbmUiPg0KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yNS4wMjMzIDE2Ljc3MUMxMC4xMTU4IDI3Ljc3NDEgMi42NjIwNiA0MS43MDU2IDIuNjYyMDYgNTguNTY1M0MyLjY2MjA2IDY3Ljk3MTIgNi4zMDAyIDc2LjIyMzYgMTMuNTc2NSA4My4zMjI0QzIwLjg1MjggOTAuNDIxMiAzMS4yMzQ4IDk0LjIzNjggNDQuNzIyNSA5NC43NjkyTDQ3LjY1MDggNzUuMDdDNDEuMjYxOSA3NC4zNjAxIDM2LjExNTIgNzIuNDA3OSAzMi4yMTA5IDY5LjIxMzVDMjguMzA2NSA2NS44NDE1IDI2LjM1NDQgNjEuNzU5NyAyNi4zNTQ0IDU2Ljk2OEMyNi4zNTQ0IDQ3LjAyOTcgMzEuODU1OSAzOS4xMzIyIDQyLjg1OTEgMzMuMjc1N0M1My44NjIzIDI3LjI0MTcgNjUuMTMxNiAyNC4yMjQ3IDc2LjY2NzIgMjQuMjI0N0M5NC4yMzY4IDI0LjIyNDcgMTA4LjA3OSAyNy44NjI5IDExOC4xOTUgMzUuMTM5MkMxMjcuNjAxIDQyLjA2MDUgMTMyLjEyNyA1MC41NzkxIDEzMS43NzIgNjAuNjk0OUMxMzEuNTk0IDcwLjgxMDcgMTI3Ljc3OSA3OC40NDE5IDEyMC4zMjUgODMuNTg4NkMxMTMuMDQ5IDg4LjU1NzggMTA0LjA4NiA5MS4wNDIzIDkzLjQzODIgOTEuMDQyM0w5MS4wNDIzIDExMC43NDJDMTA2LjQ4MiAxMTAuNzQyIDExOC42MzkgMTE0LjIwMiAxMjcuNTEyIDEyMS4xMjRDMTM2LjU2MyAxMjguMDQ1IDE0MS4wODkgMTM2LjU2NCAxNDEuMDg5IDE0Ni42NzlDMTQxLjA4OSAxNTYuNzk1IDEzNy44MDYgMTY0Ljk1OSAxMzEuMjM5IDE3MS4xN0MxMjQuNjczIDE3Ny4yMDQgMTE2LjE1NCAxODAuMjIxIDEwNS42ODQgMTgwLjIyMUM5NS4zOTA0IDE4MC4yMjEgODYuMzM5NCAxNzguMTggNzguNTMwNyAxNzQuMDk5TDcwLjI3ODMgMTk2LjQ2Qzc3LjM3NzEgMjAxLjYwNiA5MC42ODc0IDIwNC4xOCAxMTAuMjA5IDIwNC4xOEMxMjkuOTA4IDIwNC4xOCAxNDYuNTkxIDE5OS4yMTEgMTYwLjI1NiAxODkuMjcyQzE3My45MjEgMTc5LjMzNCAxODAuNzU0IDE2NS40OTEgMTgwLjc1NCAxNDcuNzQ0QzE4MC43NTQgMTM0LjI1NiAxNzUuMTYzIDEyMy4wNzYgMTYzLjk4MyAxMTQuMjAyQzE1Mi45NzkgMTA1LjMyOSAxMzkuOTM1IDEwMC4zNiAxMjQuODUgOTkuMjk0N0MxMzYuOTE4IDk4LjkzOTggMTQ3LjIxMiA5NC41MDMgMTU1LjczIDg1Ljk4NDRDMTY0LjI0OSA3Ny40NjU4IDE2OC41MDggNjcuNzkzNyAxNjguNTA4IDU2Ljk2OEMxNjguNjg2IDQ1Ljk2NDggMTY1LjQwMiAzNi4wMjY1IDE1OC42NTkgMjcuMTUzQzE1NC41NzcgMjIuMDA2MyAxNDkuNTE5IDE3LjQ4MDggMTQzLjQ4NSAxMy41NzY1QzEzNy40NTEgOS42NzIxNCAxMjkuMjg3IDYuNDc3NjcgMTE4Ljk5NCAzLjk5MzA4QzEwOC43MDEgMS4zMzEwMyA5Ny4wNzYzIDAgODQuMTIxIDBDNTkuNjMwMSAwIDM5LjkzMDggNS41OTAzMiAyNS4wMjMzIDE2Ljc3MVpNNjIuMjkyMSAxOTEuOTM0QzcwLjQ1NTcgMTgzLjk0OCA3NS45NTczIDE3MC40NiA3OC43OTY5IDE1MS40NzFMOTUuNTY3OCAzNy44MDEyQzkxLjQ4NiAzNi45MTM5IDg3LjIyNjcgMzYuNDcwMiA4Mi43ODk5IDM2LjQ3MDJDNzMuMjA2NSAzNi40NzAyIDY0Ljc3NjcgMzguNzc3MyA1Ny41MDA0IDQzLjM5MTVDNTcuMTQ1NSA0NS44NzYxIDU2LjQzNTYgNTEuMDIyOCA1NS4zNzA4IDU4LjgzMTVDNTQuNDgzNCA2Ni42NDAyIDUzLjE1MjQgNzYuOTMzNCA1MS4zNzc3IDg5LjcxMTNDNDkuNzgwNSAxMDIuMzEyIDQ4LjUzODIgMTEyLjMzOSA0Ny42NTA4IDExOS43OTNDMTUuODgzNiAxMzQuNTIzIDAgMTUyLjM1OCAwIDE3My4zQzAgMTgyLjE3MyAyLjgzOTUzIDE4OS40NSA4LjUxODU4IDE5NS4xMjlDMTQuMTk3NiAyMDAuODA4IDIyLjUzODcgMjAzLjY0NyAzMy41NDE5IDIwMy42NDdDNDQuNTQ1MSAyMDMuNjQ3IDU0LjEyODUgMTk5Ljc0MyA2Mi4yOTIxIDE5MS45MzRaTTI4Ljc1MDIgMTc5LjQyM0MyMi43MTYyIDE3OS40MjMgMTkuNjk5MiAxNzYuMjI4IDE5LjY5OTIgMTY5LjgzOUMxOS42OTkyIDE2MC45NjYgMjguMDQwMyAxNTEuODI2IDQ0LjcyMjUgMTQyLjQyTDQyLjMyNjcgMTU4LjkyNUM0MS4yNjE5IDE2Ni4wMjQgMzkuMzA5NyAxNzEuMjU5IDM2LjQ3MDIgMTc0LjYzMUMzMy44MDgxIDE3Ny44MjUgMzEuMjM0OCAxNzkuNDIzIDI4Ljc1MDIgMTc5LjQyM1pNMTc2LjcwNyAyMTQuMjAxQzE3Ny4zIDIxMi44MzYgMTc5LjI5NSAyMTIuODg1IDE3OS42MzQgMjE0LjMzNEMxODAuNDg2IDIxNy45NzMgMTgwLjkyOSAyMjEuNzE0IDE4MC45MjkgMjI1LjUzQzE4MC45MjkgMjYyIDE0MC40MyAyOTEuNTY1IDkwLjQ3MjQgMjkxLjU2NUM0MC41MTQ1IDI5MS41NjUgMC4wMTU2NTQyIDI2MiAwLjAxNTY1MjYgMjI1LjUzQzAuMDE1NjUyNSAyMjEuNzE0IDAuNDU5MTQ4IDIxNy45NzMgMS4zMTA1NiAyMTQuMzM0QzEuNjQ5NDIgMjEyLjg4NSAzLjY0NDc3IDIxMi44MzYgNC4yMzc4NSAyMTQuMjAxQzE1Ljg0MzQgMjQwLjg5NSA1MC4wNjM2IDI2MC4yMzggOTAuNDcyNCAyNjAuMjM4QzEzMC44ODEgMjYwLjIzOCAxNjUuMTAxIDI0MC44OTUgMTc2LjcwNyAyMTQuMjAxWiIgZmlsbD0iYmxhY2siLz4NCjwvc3ZnPg==';
 
 		register_post_type(
 			'boomerang',
@@ -112,7 +114,7 @@ class Boomerang_CPT_Helper {
 					'labels'                => array(
 						'name'               => $cpt_plural,
 						'singular_name'      => $cpt_singular,
-						'menu_name'          => $cpt_plural,
+						'menu_name'          => $cpt_singular,
 						// translators: Placeholder %s is the plural label of the boomerang post type.
 						'all_items'          => sprintf( __( 'All %s', 'boomerang' ), $cpt_plural ),
 						'add_new'            => __( 'Add New', 'boomerang' ),
@@ -162,7 +164,7 @@ class Boomerang_CPT_Helper {
 					'template'              => array( array( 'core/freeform' ) ),
 					'template_lock'         => 'all',
 					'menu_position'         => 30,
-					'menu_icon'             => 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyOTYgMjk2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8Zz4KPHBhdGggZD0iTTExNi45NzcgMTI2LjI1TDI1MS4xODIgMTAwLjE2OUMyNjAuNDY1IDk5LjEzNDIgMjY0LjA3NyA5My4zNjY2IDI2MC4xMjYgNzYuMjM1NUMyNTcuNDI0IDY0LjUxOCAyNTEuNTI4IDM3LjQwNCAyMjMuMTM3IDI2LjQxMTJDMTkyLjQyOCAxNC41MjE0IDEwNS43OTcgNDguMjMyMiA4NC43OTYxIDkyLjk4MjRDNjcuOTk1OCAxMjguNzgyIDk5LjI0OTYgMTMwLjA3NyAxMTYuOTc3IDEyNi4yNVoiIGZpbGw9IiNmMGYwZjEiLz4KPHBhdGggZD0iTTE4Ni4yOTkgMTc1Ljc3Nkw1Mi43ODUzIDIwNS4xMDlDNDMuNTMxMyAyMDYuMzY4IDQwLjA2NDMgMjEyLjIyMiA0NC40Mzk2IDIyOS4yNTJDNDcuNDMyMiAyNDAuOTAxIDUzLjk5OTcgMjY3Ljg2NCA4Mi42NTU0IDI3OC4xNjVDMTEzLjY1IDI4OS4zMDYgMTk5LjQxNSAyNTMuNTAxIDIxOS4yOTYgMjA4LjI1M0MyMzUuMjAxIDE3Mi4wNTUgMjAzLjkyNSAxNzEuNTE5IDE4Ni4yOTkgMTc1Ljc3NloiIGZpbGw9IiNmMGYwZjEiLz4KPHBhdGggZD0iTTE3NC4zNzEgMTE0LjUxOEwyMDEuODQ5IDI0NS44NzdDMjAyLjk2NCAyNTQuOTY3IDIwOC44NzIgMjU4LjQ3MSAyMjYuMzI3IDI1NC40OTRDMjM4LjI2NiAyNTEuNzc0IDI2NS44OTUgMjQ1LjgyOSAyNzYuOTI5IDIxNy45MzhDMjg4Ljg2NCAxODcuNzcxIDI1My45MDcgMTAzLjA4MiAyMDguMTA5IDgyLjc3NzVDMTcxLjQ3MSA2Ni41MzM5IDE3MC4zNTEgOTcuMTcgMTc0LjM3MSAxMTQuNTE4WiIgZmlsbD0iI2YwZjBmMSIvPgo8cGF0aCBkPSJNMTI1LjQxOCAxODAuNDIyTDk5LjUzMjUgNDguODA4OEM5OC41MjgxIDM5LjcxMTIgOTIuNjU4MyAzNi4xMzExIDc1LjE0MjIgMzkuODY5OEM2My4xNjEzIDQyLjQyNzEgMzUuNDM5OSA0Ny45OTQ2IDI0LjA1NTggNzUuNzEyOEMxMS43NDI4IDEwNS42OTMgNDUuNjg0OCAxOTAuNzc4IDkxLjI2NjEgMjExLjY4MUMxMjcuNzMxIDIyOC40MDMgMTI5LjIyOCAxOTcuODA5IDEyNS40MTggMTgwLjQyMloiIGZpbGw9IiNmMGYwZjEiLz4KPC9nPgo8L3N2Zz4K',
+					'menu_icon'             => $menu_icon,
 				)
 			)
 		);

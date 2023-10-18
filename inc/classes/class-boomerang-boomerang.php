@@ -15,6 +15,7 @@ class Boomerang_Boomerang {
 		$this->init_hooks();
 		$this->register_cpt();
 		$this->initialise_front_end();
+		$this->initialise_admin();
 	}
 
 	public function init_hooks() {
@@ -32,6 +33,19 @@ class Boomerang_Boomerang {
 		}
 
 		$frontend = new Boomerang_Frontend();
+	}
+
+	/**
+	 * Boot up all admin functionality.
+	 *
+	 * @return void
+	 */
+	public function initialise_admin(  ) {
+		if ( ! class_exists( 'Boomerang_Admin' ) ) {
+			require_once BOOMERANG_PATH . '/admin/inc/classes/class-boomerang-admin.php';
+		}
+
+		$admin = new Boomerang_Admin();
 	}
 
 	/**
