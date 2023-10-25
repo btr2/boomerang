@@ -34,13 +34,14 @@ function boomerang_get_version() {
  * Start the engines, Captain...
  */
 function boomerang_init() {
+	require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
 	require BOOMERANG_PATH . '/inc/classes/class-boomerang-boomerang.php';
-	require BOOMERANG_PATH . '/inc/functions.php';
+	require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
 
 	$boomerang = new Boomerang_Boomerang();
 }
-add_action( 'init', 'boomerang_init' );
-
+// add_action( 'init', 'boomerang_init' );
+boomerang_init();
 /**
  * Tasks to run on plugin activation.
  */

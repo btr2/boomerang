@@ -27,6 +27,9 @@ class Boomerang_Frontend {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'wp_ajax_save_boomerang', array( $this, 'save_boomerang' ) );
+		add_action( 'wp_head', array( $this, 'google_fonts' ) );
+
+		add_filter( 'single_template', array( $this, 'do_single_template' ) );
 	}
 
 	/**
@@ -53,7 +56,10 @@ class Boomerang_Frontend {
 			true
 		);
 
-		// set variables for script
+		if ( ! boomerang_get_option( 'disable_google_fonts' ) ) {
+			wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined', false );
+		}
+
 		wp_localize_script(
 			'boomerang',
 			'settings',
@@ -62,6 +68,14 @@ class Boomerang_Frontend {
 				'success' => __( 'Saved!', 'boomerang' ),
 			)
 		);
+	}
+
+	public function google_fonts() {
+		?>
+
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<?php
 	}
 
 	/**
@@ -170,15 +184,22 @@ class Boomerang_Frontend {
 	 *
 	 * @return false|string
 	 */
-	public function render_boomerang_full() {
+	public function render_boomerang_full( $atts ) {
+		$a = shortcode_atts(
+			array(
+				'board' => false,
+			),
+			$atts
+		);
+
 		ob_start();
 		?>
 
-		<div id="boomerang-full">
+		<div id="boomerang-full <?php echo esc_attr( $a['board'] ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 			<?php
-			echo $this->render_boomerang_form(); // phpcs:ignore -- escaped later
+			echo $this->render_boomerang_form( $a ); // phpcs:ignore -- escaped later
 			?>
-			<?php $this->render_boomerang_directory(); ?>
+			<?php $this->render_boomerang_directory( $a ); ?>
 		</div>
 
 		<?php
@@ -190,7 +211,14 @@ class Boomerang_Frontend {
 	 *
 	 * @return false|string
 	 */
-	public function render_boomerang_form() {
+	public function render_boomerang_form( $atts ) {
+		$a = shortcode_atts(
+			array(
+				'board' => $atts['board'] ?? false,
+			),
+			$atts
+		);
+
 		if ( ! is_user_logged_in() ) {
 			echo esc_html__( 'You must be logged in to submit. Sorry.', 'boomerang' );
 
@@ -200,7 +228,7 @@ class Boomerang_Frontend {
 		ob_start();
 		?>
 
-		<div id="boomerang-form-wrapper">
+		<div id="boomerang-form-wrapper" class="<?php echo esc_attr( $a['board'] ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 			<form id="boomerang-form" method="post" enctype='multipart/form-data' data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-form-nonce' ) ); ?>">
 
 				<p><label for="title"><?php echo esc_html( boomerang_label_title() ); ?></label><br/>
@@ -253,18 +281,34 @@ class Boomerang_Frontend {
 	 *
 	 * @return false|string
 	 */
-	public function render_boomerang_directory() {
+	public function render_boomerang_directory( $atts ) {
+		$a = shortcode_atts(
+			array(
+				'board' => $atts['board'] ?? false,
+			),
+			$atts
+		);
+
 		ob_start();
+
+		require_once BOOMERANG_PATH . '/templates/archive.php';
+
 		?>
 
-		<div class="boomerang-directory">
 
-			<?php echo wp_kses( $this->get_boomerangs(), 'post' ); ?>
-
-		</div>
 
 		<?php
 
 		return ob_get_flush();
+	}
+
+	public function do_single_template( $single_template ) {
+		global $post;
+
+		if ( 'boomerang' === $post->post_type ) {
+			$single_template = BOOMERANG_PATH . '/templates/single.php';
+		}
+
+		return $single_template;
 	}
 }

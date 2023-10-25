@@ -13,13 +13,20 @@ class Boomerang_Boomerang {
 	 */
 	public function __construct() {
 		$this->init_hooks();
-		$this->register_cpt();
-		$this->initialise_front_end();
+
+		// Do this early, so that CSF can boot up.
 		$this->initialise_admin();
+
+		// Require our board function file.
+		require BOOMERANG_PATH . '/inc/boomerang-board-functions.php';
+
+		// Require our template file.
+		require BOOMERANG_PATH . '/inc/boomerang-templates.php';
 	}
 
 	public function init_hooks() {
-
+		add_action( 'init', array( $this, 'register_cpt' ) );
+		add_action( 'init', array( $this, 'initialise_front_end' ) );
 	}
 
 	/**

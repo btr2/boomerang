@@ -12,4 +12,9 @@
   margin: 0;
 }
 
+/* CSF Settings Page */
+.csf .csf-footer .csf-copyright {
+  display: none;
+}
+
 /*# sourceMappingURL=boomerang-admin.css.map */

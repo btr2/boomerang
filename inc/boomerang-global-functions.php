@@ -4,7 +4,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/** Conditionals */
+/** Getters **/
+
+function boomerang_get_slug() {
+	if ( ! empty( get_option( 'boomerang_slug' ) ) ) {
+		return get_option( 'boomerang_slug' );
+	}
+
+	return 'boomerang';
+}
+
+function boomerang_get_board_permalink() {
+	if ( ! empty( get_option( 'boomerang_board_slug' ) ) ) {
+		return get_option( 'boomerang_board_slug' );
+	}
+
+	return 'board';
+}
+
+/**
+ * Helper function to retrieve an option from our global settings page.
+ *
+ * @param $option
+ * @param $default
+ *
+ * @return mixed|null
+ */
+function boomerang_get_option( $option = '', $default = null ) {
+	$options = get_option( 'boomerang_global_options' );
+	return ( isset( $options[ $option ] ) ) ? $options[ $option ] : $default;
+}
+
+/** Conditionals **/
 
 /**
  * Checks whether drafts should be retrieved.
@@ -12,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return true
  */
 function boomerang_show_drafts() {
-	return true;
+	return false;
 }
 
 /**

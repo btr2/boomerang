@@ -1,4 +1,7 @@
 /**
+Global Styles
+ */
+/**
 Boomerang Form
  */
 #boomerang-form .boomerang_select {
@@ -34,6 +37,34 @@ Boomerang Form
 
 .select2-container--default {
   margin-top: 32px;
+}
+
+/**
+Single Boomerang
+ */
+.single-boomerang .boomerang-container .entry-header, .single-boomerang .boomerang-container .entry-content, .single-boomerang .boomerang-container .entry-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta {
+  display: flex;
+  gap: 20px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-posted-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-status {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 0 5px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-comment-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /*# sourceMappingURL=boomerang.css.map */
