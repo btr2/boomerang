@@ -71,7 +71,7 @@ class Boomerang_Frontend {
 	 */
 	public function save_boomerang() {
 		// Check that the nonce was set and valid
-		if ( ! wp_verify_nonce( $_POST['boomerang_form_nonce'], 'boomerang-form-nonce' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['boomerang_form_nonce'] ) ), 'boomerang-form-nonce' ) ) {
 			$error = new WP_Error(
 				'Boomerang: Failed Security Check on Form Submission',
 				__( 'Something went wrong.', 'boomerang' )
@@ -80,10 +80,12 @@ class Boomerang_Frontend {
 			wp_send_json_error( $error );
 		}
 
-		parse_str( stripslashes( $_POST['boomerang_form'] ), $form );
+		$title   = sanitize_text_field( $_POST['title'] );
+		$content = sanitize_textarea_field( $_POST['content'] );
+		$tags    = array_map( 'sanitize_text_field', $_POST['tags'] );
 
 		// Do some minor form validation to make sure there is content
-		if ( strlen( $form['title'] ) < 3 ) {
+		if ( strlen( $title ) < 3 ) {
 			$error = new WP_Error(
 				'Boomerang: User Input Error',
 				__( 'Please enter a title. Titles must be at least three characters long.', 'boomerang' )
@@ -94,23 +96,21 @@ class Boomerang_Frontend {
 
 		// Add the content of the form to $post as an array
 		$args = array(
-			'post_title'   => sanitize_text_field( $form['title'] ),
-			'post_content' => sanitize_textarea_field( $form['content'] ),
+			'post_title'   => $title,
+			'post_content' => $content,
 			'post_status'  => 'draft',   // Could be: publish
 			'post_type'    => 'boomerang', // Could be: `page` or your CPT
 		);
 
 		$post_id = wp_insert_post( $args );
 
-		if ( isset( $form['tags'] ) ) {
-			// Sanitize array values
-			$tags = array_map( 'sanitize_text_field', $form['tags'] );
+		if ( isset( $tags ) ) {
 			wp_set_post_terms( $post_id, $tags, 'boomerang_tag' );
 		}
 
 		$return = array(
 			'message' => __( 'Saved!', 'boomerang' ),
-			'content' => $this->get_boomerangs(),
+			'content' => wp_kses_post( $this->get_boomerangs() ),
 		);
 
 		wp_send_json_success( $return );
@@ -175,10 +175,51 @@ class Boomerang_Frontend {
 		?>
 
 		<div id="boomerang-full">
-			<?php
-			echo $this->render_boomerang_form(); // phpcs:ignore -- escaped later
-			?>
-			<?php $this->render_boomerang_directory(); ?>
+			<div id="boomerang-form-wrapper">
+				<form id="boomerang-form" method="post" enctype='multipart/form-data' data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-form-nonce' ) ); ?>">
+
+					<p><label for="title"><?php echo esc_html( boomerang_label_title() ); ?></label><br/>
+						<input type="text" id="title" value="" tabindex="1" size="20" name="title"/>
+					</p>
+
+					<label for="tags">Tags:</label><br/>
+					<select class="boomerang_select select2" id="tags" name="tags[]" multiple="multiple">';
+
+						<?php
+
+						$tags = get_terms(
+							array(
+								'taxonomy'   => 'boomerang_tag',
+								'hide_empty' => false,
+							)
+						);
+
+						if ( $tags ) {
+							foreach ( $tags as $tag ) :
+								?>
+								<option value="<?php echo esc_attr( $tag->slug ); ?>"><?php echo esc_html( $tag->name ); ?></option>
+								<?php
+							endforeach;
+						}
+						?>
+
+					</select>
+
+					<p>
+						<label for="content"><?php echo esc_html( boomerang_label_content() ); ?></label><br/>
+						<textarea id="content" tabindex="3" name="content" cols="50" rows="6"></textarea>
+					</p>
+
+					<div id="bf-footer">
+						<div id="bf-spinner"></div>
+						<button id="bf-submit"><?php echo esc_html( boomerang_label_submit() ); ?></button>
+						<span id="bf-result"></span>
+					</div>
+
+				</form>
+			</div>
+
+			<?php wp_kses_post( $this->render_boomerang_directory() ); ?>
 		</div>
 
 		<?php

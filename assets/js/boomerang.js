@@ -12,8 +12,10 @@ jQuery(document).ready(function ($) {
 
             let $button = $( this );
             let $form = $button.closest('#boomerang-form');
-            let serializedData = $form.serialize();
             let nonce          = $form.attr( "data-nonce" );
+            let title = $form.find('#title').val();
+            let content = $form.find('#content').val();
+            let tags = $form.find('#tags').val();
 
             $.ajax(
                 {
@@ -21,7 +23,9 @@ jQuery(document).ready(function ($) {
                     dataType: "JSON",
                     url: settings.ajaxurl,
                     data: {
-                        boomerang_form: serializedData,
+                        title: title,
+                        content: content,
+                        tags: tags,
                         boomerang_form_nonce: nonce,
                         action: "save_boomerang",
                     },

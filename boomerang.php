@@ -10,6 +10,11 @@
  *   Version: 1.0.0
  */
 
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 define( 'BOOMERANG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BOOMERANG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BOOMERANG_BASENAME', plugin_basename( __FILE__ ) );
