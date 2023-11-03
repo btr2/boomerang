@@ -137,7 +137,13 @@ class Boomerang_Admin {
 							'id'    => 'disable_google_fonts',
 							'type'  => 'switcher',
 							'title' => 'Disable Google Fonts',
-							'desc'  => 'We use Google Icons inside Boomerang. If you would like to disable these, click the button.',
+							'desc'  => esc_attr__( 'We use Google Icons inside Boomerang. If you would like to disable these, click the button.', 'boomerang' ),
+						),
+						array(
+							'id'    => 'enable_house_styles',
+							'type'  => 'switcher',
+							'title' => 'Use Boomerang\'s Own Styles',
+							'desc'  => esc_attr__( 'Boomerang will try to honour your theme\'s styles. If you\'d prefer a more standardised look, click this.', 'boomerang' ),
 						),
 					),
 				)
@@ -154,12 +160,8 @@ class Boomerang_Admin {
 		// Control core classes for avoid errors
 		if ( class_exists( 'CSF' ) ) {
 
-			//
-			// Set a unique slug-like ID
 			$prefix = 'boomerang_board_options';
 
-			//
-			// Create a metabox
 			CSF::createMetabox(
 				$prefix,
 				array(
@@ -168,14 +170,19 @@ class Boomerang_Admin {
 				)
 			);
 
-			//
-			// Create a section
 			CSF::createSection(
 				$prefix,
 				array(
 					'id'     => 'boards',
-					'type'   => 'repeater',
+					'title'  => 'General',
 					'fields' => array(
+						array(
+							'id'    => 'require_approval',
+							'type'  => 'switcher',
+							'title' => 'Require Approval',
+							'desc'  => esc_html__( 'If turned on, new Boomerangs will be given the status of pending, and will need to be approved before publication
+', 'boomerang' ),
+						),
 						array(
 							'id'    => 'enable_comments',
 							'type'  => 'switcher',
@@ -187,14 +194,9 @@ class Boomerang_Admin {
 							'title' => 'Enable Tags',
 						),
 						array(
-							'id'    => 'enable_attachments',
+							'id'    => 'enable_statuses',
 							'type'  => 'switcher',
-							'title' => 'Enable Attachments',
-						),
-						array(
-							'id'    => 'enable_thumbnails',
-							'type'  => 'switcher',
-							'title' => 'Enable Featured Images',
+							'title' => 'Enable Statuses',
 						),
 						array(
 							'id'    => 'enable_votes',
@@ -202,9 +204,20 @@ class Boomerang_Admin {
 							'title' => 'Enable Votes',
 						),
 						array(
+							'id'    => 'enable_downvoting',
+							'type'  => 'switcher',
+							'title' => 'Enable Downvoting',
+							'desc'  => esc_html__( 'Downvoting allows users to register disproval for a Boomerang rather than simply a neutral opinion.', 'boomerang' ),
+						),
+						array(
 							'id'    => 'show_title',
 							'type'  => 'switcher',
 							'title' => 'Show Title',
+						),
+						array(
+							'id'    => 'enable_image',
+							'type'  => 'switcher',
+							'title' => 'Enable Featured Image',
 						),
 						array(
 							'id'    => 'show_date',
@@ -212,9 +225,55 @@ class Boomerang_Admin {
 							'title' => 'Show Published Date',
 						),
 						array(
+							'id'    => 'show_friendly_date',
+							'type'  => 'switcher',
+							'title' => 'Show Friendly Dates',
+							'desc'  => esc_html__( 'Shows the publication date in a friendly way', 'boomerang' ),
+						),
+						array(
 							'id'    => 'show_author',
 							'type'  => 'switcher',
 							'title' => 'Show Author',
+						),
+						array(
+							'id'    => 'show_filters',
+							'type'  => 'switcher',
+							'title' => 'Show Filters',
+							'desc'  => esc_html__( 'Show a set of filters on a board directory to assist users to find Boomerangs', 'boomerang' ),
+						),
+					),
+				)
+			);
+
+			CSF::createSection(
+				$prefix,
+				array(
+					'id'     => 'boards',
+					'title'  => 'Labels',
+					'fields' => array(
+						array(
+							'id'    => 'label_title',
+							'type'  => 'text',
+							'default' => 'Title',
+							'title' => 'Label For Title Input',
+						),
+						array(
+							'id'    => 'label_content',
+							'type'  => 'text',
+							'default' => 'Content',
+							'title' => 'Label For Content Input',
+						),
+						array(
+							'id'    => 'label_tags',
+							'type'  => 'text',
+							'default' => 'Tags',
+							'title' => 'Label For Tags Input',
+						),
+						array(
+							'id'    => 'label_submit',
+							'type'  => 'text',
+							'default' => 'Submit',
+							'title' => 'Label For Submit Button',
 						),
 					),
 				)

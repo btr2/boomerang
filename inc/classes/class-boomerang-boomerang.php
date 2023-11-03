@@ -12,21 +12,25 @@ class Boomerang_Boomerang {
 	 * Define the core functionality of the plugin.
 	 */
 	public function __construct() {
+		// Require our board function file.
+		require BOOMERANG_PATH . '/inc/boomerang-board-functions.php';
+
+		// Require our boomerang function file.
+		require BOOMERANG_PATH . '/inc/boomerang-functions.php';
+
+		// Require our template file.
+		require BOOMERANG_PATH . '/inc/boomerang-templates.php';
+
 		$this->init_hooks();
 
 		// Do this early, so that CSF can boot up.
 		$this->initialise_admin();
-
-		// Require our board function file.
-		require BOOMERANG_PATH . '/inc/boomerang-board-functions.php';
-
-		// Require our template file.
-		require BOOMERANG_PATH . '/inc/boomerang-templates.php';
 	}
 
 	public function init_hooks() {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'initialise_front_end' ) );
+		add_action( 'init', array( $this, 'initialise_voting' ) );
 	}
 
 	/**
@@ -68,6 +72,19 @@ class Boomerang_Boomerang {
 		$cpt = new Boomerang_CPT_Helper();
 
 		$cpt->register_post_types();
+	}
+
+	/**
+	 * Boot up our votes system.
+	 *
+	 * @return void
+	 */
+	public function initialise_voting(  ) {
+		if ( ! class_exists( 'Boomerang_Votes' ) ) {
+			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-votes.php';
+		}
+
+		$voting = new Boomerang_Votes();
 	}
 
 }

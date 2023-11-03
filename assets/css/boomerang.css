@@ -4,8 +4,8 @@ Global Styles
 /**
 Boomerang Form
  */
-#boomerang-form .boomerang_select {
-  width: 50%;
+#boomerang-form .boomerang_select, #boomerang-form input, #boomerang-form textarea {
+  width: 100%;
 }
 #boomerang-form #bf-footer {
   display: flex;
@@ -35,8 +35,68 @@ Boomerang Form
   color: #9e1313;
 }
 
-.select2-container--default {
-  margin-top: 32px;
+.select2-container--open .select2-dropdown {
+  top: 32px;
+}
+
+span.material-symbols-outlined {
+  line-height: normal;
+}
+
+.votes-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 7px;
+}
+.votes-container.vertical {
+  flex-direction: column;
+}
+.votes-container .vote-up, .votes-container .vote-down {
+  padding: 10px;
+}
+.votes-container .vote-up.status-1 {
+  color: #00a32a;
+}
+.votes-container .vote-down.status--1 {
+  color: #9e1313;
+}
+.boomerang-admin-toggle {
+  margin-left: auto;
+  display: flex;
+}
+.boomerang-admin-area {
+  padding: 10px 0;
+  display: flex;
+  gap: 20px;
+}
+
+#boomerang-board-filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 20px;
+}
+#boomerang-board-filters fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex: 1;
+  gap: 10px;
+}
+#boomerang-board-filters fieldset label {
+  display: flex;
+  align-items: center;
+}
+#boomerang-board-filters fieldset select {
+  min-width: 150px;
+}
+#boomerang-board-filters fieldset #boomerang-search {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
 }
 
 /**
@@ -46,10 +106,21 @@ Single Boomerang
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 10px auto;
+}
+.single-boomerang .boomerang-container .entry-header .entry-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .single-boomerang .boomerang-container .entry-header .boomerang-meta {
   display: flex;
+  align-items: center;
   gap: 20px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta .non-voting-meta {
+  display: flex;
+  gap: 20px;
+  margin: 10px auto;
 }
 .single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-posted-by {
   display: flex;
@@ -65,6 +136,64 @@ Single Boomerang
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta #boomerang-tags {
+  display: flex;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container .entry-header .boomerang-meta #boomerang-tags span:not(:first-of-type) {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 0 5px;
+}
+.single-boomerang .boomerang-container .entry-content {
+  width: 1200px;
+}
+/**
+Archive boomerangs
+ */
+.boomerang-directory {
+  margin-top: 20px;
+}
+.boomerang-directory .entry-header, .boomerang-directory .entry-content, .boomerang-directory .entry-footer {
+  display: flex;
+  margin: 10px auto;
+}
+.boomerang-directory .page-numbers {
+  list-style-type: none;
+}
+.boomerang-directory .entry-header {
+  display: flex;
+  flex-direction: column;
+}
+.boomerang-directory .entry-header .boomerang-meta {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.boomerang-directory .entry-header .boomerang-meta .boomerang-posted-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.boomerang-directory .entry-header .boomerang-meta .boomerang-status {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 0 5px;
+}
+.boomerang-directory .entry-header .boomerang-meta .boomerang-comment-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.boomerang-directory .entry-footer #boomerang-tags {
+  display: flex;
+  gap: 10px;
+}
+.boomerang-directory .entry-footer #boomerang-tags span:not(:first-of-type) {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 0 5px;
 }
 
 /*# sourceMappingURL=boomerang.css.map */

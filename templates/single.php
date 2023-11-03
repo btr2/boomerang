@@ -15,18 +15,70 @@ get_header(); ?>
 
 			<?php
 			// Start the loop.
-			while ( have_posts() ) : the_post(); ?>
+			while ( have_posts() ) :
+				the_post();
+				?>
 
 				<header class="entry-header">
-					<?php the_title( '<h1 class="entry-title">','</h1>' ); ?>
-					<?php boomerang_thumbnail(); ?>
-					<div class="boomerang-meta">
-						<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
-						<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?></div>
-						<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
-						<div class="boomerang-comment-count"><span class="material-symbols-outlined">chat_bubble</span><?php echo esc_attr( get_comments_number() ); ?></div>
-					</div>
+					<?php
+					if ( boomerang_board_title_enabled() ) {
+						the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
+					}
 
+					if ( boomerang_board_image_enabled() ) {
+						boomerang_thumbnail();                  }
+					?>
+					<div class="boomerang-meta">
+						<?php if ( boomerang_board_votes_enabled() ) : ?>
+						<div class="votes-container"
+							 data-id="<?php echo esc_attr( get_the_ID() ); ?>"
+							 data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
+							<?php echo boomerang_get_votes_html(); ?>
+						</div>
+						<?php endif; ?>
+						<div class="non-voting-meta">
+							<?php if ( boomerang_board_date_enabled() ) : ?>
+								<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_author_enabled() ) : ?>
+								<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
+								<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_comments_enabled() ) : ?>
+								<div class="boomerang-comment-count">
+									<?php echo boomerang_get_comments_count_html(); ?>
+								</div>
+							<?php endif; ?>
+							<?php
+							echo wp_kses(
+								boomerang_get_tag_list(),
+								array(
+									'span' => array(
+										'rel'   => array(),
+										'class' => array(),
+									),
+									'div'  => array(
+										'class' => array(),
+										'id'    => array(),
+									),
+								)
+							);
+							?>
+
+						</div>
+						<?php if ( current_user_can( 'manage_options' ) ) : ?>
+							<div class="boomerang-admin-toggle">
+								<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
+									<span class="boomerang-admin-toggle-button material-symbols-outlined">more_horiz</span>
+								<?php else: ?>
+									<span class="boomerang-admin-toggle-button">&#x2630;</span>
+								<?php endif; ?>
+							</div>
+						<?php endif; ?>
+					</div>
+					<?php echo boomerang_get_admin_area_html(); ?>
 				</header><!-- .entry-header -->
 
 				<div class="entry-content">
@@ -36,13 +88,22 @@ get_header(); ?>
 				</div><!-- .entry-content -->
 
 				<footer class="entry-footer">
-					<div id="boomerang-tags" class="post-taxonomies">
-						<?php echo boomerang_get_tag_list(); // phpcs:ignore ?>
+					<?php if ( boomerang_board_comments_enabled() ) : ?>
+
+					<div class="boomerang-comments">
+						<?php
+						if ( comments_open() || get_comments_number() ) {
+							comments_template();
+						}
+						?>
 					</div>
+
+					<?php endif; ?>
 				</footer><!-- .entry-footer -->
 			</article><!-- .post -->
 
-			<?php endwhile;
+				<?php
+			endwhile;
 			?>
 
 		</main><!-- .site-main -->

@@ -155,6 +155,7 @@ class Boomerang_CPT_Helper {
 						'title',
 						'editor',
 						'thumbnail',
+						'author',
 					),
 					'has_archive'           => false,
 					'show_in_nav_menus'     => true,
