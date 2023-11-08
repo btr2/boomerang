@@ -75,9 +75,12 @@ span.material-symbols-outlined {
 
 .votes-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   border: 1px solid #000;
   border-radius: 7px;
+  padding-left: 20px;
+  padding-right: 20px;
 
   &.vertical {
     flex-direction: column;
@@ -172,50 +175,54 @@ Single Boomerang
         margin-bottom: 10px;
       }
 
-      .boomerang-meta {
-        display: flex;
-        align-items: center;
-        gap: 20px;
 
-        .non-voting-meta {
-          display: flex;
-          gap: 20px;
-          margin: 10px auto;
-        }
-
-        .boomerang-posted-by {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .boomerang-status {
-          border: 1px solid black;
-          border-radius: 7px;
-          padding: 0 5px;
-        }
-
-        .boomerang-comment-count {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        #boomerang-tags {
-          display: flex;
-          gap: 10px;
-
-          span:not(:first-of-type) {
-            border: 1px solid black;
-            border-radius: 7px;
-            padding: 0 5px;
-          }
-        }
-      }
     }
 
     .entry-content {
       width: 1200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .boomerang-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .non-voting-meta {
+        display: flex;
+        gap: 20px;
+        margin: 10px auto;
+      }
+
+      .boomerang-posted-by {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .boomerang-status {
+        border: 1px solid black;
+        border-radius: 7px;
+        padding: 0 5px;
+      }
+
+      .boomerang-comment-count {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #boomerang-tags {
+        display: flex;
+        gap: 10px;
+
+        span:not(:first-of-type) {
+          border: 1px solid black;
+          border-radius: 7px;
+          padding: 0 5px;
+        }
+      }
     }
 
     .entry-footer {
@@ -230,6 +237,15 @@ Archive boomerangs
 .boomerang-directory {
   margin-top: 20px;
 
+  .boomerang {
+    display: flex;
+    gap: 20px;
+
+    .boomerang-right {
+      flex: 1;
+    }
+  }
+
     .entry-header, .entry-content, .entry-footer {
       display: flex;
       margin: 10px auto;
@@ -243,30 +259,43 @@ Archive boomerangs
       display: flex;
       flex-direction: column;
 
-      .boomerang-meta {
-        display: flex;
-        gap: 20px;
-        align-items: center;
 
-        .boomerang-posted-by {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .boomerang-status {
-          border: 1px solid black;
-          border-radius: 7px;
-          padding: 0 5px;
-        }
-
-        .boomerang-comment-count {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-      }
     }
+
+  .entry-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .boomerang-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .boomerang-meta-left, .boomerang-meta-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .boomerang-posted-by {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .boomerang-status {
+      border: 1px solid black;
+      border-radius: 7px;
+      padding: 0 5px;
+    }
+
+    .boomerang-comment-count {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
 
     .entry-footer {
       #boomerang-tags {

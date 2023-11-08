@@ -124,7 +124,9 @@ jQuery(document).ready(function ($) {
         "click",
         ".boomerang-admin-toggle .boomerang-admin-toggle-button",
         function (e) {
-           $( this ).closest('.boomerang').find('.boomerang-admin-area').slideToggle();
+           $( this ).closest('.boomerang').find('.boomerang-admin-area').animate({
+               width: "toggle"
+           });
         }
     );
 

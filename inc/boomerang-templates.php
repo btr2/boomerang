@@ -46,27 +46,32 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 							the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
 						}
 						?>
-						<div class="boomerang-meta">
-							<?php if ( boomerang_board_date_enabled() ) : ?>
-								<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
-							<?php endif; ?>
-							<?php if ( boomerang_board_author_enabled() ) : ?>
-								<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?></div>
-							<?php endif; ?>
-							<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
-								<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
-							<?php endif; ?>
-							<?php if ( boomerang_board_comments_enabled() ) : ?>
-								<div class="boomerang-comment-count">
-									<?php boomerang_get_comments_count_html(); ?>
-								</div>
-							<?php endif; ?>
-						</div>
 					</header><!-- .entry-header -->
 
 					<div class="entry-content">
 
 						<?php the_excerpt(); ?>
+
+						<div class="boomerang-meta">
+							<div class="boomerang-meta-left">
+								<?php if ( boomerang_board_author_enabled() ) : ?>
+									<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?><span>&#x2022;</span></div>
+								<?php endif; ?>
+								<?php if ( boomerang_board_date_enabled() ) : ?>
+									<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
+								<?php endif; ?>
+							</div>
+							<div class="boomerang-meta-right">
+								<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
+									<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
+								<?php endif; ?>
+								<?php if ( boomerang_board_comments_enabled() ) : ?>
+									<div class="boomerang-comment-count">
+										<?php boomerang_get_comments_count_html(); ?>
+									</div>
+								<?php endif; ?>
+							</div>
+						</div>
 
 					</div><!-- .entry-content -->
 
@@ -80,28 +85,15 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 									'class' => array(),
 								),
 								'div'  => array(
-									'class' => array(),
-									'id'    => array(),
+									'class'      => array(),
+									'id'         => array(),
+									'data-nonce' => array(),
 								),
 							)
 						);
 						?>
 					</footer><!-- .entry-footer -->
 				</div>
-				<?php if ( boomerang_can_manage() ) : ?>
-				<div class="boomerang-admin">
-						<div class="boomerang-admin-toggle">
-							<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
-								<span class="boomerang-admin-toggle-button material-symbols-outlined">more_horiz</span>
-							<?php else : ?>
-								<span class="boomerang-admin-toggle-button">&#x2630;</span>
-							<?php endif; ?>
-						</div>
-					<?php echo boomerang_get_admin_area_html(); ?>
-				</div>
-				<?php endif; ?>
-
-
 			</article><!-- .post -->
 
 
@@ -254,20 +246,12 @@ function boomerang_get_tag_list( $post = false ) {
 	$links = array();
 
 	foreach ( $terms as $term ) {
-		$links[] = '<span rel="tag">' . $term->name . '</span>';
+		$links[] = '<span class="boomerang-tag" rel="tag" data-id="' . esc_attr( $term->term_id ) . '">#' . esc_html( $term->name ) . '</span>';
 	}
 
-	if ( boomerang_google_fonts_disabled() ) {
-		$html = sprintf(
-		/* translators: %s: Publish date. */
-			esc_html__( 'Tags: %s', 'boomerang' ),
-			implode( $links )
-		);
-	} else {
-		$html = '<span class="material-symbols-outlined">sell</span>' . implode( $links );
-	}
+	$nonce = wp_create_nonce('boomerang_select_tag');
 
-	return '<div id="boomerang-tags" class="post-taxonomies">' . $html . '</div>';
+	return '<div class="boomerang-tags" data-nonce="' . esc_attr( $nonce ) . '" class="post-taxonomies">' . implode( $links ) . '</div>';
 }
 
 /**

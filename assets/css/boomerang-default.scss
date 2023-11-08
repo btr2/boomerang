@@ -118,9 +118,103 @@ $blue: #027AD0;
   }
 }
 
+.votes-container {
+  border-color: #e5e5ee;
+
+  .boomerang-vote-count {
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
+
+
+
+/**
+Single Boomerang
+ */
+.single-boomerang {
+
+}
+
+/**
+Boomerang Directory
+ */
 .boomerang-directory {
   article {
     border-bottom: 3px solid #e6e7e8;
-    padding: 40px 0px;
+    padding: 40px 0;
+
+    &:hover {
+      background-color: #f9f9fb;
+    }
+
+    .entry-header {
+      .entry-title {
+        font-weight: 600;
+        font-size: 1.125rem;
+        margin-bottom: 5px;
+
+        a {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .entry-content {
+      .boomerang-meta {
+        .boomerang-posted-by {
+          a {
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            color: #64676b;
+          }
+        }
+
+        .boomerang-posted-on {
+          font-size: 14px;
+        }
+
+        .boomerang-status {
+          padding-top: 0.25rem;
+          padding-bottom: 0.25rem;
+          padding-left: 0.375rem;
+          padding-right: 0.375rem;
+          font-size: 14px;
+          font-weight: 500;
+          border-width: 1px;
+          border-radius: 0.1875rem;
+          background-color: rgba(0, 0, 0, 0.17);
+          color: rgb(0, 0, 0);
+        }
+
+        .boomerang-comment-count {
+          color: #64676b;
+          gap: 5px;
+
+          span {
+            color: #a3a3a9;
+          }
+        }
+      }
+    }
+
+    .entry-footer {
+      .boomerang-tags {
+        display: flex;
+        gap: 10px;
+
+        .boomerang-tag {
+          color: #64676b;
+          font-size: 14px;
+
+          &:hover {
+            text-decoration: underline;
+            opacity: 0.7;
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }

@@ -68,9 +68,12 @@ span.material-symbols-outlined {
 
 .votes-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   border: 1px solid #000;
   border-radius: 7px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .votes-container.vertical {
   flex-direction: column;
@@ -135,48 +138,57 @@ Single Boomerang
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta {
+.single-boomerang .boomerang-container .entry-content {
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+}
+.single-boomerang .boomerang-container .boomerang-meta {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta .non-voting-meta {
+.single-boomerang .boomerang-container .boomerang-meta .non-voting-meta {
   display: flex;
   gap: 20px;
   margin: 10px auto;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-posted-by {
+.single-boomerang .boomerang-container .boomerang-meta .boomerang-posted-by {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-status {
+.single-boomerang .boomerang-container .boomerang-meta .boomerang-status {
   border: 1px solid black;
   border-radius: 7px;
   padding: 0 5px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta .boomerang-comment-count {
+.single-boomerang .boomerang-container .boomerang-meta .boomerang-comment-count {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta #boomerang-tags {
+.single-boomerang .boomerang-container .boomerang-meta #boomerang-tags {
   display: flex;
   gap: 10px;
 }
-.single-boomerang .boomerang-container .entry-header .boomerang-meta #boomerang-tags span:not(:first-of-type) {
+.single-boomerang .boomerang-container .boomerang-meta #boomerang-tags span:not(:first-of-type) {
   border: 1px solid black;
   border-radius: 7px;
   padding: 0 5px;
-}
-.single-boomerang .boomerang-container .entry-content {
-  width: 1200px;
 }
 /**
 Archive boomerangs
  */
 .boomerang-directory {
   margin-top: 20px;
+}
+.boomerang-directory .boomerang {
+  display: flex;
+  gap: 20px;
+}
+.boomerang-directory .boomerang .boomerang-right {
+  flex: 1;
 }
 .boomerang-directory .entry-header, .boomerang-directory .entry-content, .boomerang-directory .entry-footer {
   display: flex;
@@ -189,22 +201,31 @@ Archive boomerangs
   display: flex;
   flex-direction: column;
 }
-.boomerang-directory .entry-header .boomerang-meta {
+.boomerang-directory .entry-content {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  flex-direction: column;
 }
-.boomerang-directory .entry-header .boomerang-meta .boomerang-posted-by {
+.boomerang-directory .boomerang-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.boomerang-directory .boomerang-meta .boomerang-meta-left, .boomerang-directory .boomerang-meta .boomerang-meta-right {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.boomerang-directory .entry-header .boomerang-meta .boomerang-status {
+.boomerang-directory .boomerang-meta .boomerang-posted-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.boomerang-directory .boomerang-meta .boomerang-status {
   border: 1px solid black;
   border-radius: 7px;
   padding: 0 5px;
 }
-.boomerang-directory .entry-header .boomerang-meta .boomerang-comment-count {
+.boomerang-directory .boomerang-meta .boomerang-comment-count {
   display: flex;
   align-items: center;
   gap: 10px;
