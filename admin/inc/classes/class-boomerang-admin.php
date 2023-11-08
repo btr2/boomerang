@@ -137,13 +137,13 @@ class Boomerang_Admin {
 							'id'    => 'disable_google_fonts',
 							'type'  => 'switcher',
 							'title' => 'Disable Google Fonts',
-							'desc'  => esc_attr__( 'We use Google Icons inside Boomerang. If you would like to disable these, click the button.', 'boomerang' ),
+							'desc'  => esc_attr__( 'We use Google Icons inside Boomerang. These icons are locally hosted and are therefore GDPR compliant. However, if you would like to disable these, click the button.', 'boomerang' ),
 						),
 						array(
-							'id'    => 'enable_house_styles',
+							'id'    => 'disable_default_styles',
 							'type'  => 'switcher',
-							'title' => 'Use Boomerang\'s Own Styles',
-							'desc'  => esc_attr__( 'Boomerang will try to honour your theme\'s styles. If you\'d prefer a more standardised look, click this.', 'boomerang' ),
+							'title' => 'Disable Boomerang\'s Own Styles',
+							'desc'  => esc_attr__( 'Boomerang has a set of default styles. To disable these, and use your theme\'s native styles, click this.', 'boomerang' ),
 						),
 					),
 				)

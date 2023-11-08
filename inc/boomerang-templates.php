@@ -32,68 +32,75 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 			$the_query->the_post();
 			?>
 			<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
-				<header class="entry-header">
-					<?php
-					if ( boomerang_board_title_enabled() ) {
-						the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
-					}
-					?>
-					<div class="boomerang-meta">
-						<?php if ( boomerang_board_votes_enabled() ) : ?>
-							<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
-								<?php boomerang_get_votes_html(); ?>
-							</div>
-						<?php endif; ?>
-						<?php if ( boomerang_board_date_enabled() ) : ?>
-							<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
-						<?php endif; ?>
-						<?php if ( boomerang_board_author_enabled() ) : ?>
-							<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?></div>
-						<?php endif; ?>
-						<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
-							<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
-						<?php endif; ?>
-						<?php if ( boomerang_board_comments_enabled() ) : ?>
-							<div class="boomerang-comment-count">
-								<?php boomerang_get_comments_count_html(); ?>
-							</div>
-						<?php endif; ?>
-						<?php if ( current_user_can( 'manage_options' ) ) : ?>
-							<div class="boomerang-admin-toggle">
-								<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
-									<span class="boomerang-admin-toggle-button material-symbols-outlined">more_horiz</span>
-								<?php else : ?>
-									<span class="boomerang-admin-toggle-button">&#x2630;</span>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
-					</div>
+				<div class="boomerang-left">
+					<?php if ( boomerang_board_votes_enabled() ) : ?>
+						<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
+							<?php boomerang_get_votes_html(); ?>
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="boomerang-right">
+					<header class="entry-header">
+						<?php
+						if ( boomerang_board_title_enabled() ) {
+							the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
+						}
+						?>
+						<div class="boomerang-meta">
+							<?php if ( boomerang_board_date_enabled() ) : ?>
+								<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_author_enabled() ) : ?>
+								<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
+								<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
+							<?php endif; ?>
+							<?php if ( boomerang_board_comments_enabled() ) : ?>
+								<div class="boomerang-comment-count">
+									<?php boomerang_get_comments_count_html(); ?>
+								</div>
+							<?php endif; ?>
+						</div>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+
+						<?php the_excerpt(); ?>
+
+					</div><!-- .entry-content -->
+
+					<footer class="entry-footer">
+						<?php
+						echo wp_kses(
+							boomerang_get_tag_list(),
+							array(
+								'span' => array(
+									'rel'   => array(),
+									'class' => array(),
+								),
+								'div'  => array(
+									'class' => array(),
+									'id'    => array(),
+								),
+							)
+						);
+						?>
+					</footer><!-- .entry-footer -->
+				</div>
+				<?php if ( boomerang_can_manage() ) : ?>
+				<div class="boomerang-admin">
+						<div class="boomerang-admin-toggle">
+							<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
+								<span class="boomerang-admin-toggle-button material-symbols-outlined">more_horiz</span>
+							<?php else : ?>
+								<span class="boomerang-admin-toggle-button">&#x2630;</span>
+							<?php endif; ?>
+						</div>
 					<?php echo boomerang_get_admin_area_html(); ?>
-				</header><!-- .entry-header -->
+				</div>
+				<?php endif; ?>
 
-				<div class="entry-content">
-
-					<?php the_excerpt(); ?>
-
-				</div><!-- .entry-content -->
-
-				<footer class="entry-footer">
-					<?php
-					echo wp_kses(
-						boomerang_get_tag_list(),
-						array(
-							'span' => array(
-								'rel'   => array(),
-								'class' => array(),
-							),
-							'div'  => array(
-								'class' => array(),
-								'id'    => array(),
-							),
-						)
-					);
-					?>
-				</footer><!-- .entry-footer -->
 
 			</article><!-- .post -->
 

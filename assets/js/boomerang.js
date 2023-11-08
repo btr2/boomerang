@@ -37,7 +37,7 @@ jQuery(document).ready(function ($) {
                     contentType: false,
                     cache: false,
                     beforeSend: function () {
-                        $( "#bf-spinner" ).show();
+                        $( "#bf-spinner" ).css('display', 'inline-block');
                     },
                     success: function (response) {
                         $( "#bf-spinner" ).hide();
@@ -55,7 +55,6 @@ jQuery(document).ready(function ($) {
                                 3000
                             );
                         } else {
-                            $button.width( $button.width() ).text(settings.success);
                             result.removeClass( "error" ).addClass( "success" );
                             result.text( response.data.message );
                             result.show();
@@ -217,5 +216,31 @@ jQuery(document).ready(function ($) {
                 }
             );
         }
+
+        if ( $('#boomerang-dropcontainer').length) {
+            const dropContainer = document.getElementById("boomerang-dropcontainer")
+            const fileInput = document.getElementById("boomerang_image_upload")
+
+            dropContainer.addEventListener("dragover", (e) => {
+                // prevent default to allow drop
+                e.preventDefault()
+            }, false)
+
+            dropContainer.addEventListener("dragenter", () => {
+                dropContainer.classList.add("drag-active")
+            })
+
+            dropContainer.addEventListener("dragleave", () => {
+                dropContainer.classList.remove("drag-active")
+            })
+
+            dropContainer.addEventListener("drop", (e) => {
+                e.preventDefault()
+                dropContainer.classList.remove("drag-active")
+                fileInput.files = e.dataTransfer.files
+            })
+        }
+
+
 
 });

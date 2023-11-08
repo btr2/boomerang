@@ -60,7 +60,7 @@ function boomerang_google_fonts_disabled() {
  *
  * @return bool
  */
-function boomerang_house_styles_enabled() {
-	return boomerang_get_option( 'enable_house_styles', false );
+function boomerang_default_styles_disabled() {
+	return boomerang_get_option( 'disable_default_styles', false );
 }
 

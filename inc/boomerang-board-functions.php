@@ -36,6 +36,8 @@ function boomerang_can_manage( $user = false ) {
 		return true;
 	}
 
+	// todo: More to be added soon.
+
 	return apply_filters('boomerang_can_manage', false, $user );
 }
 

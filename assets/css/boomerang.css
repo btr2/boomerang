@@ -2,6 +2,29 @@
 Global Styles
  */
 /**
+Fonts
+ */
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  src: url("../fonts/material-symbols.woff2") format("woff2");
+}
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/**
 Boomerang Form
  */
 #boomerang-form .boomerang_select, #boomerang-form input, #boomerang-form textarea {

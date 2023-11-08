@@ -33,7 +33,7 @@ class Boomerang_Frontend {
 		add_action( 'wp_head', array( $this, 'google_fonts' ) );
 
 		add_filter( 'single_template', array( $this, 'do_single_template' ) );
-		add_filter( 'body_class', array( $this, 'enable_house_styles' ) );
+		add_filter( 'body_class', array( $this, 'enable_default_styles' ) );
 	}
 
 	/**
@@ -60,8 +60,8 @@ class Boomerang_Frontend {
 			true
 		);
 
-		if ( ! boomerang_get_option( 'disable_google_fonts' ) ) {
-			wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined', false );
+		if ( ! boomerang_default_styles_disabled() ) {
+			wp_enqueue_style( 'boomerang-default', BOOMERANG_URL . 'assets/css/boomerang-default.css', null, BOOMERANG_VERSION );
 		}
 
 		wp_localize_script(
@@ -277,16 +277,32 @@ class Boomerang_Frontend {
 					<textarea id="boomerang-content" tabindex="3" name="content" cols="50" rows="6"></textarea>
 				</fieldset>
 
+				<?php if ( ! boomerang_default_styles_disabled() ) : ?>
+
 				<fieldset>
-					<input type="file" name="boomerang_image_upload" id="boomerang_image_upload" accept="image/*" multiple="false" />
+					<label for="boomerang_image_upload" class="drop-container" id="boomerang-dropcontainer">
+						<span class="drop-title"><?php echo esc_html__( 'Drop file here', 'boomerang' ); ?></span>
+						or
+						<input type="file" name="boomerang_image_upload" id="boomerang_image_upload" accept="image/*" >
+					</label>
 				</fieldset>
 
-				<p id="bf-footer">
-					<div id="bf-spinner"></div>
+				<?php else: ?>
+
+					<fieldset>
+						<input type="file" name="boomerang_image_upload" id="boomerang_image_upload" accept="image/*" />
+						<label for="boomerang_image_upload"><?php echo esc_html__( 'Choose a file', 'boomerang' ); ?></label>
+					</fieldset>
+
+				<?php endif; ?>
+
+
+
+				<div id="bf-footer">
 					<input name="boomerang_board" id="boomerang-board" type="hidden" value="<?php echo esc_attr( $a['board'] ); ?>">
-					<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?></button>
+					<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?><div id="bf-spinner"></div></button>
 					<span id="bf-result"></span>
-				</p>
+				</div>
 
 			</form>
 		</div>
@@ -457,11 +473,11 @@ class Boomerang_Frontend {
 	 *
 	 * @return array|void
 	 */
-	public function enable_house_styles( $classes ) {
-		if ( ! boomerang_house_styles_enabled() ) {
+	public function enable_default_styles( $classes ) {
+		if ( boomerang_default_styles_disabled() ) {
 			return $classes;
 		}
 
-		return array_merge( $classes, array( 'boomerang-house-styles' ) );
+		return array_merge( $classes, array( 'boomerang-default' ) );
 	}
 }
