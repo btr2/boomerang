@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
 
             let $button = $(this);
             let $form = $button.closest('#boomerang-form');
+
             let nonce = $form.attr("data-nonce");
             let title = $form.find('#boomerang-title').val();
             let content = $form.find('#boomerang-content').val();
@@ -30,7 +31,6 @@ jQuery(document).ready(function ($) {
                 fd.append("boomerang_image_upload", featured_image);
             }
 
-
             fd.append("title", title);
             fd.append("content", content);
             fd.append("boomerang_form_nonce", nonce);
@@ -41,10 +41,19 @@ jQuery(document).ready(function ($) {
                 {
                     type: "POST",
                     url: settings.ajaxurl,
+
                     data: fd,
                     processData: false,
                     contentType: false,
                     cache: false,
+                    data: {
+                        title: title,
+                        content: content,
+                        tags: tags,
+                        boomerang_form_nonce: nonce,
+                        action: "save_boomerang",
+                    },
+
                     beforeSend: function () {
                         $("#bf-spinner").css('display', 'inline-block');
                     },
