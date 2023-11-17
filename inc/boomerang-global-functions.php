@@ -1,4 +1,8 @@
 <?php
+/**
+ * Functions that relate to the plugin as a whole - global functionality.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -6,17 +10,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Getters **/
 
-function boomerang_get_slug() {
-	if ( ! empty( get_option( 'boomerang_slug' ) ) ) {
-		return get_option( 'boomerang_slug' );
+/**
+ * Gets the base slug for boomerangs.
+ *
+ * @return false|mixed|string|null
+ */
+function boomerang_get_base() {
+	if ( ! empty( get_option( 'boomerang_base' ) ) ) {
+		return get_option( 'boomerang_base' );
 	}
 
 	return 'boomerang';
 }
 
-function boomerang_get_board_permalink() {
-	if ( ! empty( get_option( 'boomerang_board_slug' ) ) ) {
-		return get_option( 'boomerang_board_slug' );
+/**
+ * Gets the base slug for boards.
+ *
+ * @return false|mixed|string|null
+ */
+function boomerang_board_get_base() {
+	if ( ! empty( get_option( 'boomerang_board_base' ) ) ) {
+		return get_option( 'boomerang_board_base' );
 	}
 
 	return 'board';
@@ -64,3 +78,18 @@ function boomerang_default_styles_disabled() {
 	return boomerang_get_option( 'disable_default_styles', false );
 }
 
+/**
+ * Sends an email.
+ *
+ * @param $to
+ * @param $subject
+ * @param $message
+ * @param bool $headers
+ *
+ * @return void
+ */
+function boomerang_send_email( $to, $subject, $body, $headers = false ) {
+	$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+	wp_mail( $to, $subject, $body, $headers );
+}

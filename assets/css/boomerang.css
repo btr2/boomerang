@@ -25,6 +25,25 @@ Fonts
 }
 
 /**
+Styles for the Boomerang Board CPT Default Archive page
+ */
+.single-boomerang_board #boomerang-full {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+}
+
+/**
+Styles for our primary Boomerang container. The width can be dynamically altered.
+ */
+.boomerang-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+}
+
+/**
 Boomerang Form
  */
 #boomerang-form .boomerang_select, #boomerang-form input, #boomerang-form textarea {
@@ -68,18 +87,31 @@ span.material-symbols-outlined {
 
 .votes-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
+  justify-content: center;
+  gap: 20px;
   border: 1px solid #000;
   border-radius: 7px;
-  padding-left: 20px;
-  padding-right: 20px;
+}
+@media only screen and (min-width: 576px) {
+  .votes-container {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+@media only screen and (min-width: large) {
+  .votes-container {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 .votes-container.vertical {
   flex-direction: column;
 }
 .votes-container .vote-up, .votes-container .vote-down {
   padding: 10px;
+  cursor: pointer;
 }
 .votes-container .vote-up.status-1 {
   color: #00a32a;
@@ -94,15 +126,55 @@ span.material-symbols-outlined {
 .boomerang-admin-area {
   padding: 10px 0;
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  min-width: 300px;
+}
+.boomerang-admin-area .boomerang-admin-area-heading {
+  margin-bottom: 10px;
+}
+.boomerang-admin-area .boomerang-admin-area-inner {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+@media only screen and (min-width: 860px) {
+  .boomerang-admin-area .boomerang-admin-area-inner {
+    display: flex;
+  }
+}
+.boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control-disabled {
+  font-size: 10px;
+  font-weight: bold;
+  margin: 0;
+}
+.boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
+  display: flex;
+  align-items: center;
+}
+.boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
+  margin: 0;
+}
+.boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
+  display: none;
+}
+.boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content select, .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input {
+  border: 1px solid #ccc;
+  padding: 0 0 0 10px;
+  height: 40px;
 }
 
 #boomerang-board-filters {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 20px;
-  border-bottom: 2px solid #000;
   padding-bottom: 20px;
+}
+@media only screen and (min-width: 840px) {
+  #boomerang-board-filters {
+    flex-direction: row;
+  }
 }
 #boomerang-board-filters fieldset {
   border: none;
@@ -114,12 +186,16 @@ span.material-symbols-outlined {
 }
 #boomerang-board-filters fieldset label {
   display: flex;
+  margin: 0;
   align-items: center;
 }
 #boomerang-board-filters fieldset select {
   min-width: 150px;
+  min-height: 35px;
+  flex: 1;
 }
 #boomerang-board-filters fieldset #boomerang-search {
+  min-height: 35px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
@@ -128,35 +204,82 @@ span.material-symbols-outlined {
 /**
 Single Boomerang
  */
+.single-boomerang .boomerang-container #main {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main {
+    flex-direction: row;
+  }
+}
+.single-boomerang .boomerang-container .boomerang {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container .boomerang {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container .boomerang {
+    flex-direction: row;
+  }
+}
+.single-boomerang .boomerang-container .boomerang .boomerang-right {
+  flex: 1;
+}
 .single-boomerang .boomerang-container .entry-header, .single-boomerang .boomerang-container .entry-content, .single-boomerang .boomerang-container .entry-footer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 10px auto;
 }
-.single-boomerang .boomerang-container .entry-header .entry-title {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.single-boomerang .boomerang-container .page-numbers {
+  list-style-type: none;
 }
-.single-boomerang .boomerang-container .entry-content {
-  width: 1200px;
+.single-boomerang .boomerang-container .entry-header {
   display: flex;
   flex-direction: column;
+}
+.single-boomerang .boomerang-container .entry-content {
+  display: flex;
 }
 .single-boomerang .boomerang-container .boomerang-meta {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   gap: 20px;
+  justify-content: space-between;
 }
-.single-boomerang .boomerang-container .boomerang-meta .non-voting-meta {
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container .boomerang-meta {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container .boomerang-meta {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+  }
+}
+.single-boomerang .boomerang-container .boomerang-meta .boomerang-meta-left, .single-boomerang .boomerang-container .boomerang-meta .boomerang-meta-right {
   display: flex;
-  gap: 20px;
-  margin: 10px auto;
+  align-items: center;
+  gap: 10px;
 }
 .single-boomerang .boomerang-container .boomerang-meta .boomerang-posted-by {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.single-boomerang .boomerang-container .boomerang-meta .boomerang-posted-by .avatar {
+  border-radius: 100%;
 }
 .single-boomerang .boomerang-container .boomerang-meta .boomerang-status {
   border: 1px solid black;
@@ -168,15 +291,41 @@ Single Boomerang
   align-items: center;
   gap: 10px;
 }
-.single-boomerang .boomerang-container .boomerang-meta #boomerang-tags {
+.single-boomerang .boomerang-container .entry-footer {
+  flex-direction: column;
+}
+.single-boomerang .boomerang-container .entry-footer .boomerang-tags {
   display: flex;
   gap: 10px;
 }
-.single-boomerang .boomerang-container .boomerang-meta #boomerang-tags span:not(:first-of-type) {
-  border: 1px solid black;
-  border-radius: 7px;
-  padding: 0 5px;
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list {
+  display: flex;
+  flex-direction: column;
 }
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .comment-container {
+  display: flex;
+  gap: 20px;
+}
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .children {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .children > li {
+  margin-bottom: 0;
+}
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .comment-author-avatar .avatar {
+  border-radius: 100%;
+}
+.single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .comment-body {
+  display: flex;
+  flex-direction: column;
+}
+
 /**
 Archive boomerangs
  */
@@ -185,7 +334,18 @@ Archive boomerangs
 }
 .boomerang-directory .boomerang {
   display: flex;
+  flex-direction: column;
   gap: 20px;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-directory .boomerang {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-directory .boomerang {
+    flex-direction: row;
+  }
 }
 .boomerang-directory .boomerang .boomerang-right {
   flex: 1;
@@ -194,12 +354,14 @@ Archive boomerangs
   display: flex;
   margin: 10px auto;
 }
-.boomerang-directory .page-numbers {
+.boomerang-directory ul.page-numbers {
   list-style-type: none;
+  margin: 30px 0;
 }
 .boomerang-directory .entry-header {
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 .boomerang-directory .entry-content {
   display: flex;
@@ -207,8 +369,25 @@ Archive boomerangs
 }
 .boomerang-directory .boomerang-meta {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+  width: 100%;
   justify-content: space-between;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-directory .boomerang-meta {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-directory .boomerang-meta {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+  }
 }
 .boomerang-directory .boomerang-meta .boomerang-meta-left, .boomerang-directory .boomerang-meta .boomerang-meta-right {
   display: flex;
@@ -230,14 +409,9 @@ Archive boomerangs
   align-items: center;
   gap: 10px;
 }
-.boomerang-directory .entry-footer #boomerang-tags {
+.boomerang-directory .entry-footer .boomerang-tags {
   display: flex;
   gap: 10px;
-}
-.boomerang-directory .entry-footer #boomerang-tags span:not(:first-of-type) {
-  border: 1px solid black;
-  border-radius: 7px;
-  padding: 0 5px;
 }
 
 /*# sourceMappingURL=boomerang.css.map */

@@ -1,4 +1,8 @@
 <?php
+/**
+ * Defines all functionality relating to our Boomerang Custom Post Types.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -148,7 +152,7 @@ class Boomerang_CPT_Helper {
 					'exclude_from_search'   => false,
 					'hierarchical'          => false,
 					'rewrite'               => array(
-						'slug' => boomerang_get_slug(),
+						'slug' => boomerang_get_base(),
 					),
 					'query_var'             => true,
 					'supports'              => array(
@@ -157,7 +161,7 @@ class Boomerang_CPT_Helper {
 						'thumbnail',
 						'author',
 					),
-					'has_archive'           => false,
+					'has_archive'           => true,
 					'show_in_nav_menus'     => true,
 					'delete_with_user'      => true,
 					'show_in_rest'          => true,
@@ -214,11 +218,10 @@ class Boomerang_CPT_Helper {
 					'show_ui'               => true,
 					'capability_type'       => 'post',
 					'map_meta_cap'          => true,
-					'publicly_queryable'    => false,
 					'exclude_from_search'   => false,
 					'hierarchical'          => true,
 					'rewrite'               => array(
-						'slug' => boomerang_get_board_permalink(),
+						'slug' => boomerang_board_get_base(),
 					),
 					'query_var'             => true,
 					'supports'              => array(
@@ -238,6 +241,11 @@ class Boomerang_CPT_Helper {
 		);
 	}
 
+	/**
+	 * Add two settings fields ont he permalinks page to hold our bases.
+	 *
+	 * @return void
+	 */
 	public function add_define_slug_setting() {
 		add_settings_field(
 			'boomerang_board_slug',
@@ -256,22 +264,37 @@ class Boomerang_CPT_Helper {
 		);
 	}
 
+	/**
+	 * Define the base setting for boards.
+	 *
+	 * @return void
+	 */
 	public function define_boomerang_board_slug_setting_output() {
 		?>
-		<input name="boomerang_board_slug" type="text" class="regular-text code" value="<?php echo esc_attr( get_option( 'boomerang_board_slug' ) ); ?>" placeholder="<?php echo 'board'; ?>" />
+		<input name="boomerang_board_slug" type="text" class="regular-text code" value="<?php echo esc_attr( get_option( 'boomerang_board_base' ) ); ?>" placeholder="<?php echo 'board'; ?>" />
 		<?php
 	}
 
+	/**
+	 * Define the base setting for boomerangs.
+	 *
+	 * @return void
+	 */
 	public function define_boomerang_slug_setting_output() {
 		?>
-		<input name="boomerang_slug" type="text" class="regular-text code" value="<?php echo esc_attr( get_option( 'boomerang_slug' ) ); ?>" placeholder="<?php echo 'boomerang'; ?>" />
+		<input name="boomerang_slug" type="text" class="regular-text code" value="<?php echo get_option( 'boomerang_base' ); ?>" placeholder="<?php echo 'boomerang'; ?>" />
 		<?php
 	}
 
+	/**
+	 * Process the base slugs when saved.
+	 *
+	 * @return void
+	 */
 	public function save_slug_setting() {
 		if ( isset( $_POST['permalink_structure'] ) ) {
-			update_option( 'boomerang_board_slug', trim( $_POST['boomerang_board_slug'] ) );
-			update_option( 'boomerang_slug', trim( $_POST['boomerang_slug'] ) );
+			update_option( 'boomerang_board_base', trim( $_POST['boomerang_board_slug'] ) );
+			update_option( 'boomerang_base', trim( $_POST['boomerang_slug'] ) );
 		}
 	}
 }

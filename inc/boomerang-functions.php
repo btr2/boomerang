@@ -1,4 +1,8 @@
 <?php
+/**
+ * Functions that relate to individual Boomerangs.
+ */
+namespace Bouncingsprout_Boomerang;
 
 /** Comments **********************************************************************************************************/
 
@@ -46,6 +50,13 @@ function boomerang_user_has_voted( $user_id, $post = false ) {
 	return false;
 }
 
+/**
+ * Checks to see if a user has voted.
+ *
+ * @param $user_id
+ *
+ * @return int[]|string[]
+ */
 function boomerang_get_user_voted( $user_id = false ) {
 	if ( ! $user_id ) {
 		$user_id = get_current_user_id();

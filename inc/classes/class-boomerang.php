@@ -1,4 +1,8 @@
 <?php
+/**
+ * Our main class that kicks everything off.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -7,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Handles displays and hooks for the Boomerang custom post type(s).
  */
-class Boomerang_Boomerang {
+class Boomerang {
 	/**
 	 * Define the core functionality of the plugin.
 	 */
@@ -25,6 +29,9 @@ class Boomerang_Boomerang {
 
 		// Do this early, so that CSF can boot up.
 		$this->initialise_admin();
+
+		// Block stuff.
+		$this->initialise_block();
 	}
 
 	public function init_hooks() {
@@ -43,7 +50,7 @@ class Boomerang_Boomerang {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-frontend.php';
 		}
 
-		$frontend = new Boomerang_Frontend();
+		$boomerang_frontend = new Boomerang_Frontend();
 	}
 
 	/**
@@ -56,7 +63,20 @@ class Boomerang_Boomerang {
 			require_once BOOMERANG_PATH . '/admin/inc/classes/class-boomerang-admin.php';
 		}
 
-		$admin = new Boomerang_Admin();
+		$boomerang_admin = new Boomerang_Admin();
+	}
+
+	/**
+	 * Boot up our block.
+	 *
+	 * @return void
+	 */
+	public function initialise_block(  ) {
+		if ( ! class_exists( 'Boomerang_Block' ) ) {
+			require_once BOOMERANG_PATH . '/admin/inc/classes/class-boomerang-block.php';
+		}
+
+		$boomerang_block = new Boomerang_Block();
 	}
 
 	/**
@@ -69,9 +89,9 @@ class Boomerang_Boomerang {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-cpt-helper.php';
 		}
 
-		$cpt = new Boomerang_CPT_Helper();
+		$boomerang_cpt = new Boomerang_CPT_Helper();
 
-		$cpt->register_post_types();
+		$boomerang_cpt->register_post_types();
 	}
 
 	/**
@@ -84,7 +104,7 @@ class Boomerang_Boomerang {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-votes.php';
 		}
 
-		$voting = new Boomerang_Votes();
+		$boomerang_voting = new Boomerang_Votes();
 	}
 
 }

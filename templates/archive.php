@@ -1,5 +1,19 @@
-<div class="boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
+<?php
+/**
+ * The template for displaying all single Boomerang Boards (which are actually archives).
+ */
 
-	<?php echo boomerang_get_boomerangs( $a['board'] ); ?>
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-</div>
+get_header();
+
+$board = get_the_ID();
+
+echo do_shortcode( "[boomerang board='{$board}']" );
+
+get_footer();
+
+?>
+

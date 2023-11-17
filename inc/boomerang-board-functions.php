@@ -1,4 +1,8 @@
 <?php
+/**
+ * Functions that relate to individual boards.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -177,6 +181,21 @@ function boomerang_board_author_enabled( $post = false ) {
 }
 
 /**
+ * Checks if author avatars are displayed for a given board or boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_author_avatar_enabled( $post = false ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['show_author_avatar'] ?? false;
+}
+
+/**
  * Checks if published dates are displayed for a given board or boomerang.
  *
  * @param $post
@@ -228,6 +247,24 @@ function boomerang_get_default_status( $post ) {
 }
 
 /**
+ * Returns the container width for Boomerang pages, or 100%.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_get_container_width( $post = false ) {
+	$post = boomerang_get_post( $post );
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	if ( empty( $meta['container_width']['width'] ) || empty( $meta['container_width']['unit'] ) ) {
+		return '100%';
+	} else {
+		return implode( $meta['container_width'] );
+	}
+}
+
+/**
  * Helper function that retrieves the WP_Post object for either a Boomerang, or it's parent board,
  * or the current WP_Post if none is provided.
  *
@@ -251,7 +288,13 @@ function boomerang_get_post( $post = false ) {
 
 /** Boomerang Form ****************************************************************************************************/
 
-
+/**
+ * Get the form labels from a boards settings screen.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
 function boomerang_get_form_labels( $board ) {
 	$board = get_post( $board );
 
@@ -263,4 +306,35 @@ function boomerang_get_form_labels( $board ) {
 		'tags' => $meta['label_tags'] ?? 'Tags',
 		'submit' => $meta['label_submit'] ?? 'Submit',
 	);
+}
+
+/** Notifications *****************************************************************************************************/
+
+/**
+ * Checks if notifications should be sent when Boomerangs are created.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_send_email_new_boomerang( $post = false ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['send_email_new_boomerang'] ?? false;
+}
+
+/**
+ * Returns the emails set for notifications of new Boomerangs.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_new_boomerang_email_addresses( $post = false ) {
+	$post = boomerang_get_post( $post );
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['admin_email'] ?? false;
 }

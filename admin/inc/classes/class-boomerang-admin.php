@@ -1,4 +1,9 @@
 <?php
+/**
+ * Our admin class. Not much else to write here, really.
+ */
+
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -13,10 +18,8 @@ class Boomerang_Admin {
 	 */
 	public function __construct() {
 		require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
-		require_once BOOMERANG_PATH . 'admin/inc/classes/class-boomerang-customizer.php';
 
 		$this->init_hooks();
-		$this->init_customizer();
 	}
 
 	/**
@@ -25,7 +28,6 @@ class Boomerang_Admin {
 	 * @return void
 	 */
 	public function init_hooks() {
-		// add_action( 'admin_init', array( $this, 'init_customizer' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueues' ) );
 		add_action( 'in_admin_header', array( $this, 'add_custom_header' ) );
 		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_block_editor' ), 10, 2 );
@@ -37,10 +39,11 @@ class Boomerang_Admin {
 		add_filter( 'manage_posts_custom_column', array( $this, 'populate_boomerang_board_column' ), 10, 2 );
 	}
 
-	public function init_customizer() {
-		$boomerang_customizer = new Boomerang_Customizer();
-	}
-
+	/**
+	 * Enqueues.
+	 *
+	 * @return void
+	 */
 	public function admin_enqueues() {
 		/**
 		 * Check whether the get_current_screen function exists
@@ -50,20 +53,18 @@ class Boomerang_Admin {
 			$current_screen = get_current_screen();
 
 			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) {
-				wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css', null, BOOMERANG_VERSION );
-				// wp_enqueue_script(
-				// 	'boomerang',
-				// 	BOOMERANG_URL . 'admin/assets/js/boomerang-admin.js',
-				// 	array( 'jquery' ),
-				// 	BOOMERANG_VERSION,
-				// 	true
-				// );
+				wp_enqueue_style(
+					'boomerang',
+					BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css',
+					null,
+					BOOMERANG_VERSION
+				);
 			}
 		}
 	}
 
 	/**
-	 * Add a smart header to our admin pages.
+	 * Add a custom header to our admin pages.
 	 *
 	 * @return void
 	 */
@@ -76,9 +77,10 @@ class Boomerang_Admin {
 			$current_screen = get_current_screen();
 
 			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) : ?>
-				<div class="boomerang-admin-header">
+				<div class="boomerang-admin-header <?php echo 'boomerang_page_boomerang-contact' === $current_screen->base ? 'drop' : ''; ?>">
 					<div class="boomerang-title">
 						<img class="boomerang-logo" src="<?php echo esc_url( BOOMERANG_URL . 'admin/assets/images/logo-white.png' ); ?>" alt="Boomerang Logo">
+						<p>Version <?php echo esc_html( BOOMERANG_VERSION ); ?></p>
 					</div>
 					<h2 class="boomerang-notices-container"></h2>
 				</div>
@@ -111,10 +113,9 @@ class Boomerang_Admin {
 	public function add_settings_page() {
 		// Control core classes for avoid errors
 		if ( class_exists( 'CSF' ) ) {
-
 			$prefix = 'boomerang_global_options';
 
-			CSF::createOptions(
+			\CSF::createOptions(
 				$prefix,
 				array(
 					'menu_title'       => 'Settings',
@@ -127,7 +128,7 @@ class Boomerang_Admin {
 				)
 			);
 
-			CSF::createSection(
+			\CSF::createSection(
 				$prefix,
 				array(
 					'id'     => 'general',
@@ -136,14 +137,20 @@ class Boomerang_Admin {
 						array(
 							'id'    => 'disable_google_fonts',
 							'type'  => 'switcher',
-							'title' => 'Disable Google Fonts',
-							'desc'  => esc_attr__( 'We use Google Icons inside Boomerang. These icons are locally hosted and are therefore GDPR compliant. However, if you would like to disable these, click the button.', 'boomerang' ),
+							'title' => esc_attr__( 'Disable Google Fonts', 'boomerang' ),
+							'desc'  => esc_attr__(
+								'We use Google Icons inside Boomerang. These icons are locally hosted and are therefore GDPR compliant. However, if you would like to disable these, click the button.',
+								'boomerang'
+							),
 						),
 						array(
 							'id'    => 'disable_default_styles',
 							'type'  => 'switcher',
-							'title' => 'Disable Boomerang\'s Own Styles',
-							'desc'  => esc_attr__( 'Boomerang has a set of default styles. To disable these, and use your theme\'s native styles, click this.', 'boomerang' ),
+							'title' => esc_attr__( 'Disable Boomerang\'s Own Styles', 'boomerang' ),
+							'desc'  => esc_attr__(
+								'Boomerang has a set of default styles. To disable these, and use your theme\'s native styles, click this.',
+								'boomerang'
+							),
 						),
 					),
 				)
@@ -159,127 +166,216 @@ class Boomerang_Admin {
 	public function add_board_metabox() {
 		// Control core classes for avoid errors
 		if ( class_exists( 'CSF' ) ) {
-
 			$prefix = 'boomerang_board_options';
 
-			CSF::createMetabox(
+			\CSF::createMetabox(
 				$prefix,
 				array(
-					'title'     => 'Board Settings',
+					'title'     => esc_html__( 'Board Settings', 'boomerang' ),
 					'post_type' => 'boomerang_board',
 				)
 			);
 
-			CSF::createSection(
+			\CSF::createSection(
 				$prefix,
 				array(
 					'id'     => 'boards',
 					'title'  => 'General',
-					'fields' => array(
-						array(
-							'id'    => 'require_approval',
-							'type'  => 'switcher',
-							'title' => 'Require Approval',
-							'desc'  => esc_html__( 'If turned on, new Boomerangs will be given the status of pending, and will need to be approved before publication
-', 'boomerang' ),
-						),
-						array(
-							'id'    => 'enable_comments',
-							'type'  => 'switcher',
-							'title' => 'Enable Comments',
-						),
-						array(
-							'id'    => 'enable_tags',
-							'type'  => 'switcher',
-							'title' => 'Enable Tags',
-						),
-						array(
-							'id'    => 'enable_statuses',
-							'type'  => 'switcher',
-							'title' => 'Enable Statuses',
-						),
-						array(
-							'id'    => 'enable_votes',
-							'type'  => 'switcher',
-							'title' => 'Enable Votes',
-						),
-						array(
-							'id'    => 'enable_downvoting',
-							'type'  => 'switcher',
-							'title' => 'Enable Downvoting',
-							'desc'  => esc_html__( 'Downvoting allows users to register disproval for a Boomerang rather than simply a neutral opinion.', 'boomerang' ),
-						),
-						array(
-							'id'    => 'show_title',
-							'type'  => 'switcher',
-							'title' => 'Show Title',
-						),
-						array(
-							'id'    => 'enable_image',
-							'type'  => 'switcher',
-							'title' => 'Enable Featured Image',
-						),
-						array(
-							'id'    => 'show_date',
-							'type'  => 'switcher',
-							'title' => 'Show Published Date',
-						),
-						array(
-							'id'    => 'show_friendly_date',
-							'type'  => 'switcher',
-							'title' => 'Show Friendly Dates',
-							'desc'  => esc_html__( 'Shows the publication date in a friendly way', 'boomerang' ),
-						),
-						array(
-							'id'    => 'show_author',
-							'type'  => 'switcher',
-							'title' => 'Show Author',
-						),
-						array(
-							'id'    => 'show_filters',
-							'type'  => 'switcher',
-							'title' => 'Show Filters',
-							'desc'  => esc_html__( 'Show a set of filters on a board directory to assist users to find Boomerangs', 'boomerang' ),
-						),
-					),
+					'fields' => $this->general_settings(),
 				)
 			);
 
-			CSF::createSection(
+			\CSF::createSection(
 				$prefix,
 				array(
 					'id'     => 'boards',
 					'title'  => 'Labels',
 					'fields' => array(
 						array(
-							'id'    => 'label_title',
-							'type'  => 'text',
+							'id'      => 'label_title',
+							'type'    => 'text',
 							'default' => 'Title',
-							'title' => 'Label For Title Input',
+							'title'   => esc_html__( 'Label For Title Input', 'boomerang' ),
 						),
 						array(
-							'id'    => 'label_content',
-							'type'  => 'text',
+							'id'      => 'label_content',
+							'type'    => 'text',
 							'default' => 'Content',
-							'title' => 'Label For Content Input',
+							'title'   => esc_html__( 'Label For Content Input', 'boomerang' ),
 						),
 						array(
-							'id'    => 'label_tags',
-							'type'  => 'text',
+							'id'      => 'label_tags',
+							'type'    => 'text',
 							'default' => 'Tags',
-							'title' => 'Label For Tags Input',
+							'title'   => esc_html__( 'Label For Tags Input', 'boomerang' ),
 						),
 						array(
-							'id'    => 'label_submit',
-							'type'  => 'text',
+							'id'      => 'label_submit',
+							'type'    => 'text',
 							'default' => 'Submit',
-							'title' => 'Label For Submit Button',
+							'title'   => esc_html__( 'Label For Submit Button', 'boomerang' ),
+						),
+					),
+				)
+			);
+
+			\CSF::createSection(
+				$prefix,
+				array(
+					'id'     => 'boards',
+					'title'  => 'Notifications',
+					'fields' => array(
+						array(
+							'id'    => 'admin_email',
+							'type'  => 'text',
+							'title' => esc_html__( 'Admin Email', 'boomerang' ),
+							'desc'  => esc_html__(
+								'Enter an email address to send notifications when Boomerangs are created.',
+								'boomerang'
+							),
+						),
+						array(
+							'id'    => 'send_email_new_boomerang',
+							'type'  => 'switcher',
+							'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
 						),
 					),
 				)
 			);
 		}
+	}
 
+	/**
+	 * Populate our General Settings array.
+	 *
+	 * @return array
+	 */
+	public function general_settings() {
+		$settings = array();
+
+		if ( ! empty( $_GET['post'] ) ) {
+			$settings[] = array(
+				'type'    => 'subheading',
+				'style'   => 'success',
+				'content' => sprintf(
+					// translators: %s: ID of the current board
+					esc_html__( 'Shortcode: [boomerang board="%s"]', 'boomerang' ),
+					esc_attr( $_GET['post'] ),
+				),
+			);
+		}
+
+		$settings[] = array(
+			'id'    => 'require_approval',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Require Approval', 'boomerang' ),
+			'desc'  => esc_html__(
+				'If turned on, new Boomerangs will be given the status of pending, and will need to be approved before publication.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'    => 'enable_comments',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Comments', 'boomerang' ),
+			'desc'  => esc_html__( 'This allows users to comment on individual Boomerangs.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'enable_tags',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Tags', 'boomerang' ),
+			'desc'  => esc_html__( 'Tags are a convenient way of grouping Boomerangs.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'enable_statuses',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Statuses', 'boomerang' ),
+			'desc'  => esc_html__( 'Statuses may be helpful for organising Boomerang priority.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'enable_votes',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Votes', 'boomerang' ),
+			'desc'  => esc_html__( 'This allows users to vote on individual Boomerangs.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'enable_downvoting',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Downvoting', 'boomerang' ),
+			'desc'  => esc_html__(
+				'Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'    => 'show_title',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Show Board Title', 'boomerang' ),
+			'desc'  => esc_html__(
+				'Show the board title in the archive view. If using as a shortcode, you may create your own heading instead.',
+				'boomerang'
+			),
+
+		);
+		$settings[] = array(
+			'id'    => 'enable_image',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Featured Image', 'boomerang' ),
+			'desc'  => esc_html__(
+				'This allows users to upload a picture that helps represent a Boomerang.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'    => 'show_date',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Show Published Date', 'boomerang' ),
+			'desc'  => esc_html__( 'This displays the date the Boomerang was created.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'show_friendly_date',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Show Friendly Dates', 'boomerang' ),
+			'desc'  => esc_html__( 'Shows the publication date in a friendly way.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'    => 'show_author',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Show Author', 'boomerang' ),
+			'desc'  => esc_html__( 'This displays the details of the user who created the Boomerangs.', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'         => 'show_author_avatar',
+			'type'       => 'switcher',
+			'title'      => esc_html__( 'Show Author\'s Avatar', 'boomerang' ),
+			'desc'       => esc_html__(
+				'Shows the profile picture of the author next to the author\'s username.',
+				'boomerang'
+			),
+			'dependency' => array( 'show_author', '==', 'true' ),
+		);
+		$settings[] = array(
+			'id'    => 'show_filters',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Show Filters', 'boomerang' ),
+			'desc'  => esc_html__(
+				'Show a set of filters on a board directory to assist users to find Boomerangs.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'     => 'container_width',
+			'type'   => 'dimensions',
+			'height' => false,
+			'output' => 'string',
+			'title'  => esc_html__( 'Container Width', 'boomerang' ),
+			'desc'   => esc_html__(
+				'Use this to match the width of Boomerang content with that of your theme.',
+				'boomerang'
+			),
+		);
+
+		return apply_filters( 'boomerang_board_general_settings', $settings );
 	}
 
 	/**
@@ -303,9 +399,9 @@ class Boomerang_Admin {
 	/**
 	 * Callback for metabox.
 	 *
+	 * @return void
 	 * @see add_boomerang_parent_metabox()
 	 *
-	 * @return void
 	 */
 	public function output_boomerang_parent_metabox() {
 		global $post;
@@ -335,17 +431,18 @@ class Boomerang_Admin {
 	 */
 	public function add_boomerang_board_column( $columns ) {
 		$columns['board'] = 'Board';
+
 		return $columns;
 	}
 
 	/**
 	 * Position the column before the date.
 	 *
-	 * @see add_boomerang_board_column()
-	 *
 	 * @param $columns
 	 *
 	 * @return array
+	 * @see add_boomerang_board_column()
+	 *
 	 */
 	public function position_boomerang_board_column( $columns ) {
 		$n_columns = array();
@@ -355,26 +452,27 @@ class Boomerang_Admin {
 			}
 			$n_columns[ $key ] = $value;
 		}
+
 		return $n_columns;
 	}
 
 	/**
 	 * Populate the parent board column.
 	 *
-	 * @see add_boomerang_board_column()
-	 *
 	 * @param $column_id
 	 * @param $post_id
 	 *
 	 * @return void
+	 * @see add_boomerang_board_column()
+	 *
 	 */
-	public function populate_boomerang_board_column ( $column_id, $post_id ) {
-		switch( $column_id ) {
+	public function populate_boomerang_board_column( $column_id, $post_id ) {
+		switch ( $column_id ) {
 			case 'board':
-				$ancestors = get_ancestors($post_id, 'subject', 'post_type');
-				$post_ancestor = end($ancestors);
-				if ($post_ancestor != 0) {
-					echo '<a href="' . get_edit_post_link($post_ancestor) . '">' . get_the_title($post_ancestor) . '</a>';
+				$ancestors     = get_ancestors( $post_id, 'subject', 'post_type' );
+				$post_ancestor = end( $ancestors );
+				if ( $post_ancestor != 0 ) {
+					echo '<a href="' . get_edit_post_link( $post_ancestor ) . '">' . get_the_title( $post_ancestor ) . '</a>';
 				} else {
 					echo '-';
 				}

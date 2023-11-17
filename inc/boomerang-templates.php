@@ -1,4 +1,8 @@
 <?php
+/**
+ * Templates for rendering content into our frontend offer.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -22,7 +26,7 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	$the_query = new WP_Query( $args );
+	$the_query = new \WP_Query( $args );
 
 	ob_start();
 
@@ -35,16 +39,17 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 				<div class="boomerang-left">
 					<?php if ( boomerang_board_votes_enabled() ) : ?>
 						<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
-							<?php boomerang_get_votes_html(); ?>
+							<?php echo boomerang_get_votes_html(); ?>
 						</div>
 					<?php endif; ?>
 				</div>
 				<div class="boomerang-right">
 					<header class="entry-header">
 						<?php
-						if ( boomerang_board_title_enabled() ) {
-							the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
-						}
+						the_title(
+							'<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">',
+							'</a></h2>'
+						);
 						?>
 					</header><!-- .entry-header -->
 
@@ -52,10 +57,11 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 						<?php the_excerpt(); ?>
 
-						<div class="boomerang-meta">
+						<div class="boomerang-meta alignwide">
 							<div class="boomerang-meta-left">
 								<?php if ( boomerang_board_author_enabled() ) : ?>
-									<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?><span>&#x2022;</span></div>
+									<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?>
+										<span>&#x2022;</span></div>
 								<?php endif; ?>
 								<?php if ( boomerang_board_date_enabled() ) : ?>
 									<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
@@ -81,8 +87,9 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 							boomerang_get_tag_list(),
 							array(
 								'span' => array(
-									'rel'   => array(),
-									'class' => array(),
+									'rel'     => array(),
+									'class'   => array(),
+									'data-id' => array(),
 								),
 								'div'  => array(
 									'class'      => array(),
@@ -95,7 +102,6 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 					</footer><!-- .entry-footer -->
 				</div>
 			</article><!-- .post -->
-
 
 
 		<?php endwhile; ?>
@@ -134,7 +140,7 @@ function boomerang_get_filters() {
 	ob_start();
 	?>
 
-	<div id="boomerang-board-filters" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_filters' ) ); ?>">
+	<div id="boomerang-board-filters" class="boomerang-container" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_filters' ) ); ?>">
 		<fieldset>
 			<label for="boomerang-order">
 				<?php if ( boomerang_google_fonts_disabled() ) : ?>
@@ -144,8 +150,8 @@ function boomerang_get_filters() {
 				<?php endif; ?>
 			</label>
 			<select id="boomerang-order" name="boomerang_order">
-				<option value="popular"><?php esc_html_e( 'Popular', 'boomerang' ); ?></option>
 				<option value="latest"><?php esc_html_e( 'Latest', 'boomerang' ); ?></option>
+				<option value="popular"><?php esc_html_e( 'Popular', 'boomerang' ); ?></option>
 				<option value="mine"><?php esc_html_e( 'Created by me', 'boomerang' ); ?></option>
 				<option value="voted"><?php esc_html_e( 'Voted on by me', 'boomerang' ); ?></option>
 			</select>
@@ -164,7 +170,7 @@ function boomerang_get_filters() {
 				'id'               => 'boomerang-status',
 				'name'             => 'boomerang_status',
 				'orderby'          => 'name',
-				'show_option_none' => 'All',
+				'show_option_none' => 'All Statuses',
 			);
 
 			wp_dropdown_categories( $args );
@@ -184,7 +190,7 @@ function boomerang_get_filters() {
 				'id'               => 'boomerang-tags',
 				'name'             => 'boomerang_tags',
 				'orderby'          => 'name',
-				'show_option_none' => 'All',
+				'show_option_none' => 'All Tags',
 			);
 
 			wp_dropdown_categories( $args );
@@ -249,7 +255,7 @@ function boomerang_get_tag_list( $post = false ) {
 		$links[] = '<span class="boomerang-tag" rel="tag" data-id="' . esc_attr( $term->term_id ) . '">#' . esc_html( $term->name ) . '</span>';
 	}
 
-	$nonce = wp_create_nonce('boomerang_select_tag');
+	$nonce = wp_create_nonce( 'boomerang_select_tag' );
 
 	return '<div class="boomerang-tags" data-nonce="' . esc_attr( $nonce ) . '" class="post-taxonomies">' . implode( $links ) . '</div>';
 }
@@ -336,9 +342,7 @@ function boomerang_has_status( $post = false ) {
  * @return void
  */
 function boomerang_posted_on() {
-	$meta = get_post_meta( wp_get_post_parent_id(), 'board_meta', true );
-
-	if ( ! $meta['show_date'] ) {
+	if ( ! boomerang_board_date_enabled() ) {
 		return;
 	}
 
@@ -369,17 +373,16 @@ function boomerang_posted_on() {
  * @return void
  */
 function boomerang_posted_by() {
-	$meta = get_post_meta( wp_get_post_parent_id(), 'board_meta', true );
-
-	if ( ! $meta['show_author'] ) {
+	if ( ! boomerang_board_author_enabled() ) {
 		return;
 	}
 
-	$user_email = get_the_author_meta( 'user_email' );
+	if ( boomerang_board_author_avatar_enabled() ) {
+		$user_email = get_the_author_meta( 'user_email' );
+		echo get_avatar( $user_email, '36' );
+	}
 
-	echo get_avatar( $user_email, '24' );
 	echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" rel="author">' . esc_html( get_the_author() ) . '</a>';
-
 }
 
 /**
@@ -423,7 +426,7 @@ function boomerang_thumbnail() {
 		<figure class="post-thumbnail">
 			<?php
 			// Lazy-loading attributes should be skipped for thumbnails since they are immediately in the viewport.
-			the_post_thumbnail( 'post-thumbnail', array( 'loading' => false ) );
+			the_post_thumbnail( 'medium_large', array( 'loading' => false ) );
 			?>
 			<?php if ( wp_get_attachment_caption( get_post_thumbnail_id() ) ) : ?>
 				<figcaption class="wp-caption-text"><?php echo wp_kses_post( wp_get_attachment_caption( get_post_thumbnail_id() ) ); ?></figcaption>
@@ -479,7 +482,7 @@ function boomerang_get_votes_html( $post = false ) {
 	$html .= $count;
 	$html .= $down;
 
-	echo wp_kses_post( $html );
+	return $html;
 }
 
 /** Admin Tools *******************************************************************************************************/
@@ -509,20 +512,164 @@ function boomerang_get_admin_area_html( $post = false ) {
 	ob_start();
 	?>
 
-	<div class="boomerang-admin-area" style="display: none;" data-id="<?php echo esc_attr( $post->ID ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_admin_area' ) ); ?>">
-		<?php do_action( 'boomerang_admin_area_start', $post ); ?>
-		<?php
-		if ( current_user_can( 'edit_posts' ) ) {
-			edit_post_link( __( 'Edit', 'textdomain' ), '', '', null, 'btn button btn-edit-post-link' );
-			echo '<a href="' . get_delete_post_link() . '" class="btn button">' . esc_html__( 'Delete', 'boomerang' ) . '</a>';
-		}
-		?>
-		<?php wp_dropdown_categories( $args ); ?>
-			<input name="change_status" id="boomerang-admin-area-submit" type="submit" value="<?php esc_attr_e( 'Submit', 'boomerang' ); ?>">
-		<?php do_action( 'boomerang_admin_area_end', $post ); ?>
+	<div class="boomerang-admin-area" data-id="<?php echo esc_attr( $post->ID ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_admin_area' ) ); ?>">
+		<h2 class="boomerang-admin-area-heading">
+			<?php if ( boomerang_google_fonts_disabled() ) : ?>
+				<span>&#x2630;</span>
+			<?php else : ?>
+				<span class="material-symbols-outlined">tune</span>
+			<?php endif; ?>
+			<?php esc_html_e( 'Admin', 'boomerang' ); ?>
+		</h2>
+		<div class="boomerang-admin-area-inner">
+			<?php do_action( 'boomerang_admin_area_start', $post ); ?>
+			<div class="boomerang-controls-container">
+				<div class="boomerang-controls">
+					<?php do_action( 'boomerang_admin_controls_start', $post ); ?>
+					<?php if ( boomerang_board_statuses_enabled() ) : ?>
+					<div class="boomerang-status boomerang-control">
+						<div class="control-header">
+							<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
+								<span class="material-symbols-outlined icon">target</span>
+							<?php endif; ?>
+							<h3><?php esc_html_e( 'Status', 'boomerang' ); ?></h3>
+							<?php if ( boomerang_google_fonts_disabled() ) : ?>
+								<span class="chevron">&#x276F;</span>
+							<?php else : ?>
+								<span class="material-symbols-outlined chevron">chevron_right</span>
+							<?php endif; ?>
+						</div>
+						<fieldset class="control-content">
+							<?php wp_dropdown_categories( $args ); ?>
+							<div class="control-content-inline-button" id="boomerang-admin-area-submit">
+								<?php if ( boomerang_google_fonts_disabled() ) : ?>
+									<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
+								<?php else : ?>
+									<span class="material-symbols-outlined">arrow_forward</span>
+								<?php endif; ?>
+							</div>
+						</fieldset>
+					</div>
+					<?php else : ?>
+					<p class="boomerang-control-disabled"><?php esc_html_e( 'To change statuses, enable them under Board Settings', 'boomerang' ); ?></p>
+	<?php endif; ?>
+
+					<?php do_action( 'boomerang_admin_controls_end', $post ); ?>
+				</div>
+			</div>
+			<div class="boomerang-actions-container">
+				<h3 class="boomerang-actions-heading"><?php esc_html_e( 'Actions', 'boomerang' ); ?></h3>
+				<div class="boomerang-actions">
+					<?php do_action( 'boomerang_admin_actions_start', $post ); ?>
+					<a class="boomerang-action" href="<?php echo get_edit_post_link(); ?>">
+						<?php if ( boomerang_google_fonts_disabled() ) : ?>
+							<span><?php esc_html_e( 'Edit', 'boomerang' ); ?></span>
+						<?php else : ?>
+							<span class="material-symbols-outlined">edit</span>
+						<?php endif; ?>
+					</a>
+					<a class="boomerang-action" href="<?php echo get_delete_post_link(); ?>">
+						<?php if ( boomerang_google_fonts_disabled() ) : ?>
+							<span><?php esc_html_e( 'Delete', 'boomerang' ); ?></span>
+						<?php else : ?>
+							<span class="material-symbols-outlined">delete</span>
+						<?php endif; ?>
+					</a>
+					<?php do_action( 'boomerang_admin_actions_end', $post ); ?>
+				</div>
+			</div>
+			<?php do_action( 'boomerang_admin_area_end', $post ); ?>
+		</div>
+
 	</div>
 
 
 	<?php
 	return ob_get_clean();
+}
+
+/** Comments **********************************************************************************************************/
+
+/**
+ * Custom callback template for displaying comments.
+ *
+ * @return void
+ */
+function boomerang_comment_template( $comment, $args, $depth ) {
+	$GLOBALS['comment'] = $comment;
+	?>
+
+<li id="li-comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+	<div class="comment-container">
+		<div class="comment-author-avatar vcard">
+			<a href="<?php echo esc_url_raw( comment_author_url() ); ?>">
+				<?php
+				if ( 0 !== $args['avatar_size'] ) {
+					echo get_avatar( $comment, $args['avatar_size'] );
+				}
+				?>
+			</a>
+		</div><!-- .comment-author-avatar -->
+
+		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
+			<div class="comment-author vcard">
+				<a href="<?php echo esc_url_raw( comment_author_url() ); ?>"><?php echo esc_html( get_comment_author() ); ?></a>
+			</div><!-- .comment-author -->
+
+			<div class="comment-content">
+				<?php comment_text(); ?>
+			</div><!-- .comment-content -->
+
+			<footer class="comment-meta">
+				<div class="comment-metadata">
+					<a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
+						<time datetime="<?php comment_time( 'c' ); ?>">
+							<?php
+
+							if ( boomerang_board_friendly_date_enabled() ) {
+								$formatted_time = sprintf(
+								/* translators: time */
+									__( '%s ago', 'boomerang' ),
+									human_time_diff( get_comment_time( 'U' ), strtotime( wp_date( 'Y-m-d H:i:s' ) ) )
+								);
+							} else {
+								$formatted_time = sprintf(
+								/* translators: %s: Publish date. */
+									__( 'Published %s', 'boomerang' ),
+									get_comment_date( '', $comment )
+								);
+							}
+
+							echo esc_html( $formatted_time );
+							?>
+						</time>
+					</a>
+					<?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
+					<?php
+					if ( get_comment_type() == 'comment' ) {
+						comment_reply_link(
+							array_merge(
+								$args,
+								array(
+									'add_below' => 'div-comment',
+									'depth'     => $depth,
+									'max_depth' => $args['max_depth'],
+									'before'    => '<span class="reply">',
+									'after'     => '</span>',
+								)
+							)
+						);
+					}
+					?>
+				</div><!-- .comment-metadata -->
+
+				<?php if ( '0' == $comment->comment_approved ) : ?>
+					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
+				<?php endif; ?>
+			</footer><!-- .comment-meta -->
+		</article><!-- .comment-body -->
+
+	</div>
+
+	<?php
 }

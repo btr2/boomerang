@@ -1,4 +1,8 @@
 <?php
+/**
+ * Defines all functionality relating to voting.
+ */
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,9 +27,6 @@ class Boomerang_Votes {
 	public function init_hooks() {
 		add_action( 'wp_ajax_process_vote', array( $this, 'process_vote' ) );
 		add_action( 'wp_ajax_nopriv_process_vote', array( $this, 'process_vote' ) );
-
-		// add_filter( 'boomerang_upvoted', array( $this, 'user_has_upvoted' ), 10, 2 );
-		// add_filter( 'boomerang_downvoted', array( $this, 'user_has_downvoted' ), 10, 2 );
 	}
 
 	/**
