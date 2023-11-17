@@ -1,0 +1,624 @@
+/**
+Boomerang Default Styles
+ */
+.boomerang-container {
+  /* http://meyerweb.com/eric/tools/css/reset/
+     v2.0 | 20110126
+     License: none (public domain)
+  */
+  /* HTML5 display-role reset for older browsers */
+}
+.boomerang-container div, .boomerang-container span, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
+.boomerang-container h1, .boomerang-container h2, .boomerang-container h3, .boomerang-container h4, .boomerang-container h5, .boomerang-container h6, .boomerang-container p, .boomerang-container blockquote, .boomerang-container pre,
+.boomerang-container a, .boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
+.boomerang-container del, .boomerang-container dfn, .boomerang-container em, .boomerang-container img, .boomerang-container ins, .boomerang-container kbd, .boomerang-container q, .boomerang-container s, .boomerang-container samp,
+.boomerang-container small, .boomerang-container strike, .boomerang-container strong, .boomerang-container sub, .boomerang-container sup, .boomerang-container tt, .boomerang-container var,
+.boomerang-container b, .boomerang-container u, .boomerang-container i, .boomerang-container center,
+.boomerang-container dl, .boomerang-container dt, .boomerang-container dd, .boomerang-container ol, .boomerang-container ul, .boomerang-container li,
+.boomerang-container fieldset, .boomerang-container form, .boomerang-container label, .boomerang-container legend,
+.boomerang-container table, .boomerang-container caption, .boomerang-container tbody, .boomerang-container tfoot, .boomerang-container thead, .boomerang-container tr, .boomerang-container th, .boomerang-container td,
+.boomerang-container article, .boomerang-container aside, .boomerang-container canvas, .boomerang-container details, .boomerang-container embed,
+.boomerang-container figure, .boomerang-container figcaption, .boomerang-container footer, .boomerang-container header, .boomerang-container hgroup,
+.boomerang-container menu, .boomerang-container nav, .boomerang-container output, .boomerang-container ruby, .boomerang-container section, .boomerang-container summary,
+.boomerang-container time, .boomerang-container mark, .boomerang-container audio, .boomerang-container video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+.boomerang-container article, .boomerang-container aside, .boomerang-container details, .boomerang-container figcaption, .boomerang-container figure,
+.boomerang-container footer, .boomerang-container header, .boomerang-container hgroup, .boomerang-container menu, .boomerang-container nav, .boomerang-container section {
+  display: block;
+}
+.boomerang-container body {
+  line-height: 1;
+}
+.boomerang-container ol, .boomerang-container ul {
+  list-style: none;
+}
+.boomerang-container blockquote, .boomerang-container q {
+  quotes: none;
+}
+.boomerang-container blockquote:before, .boomerang-container blockquote:after,
+.boomerang-container q:before, .boomerang-container q:after {
+  content: "";
+  content: none;
+}
+.boomerang-container table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.boomerang-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+.boomerang-container input, .boomerang-container select {
+  min-height: 30px;
+}
+
+.board-title {
+  text-align: center;
+  margin-top: 40px;
+}
+
+#boomerang-form {
+  max-width: 640px;
+  margin: 20px auto;
+  border: 1px solid #ededee;
+  border-radius: 10px;
+  padding: 20px;
+  background: #f3f4f4;
+}
+#boomerang-form fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+#boomerang-form input[type=file] {
+  max-width: 100%;
+  color: #444;
+  padding: 5px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #555;
+}
+#boomerang-form input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #027AD0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+#boomerang-form input[type=file]::file-selector-button:hover {
+  background: #0d45a5;
+}
+#boomerang-form .drop-container {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+@media only screen and (max-width: 576px) {
+  #boomerang-form .drop-container .drop-title, #boomerang-form .drop-container .drop-conjunction {
+    display: none;
+  }
+}
+@media only screen and (min-width: phone) {
+  #boomerang-form .drop-container .drop-title, #boomerang-form .drop-container .drop-conjunction {
+    display: none;
+  }
+}
+@media only screen and (min-width: 576px) {
+  #boomerang-form .drop-container {
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #555;
+    color: #444;
+    cursor: pointer;
+  }
+}
+@media only screen and (min-width: large) {
+  #boomerang-form .drop-container {
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #555;
+    color: #444;
+    cursor: pointer;
+  }
+}
+#boomerang-form .drop-container:hover {
+  background: #eee;
+  border-color: #111;
+}
+#boomerang-form .drop-container:hover .drop-title {
+  color: #222;
+}
+#boomerang-form .drop-title {
+  color: #444;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: color 0.2s ease-in-out;
+}
+#boomerang-form .drop-container.drag-active {
+  background: #eee;
+  border-color: #111;
+}
+#boomerang-form .drop-container.drag-active .drop-title {
+  color: #222;
+}
+#boomerang-form #bf-footer {
+  flex-direction: column;
+  gap: 0;
+}
+#boomerang-form #bf-footer #bf-submit {
+  width: 100%;
+  border-radius: 10px;
+  background: #027AD0;
+  min-height: 40px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+#boomerang-form #bf-footer #bf-submit #bf-spinner {
+  vertical-align: sub;
+  margin-left: 10px;
+}
+#boomerang-form #bf-footer #bf-result {
+  text-align: center;
+  font-weight: bold;
+}
+
+.boomerang-container#boomerang-board-filters {
+  margin-top: 60px;
+}
+.boomerang-container#boomerang-board-filters select, .boomerang-container#boomerang-board-filters input {
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  height: 40px;
+}
+.boomerang-container#boomerang-board-filters #boomerang-search {
+  padding: 0 0 0 10px;
+}
+.boomerang-container .votes-container {
+  border-color: #e5e5ee;
+  background-color: #fff;
+  transition-duration: 0.3s;
+  transition-property: border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.boomerang-container .votes-container:hover {
+  border-color: #000;
+}
+.boomerang-container .votes-container .boomerang-vote-count {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/**
+Single Boomerang
+ */
+.single-boomerang .boomerang-container #main {
+  margin: 0 auto;
+  justify-content: space-between;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area {
+  padding: 30px;
+  background-color: #f9f9fb;
+  border-right: 1px solid #e5e5ee;
+  max-height: 400px;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang-admin-area {
+    width: 300px;
+    min-height: 300px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
+  color: #aaaab4;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
+    display: none;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
+  margin-top: 10px;
+  gap: 10px;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
+    margin-top: 30px;
+    gap: 0;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header:hover {
+  background-color: #eeeef1;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .icon {
+  color: #aaaab4;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 19px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .chevron {
+  color: #64676b;
+  margin-left: auto;
+  transition-property: rotate;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header.open .chevron {
+  rotate: 90deg;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
+  display: none;
+  border: none;
+  margin: 0;
+  max-height: 35px;
+  padding: 0;
+  gap: 5px;
+  margin-top: 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content select, .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input {
+  border: 1px solid #ccc;
+  padding-left: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input[type=submit] {
+  width: 100%;
+  background: #027AD0;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content .control-content-inline-button {
+  background-color: #027AD0;
+  color: #fff;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
+  color: #64676b;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions {
+  display: flex;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border: 1px solid #8f9399;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  color: #8f9399;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
+  border-color: #000;
+  color: #000;
+}
+.single-boomerang .boomerang-container #main .boomerang {
+  padding: 0 5%;
+  margin: 0;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding: 0;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-header {
+  padding: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title {
+  font-weight: 600;
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title a {
+  text-decoration: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-content {
+  gap: 20px;
+  flex-direction: column;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+  flex: 1;
+  margin-bottom: 30px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-content .entry-content-inner {
+  flex: 2;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-content p {
+  color: #64676B;
+  margin-bottom: 20px;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+    flex-direction: row;
+  }
+  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+    flex: 1;
+    margin: 0;
+  }
+  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+    margin: 0;
+    height: auto;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+    flex-direction: row;
+  }
+  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+    flex: 1;
+    margin: 0;
+  }
+  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+    margin: 0;
+    height: auto;
+    width: 100%;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta {
+  padding-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-by a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #0d0d0e;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-on {
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-status {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  font-size: 14px;
+  font-weight: 500;
+  border-width: 1px;
+  border-radius: 0.1875rem;
+  background-color: rgba(0, 0, 0, 0.17);
+  color: rgb(0, 0, 0);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count {
+  color: #64676b;
+  gap: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count span {
+  color: #a3a3a9;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-tags .boomerang-tag {
+  color: #64676b;
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments {
+  margin-top: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #reply-title {
+  margin-bottom: 10px;
+  line-height: normal;
+  color: #0d0d0e;
+  font-size: 16px;
+  font-weight: bold;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border: 1px solid #eeeef1;
+  border-radius: 5px;
+  box-shadow: 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform label {
+  color: #64676b;
+  font-size: 12px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .comment-notes {
+  margin-bottom: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform:not(.logged-out) #comment {
+  border: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .form-submit {
+  align-self: end;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .form-submit #submit {
+  text-align: right;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 16px;
+  background-color: #027AD0;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .boomerang-comment-main-title {
+  color: #64676b;
+  font-size: 14px;
+  font-weight: bold;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment {
+  border: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body {
+  gap: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author {
+  margin-bottom: 12px;
+  line-height: normal;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
+  line-height: normal;
+  color: #0d0d0e;
+  font-size: 14px;
+  font-weight: bold;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content {
+  color: #64676b;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
+  line-height: normal;
+  margin-bottom: 12px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
+  display: flex;
+  gap: 10px;
+  color: #64676b;
+  font-size: 12px;
+  align-items: center;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
+  line-height: normal;
+  color: #64676b;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
+  text-decoration: underline;
+}
+
+/**
+Boomerang Directory
+ */
+.boomerang-directory article {
+  border-bottom: 2px solid #e6e7e8;
+  padding: 20px;
+  transition-duration: 0.3s;
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-directory article {
+    padding: 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-directory article {
+    padding: 40px;
+  }
+}
+.boomerang-directory article:first-of-type {
+  border-top: 2px solid #e6e7e8;
+}
+.boomerang-directory article:hover {
+  background-color: #f9f9fb;
+}
+.boomerang-directory article .entry-header {
+  padding: 0;
+}
+.boomerang-directory article .entry-header .entry-title {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+.boomerang-directory article .entry-header .entry-title a {
+  text-decoration: none;
+}
+.boomerang-directory article .entry-content p {
+  color: #64676B;
+  margin-bottom: 20px;
+}
+.boomerang-directory article .boomerang-meta {
+  margin-bottom: 20px;
+}
+.boomerang-directory article .boomerang-meta .boomerang-posted-by a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #64676b;
+}
+.boomerang-directory article .boomerang-meta .boomerang-posted-on {
+  font-size: 14px;
+}
+.boomerang-directory article .boomerang-meta .boomerang-status {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  font-size: 14px;
+  font-weight: 500;
+  border-width: 1px;
+  border-radius: 0.1875rem;
+  background-color: rgba(0, 0, 0, 0.17);
+  color: rgb(0, 0, 0);
+}
+.boomerang-directory article .boomerang-meta .boomerang-comment-count {
+  color: #64676b;
+  gap: 5px;
+}
+.boomerang-directory article .boomerang-meta .boomerang-comment-count span {
+  color: #a3a3a9;
+}
+.boomerang-directory article .entry-footer .boomerang-tags .boomerang-tag {
+  color: #64676b;
+  font-size: 14px;
+}
+.boomerang-directory article .entry-footer .boomerang-tags .boomerang-tag:hover {
+  text-decoration: underline;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=boomerang-default.css.map */

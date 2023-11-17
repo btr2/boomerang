@@ -1,18 +1,57 @@
 <?php
 /**
- *
- *   Plugin Name: Boomerang
- *   Plugin URI: https://www.bouncingsprout.com/
- *   Description: Collect feature requests from your users.
- *   Author: Ben Roberts
- *   Text Domain: boomerang
- *   Domain Path: /languages
- *   Version: 1.0.0
+ * Plugin Name:         Boomerang - Feature Request Platform
+ * Plugin URI:          https://www.bouncingsprout.com/
+ * Description:         A slick, modern feature request platform for WordPress.
+ * Version:             1.0.0
+ * Requires at least:   5.2
+ * Requires PHP:        7.0
+ * Author:              Ben Roberts
+ * License:             GPL v2 or later
+ * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:         boomerang
+ * Domain Path:         /languages
+ * Version:             1.0.0
  */
 
+namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+if ( ! function_exists( 'boo_fs' ) ) {
+	// Create a helper function for easy SDK access.
+	function boo_fs() {
+		global $boo_fs;
+
+		if ( ! isset( $boo_fs ) ) {
+			// Include Freemius SDK.
+			require_once dirname( __FILE__ ) . '/freemius/start.php';
+
+			$boo_fs = fs_dynamic_init(
+				array(
+					'id'             => '14215',
+					'slug'           => 'boomerang',
+					'type'           => 'plugin',
+					'public_key'     => 'pk_227b2104cb4396d666b43182e1861',
+					'is_premium'     => false,
+					'has_addons'     => false,
+					'has_paid_plans' => false,
+					'menu'           => array(
+						'slug' => 'edit.php?post_type=boomerang',
+					),
+				)
+			);
+		}
+
+		return $boo_fs;
+	}
+
+	// Init Freemius.
+	boo_fs();
+	// Signal that SDK was initiated.
+	do_action( 'boo_fs_loaded' );
 }
 
 define( 'BOOMERANG_PATH', plugin_dir_path( __FILE__ ) );
@@ -39,12 +78,13 @@ function boomerang_get_version() {
  * Start the engines, Captain...
  */
 function boomerang_init() {
-	require BOOMERANG_PATH . '/inc/classes/class-boomerang-boomerang.php';
-	require BOOMERANG_PATH . '/inc/functions.php';
+	require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
+	require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
+	require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
 
-	$boomerang = new Boomerang_Boomerang();
+	$boomerang = new Boomerang();
 }
-add_action( 'init', 'boomerang_init' );
+boomerang_init();
 
 /**
  * Tasks to run on plugin activation.
@@ -60,4 +100,4 @@ function boomerang_activate() {
 
 	flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'boomerang_activate' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\boomerang_activate' );

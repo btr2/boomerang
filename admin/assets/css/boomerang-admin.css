@@ -1,0 +1,29 @@
+/* Variables */
+/* Custom Header */
+.boomerang-admin-header .boomerang-title {
+  margin-left: -20px;
+  background-color: #027AD0;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.boomerang-admin-header .boomerang-title .boomerang-logo {
+  width: 200px;
+}
+.boomerang-admin-header .boomerang-title p {
+  color: #fff;
+}
+.boomerang-admin-header .boomerang-notices-container {
+  margin: 0;
+}
+.boomerang-admin-header.drop {
+  padding-top: 40px;
+}
+
+/* CSF Settings Page */
+.csf .csf-footer .csf-copyright {
+  display: none;
+}
+
+/*# sourceMappingURL=boomerang-admin.css.map */
