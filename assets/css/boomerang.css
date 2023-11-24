@@ -29,6 +29,7 @@ Styles for the Boomerang Board CPT Default Archive page
  */
 .single-boomerang_board #boomerang-full {
   width: 100%;
+  max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin: 0 auto;
@@ -170,6 +171,7 @@ span.material-symbols-outlined {
   justify-content: space-between;
   gap: 20px;
   padding-bottom: 20px;
+  height: fit-content;
 }
 @media only screen and (min-width: 840px) {
   #boomerang-board-filters {
@@ -282,7 +284,7 @@ Single Boomerang
   border-radius: 100%;
 }
 .single-boomerang .boomerang-container .boomerang-meta .boomerang-status {
-  border: 1px solid black;
+  border: 1px solid;
   border-radius: 7px;
   padding: 0 5px;
 }
@@ -335,19 +337,23 @@ Archive boomerangs
 .boomerang-directory .boomerang {
   display: flex;
   flex-direction: column;
+}
+.boomerang-directory .boomerang .boomerang-inner {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 @media only screen and (min-width: 576px) {
-  .boomerang-directory .boomerang {
+  .boomerang-directory .boomerang .boomerang-inner {
     flex-direction: row;
   }
 }
 @media only screen and (min-width: large) {
-  .boomerang-directory .boomerang {
+  .boomerang-directory .boomerang .boomerang-inner {
     flex-direction: row;
   }
 }
-.boomerang-directory .boomerang .boomerang-right {
+.boomerang-directory .boomerang .boomerang-inner .boomerang-right {
   flex: 1;
 }
 .boomerang-directory .entry-header, .boomerang-directory .entry-content, .boomerang-directory .entry-footer {
@@ -400,7 +406,7 @@ Archive boomerangs
   gap: 10px;
 }
 .boomerang-directory .boomerang-meta .boomerang-status {
-  border: 1px solid black;
+  border: 1px solid;
   border-radius: 7px;
   padding: 0 5px;
 }

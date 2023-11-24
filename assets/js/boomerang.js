@@ -41,18 +41,10 @@ jQuery(document).ready(function ($) {
                 {
                     type: "POST",
                     url: settings.ajaxurl,
-
                     data: fd,
                     processData: false,
                     contentType: false,
                     cache: false,
-                    data: {
-                        title: title,
-                        content: content,
-                        tags: tags,
-                        boomerang_form_nonce: nonce,
-                        action: "save_boomerang",
-                    },
 
                     beforeSend: function () {
                         $("#bf-spinner").css('display', 'inline-block');
@@ -85,7 +77,7 @@ jQuery(document).ready(function ($) {
                                 3000
                             );
                             if ($(".boomerang-directory").length) {
-                                $(".boomerang-directory").html(response.data.content);
+                                $(".boomerang-directory-list").html(response.data.content);
                             }
                         }
                     },
@@ -200,6 +192,10 @@ jQuery(document).ready(function ($) {
                             if (null === response.data.content) {
                                 $('.boomerang').find('.boomerang-status').hide();
                             } else {
+                                $(".boomerang").removeClass (function (index, className) {
+                                    return (className.match (/(^|\s)boomerang_status-\S+/g) || []).join(' ');
+                                });
+                                $('.boomerang').addClass('boomerang_status-' + response.data.term);
                                 $('.boomerang').find('.boomerang-status').text(response.data.content).show();
                             }
                         }
@@ -229,7 +225,7 @@ jQuery(document).ready(function ($) {
 
     function processFilter(e) {
         let filters = e.parents('#boomerang-board-filters');
-        let board = filters.next().attr('data-board');
+        let board = filters.parents('.boomerang-directory').attr('data-board');
         let nonce = filters.attr("data-nonce");
 
         let boomerang_order = filters.find('#boomerang-order').val();
@@ -300,7 +296,7 @@ jQuery(document).ready(function ($) {
                     if (!response.success) {
 
                     } else {
-                        e.parents('.boomerang-directory').html(response.data.content);
+                        e.parents('.boomerang-directory-list').html(response.data.content);
                         $('#boomerang-board-filters').find('#boomerang-tags').val(boomerang_tags);
                     }
                 },
@@ -330,6 +326,27 @@ jQuery(document).ready(function ($) {
             dropContainer.classList.remove("drag-active")
             fileInput.files = e.dataTransfer.files
         })
+    }
+
+    $("body").on(
+        "change",
+        ".private-note-toggle input",
+        function (e) {
+            let form = $(this).parents('#commentform');
+            if ($(this).is(':checked')) {
+                console.log('clicked');
+                form.find('#submit').val(settings.note);
+                form.toggleClass('private-note');
+
+            } else {
+                form.find('#submit').val(settings.comment);
+                form.toggleClass('private-note');
+            }
+        }
+    );
+
+    if ($('.private-note-toggle input').is(':checked')) {
+        console.log('clicked');
     }
 
 

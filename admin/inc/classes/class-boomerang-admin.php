@@ -20,6 +20,11 @@ class Boomerang_Admin {
 		require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
 
 		$this->init_hooks();
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			require_once BOOMERANG_PATH . 'admin/inc/classes/class-boomerang-customizer.php';
+			$boomerang_customizer = new Boomerang_Customizer();
+		}
 	}
 
 	/**
@@ -30,13 +35,21 @@ class Boomerang_Admin {
 	public function init_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueues' ) );
 		add_action( 'in_admin_header', array( $this, 'add_custom_header' ) );
-		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_block_editor' ), 10, 2 );
 		add_action( 'csf_loaded', array( $this, 'add_settings_page' ) );
 		add_action( 'csf_loaded', array( $this, 'add_board_metabox' ) );
 		add_action( 'add_meta_boxes_boomerang', array( $this, 'add_boomerang_parent_metabox' ), 10, 2 );
+
+		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_block_editor' ), 10, 2 );
 		add_filter( 'manage_boomerang_posts_columns', array( $this, 'add_boomerang_board_column' ) );
 		add_filter( 'manage_boomerang_posts_columns', array( $this, 'position_boomerang_board_column' ) );
 		add_filter( 'manage_posts_custom_column', array( $this, 'populate_boomerang_board_column' ), 10, 2 );
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			add_action( 'boomerang_status_add_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
+			add_action( 'boomerang_status_edit_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
+			add_action( 'edited_boomerang_status', array( $this, 'save_category_fields__premium_only' ), 10, 2 );
+			add_action( 'create_boomerang_status', array( $this, 'save_category_fields__premium_only' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -53,12 +66,9 @@ class Boomerang_Admin {
 			$current_screen = get_current_screen();
 
 			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) {
-				wp_enqueue_style(
-					'boomerang',
-					BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css',
-					null,
-					BOOMERANG_VERSION
-				);
+				wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css', null, BOOMERANG_VERSION );
+				wp_enqueue_style( 'wp-color-picker' );
+				wp_enqueue_script( 'boomerang', BOOMERANG_URL . 'admin/assets/js/boomerang.js', array( 'wp-color-picker' ), BOOMERANG_VERSION, true );
 			}
 		}
 	}
@@ -190,32 +200,7 @@ class Boomerang_Admin {
 				array(
 					'id'     => 'boards',
 					'title'  => 'Labels',
-					'fields' => array(
-						array(
-							'id'      => 'label_title',
-							'type'    => 'text',
-							'default' => 'Title',
-							'title'   => esc_html__( 'Label For Title Input', 'boomerang' ),
-						),
-						array(
-							'id'      => 'label_content',
-							'type'    => 'text',
-							'default' => 'Content',
-							'title'   => esc_html__( 'Label For Content Input', 'boomerang' ),
-						),
-						array(
-							'id'      => 'label_tags',
-							'type'    => 'text',
-							'default' => 'Tags',
-							'title'   => esc_html__( 'Label For Tags Input', 'boomerang' ),
-						),
-						array(
-							'id'      => 'label_submit',
-							'type'    => 'text',
-							'default' => 'Submit',
-							'title'   => esc_html__( 'Label For Submit Button', 'boomerang' ),
-						),
-					),
+					'fields' => $this->label_settings(),
 				)
 			);
 
@@ -379,6 +364,59 @@ class Boomerang_Admin {
 	}
 
 	/**
+	 * Populate our Label Settings array.
+	 *
+	 * @return array
+	 */
+	public function label_settings() {
+		$settings = array();
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			$settings[] = array(
+				'id'      => 'label_form_heading',
+				'type'    => 'text',
+				'default' => '',
+				'placeholder' => 'Suggest a feature',
+				'title'   => esc_html__( 'A heading for the top of your form', 'boomerang' ),
+			);
+			$settings[] = array(
+				'id'      => 'label_form_subheading',
+				'type'    => 'text',
+				'default' => '',
+				'placeholder' => 'What can we do to improve our product?',
+				'title'   => esc_html__( 'A sub-heading for the top of your form', 'boomerang' ),
+			);
+		}
+
+		$settings[] = array(
+			'id'      => 'label_title',
+			'type'    => 'text',
+			'default' => 'Title',
+			'title'   => esc_html__( 'Label For Title Input', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'      => 'label_content',
+			'type'    => 'text',
+			'default' => 'Content',
+			'title'   => esc_html__( 'Label For Content Input', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'      => 'label_tags',
+			'type'    => 'text',
+			'default' => 'Tags',
+			'title'   => esc_html__( 'Label For Tags Input', 'boomerang' ),
+		);
+		$settings[] = array(
+			'id'      => 'label_submit',
+			'type'    => 'text',
+			'default' => 'Submit',
+			'title'   => esc_html__( 'Label For Submit Button', 'boomerang' ),
+		);
+
+		return apply_filters( 'boomerang_board_label_settings', $settings );
+	}
+
+	/**
 	 * Adds a metabox within each Boomerang to choose which board it belongs to.
 	 *
 	 * @param $post
@@ -477,6 +515,57 @@ class Boomerang_Admin {
 					echo '-';
 				}
 				break;
+		}
+	}
+
+	/**
+	 * Adds new fields to the Boomerang Status Center.
+	 *
+	 * @param $term
+	 *
+	 * @return void
+	 */
+	public function add_category_fields__premium_only( $term ) {
+		if ( current_filter() === 'boomerang_status_edit_form_fields' ) {
+			$color = get_term_meta( $term->term_id, 'color', true );
+			?>
+			<tr class="form-field">
+				<th scope="row">
+					<label for="term_fields[color]"><?php esc_html_e( 'Color', 'boomerang' ); ?></label>
+				</th>
+				<td>
+					<input class="boomerang-color-picker" type="text" value="<?php echo esc_html( $color ); ?>" id="term_fields[color]" name="term_fields[color]"><br/>
+					<span class="description"><?php esc_html_e( 'A unique color for this Boomerang status', 'boomerang' ); ?></span>
+					<input type="hidden" name="term_fields[background_color]" id="background-color">
+				</td>
+			</tr>
+			<?php
+		} elseif ( current_filter() === 'boomerang_status_add_form_fields' ) {
+			?>
+			<div class="form-field">
+				<label for="term_fields[color]"><?php esc_html_e( 'Color', 'boomerang' ); ?></label>
+				<input class="boomerang-color-picker" type="text" value="" id="term_fields[color]" name="term_fields[color]">
+				<p class="description"><?php esc_html_e( 'A unique color for this Boomerang status', 'boomerang' ); ?></p>
+				<input type="hidden" name="term_fields[background_color]" id="background-color">
+			</div>
+			<?php
+		}
+	}
+
+	/**
+	 * Sanitize and save our custom Boomerang Status fields.
+	 *
+	 * @param $term_id
+	 *
+	 * @return void
+	 */
+	public function save_category_fields__premium_only( $term_id ) {
+		if ( ! isset( $_POST['term_fields'] ) ) {
+			return;
+		}
+
+		foreach ( $_POST['term_fields'] as $key => $value ) {
+			update_term_meta( $term_id, $key, sanitize_text_field( $value ) );
 		}
 	}
 }

@@ -26,4 +26,22 @@
   display: none;
 }
 
+/* Customizer */
+.csf-customize-field .csf-field-image_select .csf--image {
+  border: 4px solid transparent;
+  margin-bottom: 15px;
+}
+.csf-customize-field .csf-field-image_select .csf--image:hover {
+  border-color: #0073aa;
+}
+.csf-customize-field .csf-field-image_select .csf--image.csf--active {
+  border-color: #0073aa;
+}
+.csf-customize-field .csf-field-image_select .csf--image.csf--active figure {
+  border: none;
+}
+.csf-customize-field .csf-field-image_select .csf--image.csf--active figure:before {
+  display: none;
+}
+
 /*# sourceMappingURL=boomerang-admin.css.map */

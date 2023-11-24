@@ -26,10 +26,6 @@ class Boomerang_Frontend {
 	 * @return void
 	 */
 	public function init_hooks() {
-		add_shortcode( 'boomerang_form', array( $this, 'render_boomerang_form' ) );
-		add_shortcode( 'boomerang_list', array( $this, 'render_boomerang_directory' ) );
-		add_shortcode( 'boomerang', array( $this, 'render_boomerang_full' ) );
-
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'wp_ajax_save_boomerang', array( $this, 'save_boomerang' ) );
 		add_action( 'wp_ajax_process_admin_action', array( $this, 'process_admin_action' ) );
@@ -37,12 +33,13 @@ class Boomerang_Frontend {
 		add_action( 'wp_ajax_nopriv_process_filter', array( $this, 'process_filter' ) );
 		add_action( 'wp_ajax_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'wp_ajax_nopriv_process_tag', array( $this, 'process_tag' ) );
-		add_action( 'wp_head', array( $this, 'render_styles' ) );
 		add_action( 'boomerang_new_boomerang', array( $this, 'send_admin_email' ) );
+		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
 
 		add_filter( 'single_template', array( $this, 'do_single_template' ) );
 		add_filter( 'comments_template', array( $this, 'load_comments_template' ) );
 		add_filter( 'body_class', array( $this, 'enable_default_styles' ) );
+		add_filter( 'comment_form_submit_field', array( $this, 'add_additional_comment_fields' ), 10, 2 );
 	}
 
 	/**
@@ -61,6 +58,8 @@ class Boomerang_Frontend {
 		);
 
 		wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'assets/css/boomerang.css', null, BOOMERANG_VERSION );
+		wp_add_inline_style( 'boomerang', $this->render_inline_styles() );
+
 		wp_enqueue_script(
 			'boomerang',
 			BOOMERANG_URL . 'assets/js/boomerang.js',
@@ -84,32 +83,63 @@ class Boomerang_Frontend {
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 				'success' => __( 'Saved!', 'boomerang' ),
+				'comment' => __( 'Add comment', 'boomerang' ),
+				'note'    => __( 'Add private note', 'boomerang' ),
 			)
 		);
 	}
-
 
 	/**
 	 * Render our dynamic styles from board settings, customizers and so on.
 	 *
 	 * @return void
 	 */
-	public function render_styles() {
+	public function render_inline_styles() {
 		global $post;
 
+		$custom_css = '';
+
 		// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
-		if ( $post && ( 'boomerang' === $post->post_type || 'boomerang_board' === $post->post_type ) ) :
-			$container_width = boomerang_get_container_width();
-			?>
+		$custom_css .= ':root {--boomerang-primary-color:#027AB0;}';
+		$custom_css .= ':root {--bommerang-team-color-color:#fab347;}';
 
-			<style id="boomerang-dynamic-styles">
-				.boomerang-container {
-					width: <?php echo esc_attr( $container_width ); ?>;
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			$options = get_option( 'boomerang_customizer' );
+			$terms   = get_terms(
+				array(
+					'taxonomy'   => 'boomerang_status',
+					'hide_empty' => false,
+				)
+			);
+
+			if ( ! empty( $terms ) ) {
+				foreach ( $terms as $term ) {
+					$color_meta            = get_term_meta( $term->term_id, 'color', true );
+					$background_color_meta = get_term_meta( $term->term_id, 'background_color', true );
+
+					$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
+					$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
+
+					$custom_css .= '.boomerang_status-' . $term->slug . ' .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
 				}
-			</style>
+			}
 
-			<?php
-		endif;
+			if ( $options['archive_layout'] && 'grid' === $options['archive_layout'] ) {
+				$custom_css .= '.boomerang-default #boomerang-full{width:' . esc_attr( boomerang_get_container_width() ) . ';}';
+			}
+
+			if ( isset( $options['primary_color'] ) ) {
+				$custom_css .= ':root {--boomerang-primary-color: ' . esc_attr( $options['primary_color'] ) . ';}';
+			}
+
+			if ( isset( $options['private_note_color'] ) ) {
+				$custom_css .= ':root {--bommerang-team-color-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
+			}
+		}
+
+			$custom_css .= '.boomerang-container{width:' . esc_attr( boomerang_get_container_width() ) . ';}';
+
+		return $custom_css;
 	}
 
 	/**
@@ -228,211 +258,6 @@ class Boomerang_Frontend {
 		wp_die();
 	}
 
-	/**
-	 * Render a complete instance of Boomerang on a page.
-	 *
-	 * @return false|string
-	 */
-	public function render_boomerang_full( $atts ) {
-		$a = shortcode_atts(
-			array(
-				'board' => false,
-			),
-			$atts
-		);
-
-		if ( empty( array_filter( $a ) ) ) {
-			return '<p><strong>Please ensure your Boomerang shortcode contains an ID, or your block has a board assigned</strong></p>';
-		}
-
-		ob_start();
-		?>
-
-		<div id="boomerang-full" class="
-		<?php
-		echo esc_attr(
-			get_post_field(
-				'post_name',
-				get_post( $a['board'] )
-			)
-		);
-		?>
-			" data-board="<?php echo esc_attr( $a['board'] ); ?>">
-			<?php
-
-			if ( boomerang_board_title_enabled() ) {
-				the_title( '<h2 class="entry-title board-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
-			}
-
-			$this->render_boomerang_form( $a ); // phpcs:ignore -- escaped later
-
-			$this->render_boomerang_directory( $a );
-
-			?>
-		</div>
-
-		<?php
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders a form to submit new Boomerangs.
-	 *
-	 * @return false|string
-	 */
-	public function render_boomerang_form( $atts ) {
-		$a = shortcode_atts(
-			array(
-				'board' => $atts['board'] ?? false,
-			),
-			$atts
-		);
-
-		if ( ! is_user_logged_in() ) {
-			echo esc_html__( 'You must be logged in to submit. Sorry.', 'boomerang' );
-
-			return;
-		}
-
-		$labels = boomerang_get_form_labels( $a['board'] );
-
-		ob_start();
-		?>
-
-		<div id="boomerang-form-wrapper" class="boomerang-container 
-		<?php
-		echo esc_attr(
-			get_post_field(
-				'post_name',
-				get_post( $a['board'] )
-			)
-		);
-		?>
-			" data-board="<?php echo esc_attr( $a['board'] ); ?>">
-			<form id="boomerang-form" method="post" enctype='multipart/form-data' data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-form-nonce' ) ); ?>">
-
-				<fieldset>
-					<label for="title"><?php echo esc_html( $labels['title'] ); ?></label>
-					<input type="text" id="boomerang-title" value="" tabindex="1" size="20" name="title"/>
-				</fieldset>
-
-				<?php if ( boomerang_board_tags_enabled( $a['board'] ) ) : ?>
-					<fieldset>
-						<label for="tags"><?php echo esc_html( $labels['tags'] ); ?></label>
-						<select class="boomerang_select select2" id="boomerang-tags" name="tags[]" multiple="multiple" style="width: 100%">';
-
-							<?php
-
-							$tags = get_terms(
-								array(
-									'taxonomy'   => 'boomerang_tag',
-									'hide_empty' => false,
-								)
-							);
-
-							if ( $tags ) {
-								foreach ( $tags as $tag ) :
-									?>
-									<option value="<?php echo esc_attr( $tag->slug ); ?>"><?php echo esc_html( $tag->name ); ?></option>
-									<?php
-								endforeach;
-							}
-							?>
-
-						</select>
-					</fieldset>
-
-				<?php endif; ?>
-
-				<fieldset>
-					<label for="content"><?php echo esc_html( $labels['content'] ); ?></label>
-					<textarea id="boomerang-content" tabindex="3" name="content" cols="50" rows="6"></textarea>
-				</fieldset>
-
-				<?php if ( boomerang_board_image_enabled() ) : ?>
-
-					<?php if ( ! boomerang_default_styles_disabled() ) : ?>
-
-						<fieldset>
-							<label for="boomerang_image_upload" class="drop-container" id="boomerang-dropcontainer">
-								<span class="drop-title">
-								<?php
-								echo esc_html__(
-									'Drop file here',
-									'boomerang'
-								);
-								?>
-										</span>
-								<span class="drop-conjunction"><?php echo esc_html__( 'or', 'boomerang' ); ?></span>
-								<input type="file" name="boomerang_image_upload" id="boomerang_image_upload" accept="image/*">
-							</label>
-						</fieldset>
-
-					<?php else : ?>
-
-						<fieldset>
-							<input type="file" name="boomerang_image_upload" id="boomerang_image_upload" accept="image/*"/>
-							<label for="boomerang_image_upload">
-							<?php
-							echo esc_html__(
-								'Choose a file',
-								'boomerang'
-							);
-							?>
-									</label>
-						</fieldset>
-
-					<?php endif; ?>
-
-				<?php endif; ?>
-
-				<div id="bf-footer">
-					<input name="boomerang_board" id="boomerang-board" type="hidden" value="<?php echo esc_attr( $a['board'] ); ?>">
-					<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?>
-						<div id="bf-spinner"></div>
-					</button>
-					<span id="bf-result"></span>
-				</div>
-
-			</form>
-		</div>
-
-		<?php
-		return ob_get_flush();
-	}
-
-	/**
-	 * Render a directory of Boomerangs.
-	 *
-	 * @return false|string
-	 */
-	public function render_boomerang_directory( $atts ) {
-		$a = shortcode_atts(
-			array(
-				'board' => $atts['board'] ?? false,
-			),
-			$atts
-		);
-
-		ob_start();
-
-		if ( boomerang_board_filters_enabled( $a['board'] ) ) {
-			echo boomerang_get_filters();
-		}
-
-		?>
-
-		<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
-
-			<?php echo boomerang_get_boomerangs( $a['board'] ); ?>
-
-		</div>
-
-		<?php
-
-		return ob_get_flush();
-	}
-
 	public function do_single_template( $single_template ) {
 		global $post;
 
@@ -478,6 +303,7 @@ class Boomerang_Frontend {
 		$return = array(
 			'message' => __( 'Status Set', 'boomerang' ),
 			'content' => boomerang_get_status( get_post( $post_id ) ),
+			'term'    => get_term( $status )->slug,
 		);
 
 		wp_send_json_success( $return );
@@ -692,5 +518,62 @@ class Boomerang_Frontend {
 		);
 
 		boomerang_send_email( $to, $subject, $body );
+	}
+
+	/**
+	 * Adds a wrapper around the comment submit button row.
+	 *
+	 * @param $submit_field
+	 * @param $args
+	 *
+	 * @return mixed|string
+	 */
+	public function add_additional_comment_fields( $submit_field, $args ) {
+		global $post;
+		if ( ! $post || ( 'boomerang' !== $post->post_type ) ) {
+			return $submit_field;
+		}
+
+		$submit_before = '<div class="submit-button-container">';
+
+		$additional_content = '';
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			if ( boomerang_can_manage() ) {
+				$additional_content .= '<div class="private-note-toggle"><label class="switch"><input name="private_note" type="checkbox"><span class="slider round"></span></label>';
+				$additional_content .= '<span class="private-note-label">' . esc_html__( 'Private note', 'boomerang' ) . '</span>';
+				$additional_content .= '</div>';
+			}
+		}
+
+		$submit_after = '</div>';
+
+		return $submit_before . $additional_content . $submit_field . $submit_after;
+	}
+
+	/**
+	 * Save any additional meta data for our comment form.
+	 *
+	 * @param $comment_id
+	 *
+	 * @return void
+	 */
+	public function save_comment_meta_data( $comment_id ) {
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			if ( isset( $_POST['private_note'] ) && 'on' === $_POST['private_note'] ) {
+				add_comment_meta( $comment_id, 'boomerang_private_note', true );
+			}
+
+			$comment        = get_comment( $comment_id );
+			$comment_parent = $comment->comment_parent;
+
+			if ( 0 !== $comment_parent ) {
+				$private_note = get_comment_meta( $comment_parent, 'boomerang_private_note', true );
+
+				if ( $private_note ) {
+					add_comment_meta( $comment_id, 'boomerang_private_note', true );
+				}
+			}
+		}
 	}
 }

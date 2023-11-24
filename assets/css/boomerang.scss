@@ -50,6 +50,7 @@ Styles for the Boomerang Board CPT Default Archive page
 .single-boomerang_board {
   #boomerang-full {
     width: 100%;
+    max-width: 100%;
     padding-right: 15px;
     padding-left: 15px;
     margin: 0 auto;
@@ -233,6 +234,7 @@ span.material-symbols-outlined {
   justify-content: space-between;
   gap: 20px;
   padding-bottom: 20px;
+  height: fit-content;
 
   @include media(840px) {
     flex-direction: row;
@@ -347,7 +349,7 @@ Single Boomerang
       }
 
       .boomerang-status {
-        border: 1px solid black;
+        border: 1px solid;
         border-radius: 7px;
         padding: 0 5px;
       }
@@ -418,14 +420,19 @@ Archive boomerangs
   .boomerang {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
-    @include media(large) {
-      flex-direction: row;
-    }
+    .boomerang-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
 
-    .boomerang-right {
-      flex: 1;
+      @include media(large) {
+        flex-direction: row;
+      }
+
+      .boomerang-right {
+        flex: 1;
+      }
     }
   }
 
@@ -479,7 +486,7 @@ Archive boomerangs
     }
 
     .boomerang-status {
-      border: 1px solid black;
+      border: 1px solid;
       border-radius: 7px;
       padding: 0 5px;
     }

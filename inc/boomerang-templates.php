@@ -21,12 +21,22 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 		'post_status'    => current_user_can( 'manage_options' ) ? array( 'publish', 'pending', 'draft' ) : 'publish',
 		'post_parent'    => $board ?? '',
 		'posts_per_page' => 10,
-		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+		'paged'          => get_query_var( 'page' ) ? get_query_var( 'page' ) : 1,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
 
 	$the_query = new \WP_Query( $args );
+
+	// TODO Possible Debug?
+	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
+	error_log( print_r($args, true) );
+
+
+	// // TODO Possible Debug?
+	// error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
+	// error_log( print_r($the_query, true) );
+
 
 	ob_start();
 
@@ -34,8 +44,12 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 		while ( $the_query->have_posts() ) :
 			$the_query->the_post();
+
+			// global $post;
 			?>
 			<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
+				<?php //do_action( 'boomerang_archive_boomerang_start', $post ); ?>
+				<div class="boomerang-inner">
 				<div class="boomerang-left">
 					<?php if ( boomerang_board_votes_enabled() ) : ?>
 						<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
@@ -101,6 +115,8 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 						?>
 					</footer><!-- .entry-footer -->
 				</div>
+				</div>
+				<?php //do_action( 'boomerang_archive_boomerang_end', $post ); ?>
 			</article><!-- .post -->
 
 
@@ -108,21 +124,19 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 		<?php
 		$big = 999999999; // need an unlikely integer
-		echo wp_kses_post(
-			paginate_links(
-				array(
-					'base'    => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
-					'format'  => '?paged=%#%',
-					'current' => max( 1, get_query_var( 'paged' ) ),
-					'total'   => $the_query->max_num_pages,
-					'type'    => 'list',
-				)
+		echo paginate_links(
+			array(
+				'base'    => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
+				'format'  => '?paged=%#%',
+				'current' => max( 1, get_query_var( 'paged' ) ),
+				'total'   => $the_query->max_num_pages,
+				'type'    => 'list',
 			)
 		);
 		?>
 
 	<?php else : ?>
-		<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
+		<div><p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p></div>
 		<?php
 	endif;
 
@@ -140,7 +154,7 @@ function boomerang_get_filters() {
 	ob_start();
 	?>
 
-	<div id="boomerang-board-filters" class="boomerang-container" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_filters' ) ); ?>">
+	<div id="boomerang-board-filters" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_filters' ) ); ?>">
 		<fieldset>
 			<label for="boomerang-order">
 				<?php if ( boomerang_google_fonts_disabled() ) : ?>
@@ -334,6 +348,31 @@ function boomerang_has_status( $post = false ) {
 	return false;
 }
 
+/**
+ * Gets the unique color attached to a status, or black as a default.
+ *
+ * @param $post
+ *
+ * @return mixed|void
+ */
+function boomerang_get_status_color( $post ) {
+	if ( ! $post ) {
+		$post = get_post();
+	}
+
+	$terms = get_the_terms( $post->ID, 'boomerang_status' );
+
+	if ( $terms ) {
+		$color = get_term_meta( $terms[0]->term_id, 'color', true );
+
+		if ( $color ) {
+			return $color;
+		} else {
+			return '#000000';
+		}
+	}
+}
+
 /** Meta **************************************************************************************************************/
 
 /**
@@ -397,7 +436,7 @@ function boomerang_get_comments_count_html( $post = false ) {
 		$post = get_post();
 	}
 
-	$count = get_comments_number();
+	$count = apply_filters( 'boomerang_comments_count', get_comments_number(), $post );
 
 	if ( boomerang_google_fonts_disabled() ) {
 		printf(
@@ -597,12 +636,20 @@ function boomerang_get_admin_area_html( $post = false ) {
  */
 function boomerang_comment_template( $comment, $args, $depth ) {
 	$GLOBALS['comment'] = $comment;
+
+	if ( ! empty( $comment->user_id ) ) {
+		$user   = get_userdata( $comment->user_id );
+		$author = $user->display_name;
+		$url    = get_author_posts_url( $comment->user_id );
+	}
+
+	$classes = apply_filters( 'boomerang_comment_classes', array(), $comment );
 	?>
 
-<li id="li-comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+<li id="li-comment-<?php comment_ID(); ?>" <?php comment_class( $classes ); ?>>
 	<div class="comment-container">
 		<div class="comment-author-avatar vcard">
-			<a href="<?php echo esc_url_raw( comment_author_url() ); ?>">
+			<a href="<?php echo esc_url_raw( $url ); ?>">
 				<?php
 				if ( 0 !== $args['avatar_size'] ) {
 					echo get_avatar( $comment, $args['avatar_size'] );
@@ -612,8 +659,9 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 		</div><!-- .comment-author-avatar -->
 
 		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
+			<?php do_action( 'boomerang_comment_above_author_name', $comment ); ?>
 			<div class="comment-author vcard">
-				<a href="<?php echo esc_url_raw( comment_author_url() ); ?>"><?php echo esc_html( get_comment_author() ); ?></a>
+				<a href="<?php echo esc_url_raw( $url ); ?>"><?php echo esc_html( $author ); ?></a>
 			</div><!-- .comment-author -->
 
 			<div class="comment-content">
@@ -673,3 +721,6 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 
 	<?php
 }
+
+/** Labels ************************************************************************************************************/
+

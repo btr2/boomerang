@@ -25,6 +25,14 @@ class Boomerang {
 		// Require our template file.
 		require BOOMERANG_PATH . '/inc/boomerang-templates.php';
 
+		// Register and populate shortcodes.
+		require BOOMERANG_PATH . '/inc/boomerang-shortcodes.php';
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			// Pro version filters
+			require BOOMERANG_PATH . '/inc/boomerang-pro-filters.php';
+		}
+
 		$this->init_hooks();
 
 		// Do this early, so that CSF can boot up.

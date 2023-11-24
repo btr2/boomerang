@@ -255,6 +255,11 @@ function boomerang_get_default_status( $post ) {
  */
 function boomerang_get_container_width( $post = false ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post) {
+		return;
+	}
+
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	if ( empty( $meta['container_width']['width'] ) || empty( $meta['container_width']['unit'] ) ) {
@@ -279,7 +284,7 @@ function boomerang_get_post( $post = false ) {
 		$post = get_post( $post );
 	}
 
-	if ( 'boomerang' === $post->post_type ) {
+	if ( $post && 'boomerang' === $post->post_type ) {
 		$post = get_post( $post->post_parent );
 	}
 
@@ -305,6 +310,24 @@ function boomerang_get_form_labels( $board ) {
 		'content' => $meta['label_content'] ?? 'Content',
 		'tags' => $meta['label_tags'] ?? 'Tags',
 		'submit' => $meta['label_submit'] ?? 'Submit',
+	);
+}
+
+/**
+ * Get the form headings from a boards settings screen.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_get_form_headings__premium_only( $board ) {
+	$board = get_post( $board );
+
+	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
+
+	return array(
+		'heading' => $meta['label_form_heading'] ?? '',
+		'subheading' => $meta['label_form_subheading'] ?? '',
 	);
 }
 
