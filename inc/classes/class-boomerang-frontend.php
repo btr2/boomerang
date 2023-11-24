@@ -101,7 +101,7 @@ class Boomerang_Frontend {
 
 		// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
 		$custom_css .= ':root {--boomerang-primary-color:#027AB0;}';
-		$custom_css .= ':root {--bommerang-team-color-color:#fab347;}';
+		$custom_css .= ':root {--boomerang-team-color:#fab347;}';
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			$options = get_option( 'boomerang_customizer' );
@@ -133,7 +133,7 @@ class Boomerang_Frontend {
 			}
 
 			if ( isset( $options['private_note_color'] ) ) {
-				$custom_css .= ':root {--bommerang-team-color-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
+				$custom_css .= ':root {--boomerang-team-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
 			}
 		}
 

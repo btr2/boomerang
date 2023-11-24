@@ -21,22 +21,12 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 		'post_status'    => current_user_can( 'manage_options' ) ? array( 'publish', 'pending', 'draft' ) : 'publish',
 		'post_parent'    => $board ?? '',
 		'posts_per_page' => 10,
-		'paged'          => get_query_var( 'page' ) ? get_query_var( 'page' ) : 1,
+		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
 
 	$the_query = new \WP_Query( $args );
-
-	// TODO Possible Debug?
-	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
-	error_log( print_r($args, true) );
-
-
-	// // TODO Possible Debug?
-	// error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
-	// error_log( print_r($the_query, true) );
-
 
 	ob_start();
 
@@ -45,10 +35,10 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 		while ( $the_query->have_posts() ) :
 			$the_query->the_post();
 
-			// global $post;
+			global $post;
 			?>
 			<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
-				<?php //do_action( 'boomerang_archive_boomerang_start', $post ); ?>
+				<?php do_action( 'boomerang_archive_boomerang_start', $post ); ?>
 				<div class="boomerang-inner">
 				<div class="boomerang-left">
 					<?php if ( boomerang_board_votes_enabled() ) : ?>
@@ -116,7 +106,7 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 					</footer><!-- .entry-footer -->
 				</div>
 				</div>
-				<?php //do_action( 'boomerang_archive_boomerang_end', $post ); ?>
+				<?php do_action( 'boomerang_archive_boomerang_end', $post ); ?>
 			</article><!-- .post -->
 
 
@@ -124,13 +114,15 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 		<?php
 		$big = 999999999; // need an unlikely integer
-		echo paginate_links(
-			array(
-				'base'    => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
-				'format'  => '?paged=%#%',
-				'current' => max( 1, get_query_var( 'paged' ) ),
-				'total'   => $the_query->max_num_pages,
-				'type'    => 'list',
+		echo wp_kses_post(
+			paginate_links(
+				array(
+					'base'    => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
+					'format'  => '?paged=%#%',
+					'current' => max( 1, get_query_var( 'paged' ) ),
+					'total'   => $the_query->max_num_pages,
+					'type'    => 'list',
+				)
 			)
 		);
 		?>

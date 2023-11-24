@@ -14,11 +14,18 @@ function add_pending_banner( $post ) {
 		return;
 	}
 
-	if ( boomerang_can_manage() ) : ?>
+	if ( boomerang_can_manage() ) {
+		echo '<div class="pending-banner">';
 
-	<div class="pending-banner">B</div>
+		if ( ! boomerang_google_fonts_disabled() ) {
+			echo '<span class="material-symbols-outlined">lock</span>';
+		}
 
-	<?php endif;
+		echo '<p>' . esc_html__( 'This Boomerang is private and only visible to team members.', 'boomerang' ) . '</p>';
+
+		echo '</div>';
+
+	}
 }
 add_action( 'boomerang_archive_boomerang_start', __NAMESPACE__ . '\add_pending_banner' );
 

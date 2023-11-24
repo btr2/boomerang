@@ -591,13 +591,13 @@ Single Boomerang
               margin: 0 auto 40px;
 
               &.private-note {
-                border: 2px solid var(--bommerang-team-color-color);
-                box-shadow: 0 0 var(--bommerang-team-color-color), 0 0 var(--bommerang-team-color-color), 0 0 var(--bommerang-team-color-color),0 0 var(--bommerang-team-color-color),0 4px 6px -1px rgba(var(--bommerang-team-color-color),.75),0 2px 4px -2px rgba(var(--bommerang-team-color-color),.75);
+                border: 2px solid var(--boomerang-team-color);
+                box-shadow: 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color),0 0 var(--boomerang-team-color),0 4px 6px -1px rgba(var(--boomerang-team-color),.75),0 2px 4px -2px rgba(var(--boomerang-team-color),.75);
 
                 .submit-button-container {
                   .form-submit {
                     #submit {
-                      background: var(--bommerang-team-color-color);
+                      background: var(--boomerang-team-color);
                     }
                   }
                 }
@@ -754,7 +754,7 @@ Single Boomerang
                       position: absolute;
                       inset: 0;
                       z-index: -1;
-                      background-color: var(--bommerang-team-color-color);
+                      background-color: var(--boomerang-team-color);
                       opacity: .1;
                       content: "";
                     }
@@ -850,8 +850,20 @@ Boomerang Directory
 
     .pending-banner {
       padding: 10px 20px;
-      background-color: var(--bommerang-team-color-color);
-      opacity: .1;
+      position: relative;
+      color: var(--boomerang-team-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      &:after {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: var(--boomerang-team-color);
+        opacity: .1;
+        content: "";
+      }
 
       p, span {
         color: var(--boomerang-team-color);

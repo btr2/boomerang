@@ -15,7 +15,7 @@
 
     wp.customize( 'boomerang_customizer[private_note_color]', function( value ) {
         value.bind( function( newval ) {
-            document.documentElement.style.setProperty('--bommerang-team-color-color', newval);
+            document.documentElement.style.setProperty('--boomerang-team-color', newval);
         } );
     } );
 
