@@ -45,6 +45,8 @@ class Boomerang_Admin {
 		add_filter( 'manage_posts_custom_column', array( $this, 'populate_boomerang_board_column' ), 10, 2 );
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			require BOOMERANG_PATH . '/admin/inc/boomerang-pro-admin-filters.php';
+
 			add_action( 'boomerang_status_add_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
 			add_action( 'boomerang_status_edit_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
 			add_action( 'edited_boomerang_status', array( $this, 'save_category_fields__premium_only' ), 10, 2 );
@@ -165,6 +167,8 @@ class Boomerang_Admin {
 					),
 				)
 			);
+
+			apply_filters( 'boomerang_global_settings_section_end', $prefix );
 		}
 	}
 
@@ -227,6 +231,8 @@ class Boomerang_Admin {
 					),
 				)
 			);
+
+			apply_filters( 'boomerang_board_settings_section_end', $prefix );
 		}
 	}
 
@@ -345,6 +351,15 @@ class Boomerang_Admin {
 			'title' => esc_html__( 'Show Filters', 'boomerang' ),
 			'desc'  => esc_html__(
 				'Show a set of filters on a board directory to assist users to find Boomerangs.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'    => 'enable_honeypot',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Enable Honeypot', 'boomerang' ),
+			'desc'  => esc_html__(
+				'Adds a honeypot to the form, to block a large amount of spam.',
 				'boomerang'
 			),
 		);

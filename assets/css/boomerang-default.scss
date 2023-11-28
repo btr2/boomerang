@@ -304,7 +304,7 @@ Single Boomerang
         padding: 30px;
         background-color: #f9f9fb;
         border-right: 1px solid #e5e5ee;
-        max-height: 400px;
+        max-height: 600px;
 
         @include media(860px) {
           width: 300px;
@@ -388,35 +388,63 @@ Single Boomerang
 
               .control-content {
                 display: none;
-                border: none;
-                margin: 0;
-                max-height: 35px;
-                padding: 0;
-                gap: 5px;
-                margin-top: 10px;
-                margin-left: -10px;
-                margin-right: -10px;
+                margin: 10px -10px 20px -10px;
 
-                select, input {
-                  border: 1px solid #ccc;
-                  padding-left: 10px;
-                }
-
-                input[type=submit] {
-                  width: 100%;
-                  background: $blue;
-                }
-
-                .control-content-inline-button {
-                  background: var(--boomerang-primary-color);
-                  color: #fff;
-                  padding: 5px;
+                fieldset {
+                  border: none;
                   display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  cursor: pointer;
-                  height: 40px;
-                  width: 40px;
+                  margin: 0;
+                  padding: 0;
+                  gap: 5px;
+
+
+                  h4 {
+                    color: #0d0d0e;
+                    font-weight: 600;
+                    font-size: 16px;
+                  }
+
+                  p {
+                    color: #64676b;
+                    font-weight: 400;
+                    font-size: 14px;
+                  }
+
+                  select, input {
+                    border: 1px solid #ccc;
+                    padding-left: 10px;
+                  }
+
+                  input[type=submit] {
+                    width: 100%;
+                    background: $blue;
+                  }
+
+                  .control-content-inline-button {
+                    background: var(--boomerang-primary-color);
+                    color: #fff;
+                    padding: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    font-weight: 600;
+
+                    &.icon-only {
+                      height: 40px;
+                      width: 40px;
+                    }
+                  }
+                }
+
+              }
+
+              &.style-2 {
+                // These are where we use an h4 with a 'p' description, and then a button
+                .control-content {
+                  fieldset {
+                    flex-direction: column;
+                  }
                 }
               }
             }
@@ -462,6 +490,54 @@ Single Boomerang
       .boomerang {
         padding: 0 5%;
         margin: 0;
+
+        .pending-banner, .locked-banner {
+          padding: 10px 20px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          flex-basis: 100%;
+          border: 1px solid;
+
+          &:after {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: .1;
+            content: "";
+          }
+
+          @include media(large) {
+            padding: 20px 40px;
+          }
+        }
+
+        .pending-banner {
+          color: red;
+          border-color: red;
+
+          &:after {
+            background-color: red;
+          }
+
+          p, span {
+            color: red;
+          }
+        }
+
+        .locked-banner {
+          color: var(--boomerang-team-color);
+          border-color: var(--boomerang-team-color);
+
+          &:after {
+            background-color: var(--boomerang-team-color);
+          }
+
+          p, span {
+            color: var(--boomerang-team-color);
+          }
+        }
 
         @include media(large) {
           padding-left: 20px;
@@ -848,10 +924,9 @@ Boomerang Directory
     transition-property: background-color;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
 
-    .pending-banner {
+    .pending-banner, .locked-banner {
       padding: 10px 20px;
       position: relative;
-      color: var(--boomerang-team-color);
       display: flex;
       align-items: center;
       gap: 15px;
@@ -860,17 +935,36 @@ Boomerang Directory
         position: absolute;
         inset: 0;
         z-index: -1;
-        background-color: var(--boomerang-team-color);
         opacity: .1;
         content: "";
       }
 
-      p, span {
-        color: var(--boomerang-team-color);
-      }
-
       @include media(large) {
         padding: 20px 40px;
+      }
+    }
+
+    .pending-banner {
+      color: red;
+
+      &:after {
+        background-color: red;
+      }
+
+      p, span {
+        color: red;
+      }
+    }
+
+    .locked-banner {
+      color: var(--boomerang-team-color);
+
+      &:after {
+        background-color: var(--boomerang-team-color);
+      }
+
+      p, span {
+        color: var(--boomerang-team-color);
       }
     }
 

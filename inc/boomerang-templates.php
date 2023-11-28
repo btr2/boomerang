@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function boomerang_get_boomerangs( $board, $args = false ) {
 	$defaults = array(
 		'post_type'      => 'boomerang',
-		'post_status'    => current_user_can( 'manage_options' ) ? array( 'publish', 'pending', 'draft' ) : 'publish',
+		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft', 'boomerang_locked' ) : 'publish',
 		'post_parent'    => $board ?? '',
 		'posts_per_page' => 10,
 		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
@@ -158,6 +158,11 @@ function boomerang_get_filters() {
 			<select id="boomerang-order" name="boomerang_order">
 				<option value="latest"><?php esc_html_e( 'Latest', 'boomerang' ); ?></option>
 				<option value="popular"><?php esc_html_e( 'Popular', 'boomerang' ); ?></option>
+				<?php
+				if ( boo_fs()->can_use_premium_code__premium_only() ) {
+					echo '<option value="random">' . esc_html__( 'Random', 'boomerang' ) . '</option>';
+				}
+				?>
 				<option value="mine"><?php esc_html_e( 'Created by me', 'boomerang' ); ?></option>
 				<option value="voted"><?php esc_html_e( 'Voted on by me', 'boomerang' ); ?></option>
 			</select>
@@ -570,16 +575,18 @@ function boomerang_get_admin_area_html( $post = false ) {
 								<span class="material-symbols-outlined chevron">chevron_right</span>
 							<?php endif; ?>
 						</div>
-						<fieldset class="control-content">
-							<?php wp_dropdown_categories( $args ); ?>
-							<div class="control-content-inline-button" id="boomerang-admin-area-submit">
-								<?php if ( boomerang_google_fonts_disabled() ) : ?>
-									<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
-								<?php else : ?>
-									<span class="material-symbols-outlined">arrow_forward</span>
-								<?php endif; ?>
-							</div>
-						</fieldset>
+						<div class="control-content">
+							<fieldset>
+								<?php wp_dropdown_categories( $args ); ?>
+								<div class="control-content-inline-button icon-only" id="boomerang-status-submit">
+									<?php if ( boomerang_google_fonts_disabled() ) : ?>
+										<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
+									<?php else : ?>
+										<span class="material-symbols-outlined">arrow_forward</span>
+									<?php endif; ?>
+								</div>
+							</fieldset>
+						</div>
 					</div>
 					<?php else : ?>
 					<p class="boomerang-control-disabled"><?php esc_html_e( 'To change statuses, enable them under Board Settings', 'boomerang' ); ?></p>

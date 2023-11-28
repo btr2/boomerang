@@ -22,6 +22,7 @@ get_header(); ?>
 				<?php echo boomerang_get_admin_area_html(); ?>
 
 				<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
+					<?php do_action( 'boomerang_single_boomerang_start', $post ); ?>
 					<div class="boomerang-left">
 						<?php if ( boomerang_board_votes_enabled() ) : ?>
 							<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
@@ -84,6 +85,9 @@ get_header(); ?>
 								)
 							);
 							?>
+
+							<?php do_action( 'boomerang_single_boomerang_after_footer_meta', $post ); ?>
+
 							<?php
 
 							if ( boomerang_board_comments_enabled() && ( comments_open() || get_comments_number() ) ) :
@@ -92,6 +96,7 @@ get_header(); ?>
 							?>
 						</footer><!-- .entry-footer -->
 					</div>
+					<?php do_action( 'boomerang_single_boomerang_end', $post ); ?>
 				</article><!-- .post -->
 				<?php
 			endwhile;

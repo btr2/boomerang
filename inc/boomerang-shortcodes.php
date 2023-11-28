@@ -172,6 +172,12 @@ function render_boomerang_form( $atts ) {
 
 			<div id="bf-footer">
 				<input name="boomerang_board" id="boomerang-board" type="hidden" value="<?php echo esc_attr( $a['board'] ); ?>">
+				<?php do_action( 'boomerang_form_footer', $a['board'] ); ?>
+				<?php
+				if ( boomerang_board_honeypot_enabled( $a['board'] ) ) {
+					echo '<p class="antispam">Leave this empty: <input type="text" id="boomerang_hp" name="boomerang_hp" /></p>';
+				}
+				?>
 				<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?>
 					<div id="bf-spinner"></div>
 				</button>

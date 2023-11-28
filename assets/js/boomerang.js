@@ -10,13 +10,19 @@ jQuery(document).ready(function ($) {
         function (e) {
             e.preventDefault();
 
-            let $button = $(this);
+            save_boomerang($(this))
+
+        });
+
+    function save_boomerang(e) {
+
+            let $button = $(e);
             let $form = $button.closest('#boomerang-form');
 
             let nonce = $form.attr("data-nonce");
             let title = $form.find('#boomerang-title').val();
             let content = $form.find('#boomerang-content').val();
-            let tags,featured_image;
+            let tags,featured_image,hp;
             let board = $form.find('#boomerang-board').val();
 
             let fd = new FormData();
@@ -29,6 +35,11 @@ jQuery(document).ready(function ($) {
             if ($form.find('#boomerang_image_upload').length ) {
                 featured_image = $form.find('#boomerang_image_upload').prop('files')[0];
                 fd.append("boomerang_image_upload", featured_image);
+            }
+
+            if ($form.find('#boomerang_hp').length ) {
+                hp = $form.find('#boomerang_hp').val();
+                fd.append("boomerang_hp", hp);
             }
 
             fd.append("title", title);
@@ -83,8 +94,7 @@ jQuery(document).ready(function ($) {
                     },
                 }
             );
-        }
-    );
+        };
 
     $("body").on(
         "click",
@@ -150,21 +160,24 @@ jQuery(document).ready(function ($) {
         "click",
         ".boomerang-admin-area .control-header",
         function (e) {
-            $(this).next('.control-content').slideToggle({
-                start: function () {
-                    $(this).css({
-                        display: "flex"
-                    })
-                }
-            });
-
+            $('.boomerang-admin-area .control-content').not(this).slideUp();
+            $('.boomerang-admin-area .control-header').not(this).removeClass('open');
             $(this).toggleClass('open');
+            if ($(this).hasClass('open')) {
+                $(this).next('.control-content').slideToggle({
+                    start: function () {
+                        $(this).css({
+                            display: "flex"
+                        })
+                    }
+                });
+            }
         }
     );
 
     $("body").on(
         "click",
-        ".boomerang-admin-area #boomerang-admin-area-submit",
+        ".boomerang-admin-area #boomerang-status-submit",
         function (e) {
             e.preventDefault();
 
@@ -198,6 +211,41 @@ jQuery(document).ready(function ($) {
                                 $('.boomerang').addClass('boomerang_status-' + response.data.term);
                                 $('.boomerang').find('.boomerang-status').text(response.data.content).show();
                             }
+                        }
+                    },
+                }
+            );
+        }
+    );
+
+    $("body").on(
+        "click",
+        ".boomerang-admin-area #boomerang-post-status-submit",
+        function (e) {
+            e.preventDefault();
+
+            let $button = $(this);
+            let container = $button.closest('.boomerang-admin-area');
+            let post_id = container.attr("data-id");
+            let nonce = container.attr("data-nonce");
+            let the_action = $button.attr( 'data-action' );
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: settings.ajaxurl,
+                    data: {
+                        action: 'process_post_status_submit',
+                        post_id: post_id,
+                        nonce: nonce,
+                        dataType: 'json',
+                        the_action: the_action,
+                    },
+                    success: function (response) {
+                        if (!response.success) {
+
+                        } else {
+                            location.reload();
                         }
                     },
                 }

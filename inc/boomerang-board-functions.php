@@ -331,6 +331,22 @@ function boomerang_get_form_headings__premium_only( $board ) {
 	);
 }
 
+/**
+ * Checks to see if a honeypot is enabled in our form.
+ *
+ * @param $board
+ *
+ * @return false|mixed
+ */
+function boomerang_board_honeypot_enabled( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_honeypot'] ?? false;
+}
+
+
 /** Notifications *****************************************************************************************************/
 
 /**

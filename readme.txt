@@ -32,7 +32,7 @@ The most basic Boomerang has a title, and some content. That's it. Everything el
 
 = The Boomerang Block =
 
-The Boomerang archive comes with everything you need to create and list Boomerangs. A modern, AJAX-enabled form. AJAX-enabled filters to narrow down the Boomerang list. But how do you display it? You can set up each board in your menus (they are actually just custom post types like any other). Alternatively, you could add your Boomerang listing to any page, using the Boomerang shortcode (you'll see this at the top of each board's settings page). Even easier, you could use the Boomerang Block to pick a board you've already created, and add that directly into your block editor.
+The Boomerang archive comes with everything you need to create and list Boomerangs. A modern, AJAX-enabled form. AJAX-enabled filters to narrow down the Boomerang list. But how do you display it? Add your Boomerang listing to any page, using the Boomerang shortcode (you'll see this at the top of each board's settings page). Even easier, you could use the Boomerang Block to pick a board you've already created, and add that directly into your block editor.
 
 = Statuses =
 
@@ -46,7 +46,7 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 
 1. Install and activate Boomerang. Opt in so we can send you updates on how Boomerang is evolving.
 2. Change your permalinks under Settings > Permalinks. You probably don't want to call your feature requests Boomerangs, right?
-3. Create you first board. Use our shortcode or block to add it to any page, or add the board archive to your main menu.
+3. Create you first board. Use our shortcode or block to add it to any page.
 4. Create your first Boomerang. It won't look like much.
 5. Head to your board's settings page in the back-end, and configure it any way you choose.
 6. If you get stuck, or have an amazing idea for Boomerang, head to the support forum.
@@ -54,6 +54,10 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 == 📧 Connect with us ==
 
 [Facebook](https://www.facebook.com/boomerangWP/)
+
+== Screenshots ==
+1. Boomerang Listing Page (Pro Edition - coming soon)
+2. Single Boomerang Page (Pro Edition - coming soon)
 
 == Changelog ==
 

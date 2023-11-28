@@ -28,11 +28,6 @@ class Boomerang {
 		// Register and populate shortcodes.
 		require BOOMERANG_PATH . '/inc/boomerang-shortcodes.php';
 
-		if ( boo_fs()->can_use_premium_code__premium_only() ) {
-			// Pro version filters
-			require BOOMERANG_PATH . '/inc/boomerang-pro-filters.php';
-		}
-
 		$this->init_hooks();
 
 		// Do this early, so that CSF can boot up.
@@ -59,6 +54,14 @@ class Boomerang {
 		}
 
 		$boomerang_frontend = new Boomerang_Frontend();
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			// Pro version functionality
+			require BOOMERANG_PATH . '/pro/boomerang-pro-filters-and-functions.php';
+			if ( boomerang_get_google_recaptcha_keys__premium_only() ) {
+				require BOOMERANG_PATH . '/pro/boomerang-google-captcha.php';
+			}
+		}
 	}
 
 	/**

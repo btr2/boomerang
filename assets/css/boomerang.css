@@ -54,6 +54,9 @@ Boomerang Form
   display: flex;
   gap: 10px;
 }
+#boomerang-form #bf-footer .antispam {
+  display: none;
+}
 #boomerang-form #bf-footer #bf-spinner {
   display: none;
   border: 5px solid #f3f3f3;
@@ -221,6 +224,7 @@ Single Boomerang
   flex-direction: column;
   flex: 1;
   gap: 20px;
+  flex-wrap: wrap;
 }
 @media only screen and (min-width: 576px) {
   .single-boomerang .boomerang-container .boomerang {

@@ -93,3 +93,21 @@ function boomerang_send_email( $to, $subject, $body, $headers = false ) {
 
 	wp_mail( $to, $subject, $body, $headers );
 }
+
+/**
+ * Gets the user-provided Google site keys, or false if either is missing.
+ *
+ * @param $post
+ *
+ * @return array|false
+ */
+function boomerang_get_google_recaptcha_keys__premium_only() {
+	if ( empty( boomerang_get_option( 'boomerang_google_site_key' ) ) || empty( boomerang_get_option( 'boomerang_google_secret_key' ) ) ) {
+		return false;
+	} else {
+		return array(
+			'key'    => boomerang_get_option( 'boomerang_google_site_key' ),
+			'secret' => boomerang_get_option( 'boomerang_google_secret_key' ),
+		);
+	}
+}

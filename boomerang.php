@@ -6,14 +6,14 @@
  * Version:             1.0.0
  * Requires at least:   5.2
  * Requires PHP:        7.0
- * Author:              Ben Roberts
+ * Author:              Bouncingsprout Studio
  * License:             GPL v2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:         boomerang
  * Domain Path:         /languages
  * Version:             1.0.0
  *
- * @fs_premium_only /admin/inc/classes/class-boomerang-customizer.php, /inc/boomerang-pro-filters.php
+ * @fs_premium_only /admin/inc/classes/class-boomerang-customizer.php, /inc/boomerang-pro-filters-and-functions.php, /admin/inc/boomerang-pro-admin-filters.php
  */
 
 namespace Bouncingsprout_Boomerang;

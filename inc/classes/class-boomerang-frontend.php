@@ -35,6 +35,8 @@ class Boomerang_Frontend {
 		add_action( 'wp_ajax_nopriv_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'boomerang_new_boomerang', array( $this, 'send_admin_email' ) );
 		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
+		add_action( 'boomerang_archive_boomerang_start', array( $this, 'add_pending_banner' ) );
+		add_action( 'boomerang_single_boomerang_start', array( $this, 'add_pending_banner' ) );
 
 		add_filter( 'single_template', array( $this, 'do_single_template' ) );
 		add_filter( 'comments_template', array( $this, 'load_comments_template' ) );
@@ -154,6 +156,17 @@ class Boomerang_Frontend {
 		) ) {
 			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Form Submission',
+				__( 'Something went wrong.', 'boomerang' )
+			);
+
+			wp_send_json_error( $error );
+
+			wp_die();
+		}
+
+		if ( isset( $_POST['boomerang_hp'] ) && '' !== $_POST['boomerang_hp'] ) {
+			$error = new \WP_Error(
+				'Boomerang: Failed Spam Check (honeypot)',
 				__( 'Something went wrong.', 'boomerang' )
 			);
 
@@ -376,6 +389,10 @@ class Boomerang_Frontend {
 			case 'voted':
 				$args['post__in'] = boomerang_get_user_voted( get_current_user_id() );
 				break;
+
+			case 'random':
+				$args['orderby'] = 'rand';
+				break;
 		}
 
 		$return = array(
@@ -574,6 +591,32 @@ class Boomerang_Frontend {
 					add_comment_meta( $comment_id, 'boomerang_private_note', true );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Add a banner to top of Boomerangs to warn that Boomerang is pending.
+	 *
+	 * @param $post
+	 *
+	 * @return void
+	 */
+	public function add_pending_banner( $post ) {
+		if ( 'pending' !== $post->post_status ) {
+			return;
+		}
+
+		if ( boomerang_can_manage() || is_author( get_current_user_id() ) ) {
+			echo '<div class="pending-banner">';
+
+			if ( ! boomerang_google_fonts_disabled() ) {
+				echo '<span class="material-symbols-outlined">visibility_off</span>';
+			}
+
+			echo '<p>' . esc_html__( 'This Boomerang requires approval.', 'boomerang' ) . '</p>';
+
+			echo '</div>';
+
 		}
 	}
 }

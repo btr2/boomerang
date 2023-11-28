@@ -78,6 +78,10 @@ Boomerang Form
     display: flex;
     gap: 10px;
 
+    .antispam {
+      display: none;
+    }
+
   // Ajax Spinner
   #bf-spinner {
     display: none;
@@ -289,6 +293,7 @@ Single Boomerang
       flex-direction: column;
       flex: 1;
       gap: 20px;
+      flex-wrap: wrap;
 
       @include media(large) {
         flex-direction: row;

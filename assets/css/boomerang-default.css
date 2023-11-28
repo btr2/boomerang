@@ -263,7 +263,7 @@ Single Boomerang
   padding: 30px;
   background-color: #f9f9fb;
   border-right: 1px solid #e5e5ee;
-  max-height: 400px;
+  max-height: 600px;
 }
 @media only screen and (min-width: 860px) {
   .single-boomerang .boomerang-container #main .boomerang-admin-area {
@@ -333,24 +333,34 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
   display: none;
+  margin: 10px -10px 20px -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset {
   border: none;
+  display: flex;
   margin: 0;
-  max-height: 35px;
   padding: 0;
   gap: 5px;
-  margin-top: 10px;
-  margin-left: -10px;
-  margin-right: -10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content select, .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input {
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset h4 {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 16px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset p {
+  color: #64676b;
+  font-weight: 400;
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset select, .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input {
   border: 1px solid #ccc;
   padding-left: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input[type=submit] {
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input[type=submit] {
   width: 100%;
   background: #027AD0;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content .control-content-inline-button {
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button {
   background: var(--boomerang-primary-color);
   color: #fff;
   padding: 5px;
@@ -358,8 +368,14 @@ Single Boomerang
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-weight: 600;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button.icon-only {
   height: 40px;
   width: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control.style-2 .control-content fieldset {
+  flex-direction: column;
 }
 .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
   color: #64676b;
@@ -393,6 +409,52 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang {
   padding: 0 5%;
   margin: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+  padding: 10px 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 100%;
+  border: 1px solid;
+}
+.single-boomerang .boomerang-container #main .boomerang .pending-banner:after, .single-boomerang .boomerang-container #main .boomerang .locked-banner:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.1;
+  content: "";
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+    padding: 20px 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+    padding: 20px 40px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .pending-banner {
+  color: red;
+  border-color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .pending-banner:after {
+  background-color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .pending-banner p, .single-boomerang .boomerang-container #main .boomerang .pending-banner span {
+  color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .locked-banner {
+  color: var(--boomerang-team-color);
+  border-color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .locked-banner:after {
+  background-color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .locked-banner p, .single-boomerang .boomerang-container #main .boomerang .locked-banner span {
+  color: var(--boomerang-team-color);
 }
 @media only screen and (min-width: 576px) {
   .single-boomerang .boomerang-container #main .boomerang {
@@ -712,34 +774,47 @@ Boomerang Directory
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-.boomerang-directory article .pending-banner {
+.boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
   padding: 10px 20px;
   position: relative;
-  color: var(--boomerang-team-color);
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.boomerang-directory article .pending-banner:after {
+.boomerang-directory article .pending-banner:after, .boomerang-directory article .locked-banner:after {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-color: var(--boomerang-team-color);
   opacity: 0.1;
   content: "";
 }
-.boomerang-directory article .pending-banner p, .boomerang-directory article .pending-banner span {
-  color: var(--boomerang-team-color);
-}
 @media only screen and (min-width: 576px) {
-  .boomerang-directory article .pending-banner {
+  .boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
     padding: 20px 40px;
   }
 }
 @media only screen and (min-width: large) {
-  .boomerang-directory article .pending-banner {
+  .boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
     padding: 20px 40px;
   }
+}
+.boomerang-directory article .pending-banner {
+  color: red;
+}
+.boomerang-directory article .pending-banner:after {
+  background-color: red;
+}
+.boomerang-directory article .pending-banner p, .boomerang-directory article .pending-banner span {
+  color: red;
+}
+.boomerang-directory article .locked-banner {
+  color: var(--boomerang-team-color);
+}
+.boomerang-directory article .locked-banner:after {
+  background-color: var(--boomerang-team-color);
+}
+.boomerang-directory article .locked-banner p, .boomerang-directory article .locked-banner span {
+  color: var(--boomerang-team-color);
 }
 .boomerang-directory article .boomerang-inner {
   padding: 20px;
