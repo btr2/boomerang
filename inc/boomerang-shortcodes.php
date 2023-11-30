@@ -25,6 +25,10 @@ function render_boomerang_full( $atts ) {
 
 	$classes[] = get_post_field( 'post_name', get_post( $a['board'] ) );
 
+	if ( ! is_user_logged_in() ) {
+		$classes[] = 'logged-out';
+	}
+
 	if ( boo_fs()->can_use_premium_code__premium_only() ) {
 		$options = get_option( 'boomerang_customizer' );
 		if ( $options['archive_layout'] ) {
@@ -73,8 +77,12 @@ function render_boomerang_form( $atts ) {
 		$atts
 	);
 
-	if ( ! is_user_logged_in() ) {
-		echo esc_html__( 'You must be logged in to submit. Sorry.', 'boomerang' );
+	$can_submit = boomerang_can_user_submit( $a['board'], get_current_user_id() );
+
+	if ( is_array( $can_submit ) ) {
+		echo '<div id="boomerang-form-wrapper" class="boomerang-container boomerang-form-error ' . esc_attr( get_post_field( 'post_name', get_post( $a['board'] ) ) ) . '" data-board="' . esc_attr( $a['board'] ) . '">';
+		echo '<div class="boomerang-form-error-inner"><p>' . esc_html( $can_submit['message'] ) . '</p></div>';
+		echo '</div>';
 
 		return;
 	}
@@ -172,7 +180,6 @@ function render_boomerang_form( $atts ) {
 
 			<div id="bf-footer">
 				<input name="boomerang_board" id="boomerang-board" type="hidden" value="<?php echo esc_attr( $a['board'] ); ?>">
-				<?php do_action( 'boomerang_form_footer', $a['board'] ); ?>
 				<?php
 				if ( boomerang_board_honeypot_enabled( $a['board'] ) ) {
 					echo '<p class="antispam">Leave this empty: <input type="text" id="boomerang_hp" name="boomerang_hp" /></p>';
@@ -181,6 +188,7 @@ function render_boomerang_form( $atts ) {
 				<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?>
 					<div id="bf-spinner"></div>
 				</button>
+				<?php do_action( 'boomerang_form_footer', $a['board'] ); ?>
 				<span id="bf-result"></span>
 			</div>
 

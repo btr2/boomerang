@@ -10,12 +10,22 @@ jQuery(document).ready(function ($) {
         function (e) {
             e.preventDefault();
 
-            save_boomerang($(this))
-
+            if ( typeof google_recaptcha == "undefined") {
+                save_boomerang($(this))
+            } else {
+                do_google($(this))
+            }
         });
 
-    function save_boomerang(e) {
+    function do_google(e) {
+        grecaptcha.ready(function () {
+            grecaptcha.execute(google_recaptcha.key, {action: 'save_boomerang'}).then(function (token) {
+                save_boomerang(e,token);
+            });
+        });
+    }
 
+    function save_boomerang(e,token = false) {
             let $button = $(e);
             let $form = $button.closest('#boomerang-form');
 
@@ -42,6 +52,7 @@ jQuery(document).ready(function ($) {
                 fd.append("boomerang_hp", hp);
             }
 
+            fd.append( 'g-recaptcha-response', token)
             fd.append("title", title);
             fd.append("content", content);
             fd.append("boomerang_form_nonce", nonce);
@@ -94,6 +105,8 @@ jQuery(document).ready(function ($) {
                     },
                 }
             );
+
+
         };
 
     $("body").on(

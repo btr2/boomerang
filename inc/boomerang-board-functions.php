@@ -45,6 +45,8 @@ function boomerang_can_manage( $user = false ) {
 	return apply_filters('boomerang_can_manage', false, $user );
 }
 
+
+
 /**
  * Checks if titles are displayed for a given board or boomerang.
  *
@@ -292,6 +294,34 @@ function boomerang_get_post( $post = false ) {
 }
 
 /** Boomerang Form ****************************************************************************************************/
+
+/**
+ * Checks to see if the current user can submit Boomerangs via the Boomerang form.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_can_user_submit( $board, $user_id ) {
+	if ( ! is_user_logged_in() ) {
+		$result = array(
+			'message' => esc_html__( 'You must be logged in to post', 'boomerang' )
+		);
+	} else {
+		$result = true;
+	}
+
+	/**
+	 * Filter the result.
+	 *
+	 * @param true|array $result  The result to pass and filter
+	 * @param string     $board   The ID of the current board
+	 * @param int        $user_id The user ID of the current user trying to post a Boomerang
+	 */
+	$result = apply_filters( 'boomerang_can_user_submit', $result, $board, $user_id );
+
+	return $result;
+}
 
 /**
  * Get the form labels from a boards settings screen.

@@ -61,6 +61,7 @@ class Boomerang {
 			if ( boomerang_get_google_recaptcha_keys__premium_only() ) {
 				require BOOMERANG_PATH . '/pro/boomerang-google-captcha.php';
 			}
+			require BOOMERANG_PATH . '/pro/boomerang-guest-submissions.php';
 		}
 	}
 

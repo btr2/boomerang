@@ -506,17 +506,22 @@ function boomerang_get_votes_html( $post = false ) {
 
 	$count = '<span class="boomerang-vote-count">' . boomerang_get_votes( $post ) . '</span>';
 
-	if ( boomerang_google_fonts_disabled() ) {
-		$up   = '<span class="vote-up status-' . $has_voted . ' boomerang-vote">&#x21e7;</span>';
-		$down = '<span class="vote-down status-' . $has_voted . ' boomerang-vote">&#x21e9;</span>';
-	} else {
-		$up   = '<span class="material-symbols-outlined vote-up status-' . $has_voted . ' boomerang-vote">arrow_circle_up</span>';
-		$down = '<span class="material-symbols-outlined vote-down status-' . $has_voted . ' boomerang-vote">arrow_circle_down</span>';
-	}
+	if ( is_user_logged_in() ) {
+		if ( boomerang_google_fonts_disabled() ) {
+			$up   = '<span class="vote-up status-' . $has_voted . ' boomerang-vote">&#x21e7;</span>';
+			$down = '<span class="vote-down status-' . $has_voted . ' boomerang-vote">&#x21e9;</span>';
+		} else {
+			$up   = '<span class="material-symbols-outlined vote-up status-' . $has_voted . ' boomerang-vote">arrow_circle_up</span>';
+			$down = '<span class="material-symbols-outlined vote-down status-' . $has_voted . ' boomerang-vote">arrow_circle_down</span>';
+		}
 
-	$html .= $up;
-	$html .= $count;
-	$html .= $down;
+		$html .= $up;
+		$html .= $count;
+		$html .= $down;
+	} else {
+		$html .= $count;
+		$html .= '<span class="logged-out-text">' . esc_html__( 'votes', 'boomerang' ) . '</span>';
+	}
 
 	return $html;
 }

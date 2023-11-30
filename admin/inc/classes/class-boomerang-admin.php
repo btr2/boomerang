@@ -193,7 +193,6 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id'     => 'boards',
 					'title'  => 'General',
 					'fields' => $this->general_settings(),
 				)
@@ -202,7 +201,6 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id'     => 'boards',
 					'title'  => 'Labels',
 					'fields' => $this->label_settings(),
 				)
@@ -211,7 +209,6 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id'     => 'boards',
 					'title'  => 'Notifications',
 					'fields' => array(
 						array(

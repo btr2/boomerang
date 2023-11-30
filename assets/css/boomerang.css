@@ -24,6 +24,14 @@ Fonts
   direction: ltr;
 }
 
+#boomerang-full {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+}
+
 /**
 Styles for the Boomerang Board CPT Default Archive page
  */
@@ -123,6 +131,10 @@ span.material-symbols-outlined {
 .votes-container .vote-down.status--1 {
   color: #9e1313;
 }
+.votes-container .logged-out-text {
+  font-size: 12px;
+}
+
 .boomerang-admin-toggle {
   margin-left: auto;
   display: flex;

@@ -83,6 +83,11 @@ Boomerang Default Styles
   }
 }
 
+body:not(.logged-in) .votes-container {
+  border: 2px solid #e6e7e8;
+  padding: 14px;
+}
+
 .board-title {
   text-align: center;
   margin-top: 40px;
@@ -93,6 +98,19 @@ Boomerang Default Styles
 #boomerang-form-wrapper {
   grid-area: boomerang-form;
   flex: 1;
+}
+#boomerang-form-wrapper.boomerang-form-error {
+  max-width: 640px;
+  margin: 20px auto;
+}
+#boomerang-form-wrapper.boomerang-form-error .boomerang-form-error-inner {
+  border: 1px solid #ededee;
+  border-radius: 10px;
+  padding: 20px;
+  background: #f3f4f4;
+}
+#boomerang-form-wrapper.boomerang-form-error .boomerang-form-error-inner p {
+  text-align: center;
 }
 #boomerang-form-wrapper #boomerang-form {
   max-width: 640px;
@@ -213,9 +231,23 @@ Boomerang Default Styles
   border: none;
   cursor: pointer;
 }
+#boomerang-form-wrapper #boomerang-form #bf-footer #bf-submit:hover {
+  opacity: 0.75;
+}
 #boomerang-form-wrapper #boomerang-form #bf-footer #bf-submit #bf-spinner {
   vertical-align: sub;
   margin-left: 10px;
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding {
+  font-size: 12px;
+  color: #aaaaaa;
+  margin: 10px auto;
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding a {
+  color: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding a:hover {
+  opacity: 0.75;
 }
 #boomerang-form-wrapper #boomerang-form #bf-footer #bf-result {
   text-align: center;

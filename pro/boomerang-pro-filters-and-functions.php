@@ -10,6 +10,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Checks to see if a Google reCAPTCHA is enabled for our board.
+ *
+ * @param $board
+ *
+ * @return false|mixed
+ */
+function boomerang_board_recaptcha_enabled( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_recaptcha'] ?? false;
+}
+
+/** Locked (private) Boomerangs ***************************************************************************************/
+
+/**
  * Add a banner to top of Boomerangs to warn that Boomerang is locked.
  *
  * @param $post

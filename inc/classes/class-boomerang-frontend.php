@@ -28,6 +28,7 @@ class Boomerang_Frontend {
 	public function init_hooks() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'wp_ajax_save_boomerang', array( $this, 'save_boomerang' ) );
+		add_action( 'wp_ajax_nopriv_save_boomerang', array( $this, 'save_boomerang' ) );
 		add_action( 'wp_ajax_process_admin_action', array( $this, 'process_admin_action' ) );
 		add_action( 'wp_ajax_process_filter', array( $this, 'process_filter' ) );
 		add_action( 'wp_ajax_nopriv_process_filter', array( $this, 'process_filter' ) );
@@ -216,7 +217,23 @@ class Boomerang_Frontend {
 			'comment_status' => 'open',
 		);
 
-		$post_id = wp_insert_post( $args );
+		do_action( 'boomerang_new_boomerang_before_save', $args );
+
+		// Final check the current user can submit
+		$can_submit = boomerang_can_user_submit( $board, get_current_user_id() );
+		if ( is_array( $can_submit ) ) {
+			// User cannot submit
+			$error = new \WP_Error(
+				'Boomerang: User Cannot Submit',
+				esc_html( $can_submit['message'] )
+			);
+
+			wp_send_json_error( $error );
+
+			wp_die();
+		}
+
+		$post_id = wp_insert_post( $args, true );
 
 		if ( isset( $tags ) ) {
 			wp_set_post_terms( $post_id, $tags, 'boomerang_tag' );
@@ -253,7 +270,7 @@ class Boomerang_Frontend {
 			}
 		}
 
-		do_action( 'boomerang_new_boomerang', $post_id );
+		do_action( 'boomerang_new_boomerang', $post_id, $board );
 
 		if ( 'publish' === $post_status ) {
 			$message = __( 'Saved!', 'boomerang' );
