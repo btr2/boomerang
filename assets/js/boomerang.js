@@ -52,6 +52,19 @@ jQuery(document).ready(function ($) {
                 fd.append("boomerang_hp", hp);
             }
 
+            if ($form.find('.acf-fields').length ) {
+                let a = {};
+                $('.acf-field').each(function (index) {
+                    index = $(this);
+                    let field_key = index.attr('data-key');
+                    var field = acf.getField(field_key);
+                    var value = field.val();
+                    a[field_key] = value;
+                })
+                let arr = JSON.stringify(a);
+                fd.append( 'acf', arr );
+            }
+
             fd.append( 'g-recaptcha-response', token)
             fd.append("title", title);
             fd.append("content", content);
@@ -146,7 +159,17 @@ jQuery(document).ready(function ($) {
                     if (!response.success) {
 
                     } else {
-                        $(e).parents('.votes-container').html(response.data.content);
+                        let boomerang = $(e).parents('.boomerang');
+                        $(e).parents('.votes-container-outer').html(response.data.content);
+                        let result = boomerang.find('.boomerang-messages-container');
+                        result.html(response.data.message);
+                        result.show();
+                        setTimeout(
+                            function () {
+                                result.fadeOut();
+                            },
+                            3000
+                        );
                     }
                 }
             }
@@ -409,6 +432,8 @@ jQuery(document).ready(function ($) {
     if ($('.private-note-toggle input').is(':checked')) {
         console.log('clicked');
     }
+
+    var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
 
 
 });

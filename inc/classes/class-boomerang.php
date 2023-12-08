@@ -62,6 +62,7 @@ class Boomerang {
 				require BOOMERANG_PATH . '/pro/boomerang-google-captcha.php';
 			}
 			require BOOMERANG_PATH . '/pro/boomerang-guest-submissions.php';
+			require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
 		}
 	}
 

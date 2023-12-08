@@ -32,6 +32,10 @@ Fonts
   margin: 0 auto;
 }
 
+.boomerang-messages-container {
+  display: none;
+}
+
 /**
 Styles for the Boomerang Board CPT Default Archive page
  */
@@ -55,7 +59,7 @@ Styles for our primary Boomerang container. The width can be dynamically altered
 /**
 Boomerang Form
  */
-#boomerang-form .boomerang_select, #boomerang-form input, #boomerang-form textarea {
+#boomerang-form .boomerang_select, #boomerang-form input[type=text], #boomerang-form textarea {
   width: 100%;
 }
 #boomerang-form #bf-footer {

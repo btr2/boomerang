@@ -105,6 +105,7 @@ class Boomerang_Frontend {
 		// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
 		$custom_css .= ':root {--boomerang-primary-color:#027AB0;}';
 		$custom_css .= ':root {--boomerang-team-color:#fab347;}';
+		$custom_css .= ':root {--boomerang-container-width:' . esc_attr( boomerang_get_container_width() ) . '}';
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			$options = get_option( 'boomerang_customizer' );
@@ -139,8 +140,6 @@ class Boomerang_Frontend {
 				$custom_css .= ':root {--boomerang-team-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
 			}
 		}
-
-			$custom_css .= '.boomerang-container{width:' . esc_attr( boomerang_get_container_width() ) . ';}';
 
 		return $custom_css;
 	}
@@ -220,7 +219,7 @@ class Boomerang_Frontend {
 		do_action( 'boomerang_new_boomerang_before_save', $args );
 
 		// Final check the current user can submit
-		$can_submit = boomerang_can_user_submit( $board, get_current_user_id() );
+		$can_submit = boomerang_user_can_submit( $board, get_current_user_id() );
 		if ( is_array( $can_submit ) ) {
 			// User cannot submit
 			$error = new \WP_Error(
@@ -270,6 +269,10 @@ class Boomerang_Frontend {
 			}
 		}
 
+		if ( isset( $_POST['acf'] ) ) {
+			do_action( 'boomerang_update_acf', $_POST['acf'], $post_id );
+		}
+
 		do_action( 'boomerang_new_boomerang', $post_id, $board );
 
 		if ( 'publish' === $post_status ) {
@@ -279,6 +282,7 @@ class Boomerang_Frontend {
 		}
 
 		$return = array(
+			'id'      => $post_id,
 			'message' => $message,
 			'content' => boomerang_get_boomerangs( $board ),
 		);

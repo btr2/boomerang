@@ -8,7 +8,7 @@ Boomerang Default Styles
   */
   /* HTML5 display-role reset for older browsers */
 }
-.boomerang-container div, .boomerang-container span, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
+.boomerang-container div, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
 .boomerang-container h1, .boomerang-container h2, .boomerang-container h3, .boomerang-container h4, .boomerang-container h5, .boomerang-container h6, .boomerang-container p, .boomerang-container blockquote, .boomerang-container pre,
 .boomerang-container a, .boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
 .boomerang-container del, .boomerang-container dfn, .boomerang-container em, .boomerang-container img, .boomerang-container ins, .boomerang-container kbd, .boomerang-container q, .boomerang-container s, .boomerang-container samp,
@@ -86,6 +86,48 @@ Boomerang Default Styles
 body:not(.logged-in) .votes-container {
   border: 2px solid #e6e7e8;
   padding: 14px;
+}
+
+@media only screen and (min-width: 576px) {
+  .boomerang-container {
+    width: var(--boomerang-container-width);
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-container {
+    width: var(--boomerang-container-width);
+  }
+}
+.boomerang-container .boomerang-messages-container {
+  padding: 10px 20px;
+  position: relative;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 100%;
+  border: 1px solid;
+  color: #ac9a14;
+  border-color: #ac9a14;
+}
+.boomerang-container .boomerang-messages-container:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.1;
+  content: "";
+  background-color: #ac9a14;
+}
+.boomerang-container .boomerang-messages-container p, .boomerang-container .boomerang-messages-container span {
+  color: #ac9a14;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-container .boomerang-messages-container {
+    padding: 20px 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-container .boomerang-messages-container {
+    padding: 20px 40px;
+  }
 }
 
 .board-title {
@@ -217,6 +259,25 @@ body:not(.logged-in) .votes-container {
 }
 #boomerang-form-wrapper #boomerang-form .drop-container.drag-active .drop-title {
   color: #222;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field {
+  padding: 16px 0;
+  border: none;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-range-wrap {
+  display: flex;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-range-wrap input[type=range] {
+  flex: 1;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-color-picker .wp-picker-input-wrap .button {
+  background: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-button-group label.selected {
+  background: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-switch.-on {
+  background: var(--boomerang-primary-color);
 }
 #boomerang-form-wrapper #boomerang-form #bf-footer {
   flex-direction: column;
@@ -439,8 +500,17 @@ Single Boomerang
   color: #000;
 }
 .single-boomerang .boomerang-container #main .boomerang {
-  padding: 0 5%;
   margin: 0;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding: 0 5%;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding: 0 5%;
+  }
 }
 .single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
   padding: 10px 20px;
@@ -589,12 +659,61 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count span {
   color: #a3a3a9;
 }
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container {
+  border-top: 1px solid #e7e7e7;
+  padding: 20px 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #64676B;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container p .acf-label {
+  font-weight: bold;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color {
+  display: flex;
+  align-items: center;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color .acf-color-value {
+  border: 2px solid;
+  padding: 2px 4px;
+  height: 24px;
+  width: 30px;
+  margin-left: 4px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color .acf-color-value-text {
+  height: 24px;
+  border: 2px solid;
+  padding: 0 4px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments div {
+  display: flex;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments a {
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: normal;
+  color: dimgrey;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-tags .boomerang-tag {
   color: #64676b;
   font-size: 14px;
 }
 .single-boomerang .boomerang-container #main .boomerang .entry-footer #comments {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #reply-title {
   margin-bottom: 10px;

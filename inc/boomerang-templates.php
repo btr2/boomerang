@@ -42,12 +42,14 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 				<div class="boomerang-inner">
 				<div class="boomerang-left">
 					<?php if ( boomerang_board_votes_enabled() ) : ?>
-						<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
-							<?php echo boomerang_get_votes_html(); ?>
-						</div>
+					<div class="votes-container-outer">
+						<?php echo boomerang_get_votes_html(); ?>
+					</div>
 					<?php endif; ?>
 				</div>
 				<div class="boomerang-right">
+					<?php do_action( 'boomerang_above_title' ); ?>
+					<div class="boomerang-messages-container"></div>
 					<header class="entry-header">
 						<?php
 						the_title(
@@ -500,13 +502,15 @@ function boomerang_get_votes_html( $post = false ) {
 		return;
 	}
 
-	$html = '';
+	$html = '<div class="votes-container" data-id="' . esc_attr( $post->ID ) . '" data-nonce="' . esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ) . '">';
 
 	$has_voted = boomerang_user_has_voted( get_current_user_id(), $post );
 
 	$count = '<span class="boomerang-vote-count">' . boomerang_get_votes( $post ) . '</span>';
 
-	if ( is_user_logged_in() ) {
+	$can_vote = boomerang_user_can_vote( $post->post_parent, get_current_user_id() );
+
+	if ( true === $can_vote ) {
 		if ( boomerang_google_fonts_disabled() ) {
 			$up   = '<span class="vote-up status-' . $has_voted . ' boomerang-vote">&#x21e7;</span>';
 			$down = '<span class="vote-down status-' . $has_voted . ' boomerang-vote">&#x21e9;</span>';
@@ -522,6 +526,8 @@ function boomerang_get_votes_html( $post = false ) {
 		$html .= $count;
 		$html .= '<span class="logged-out-text">' . esc_html__( 'votes', 'boomerang' ) . '</span>';
 	}
+
+	$html .= '</div>';
 
 	return $html;
 }

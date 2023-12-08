@@ -88,6 +88,14 @@ function add_board_pro_sections( $prefix ) {
 			'fields' => render_guest_fields(),
 		)
 	);
+
+	\CSF::createSection(
+		$prefix,
+		array(
+			'title'  => 'Custom Fields',
+			'fields' => render_custom_fields_section(),
+		)
+	);
 }
 add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_pro_sections' );
 
@@ -97,7 +105,9 @@ add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_
  * @return array
  */
 function render_guest_fields() {
-	$text = '<h3>Guest Submissions</h3><p>Allowing guest submissions means your site visitors don\'t need to create accounts to post new Boomerangs or vote on existing ones. While this offers a quick and efficient experience for your visitors, there are disadvantages, including spam, malicious posts, duplicated statistics and human error. By using some or all of the settings below, you can reduce this. For more information, read our full documentation <a href="https://www.boomerangwp.com/docs">here</a>.</p><p>When you first turn on guest submissions, a new user will be created. You can find this user under the username <i>boomerang_guest</i>. All guest submissions will be attributed to this user.</p>';
+	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+
+	$text = '<h3>Guest Submissions and Voting</h3><p>Allowing guest submissions means your site visitors don\'t need to create accounts to post new Boomerangs or vote on existing ones. While this offers a quick and efficient experience for your visitors, there are disadvantages, including spam, malicious posts, duplicated statistics and human error. By using some or all of the settings below, you can reduce this. For more information, read our full documentation <a href="https://www.boomerangwp.com/docs">here</a>.</p><p>When you first turn on guest submissions, a new user will be created. You can find this user under the username <i>boomerang_guest</i>. All guest submissions will be attributed to this user.</p>';
 
 	if ( username_exists( 'boomerang_guest' ) ) {
 		$user = get_user_by( 'login', 'boomerang_guest' );
@@ -105,6 +115,8 @@ function render_guest_fields() {
 
 		$text .= '<p><i>boomerang_guest</i> has been created, and you can configure them <a href="' . esc_url( $url ) . '">here</a>.';
 	}
+
+	$text .= '<p>If required, the URL parameter for this board is: <i>?boo_auth=' . $post_id . '</i></p>';
 
 	$fields = array();
 
@@ -132,21 +144,38 @@ function render_guest_fields() {
 		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
 	);
 
-	$post_id     = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
-	$params_text = '<i>?boo_auth=' . $post_id . '</i>';
-
-	$fields[] = array(
-		'title'      => esc_html__( 'URL Parameter', 'boomerang' ),
-		'type'       => 'content',
-		'content'    => wp_kses_post( $params_text ),
-		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
-	);
-
 	$fields[] = array(
 		'id'    => 'enable_guest_voting',
 		'type'  => 'switcher',
 		'title' => esc_html__( 'Enable Guest Voting', 'boomerang' ),
 		'desc'  => esc_html__( 'Allow guests to vote on Boomerangs. ' ),
+	);
+
+	$fields[] = array(
+		'id'         => 'enable_guest_voting_criteria',
+		'type'       => 'checkbox',
+		'title'      => esc_html__( 'Guest Voting Criteria', 'boomerang' ),
+		'desc'       => esc_html__( 'Pick any criteria that must be fulfilled, when a guest votes on a Boomerang.' ),
+		'options'    => array(
+			'ip'   => 'Unique IP Address',
+			'time' => 'Time based restrictions',
+		),
+		'dependency' => array( 'enable_guest_voting', '==', 'true' ),
+	);
+
+	$fields[] = array(
+		'id'         => 'guest_vote_time_gap',
+		'type'       => 'radio',
+		'title'      => esc_html__( 'No voting within', 'boomerang' ),
+		'desc'       => esc_html__( 'of the last vote from the same IP address.' ),
+		'default'    => '60',
+		'options'    => array(
+			'1'     => '1 minute',
+			'60'    => '1 hour',
+			'1440'  => '1 day',
+			'10080' => '1 week',
+		),
+		'dependency' => array( 'enable_guest_voting_criteria', '==', 'time' ),
 	);
 
 	return $fields;
@@ -175,9 +204,9 @@ function create_guest_user( $data ) {
 		'description'  => esc_html__( 'A system generated user to hold all Boomerang guest submissions.', 'boomerang' ),
 		'meta_input'   => array(
 			'boomerang_submission_ips' => array(),
-			'boomerang_votes_ips'      => array(),
+			'boomerang_vote_data'      => array(),
 			'boomerang_ids'            => array(),
-			'boomerang_ids_voted_on'   => array(),
+			'boomerang_voted_ips'      => array(),
 		),
 	);
 
@@ -187,3 +216,48 @@ function create_guest_user( $data ) {
 
 }
 add_action( 'csf_boomerang_board_options_save_after', __NAMESPACE__ . '\create_guest_user', 10, 2 );
+
+/**
+ * Render a custom fields section.
+ *
+ * @return array
+ */
+function render_custom_fields_section() {
+	$board  = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+	$fields = array();
+
+	if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) && ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+		$fields[] = array(
+			'type'    => 'content',
+			'content' => 'To get started, blah, blah...',
+		);
+
+		return $fields;
+	}
+
+	$groups = get_posts( array( 'post_type' => 'acf-field-group' ) );
+
+	if ( ! empty( $groups ) ) {
+		$field_group_options = array(
+			'0' => 'Select',
+		);
+		foreach ( $groups as $group ) {
+			$field_group_options[ $group->ID ] = $group->post_title;
+		}
+	}
+
+	$fields[] = array(
+		'id'      => 'field_group',
+		'type'    => 'select',
+		'title'   => esc_html__( 'Field Group', 'boomerang' ),
+		'options' => $field_group_options,
+		'desc'    => sprintf(
+			// translators: %1$s: text 1, %2$s: text 2
+			'%1$s <a href="https://boomerangwp.com/docs/"> %2$s</a>',
+			esc_html__( 'Choose an ACF Field Group to display on the form for this board. Remember to set the location rule so that the post type is equal to Boomerang. For more information, click', 'boomerang' ),
+			esc_html__( 'here', 'boomerang' ),
+		),
+	);
+
+	return $fields;
+}

@@ -39,7 +39,7 @@ $blue: #027AD0;
    License: none (public domain)
 */
 
-  div, span, applet, object, iframe,
+  div, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
   del, dfn, em, img, ins, kbd, q, s, samp,
@@ -115,6 +115,40 @@ body {
     .votes-container {
       border: 2px solid #e6e7e8;
       padding: 14px;
+    }
+  }
+}
+.boomerang-container {
+
+  @include media(large) {
+    width: var(--boomerang-container-width);
+  }
+
+  .boomerang-messages-container {
+    padding: 10px 20px;
+    position: relative;
+    align-items: center;
+    gap: 15px;
+    flex-basis: 100%;
+    border: 1px solid;
+    color: #ac9a14;
+    border-color: #ac9a14;
+
+    &:after {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .1;
+      content: "";
+      background-color: #ac9a14;
+    }
+
+    p, span {
+      color: #ac9a14;
+    }
+
+    @include media(large) {
+      padding: 20px 40px;
     }
   }
 }
@@ -251,6 +285,37 @@ body {
       color: #222;
     }
 
+    .acf-fields {
+      .acf-field {
+        padding: 16px 0;
+        border: none;
+
+        .acf-range-wrap {
+          display: flex;
+
+          input[type=range] {
+            flex: 1;
+          }
+        }
+
+        .acf-color-picker {
+          .wp-picker-input-wrap {
+            .button {
+              background: var(--boomerang-primary-color);
+            }
+          }
+        }
+
+        .acf-button-group label.selected {
+          background: var(--boomerang-primary-color);
+        }
+
+        .acf-switch.-on {
+          background: var(--boomerang-primary-color);
+        }
+      }
+    }
+
     #bf-footer {
       flex-direction: column;
       gap: 0;
@@ -329,10 +394,6 @@ body {
       font-size: 22px;
       font-weight: 600;
     }
-}
-
-.boomerang-container {
-
 }
 
 /**
@@ -532,8 +593,12 @@ Single Boomerang
       }
 
       .boomerang {
-        padding: 0 5%;
+
         margin: 0;
+
+        @include media(large) {
+          padding: 0 5%;
+        }
 
         .pending-banner, .locked-banner {
           padding: 10px 20px;
@@ -678,7 +743,73 @@ Single Boomerang
           }
         }
 
+        .boomerang-acf-container {
+          border-top: 1px solid #e7e7e7;
+          padding: 20px 0;
+
+          p {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #64676B;
+
+            .acf-label {
+              font-weight: bold;
+            }
+          }
+
+          ul {
+            li {
+
+            }
+          }
+
+          .acf-color {
+            display: flex;
+            align-items: center;
+
+            .acf-color-value {
+              border: 2px solid;
+              padding: 2px 4px;
+              height: 24px;
+              width: 30px;
+              margin-left: 4px;
+            }
+
+            .acf-color-value-text {
+              height: 24px;
+              border: 2px solid;
+              padding: 0 4px;
+            }
+          }
+
+
+        }
+
         .entry-footer {
+          .boomerang-attachments {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            div {
+              display: flex;
+              gap: 10px;
+            }
+
+            a {
+              border: 2px solid grey;
+              border-radius: 5px;
+              padding: 2px 4px;
+              font-size: 12px;
+              font-weight: normal;
+              color: dimgrey;
+              display: flex;
+              align-items: center;
+              gap: 5px;
+            }
+          }
+
           .boomerang-tags {
             .boomerang-tag {
               color: #64676b;
@@ -687,7 +818,7 @@ Single Boomerang
           }
 
           #comments {
-            margin-top: 40px;
+            margin-top: 20px;
 
             #reply-title {
               margin-bottom: 10px;

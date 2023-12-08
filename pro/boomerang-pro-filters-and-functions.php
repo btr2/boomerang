@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/** Board Getters *****************************************************************************************************/
+
 /**
  * Checks to see if a Google reCAPTCHA is enabled for our board.
  *
@@ -23,6 +25,145 @@ function boomerang_board_recaptcha_enabled( $post = false  ) {
 
 	return $meta['enable_recaptcha'] ?? false;
 }
+
+/**
+ * Gets the required time gap between votes.
+ *
+ * @param $post
+ *
+ * @return int|mixed
+ */
+function boomerang_board_get_guest_vote_time_gap( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['guest_vote_time_gap'] ?? 60;
+}
+
+/**
+ * Get the form headings from a boards settings screen.
+ *
+ * @param $board
+ *
+ * @return array
+ */
+function boomerang_board_get_form_headings( $board ) {
+	$board = get_post( $board );
+
+	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
+
+	return array(
+		'heading' => $meta['label_form_heading'] ?? '',
+		'subheading' => $meta['label_form_subheading'] ?? '',
+	);
+}
+
+/** Single Boomerangs *************************************************************************************************/
+
+/**
+ * Add a lightbox for our Boomerang attachments.
+ *
+ * @return void
+ */
+function lightbox_enqueues() {
+	if ( is_singular( 'boomerang' ) ) {
+		wp_enqueue_style( 'boomerang-lightbox', BOOMERANG_URL . 'pro/assets/css/simple-lightbox.min.css', null, BOOMERANG_VERSION );
+		wp_enqueue_script(
+			'boomerang-lightbox',
+			BOOMERANG_URL . 'pro/assets/js/simple-lightbox.jquery.min.js',
+			array( 'jquery' ),
+			BOOMERANG_VERSION
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\lightbox_enqueues' );
+
+/**
+ * Add an attachment area under the Boomerang content.
+ *
+ * @param $post
+ *
+ * @return void
+ */
+function attachment_area( $post ) {
+	echo '<div class="boomerang-attachments">';
+
+	do_action( 'boomerang_attachment_area_start', $post );
+
+	$images = get_attached_media( 'image', $post );
+
+	$images = apply_filters( 'boomerang_attachment_images', $images );
+
+	if ( $images ) {
+		echo '<div class="boomerang-image-attachments">';
+
+		do_action( 'boomerang_image_attachment_area_start', $post );
+
+		foreach ( $images as $image ) {
+			echo '<a href="' . esc_url( wp_get_attachment_url( $image->ID, 'full' ) ) . '">';
+
+			if ( ! boomerang_google_fonts_disabled() ) {
+				echo '<span class="material-symbols-outlined">image</span>';
+			}
+
+			esc_html_e( basename( get_attached_file( $image->ID ) ) );
+			echo '</a>';
+		}
+
+		do_action( 'boomerang_image_attachment_area_end', $post );
+
+		echo '</div>';
+	}
+
+	$files = get_attached_media( 'application', $post );
+
+	$files = apply_filters( 'boomerang_attachment_files', $files );
+
+	if ( $files ) {
+		echo '<div class="boomerang-file-attachments">';
+
+		do_action( 'boomerang_file_attachment_area_start', $post );
+
+		foreach ( $files as $file ) {
+			echo '<a href="' . esc_url( wp_get_attachment_url( $file->ID, 'full' ) ) . '">';
+
+			if ( ! boomerang_google_fonts_disabled() ) {
+				echo '<span class="material-symbols-outlined">attach_file</span>';
+			}
+
+			esc_html_e( basename( get_attached_file( $file->ID ) ) );
+			echo '</a>';
+		}
+
+		do_action( 'boomerang_file_attachment_area_end', $post );
+
+		echo '</div>';
+	}
+
+
+	do_action( 'boomerang_attachment_area_end', $post );
+
+	echo '</div>';
+}
+add_action( 'boomerang_single_boomerang_footer_start', __NAMESPACE__ . '\attachment_area' );
+
+/** Boomerang Form ****************************************************************************************************/
+
+/**
+ * Display headings at the top of a Boomerang form.
+ *
+ * @param $board
+ *
+ * @return void
+ */
+function add_form_headings( $board ) {
+	$headings = boomerang_board_get_form_headings( $board );
+
+	echo '<h2 class="boomerang-form-heading">' . esc_html( $headings['heading'] ) . '</h2>';
+	echo '<h3 class="boomerang-form-subheading">' . esc_html( $headings['subheading'] ) . '</h3>';
+}
+add_action( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_form_headings' );
 
 /** Locked (private) Boomerangs ***************************************************************************************/
 

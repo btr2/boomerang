@@ -302,7 +302,7 @@ function boomerang_get_post( $post = false ) {
  *
  * @return mixed
  */
-function boomerang_can_user_submit( $board, $user_id ) {
+function boomerang_user_can_submit( $board, $user_id ) {
 	if ( ! is_user_logged_in() ) {
 		$result = array(
 			'message' => esc_html__( 'You must be logged in to post', 'boomerang' )
@@ -318,7 +318,7 @@ function boomerang_can_user_submit( $board, $user_id ) {
 	 * @param string     $board   The ID of the current board
 	 * @param int        $user_id The user ID of the current user trying to post a Boomerang
 	 */
-	$result = apply_filters( 'boomerang_can_user_submit', $result, $board, $user_id );
+	$result = apply_filters( 'boomerang_user_can_submit', $result, $board, $user_id );
 
 	return $result;
 }
@@ -330,7 +330,7 @@ function boomerang_can_user_submit( $board, $user_id ) {
  *
  * @return mixed
  */
-function boomerang_get_form_labels( $board ) {
+function boomerang_get_labels( $board ) {
 	$board = get_post( $board );
 
 	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
@@ -340,24 +340,8 @@ function boomerang_get_form_labels( $board ) {
 		'content' => $meta['label_content'] ?? 'Content',
 		'tags' => $meta['label_tags'] ?? 'Tags',
 		'submit' => $meta['label_submit'] ?? 'Submit',
-	);
-}
-
-/**
- * Get the form headings from a boards settings screen.
- *
- * @param $board
- *
- * @return mixed
- */
-function boomerang_get_form_headings__premium_only( $board ) {
-	$board = get_post( $board );
-
-	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
-
-	return array(
-		'heading' => $meta['label_form_heading'] ?? '',
-		'subheading' => $meta['label_form_subheading'] ?? '',
+		'already_voted' => $meta['message_already_voted'] ?? 'You have already voted',
+		'message_vote_recorded' => $meta['message_vote_recorded'] ?? 'Thank you for your vote',
 	);
 }
 
@@ -406,4 +390,34 @@ function boomerang_board_new_boomerang_email_addresses( $post = false ) {
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['admin_email'] ?? false;
+}
+
+/** Voting **/
+
+/**
+ * Checks to see if the current user can vote on Boomerangs.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_user_can_vote( $board, $user_id ) {
+	if ( ! is_user_logged_in() ) {
+		$result = array(
+			'message' => esc_html__( 'You must be logged in to vote', 'boomerang' )
+		);
+	} else {
+		$result = true;
+	}
+
+	/**
+	 * Filter the result.
+	 *
+	 * @param true|array $result  The result to pass and filter
+	 * @param string     $board   The ID of the current board
+	 * @param int        $user_id The user ID of the current user trying to vote
+	 */
+	$result = apply_filters( 'boomerang_user_can_vote', $result, $board, $user_id );
+
+	return $result;
 }

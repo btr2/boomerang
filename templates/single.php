@@ -25,12 +25,14 @@ get_header(); ?>
 					<?php do_action( 'boomerang_single_boomerang_start', $post ); ?>
 					<div class="boomerang-left">
 						<?php if ( boomerang_board_votes_enabled() ) : ?>
-							<div class="votes-container" data-id="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_process_vote' ) ); ?>">
-								<?php echo boomerang_get_votes_html(); ?>
-							</div>
+						<div class="votes-container-outer">
+							<?php echo boomerang_get_votes_html(); ?>
+						</div>
 						<?php endif; ?>
 					</div>
 					<div class="boomerang-right">
+						<?php do_action( 'boomerang_above_title' ); ?>
+						<div class="boomerang-messages-container"></div>
 						<header class="entry-header">
 							<?php
 							the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
@@ -68,7 +70,11 @@ get_header(); ?>
 							</div>
 						</div>
 
+						<?php do_action( 'boomerang_single_boomerang_before_footer', $post ); ?>
+
 						<footer class="entry-footer">
+							<?php do_action( 'boomerang_single_boomerang_footer_start', $post ); ?>
+
 							<?php
 							echo wp_kses(
 								boomerang_get_tag_list(),
@@ -86,7 +92,7 @@ get_header(); ?>
 							);
 							?>
 
-							<?php do_action( 'boomerang_single_boomerang_after_footer_meta', $post ); ?>
+							<?php do_action( 'boomerang_single_boomerang_footer_before_comments', $post ); ?>
 
 							<?php
 
@@ -94,6 +100,8 @@ get_header(); ?>
 								comments_template();
 							endif;
 							?>
+
+							<?php do_action( 'boomerang_single_boomerang_footer_end', $post ); ?>
 						</footer><!-- .entry-footer -->
 					</div>
 					<?php do_action( 'boomerang_single_boomerang_end', $post ); ?>

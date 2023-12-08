@@ -229,7 +229,7 @@ class Boomerang_Admin {
 				)
 			);
 
-			apply_filters( 'boomerang_board_settings_section_end', $prefix );
+			do_action( 'boomerang_board_settings_section_end', $prefix );
 		}
 	}
 
@@ -423,6 +423,20 @@ class Boomerang_Admin {
 			'type'    => 'text',
 			'default' => 'Submit',
 			'title'   => esc_html__( 'Label For Submit Button', 'boomerang' ),
+		);
+
+		$settings[] = array(
+			'id'      => 'message_already_voted',
+			'type'    => 'text',
+			'default' => 'You have already voted',
+			'title'   => esc_html__( 'Message if user has already voted', 'boomerang' ),
+		);
+
+		$settings[] = array(
+			'id'      => 'message_vote_recorded',
+			'type'    => 'text',
+			'default' => 'Thank you for your vote',
+			'title'   => esc_html__( 'Message if user has successfully voted', 'boomerang' ),
 		);
 
 		return apply_filters( 'boomerang_board_label_settings', $settings );

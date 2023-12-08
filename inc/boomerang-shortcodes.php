@@ -77,7 +77,12 @@ function render_boomerang_form( $atts ) {
 		$atts
 	);
 
-	$can_submit = boomerang_can_user_submit( $a['board'], get_current_user_id() );
+	add_action( 'wp_head', function () {
+		acf_form_head();
+	}
+);
+
+	$can_submit = boomerang_user_can_submit( $a['board'], get_current_user_id() );
 
 	if ( is_array( $can_submit ) ) {
 		echo '<div id="boomerang-form-wrapper" class="boomerang-container boomerang-form-error ' . esc_attr( get_post_field( 'post_name', get_post( $a['board'] ) ) ) . '" data-board="' . esc_attr( $a['board'] ) . '">';
@@ -87,22 +92,16 @@ function render_boomerang_form( $atts ) {
 		return;
 	}
 
-	$labels = boomerang_get_form_labels( $a['board'] );
+	$labels = boomerang_get_labels( $a['board'] );
 
 	ob_start();
 	?>
 
 	<div id="boomerang-form-wrapper" class="boomerang-container <?php echo esc_attr( get_post_field( 'post_name', get_post( $a['board'] ) ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 		<form id="boomerang-form" method="post" enctype='multipart/form-data' data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-form-nonce' ) ); ?>">
-			<?php
-			if ( boo_fs()->can_use_premium_code__premium_only() ) :
-				$headings = boomerang_get_form_headings__premium_only( $a['board'] );
-				?>
 
-				<h2 class="boomerang-form-heading"><?php echo esc_html( $headings['heading'] ); ?></h2>
-				<h3 class="boomerang-form-subheading"><?php echo esc_html( $headings['subheading'] ); ?></h3>
+			<?php do_action( 'boomerang_form_fields_start', $a['board'] ); ?>
 
-			<?php endif; ?>
 			<fieldset>
 				<label for="title"><?php echo esc_html( $labels['title'] ); ?></label>
 				<input type="text" id="boomerang-title" value="" tabindex="1" size="20" name="title"/>
@@ -177,6 +176,8 @@ function render_boomerang_form( $atts ) {
 				<?php endif; ?>
 
 			<?php endif; ?>
+
+			<?php do_action( 'boomerang_form_fields_end', $a['board'] ); ?>
 
 			<div id="bf-footer">
 				<input name="boomerang_board" id="boomerang-board" type="hidden" value="<?php echo esc_attr( $a['board'] ); ?>">
