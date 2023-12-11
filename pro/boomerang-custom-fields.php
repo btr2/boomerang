@@ -113,11 +113,6 @@ function display_acf( $post ) {
 		return;
 	}
 
-	// TODO Possible Debug?
-	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
-	error_log( print_r($fields, true) );
-
-
 		echo '<div class="boomerang-acf-container">';
 
 		foreach ( $fields as $field ) {

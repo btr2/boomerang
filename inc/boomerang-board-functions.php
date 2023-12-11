@@ -209,7 +209,7 @@ function boomerang_board_date_enabled( $post = false ) {
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
-	return $meta['show_date'] ?? false;
+	return $meta['show_date'] ?? true;
 }
 
 /**

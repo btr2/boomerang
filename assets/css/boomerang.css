@@ -59,6 +59,14 @@ Styles for our primary Boomerang container. The width can be dynamically altered
 /**
 Boomerang Form
  */
+#boomerang-form .boomerang-suggested-ideas-container header {
+  display: flex;
+  justify-content: space-between;
+}
+#boomerang-form .boomerang-suggested-ideas-container header h2 {
+  font-weight: 500;
+  font-size: 12px;
+}
 #boomerang-form .boomerang_select, #boomerang-form input[type=text], #boomerang-form textarea {
   width: 100%;
 }
@@ -241,6 +249,23 @@ Single Boomerang
   flex: 1;
   gap: 20px;
   flex-wrap: wrap;
+}
+.single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
 }
 @media only screen and (min-width: 576px) {
   .single-boomerang .boomerang-container .boomerang {

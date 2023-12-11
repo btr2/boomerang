@@ -155,12 +155,21 @@ body:not(.logged-in) .votes-container {
   text-align: center;
 }
 #boomerang-form-wrapper #boomerang-form {
-  max-width: 640px;
   margin: 20px auto;
   border: 1px solid #ededee;
   border-radius: 10px;
   padding: 20px;
   background: #f3f4f4;
+}
+@media only screen and (min-width: 576px) {
+  #boomerang-form-wrapper #boomerang-form {
+    max-width: 400px;
+  }
+}
+@media only screen and (min-width: large) {
+  #boomerang-form-wrapper #boomerang-form {
+    max-width: 400px;
+  }
 }
 #boomerang-form-wrapper #boomerang-form h2, #boomerang-form-wrapper #boomerang-form h3 {
   text-align: center;
@@ -172,6 +181,118 @@ body:not(.logged-in) .votes-container {
   font-size: 26px;
 }
 #boomerang-form-wrapper #boomerang-form h3 {
+  font-size: 18px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container {
+  display: none;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header {
+  background-color: #f9f9fb;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header h2 {
+  margin: 0;
+  font-size: 14px;
+  color: #0d0d0d;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header span {
+  color: #aaaab4;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list {
+  list-style-type: none;
+  background-color: #fff;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 200px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion {
+  padding: 16px;
+  border-bottom: 1px solid #e5e5ee;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a {
+  text-decoration: none;
+  display: flex;
+  gap: 14px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container {
+  border: 1px solid #e5e5ee;
+  padding: 5px 10px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container span {
+  color: #64676b;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container .boomerang-vote-count {
+  font-size: 20px;
+  line-height: normal;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container .boomerang-vote-label {
+  line-height: normal;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right {
+  overflow: hidden;
+  flex: 1;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .entry-title {
+  text-align: left;
+  color: #0d0d0e;
+  font-size: 16px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .entry-content {
+  font-size: 15px;
+  color: #64676b;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta {
+  display: flex;
+  justify-content: space-between;
+  color: #64676b;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left .avatar {
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left .boomerang-posted-on {
+  font-size: 12px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-status {
+  padding: 0 5px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+  border-radius: 0.1875rem;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-comment-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-comment-count span {
   font-size: 18px;
 }
 #boomerang-form-wrapper #boomerang-form fieldset {
@@ -348,156 +469,12 @@ body:not(.logged-in) .votes-container {
 /**
 Single Boomerang
  */
+.single-boomerang.admin-bar .sl-wrapper .sl-close {
+  margin-top: 0;
+}
 .single-boomerang .boomerang-container #main {
   margin: 0 auto;
   justify-content: space-between;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area {
-  padding: 30px;
-  background-color: #f9f9fb;
-  border-right: 1px solid #e5e5ee;
-  max-height: 600px;
-}
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area {
-    width: 300px;
-    min-height: 300px;
-  }
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading {
-  color: #0d0d0e;
-  font-weight: 600;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
-  color: #aaaab4;
-}
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
-    display: none;
-  }
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
-  margin-top: 10px;
-  gap: 10px;
-}
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
-    margin-top: 30px;
-    gap: 0;
-  }
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
-  border-radius: 5px;
-  padding: 10px;
-  margin-left: -10px;
-  margin-right: -10px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header:hover {
-  background-color: #eeeef1;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .icon {
-  color: #aaaab4;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
-  color: #0d0d0e;
-  font-weight: 600;
-  font-size: 19px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .chevron {
-  color: #64676b;
-  margin-left: auto;
-  transition-property: rotate;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header.open .chevron {
-  rotate: 90deg;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
-  display: none;
-  margin: 10px -10px 20px -10px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset {
-  border: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  gap: 5px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset h4 {
-  color: #0d0d0e;
-  font-weight: 600;
-  font-size: 16px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset p {
-  color: #64676b;
-  font-weight: 400;
-  font-size: 14px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset select, .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input {
-  border: 1px solid #ccc;
-  padding-left: 10px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input[type=submit] {
-  width: 100%;
-  background: #027AD0;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button {
-  background: var(--boomerang-primary-color);
-  color: #fff;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button.icon-only {
-  height: 40px;
-  width: 40px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control.style-2 .control-content fieldset {
-  flex-direction: column;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
-  color: #64676b;
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions {
-  display: flex;
-  gap: 10px;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
-  border: 1px solid #8f9399;
-  border-radius: 5px;
-  height: 40px;
-  width: 40px;
-  color: #8f9399;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
-  border-color: #000;
-  color: #000;
 }
 .single-boomerang .boomerang-container #main .boomerang {
   margin: 0;
@@ -512,7 +489,229 @@ Single Boomerang
     padding: 0 5%;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    width: 300px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
+  padding: 30px;
+  background-color: #f9f9fb;
+  border-right: 1px solid #e5e5ee;
+  height: 600px;
+  max-height: 600px;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
+    min-height: 300px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading span {
+  color: #aaaab4;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading span {
+    display: none;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-inner {
+  margin-top: 10px;
+  gap: 10px;
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-inner {
+    margin-top: 30px;
+    gap: 0;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header:hover {
+  background-color: #eeeef1;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .icon {
+  color: #aaaab4;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 19px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .chevron {
+  color: #64676b;
+  margin-left: auto;
+  transition-property: rotate;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header.open .chevron {
+  rotate: 90deg;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
+  display: none;
+  margin: 10px -10px 20px -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset {
+  border: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset h4 {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 16px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset p {
+  color: #64676b;
+  font-weight: 400;
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset select, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input {
+  border: 1px solid #ccc;
+  padding-left: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input[type=submit] {
+  width: 100%;
+  background: #027AD0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button {
+  background: var(--boomerang-primary-color);
+  color: #fff;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button.icon-only {
+  height: 40px;
+  width: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control.style-2 .control-content fieldset {
+  flex-direction: column;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
+  color: #64676b;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions {
+  display: flex;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border: 1px solid #8f9399;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  color: #8f9399;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
+  border-color: #000;
+  color: #000;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas {
+  margin: 40px 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas h2 {
+  font-weight: 600;
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #555555;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article {
+  margin-top: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header {
+  padding: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a {
+  color: #777777;
+  text-decoration: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a:hover {
+  opacity: 0.75;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a .entry-title {
+  color: #777777;
+  font-weight: 600;
+  text-align: left;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta {
+  color: #64676b;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left {
+  gap: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left .avatar {
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left .boomerang-posted-on {
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-status {
+  font-size: 12px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-comment-count {
+  gap: 5px;
+  font-size: 16px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-comment-count span {
+  font-size: 18px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
   padding: 10px 20px;
   position: relative;
   display: flex;
@@ -521,7 +720,7 @@ Single Boomerang
   flex-basis: 100%;
   border: 1px solid;
 }
-.single-boomerang .boomerang-container #main .boomerang .pending-banner:after, .single-boomerang .boomerang-container #main .boomerang .locked-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner:after, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner:after {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -529,120 +728,121 @@ Single Boomerang
   content: "";
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
     padding: 20px 40px;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang .pending-banner, .single-boomerang .boomerang-container #main .boomerang .locked-banner {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
     padding: 20px 40px;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .pending-banner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner {
   color: red;
   border-color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .pending-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner:after {
   background-color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .pending-banner p, .single-boomerang .boomerang-container #main .boomerang .pending-banner span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner span {
   color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .locked-banner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
   color: var(--boomerang-team-color);
   border-color: var(--boomerang-team-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .locked-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner:after {
   background-color: var(--boomerang-team-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .locked-banner p, .single-boomerang .boomerang-container #main .boomerang .locked-banner span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner span {
   color: var(--boomerang-team-color);
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
 @media only screen and (min-width: 1440px) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding: 0;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header {
   padding: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header .entry-title {
   font-weight: 600;
   text-align: left;
   font-size: 20px;
   margin-bottom: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header .entry-title a {
+  color: #0d0d0e;
   text-decoration: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
   gap: 20px;
   flex-direction: column;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
   flex: 1;
   margin-bottom: 30px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content .entry-content-inner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .entry-content-inner {
   flex: 2;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content p {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content p {
   color: #64676B;
   margin-bottom: 20px;
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
     flex-direction: row;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
     flex: 1;
     margin: 0;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail .wp-post-image {
     margin: 0;
     height: auto;
     width: 100%;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
     flex-direction: row;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
     flex: 1;
     margin: 0;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail .wp-post-image {
     margin: 0;
     height: auto;
     width: 100%;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta {
   padding-bottom: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-by a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
   color: #0d0d0e;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-on {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-on {
   font-size: 14px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-status {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-status {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.375rem;
@@ -652,52 +852,52 @@ Single Boomerang
   border-width: 1px;
   border-radius: 0.1875rem;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count {
   color: #64676b;
   gap: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count span {
   color: #a3a3a9;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container {
   border-top: 1px solid #e7e7e7;
   padding: 20px 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container p {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container p {
   font-size: 14px;
   margin-bottom: 5px;
   color: #64676B;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container p .acf-label {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container p .acf-label {
   font-weight: bold;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color {
   display: flex;
   align-items: center;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color .acf-color-value {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color .acf-color-value {
   border: 2px solid;
   padding: 2px 4px;
   height: 24px;
   width: 30px;
   margin-left: 4px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-acf-container .acf-color .acf-color-value-text {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color .acf-color-value-text {
   height: 24px;
   border: 2px solid;
   padding: 0 4px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments div {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments div {
   display: flex;
   gap: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-attachments a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments a {
   border: 2px solid grey;
   border-radius: 5px;
   padding: 2px 4px;
@@ -708,21 +908,21 @@ Single Boomerang
   align-items: center;
   gap: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-tags .boomerang-tag {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-tags .boomerang-tag {
   color: #64676b;
   font-size: 14px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments {
   margin-top: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #reply-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #reply-title {
   margin-bottom: 10px;
   line-height: normal;
   color: #0d0d0e;
   font-size: 16px;
   font-weight: bold;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.2s;
@@ -734,38 +934,38 @@ Single Boomerang
   flex-direction: column;
   margin: 0 auto 40px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform.private-note {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note {
   border: 2px solid var(--boomerang-team-color);
   box-shadow: 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 4px 6px -1px rgba(var(--boomerang-team-color), 0.75), 0 2px 4px -2px rgba(var(--boomerang-team-color), 0.75);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform.private-note .submit-button-container .form-submit #submit {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note .submit-button-container .form-submit #submit {
   background: var(--boomerang-team-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform.private-note #comment:focus {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note #comment:focus {
   outline: 0;
   box-shadow: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform label {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform label {
   color: #64676b;
   font-size: 12px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .comment-notes {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .comment-notes {
   margin-bottom: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform #comment:focus {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform #comment:focus {
   outline: 0;
   box-shadow: 0 0 3px 0 var(--boomerang-primary-color);
   --formfieldbordercolor: var(--boomerang-primary-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform:not(.logged-out) #comment {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform:not(.logged-out) #comment {
   border: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle {
   display: flex;
   align-items: center;
   /* The switch - the box around the slider */
@@ -773,12 +973,12 @@ Single Boomerang
   /* The slider */
   /* Rounded sliders */
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .private-note-label {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .private-note-label {
   margin-left: 14px;
   color: #64676b;
   font-size: 15px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch {
   position: relative;
   display: inline-block;
   width: 60px;
@@ -786,12 +986,12 @@ Single Boomerang
   margin: 0;
   padding: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch input {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -802,7 +1002,7 @@ Single Boomerang
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider:before {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -813,49 +1013,49 @@ Single Boomerang
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider {
   background-color: var(--boomerang-primary-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:focus + .slider {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider:before {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round {
   border-radius: 34px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round:before {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round:before {
   border-radius: 50%;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .form-submit {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .form-submit {
   margin-left: auto;
   align-self: end;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .submit-button-container .form-submit #submit {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .form-submit #submit {
   text-align: right;
   border-radius: 5px;
   padding: 8px 14px;
   font-size: 16px;
   background: var(--boomerang-primary-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .boomerang-comment-main-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .boomerang-comment-main-title {
   color: #64676b;
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment {
   border: none;
   padding: 20px;
   margin-bottom: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment.private_note {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note {
   position: relative;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment.private_note:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note:after {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -863,52 +1063,55 @@ Single Boomerang
   opacity: 0.1;
   content: "";
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment.private_note .private_note:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private_note:after {
   background: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment.private_note .private-note-label {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private-note-label {
   display: flex;
   align-items: center;
   color: #64676b;
   font-size: 12px;
   margin-bottom: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment.private_note .private-note-label span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private-note-label span {
   font-size: 18px;
   margin-right: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-container .comment-author-avatar {
+  min-width: 36px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body {
   gap: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-author {
   margin-bottom: 12px;
   line-height: normal;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
   line-height: normal;
   color: #0d0d0e;
   font-size: 14px;
   font-weight: bold;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content {
   color: #64676b;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
-  line-height: normal;
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
+  line-height: inherit;
   margin-bottom: 12px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
   display: flex;
   gap: 10px;
   color: #64676b;
   font-size: 12px;
   align-items: center;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
   line-height: normal;
   color: #64676b;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
   text-decoration: underline;
 }
 

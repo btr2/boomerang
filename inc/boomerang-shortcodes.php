@@ -77,11 +77,6 @@ function render_boomerang_form( $atts ) {
 		$atts
 	);
 
-	add_action( 'wp_head', function () {
-		acf_form_head();
-	}
-);
-
 	$can_submit = boomerang_user_can_submit( $a['board'], get_current_user_id() );
 
 	if ( is_array( $can_submit ) ) {
@@ -104,8 +99,10 @@ function render_boomerang_form( $atts ) {
 
 			<fieldset>
 				<label for="title"><?php echo esc_html( $labels['title'] ); ?></label>
-				<input type="text" id="boomerang-title" value="" tabindex="1" size="20" name="title"/>
+				<input data-board="<?php echo esc_attr( $a['board'] ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-title-nonce' ) ); ?>" type="text" id="boomerang-title" value="" tabindex="1" size="20" name="title"/>
 			</fieldset>
+
+			<?php do_action( 'boomerang_form_below_title', $a['board'] ); ?>
 
 			<?php if ( boomerang_board_tags_enabled( $a['board'] ) ) : ?>
 				<fieldset>

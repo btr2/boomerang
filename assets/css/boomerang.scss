@@ -82,6 +82,21 @@ Styles for our primary Boomerang container. The width can be dynamically altered
 Boomerang Form
  */
 #boomerang-form {
+  .boomerang-suggested-ideas-container {
+    //display: none;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+
+
+      h2 {
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+  }
+
   .boomerang_select, input[type=text], textarea {
     width: 100%;
   }
@@ -310,6 +325,22 @@ Single Boomerang
       flex: 1;
       gap: 20px;
       flex-wrap: wrap;
+
+      .boomerang-single-aside {
+
+      }
+
+      .boomerang-single-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 20px;
+        flex-wrap: wrap;
+
+        @include media(large) {
+          flex-direction: row;
+        }
+      }
 
       @include media(large) {
         flex-direction: row;

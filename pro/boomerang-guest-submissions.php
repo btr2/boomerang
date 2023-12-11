@@ -212,12 +212,16 @@ add_filter( 'boomerang_user_can_vote', __NAMESPACE__ . '\open_voting_container',
  * @return array|mixed|true
  */
 function process_guest_voting( $can_vote, $post_id, $user_id ) {
+	if ( is_user_logged_in() ) {
+		return $can_vote;
+	}
+
 	$post = get_post( $post_id );
 	$board = $post->post_parent;
 	$labels = boomerang_get_labels( $board );
 
 	if ( ! boomerang_board_guest_voting_enabled( $board ) ) {
-		return $permission;
+		return $can_vote;
 	}
 
 	// Guest voting enabled. Let's check our criteria.

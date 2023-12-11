@@ -433,7 +433,73 @@ jQuery(document).ready(function ($) {
         console.log('clicked');
     }
 
-    var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
+    if ($('.boomerang-attachments').length) {
+        var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
+    }
+
+    if ($('.boomerang-suggested-ideas-container').length) {
+        $("body").on(
+            "input",
+            "#boomerang-form #boomerang-title",
+            function (e) {
+                processSuggested($(this));
+            }
+        );
+    }
+
+    function processSuggested(e) {
+        let board = e.attr('data-board');
+        let nonce = e.attr("data-nonce");
+        let value = e.val();
+
+        $.ajax(
+            {
+                type: "POST",
+                url: settings.ajaxurl,
+                data: {
+                    action: 'find_suggested_ideas',
+                    nonce: nonce,
+                    board: board,
+                    value: value,
+                    dataType: 'json',
+                },
+                success: function (response) {
+                    if (!response.success) {
+
+                    } else {
+                        if (response.data.content.length) {
+                            $('.boomerang-suggested-ideas-list').html(response.data.content);
+                            console.log(value);
+                            if ( value.length > 1 ) {
+                                $('.boomerang-suggested-ideas-container').show();
+                            } else {
+                                $('.boomerang-suggested-ideas-container').hide();
+                            }
+
+                        } else {
+                            $('.boomerang-suggested-ideas-container').hide();
+                        }
+                    }
+                },
+            }
+        );
+    }
+
+    $("body").on(
+        "click",
+        ".boomerang-suggested-ideas-container header",
+        function (e) {
+            $(this).next('.boomerang-suggested-ideas-list').slideToggle({
+                start: function () {
+                    $(this).css({
+                        display: "flex"
+                    })
+                }
+            });
+
+            $(this).parent().toggleClass('open');
+        }
+    );
 
 
 });

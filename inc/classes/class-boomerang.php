@@ -63,6 +63,11 @@ class Boomerang {
 			}
 			require BOOMERANG_PATH . '/pro/boomerang-guest-submissions.php';
 			require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
+			require BOOMERANG_PATH . '/pro/boomerang-related-boomerangs.php';
+			require BOOMERANG_PATH . '/pro/boomerang-suggested-boomerangs.php';
+
+
+
 		}
 	}
 

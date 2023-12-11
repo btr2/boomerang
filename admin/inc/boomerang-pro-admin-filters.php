@@ -96,6 +96,39 @@ function add_board_pro_sections( $prefix ) {
 			'fields' => render_custom_fields_section(),
 		)
 	);
+
+	\CSF::createSection(
+		$prefix,
+		array(
+			'title'  => 'Other Boomerangs',
+			'fields' => array(
+				array(
+					'id'    => 'enable_related_boomerangs',
+					'type'  => 'switcher',
+					'title' => esc_html__( 'Show Related Boomerangs', 'boomerang' ),
+					'desc'  => esc_html__( 'Display related Boomerangs in the sidebar of a single Boomerang. Helps users to see if someone has already posted something similar.' ),
+				),
+				array(
+					'id'         => 'related_boomerangs_label',
+					'type'       => 'text',
+					'title'      => esc_html__( 'Title for related Boomerang area', 'boomerang' ),
+					'dependency' => array( 'enable_related_boomerangs', '==', 'true' ),
+				),
+				array(
+					'id'    => 'enable_suggested_boomerangs',
+					'type'  => 'switcher',
+					'title' => esc_html__( 'Show Suggested Boomerangs', 'boomerang' ),
+					'desc'  => esc_html__( 'Display suggested Boomerangs when a user types a title into the form. Helps reduce the number of duplicated Boomerangs.' ),
+				),
+				array(
+					'id'         => 'suggested_boomerangs_label',
+					'type'       => 'text',
+					'title'      => esc_html__( 'Title for suggested Boomerang area', 'boomerang' ),
+					'dependency' => array( 'enable_suggested_boomerangs', '==', 'true' ),
+				),
+			),
+		)
+	);
 }
 add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_pro_sections' );
 

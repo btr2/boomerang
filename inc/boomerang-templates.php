@@ -319,10 +319,12 @@ function boomerang_get_status( $post = false ) {
 		$post = get_post();
 	}
 
-	$terms = get_the_terms( $post->ID, 'boomerang_status' );
+	if ( $post ) {
+		$terms = get_the_terms( $post->ID, 'boomerang_status' );
 
-	if ( $terms ) {
-		return $terms[0]->name;
+		if ( $terms ) {
+			return $terms[0]->name;
+		}
 	}
 }
 
@@ -379,18 +381,22 @@ function boomerang_get_status_color( $post ) {
  *
  * @return void
  */
-function boomerang_posted_on() {
-	if ( ! boomerang_board_date_enabled() ) {
+function boomerang_posted_on( $post = false ) {
+	if ( ! $post ) {
+		$post = get_post();
+	}
+
+	if ( ! boomerang_board_date_enabled( $post->post_parent ) ) {
 		return;
 	}
 
 	$datetime = esc_attr( get_the_date( DATE_W3C ) );
 
-	if ( boomerang_board_friendly_date_enabled() ) {
+	if ( boomerang_board_friendly_date_enabled( $post->post_parent ) ) {
 		$formatted_time = sprintf(
 		/* translators: time */
 			__( '%s ago', 'boomerang' ),
-			human_time_diff( get_the_time( 'U' ), strtotime( wp_date( 'Y-m-d H:i:s' ) ) )
+			human_time_diff( get_the_time( 'U', $post ), strtotime( wp_date( 'Y-m-d H:i:s' ) ) )
 		);
 	} else {
 		$formatted_time = sprintf(
@@ -410,8 +416,12 @@ function boomerang_posted_on() {
  *
  * @return void
  */
-function boomerang_posted_by() {
-	if ( ! boomerang_board_author_enabled() ) {
+function boomerang_posted_by( $post = false ) {
+	if ( ! $post ) {
+		$post = get_post();
+	}
+
+	if ( ! boomerang_board_author_enabled( $post->post_parent ) ) {
 		return;
 	}
 
@@ -435,7 +445,7 @@ function boomerang_get_comments_count_html( $post = false ) {
 		$post = get_post();
 	}
 
-	$count = apply_filters( 'boomerang_comments_count', get_comments_number(), $post );
+	$count = apply_filters( 'boomerang_comments_count', get_comments_number( $post ), $post );
 
 	if ( boomerang_google_fonts_disabled() ) {
 		printf(
@@ -459,6 +469,8 @@ function boomerang_thumbnail() {
 	}
 	?>
 
+	<?php if ( has_post_thumbnail() ) : ?>
+
 	<?php if ( is_singular() ) : ?>
 
 		<figure class="post-thumbnail">
@@ -481,6 +493,8 @@ function boomerang_thumbnail() {
 				<figcaption class="wp-caption-text"><?php echo wp_kses_post( wp_get_attachment_caption( get_post_thumbnail_id() ) ); ?></figcaption>
 			<?php endif; ?>
 		</figure><!-- .post-thumbnail -->
+
+	<?php endif; ?>
 
 	<?php endif; ?>
 	<?php
