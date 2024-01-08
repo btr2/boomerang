@@ -293,6 +293,54 @@ function boomerang_get_post( $post = false ) {
 	return $post;
 }
 
+/** Labels ************************************************************************************************************/
+
+/**
+ * Get the form labels from a boards settings screen.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_get_labels( $board ) {
+	$board = get_post( $board );
+
+	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
+
+	return array(
+		'singular' =>$meta['label_singular'] ?? 'feature request',
+		'plural' =>$meta['label_plural'] ?? 'feature requests',
+		'title' => $meta['label_title'] ?? 'Title',
+		'content' => $meta['label_content'] ?? 'Content',
+		'tags' => $meta['label_tags'] ?? 'Tags',
+		'submit' => $meta['label_submit'] ?? 'Submit',
+		'already_voted' => $meta['message_already_voted'] ?? 'You have already voted',
+		'message_vote_recorded' => $meta['message_vote_recorded'] ?? 'Thank you for your vote',
+	);
+}
+
+/**
+ * Gets the singular form of a board's name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_singular( $board ) {
+	return boomerang_get_labels( $board )['singular'];
+}
+
+/**
+ * Gets the plural form of a board's name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_plural( $board ) {
+	return boomerang_get_labels( $board )['plural'];
+}
+
 /** Boomerang Form ****************************************************************************************************/
 
 /**
@@ -321,28 +369,6 @@ function boomerang_user_can_submit( $board, $user_id ) {
 	$result = apply_filters( 'boomerang_user_can_submit', $result, $board, $user_id );
 
 	return $result;
-}
-
-/**
- * Get the form labels from a boards settings screen.
- *
- * @param $board
- *
- * @return mixed
- */
-function boomerang_get_labels( $board ) {
-	$board = get_post( $board );
-
-	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
-
-	return array(
-		'title' => $meta['label_title'] ?? 'Title',
-		'content' => $meta['label_content'] ?? 'Content',
-		'tags' => $meta['label_tags'] ?? 'Tags',
-		'submit' => $meta['label_submit'] ?? 'Submit',
-		'already_voted' => $meta['message_already_voted'] ?? 'You have already voted',
-		'message_vote_recorded' => $meta['message_vote_recorded'] ?? 'Thank you for your vote',
-	);
 }
 
 /**

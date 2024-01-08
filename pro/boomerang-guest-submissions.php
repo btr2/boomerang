@@ -25,6 +25,36 @@ function boomerang_board_guest_boomerangs_enabled( $post = false  ) {
 }
 
 /**
+ * Checks to see if we should ask for a name for guest submissions to our board.
+ *
+ * @param $board
+ *
+ * @return false|mixed
+ */
+function boomerang_board_guest_boomerangs_request_name_enabled( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_guest_boomerangs_name_request'] ?? false;
+}
+
+/**
+ * Checks to see if we should ask for an email address for guest submissions to our board.
+ *
+ * @param $board
+ *
+ * @return false|mixed
+ */
+function boomerang_board_guest_boomerangs_request_email_enabled( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_guest_boomerangs_email_request'] ?? false;
+}
+
+/**
  * Checks to see what criteria is required for guest submissions.
  *
  * @param $board
@@ -68,6 +98,74 @@ function boomerang_board_guest_voting_criteria( $post = false  ) {
 
 	return $meta['enable_guest_voting_criteria'] ?? false;
 }
+
+/** Name and Email **/
+
+/**
+ * Adds a name and email input field to the form if guest submissions enabled and user is a guest.
+ * These will be saved as meta for the Boomerang.
+ *
+ * @param $board
+ *
+ * @return void
+ */
+function add_name_and_email_to_form( $board ) {
+	// If user logged in, or guest subs disabled, just bail.
+	if ( is_user_logged_in() || ! boomerang_board_guest_boomerangs_enabled( $board ) ) {
+		return;
+	}
+
+	if ( boomerang_board_guest_boomerangs_request_name_enabled( $board ) ) : ?>
+		<fieldset>
+			<label for="guest_name"><?php esc_html_e( 'Display Name', 'boomerang' ); ?></label>
+			<input type="text" id="boomerang-guest-name" value="" tabindex="1" size="20" name="guest_name"/>
+		</fieldset>
+	<?php endif;
+
+	if ( boomerang_board_guest_boomerangs_request_email_enabled( $board ) ) : ?>
+		<fieldset>
+			<label for="guest_email"><?php esc_html_e( 'Email Address', 'boomerang' ); ?></label>
+			<input type="text" id="boomerang-guest-email" value="" tabindex="1" size="20" name="guest_email"/>
+		</fieldset>
+	<?php endif;
+}
+add_filter( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_name_and_email_to_form' );
+
+/**
+ * Saves a given guest name or guest email as meta.
+ *
+ * @param $post_id
+ * @param $board
+ *
+ * @return void
+ */
+function save_name_and_email( $post_id, $board ) {
+	if ( ! empty( $_POST['guest_name'] ) ) {
+		update_post_meta( $post_id, 'guest_user_name', sanitize_text_field( $_POST['guest_name'] ) );
+	}
+
+	if ( ! empty( $_POST['guest_email'] ) ) {
+		update_post_meta( $post_id, 'guest_user_email', sanitize_text_field( $_POST['guest_email'] ) );
+	}
+}
+add_action( 'boomerang_new_boomerang', __NAMESPACE__ . '\save_name_and_email', 10, 2 );
+
+function filter_guest_user_name( $string, $post ) {
+	$guest_boomerang = get_post_meta( $post->ID, 'guest_created', true );
+
+	if ( $guest_boomerang ) {
+		$guest_name = get_post_meta( $post->ID, 'guest_user_name', true );
+
+		if ( $guest_name ) {
+			return $guest_name;
+		} else {
+			return get_the_author();
+		}
+	}
+
+	return $string;
+}
+add_filter( 'boomerang_posted_by_string', __NAMESPACE__ . '\filter_guest_user_name', 10, 2 );
 
 /** Query Vars **/
 
@@ -175,9 +273,12 @@ function post_submission_housekeeping( $post_id, $board ) {
 			'post_author' => $guest_user->ID,
 		);
 		wp_update_post( $post_args );
+
+		// Mark Boomerang as guest created.
+		update_post_meta( $post_id, 'guest_created', true );
 	}
 }
-add_filter( 'boomerang_new_boomerang', __NAMESPACE__ . '\post_submission_housekeeping', 10, 2 );
+add_action( 'boomerang_new_boomerang', __NAMESPACE__ . '\post_submission_housekeeping', 10, 2 );
 
 /** Voting ************************************************************************************************************/
 

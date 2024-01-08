@@ -10,7 +10,7 @@ Boomerang Default Styles
 }
 .boomerang-container div, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
 .boomerang-container h1, .boomerang-container h2, .boomerang-container h3, .boomerang-container h4, .boomerang-container h5, .boomerang-container h6, .boomerang-container p, .boomerang-container blockquote, .boomerang-container pre,
-.boomerang-container a, .boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
+.boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
 .boomerang-container del, .boomerang-container dfn, .boomerang-container em, .boomerang-container img, .boomerang-container ins, .boomerang-container kbd, .boomerang-container q, .boomerang-container s, .boomerang-container samp,
 .boomerang-container small, .boomerang-container strike, .boomerang-container strong, .boomerang-container sub, .boomerang-container sup, .boomerang-container tt, .boomerang-container var,
 .boomerang-container b, .boomerang-container u, .boomerang-container i, .boomerang-container center,
@@ -91,11 +91,13 @@ body:not(.logged-in) .votes-container {
 @media only screen and (min-width: 576px) {
   .boomerang-container {
     width: var(--boomerang-container-width);
+    max-width: 100%;
   }
 }
 @media only screen and (min-width: large) {
   .boomerang-container {
     width: var(--boomerang-container-width);
+    max-width: 100%;
   }
 }
 .boomerang-container .boomerang-messages-container {
@@ -478,20 +480,34 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container #main .boomerang {
   margin: 0;
+  margin-bottom: 60px;
 }
 @media only screen and (min-width: 576px) {
   .single-boomerang .boomerang-container #main .boomerang {
-    padding: 0 5%;
+    padding: 0 15px;
   }
 }
 @media only screen and (min-width: large) {
   .single-boomerang .boomerang-container #main .boomerang {
-    padding: 0 5%;
+    padding: 0 15px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+  order: 1;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    order: 0;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    order: 0;
   }
 }
 @media only screen and (min-width: 860px) {
   .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
-    width: 300px;
+    flex: 0;
   }
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
@@ -625,7 +641,7 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
   border: 1px solid #8f9399;
   border-radius: 5px;
   height: 40px;
@@ -641,8 +657,22 @@ Single Boomerang
   border-color: #000;
   color: #000;
 }
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action.bug {
+  border-color: darkred;
+  color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action.bug:hover {
+  border-color: red;
+  color: red;
+}
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas {
+  width: 300px;
   margin: 40px 0;
+}
+@media screen and (max-width: 960px) and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas {
+    width: 250px;
+  }
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas h2 {
   font-weight: 600;
@@ -711,7 +741,7 @@ Single Boomerang
     flex-direction: row;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
   padding: 10px 20px;
   position: relative;
   display: flex;
@@ -720,7 +750,7 @@ Single Boomerang
   flex-basis: 100%;
   border: 1px solid;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner:after, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner:after {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -728,34 +758,44 @@ Single Boomerang
   content: "";
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
     padding: 20px 40px;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
     padding: 20px 40px;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner {
   color: red;
   border-color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner:after {
   background-color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .pending-banner span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner span {
   color: red;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner {
   color: var(--boomerang-team-color);
   border-color: var(--boomerang-team-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner:after {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner:after {
   background-color: var(--boomerang-team-color);
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .locked-banner span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner span {
   color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner {
+  color: darkred;
+  border-color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner:after {
+  background-color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner span {
+  color: darkred;
 }
 @media only screen and (min-width: 576px) {
   .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
@@ -830,8 +870,40 @@ Single Boomerang
     width: 100%;
   }
 }
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner {
+  margin-bottom: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .campaign-funding-info {
+  margin-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .wpneo-raised-percent {
+  margin-bottom: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .percent-bar-container {
+  flex: 1;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .percent-bar-container .wpneo-raised-bar #neo-progressbar > div {
+  background-color: var(--boomerang-primary-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .contribute-button {
+  background-color: var(--boomerang-primary-color);
+  color: #ffffff;
+  border-radius: 5px;
+  border: none;
+}
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta {
   padding-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #0d0d0e;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;
@@ -841,6 +913,16 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-on {
   font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link {
+  color: #272727;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link span {
+  font-size: 20px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-status {
   padding-top: 0.25rem;
@@ -1114,6 +1196,56 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
   text-decoration: underline;
 }
+.single-boomerang #boomerang-edit-screen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(52, 73, 94, 0.8);
+  z-index: 50;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.7s;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen {
+  background: #fff;
+  padding: 20px;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s ease-out;
+  transform: translateY(45px);
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen h2 {
+  font-size: 24px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset {
+  padding: 0;
+  margin-bottom: 20px;
+  border: none;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen footer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: end;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen footer button {
+  background-color: var(--boomerang-primary-color);
+}
+.single-boomerang #boomerang-edit-screen-modal.active {
+  visibility: visible;
+  opacity: 1;
+}
+.single-boomerang #boomerang-edit-screen-modal.active #boomerang-edit-screen {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /**
 Boomerang Directory
@@ -1128,14 +1260,14 @@ Boomerang Directory
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-.boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
+.boomerang-directory article .boomerang-banner {
   padding: 10px 20px;
   position: relative;
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.boomerang-directory article .pending-banner:after, .boomerang-directory article .locked-banner:after {
+.boomerang-directory article .boomerang-banner:after {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -1143,32 +1275,41 @@ Boomerang Directory
   content: "";
 }
 @media only screen and (min-width: 576px) {
-  .boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
+  .boomerang-directory article .boomerang-banner {
     padding: 20px 40px;
   }
 }
 @media only screen and (min-width: large) {
-  .boomerang-directory article .pending-banner, .boomerang-directory article .locked-banner {
+  .boomerang-directory article .boomerang-banner {
     padding: 20px 40px;
   }
 }
-.boomerang-directory article .pending-banner {
+.boomerang-directory article .boomerang-banner.pending-banner {
   color: red;
 }
-.boomerang-directory article .pending-banner:after {
+.boomerang-directory article .boomerang-banner.pending-banner:after {
   background-color: red;
 }
-.boomerang-directory article .pending-banner p, .boomerang-directory article .pending-banner span {
+.boomerang-directory article .boomerang-banner.pending-banner p, .boomerang-directory article .boomerang-banner.pending-banner span {
   color: red;
 }
-.boomerang-directory article .locked-banner {
+.boomerang-directory article .boomerang-banner.locked-banner {
   color: var(--boomerang-team-color);
 }
-.boomerang-directory article .locked-banner:after {
+.boomerang-directory article .boomerang-banner.locked-banner:after {
   background-color: var(--boomerang-team-color);
 }
-.boomerang-directory article .locked-banner p, .boomerang-directory article .locked-banner span {
+.boomerang-directory article .boomerang-banner.locked-banner p, .boomerang-directory article .boomerang-banner.locked-banner span {
   color: var(--boomerang-team-color);
+}
+.boomerang-directory article .boomerang-banner.bug-banner {
+  color: darkred;
+}
+.boomerang-directory article .boomerang-banner.bug-banner:after {
+  background-color: darkred;
+}
+.boomerang-directory article .boomerang-banner.bug-banner p, .boomerang-directory article .boomerang-banner.bug-banner span {
+  color: darkred;
 }
 .boomerang-directory article .boomerang-inner {
   padding: 20px;
@@ -1206,6 +1347,12 @@ Boomerang Directory
 }
 .boomerang-directory article .boomerang-meta {
   margin-bottom: 20px;
+}
+.boomerang-directory article .boomerang-meta .boomerang-posted-by {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #64676b;
 }
 .boomerang-directory article .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;

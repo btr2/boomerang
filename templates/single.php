@@ -53,6 +53,8 @@ get_header(); ?>
 								<?php boomerang_thumbnail(); ?>
 							</div><!-- .entry-content -->
 
+							<?php do_action( 'boomerang_above_meta', $post ); ?>
+
 							<div class="boomerang-meta">
 								<div class="boomerang-meta-left">
 									<?php if ( boomerang_board_author_enabled() ) : ?>
@@ -61,6 +63,7 @@ get_header(); ?>
 									<?php if ( boomerang_board_date_enabled() ) : ?>
 										<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
 									<?php endif; ?>
+									<?php do_action( 'boomerang_after_meta_left', $post ); ?>
 								</div>
 								<div class="boomerang-meta-right">
 									<?php if ( boomerang_board_statuses_enabled() ) : ?>
@@ -78,7 +81,7 @@ get_header(); ?>
 
 							<footer class="entry-footer">
 								<?php do_action( 'boomerang_single_boomerang_footer_start', $post ); ?>
-
+								<div class="boomerang-tags-container">
 								<?php
 								echo wp_kses(
 									boomerang_get_tag_list(),
@@ -95,7 +98,7 @@ get_header(); ?>
 									)
 								);
 								?>
-
+								</div>
 								<?php do_action( 'boomerang_single_boomerang_footer_before_comments', $post ); ?>
 
 								<?php

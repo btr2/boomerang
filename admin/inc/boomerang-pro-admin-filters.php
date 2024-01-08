@@ -166,6 +166,22 @@ function render_guest_fields() {
 	);
 
 	$fields[] = array(
+		'id'         => 'enable_guest_boomerangs_name_request',
+		'type'       => 'switcher',
+		'title'      => esc_html__( 'Request a Name', 'boomerang' ),
+		'desc'       => esc_html__( 'Allow guests to enter their name. This will replace \'Anonymous User\' for that guest\'s Boomerang' ),
+		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
+	);
+
+	$fields[] = array(
+		'id'         => 'enable_guest_boomerangs_email_request',
+		'type'       => 'switcher',
+		'title'      => esc_html__( 'Request an Email', 'boomerang' ),
+		'desc'       => esc_html__( 'Allow guests to enter an email. ' ),
+		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
+	);
+
+	$fields[] = array(
 		'id'         => 'enable_guest_boomerang_criteria',
 		'type'       => 'checkbox',
 		'title'      => esc_html__( 'Guest Submission Criteria', 'boomerang' ),

@@ -71,6 +71,16 @@ class Boomerang_Frontend {
 			true
 		);
 
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			wp_enqueue_script(
+				'boomerang-pro',
+				BOOMERANG_URL . 'pro/assets/js/boomerang-pro.js',
+				array( 'jquery', 'select2' ),
+				BOOMERANG_VERSION,
+				true
+			);
+		}
+
 		if ( ! boomerang_default_styles_disabled() ) {
 			wp_enqueue_style(
 				'boomerang-default',
@@ -630,13 +640,19 @@ class Boomerang_Frontend {
 		}
 
 		if ( boomerang_can_manage() || is_author( get_current_user_id() ) ) {
-			echo '<div class="pending-banner">';
+			echo '<div class="boomerang-banner pending-banner">';
 
 			if ( ! boomerang_google_fonts_disabled() ) {
 				echo '<span class="material-symbols-outlined">visibility_off</span>';
 			}
 
-			echo '<p>' . esc_html__( 'This Boomerang requires approval.', 'boomerang' ) . '</p>';
+			$text = sprintf(
+			/* translators: %s: Singular form of this board's Boomerang name */
+				__( 'This %s requires approval.', 'boomerang' ),
+				get_singular( $post->post_parent ),
+			);
+
+			echo '<p>' . esc_html( $text ) . '</p>';
 
 			echo '</div>';
 

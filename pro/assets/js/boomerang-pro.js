@@ -1,0 +1,249 @@
+jQuery(document).ready(function ($) {
+
+    $("body").on(
+        "change",
+        ".private-note-toggle input",
+        function (e) {
+            let form = $(this).parents('#commentform');
+            if ($(this).is(':checked')) {
+                console.log('clicked');
+                form.find('#submit').val(settings.note);
+                form.toggleClass('private-note');
+
+            } else {
+                form.find('#submit').val(settings.comment);
+                form.toggleClass('private-note');
+            }
+        }
+    );
+
+    if ($('.private-note-toggle input').is(':checked')) {
+        console.log('clicked');
+    }
+
+    if ($('.boomerang-attachments').length) {
+        var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
+    }
+
+    if ($('.boomerang-suggested-ideas-container').length) {
+        $("body").on(
+            "input",
+            "#boomerang-form #boomerang-title",
+            function (e) {
+                processSuggested($(this));
+            }
+        );
+    }
+
+    function processSuggested(e) {
+        let board = e.attr('data-board');
+        let nonce = e.attr("data-nonce");
+        let value = e.val();
+
+        $.ajax(
+            {
+                type: "POST",
+                url: settings.ajaxurl,
+                data: {
+                    action: 'find_suggested_ideas',
+                    nonce: nonce,
+                    board: board,
+                    value: value,
+                    dataType: 'json',
+                },
+                success: function (response) {
+                    if (!response.success) {
+
+                    } else {
+                        if (response.data.content.length) {
+                            $('.boomerang-suggested-ideas-list').html(response.data.content);
+                            if ( value.length > 1 ) {
+                                $('.boomerang-suggested-ideas-container').show();
+                            } else {
+                                $('.boomerang-suggested-ideas-container').hide();
+                            }
+
+                        } else {
+                            $('.boomerang-suggested-ideas-container').hide();
+                        }
+                    }
+                },
+            }
+        );
+    }
+
+    $("body").on(
+        "click",
+        ".boomerang-suggested-ideas-container header",
+        function (e) {
+            $(this).next('.boomerang-suggested-ideas-list').slideToggle({
+                start: function () {
+                    $(this).css({
+                        display: "flex"
+                    })
+                }
+            });
+
+            $(this).parent().toggleClass('open');
+        }
+    );
+
+    $("body").on(
+        "click",
+        ".boomerang-admin-area #boomerang-crowdfunding-product-submit",
+        function (e) {
+            e.preventDefault();
+
+            let $button = $(this);
+            let container = $button.closest('.boomerang-admin-area');
+            let post_id = container.attr("data-id");
+            let nonce = container.attr("data-nonce");
+            let product = container.find('#boomerang-crowdfunding-products-dropdown').val();
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: settings.ajaxurl,
+                    data: {
+                        action: 'process_crowdfunding_product_submit',
+                        post_id: post_id,
+                        nonce: nonce,
+                        dataType: 'json',
+                        product_id: product,
+                    },
+                    success: function (response) {
+                        if (!response.success) {
+
+                        } else {
+                            location.reload();
+                        }
+                    },
+                }
+            );
+        }
+    );
+
+    $("body").on(
+        "click",
+        ".boomerang .boomerang-edit-link",
+        function (e) {
+            e.preventDefault();
+            $('#boomerang-edit-screen-modal').addClass( 'active' );
+        }
+    );
+
+    if ($('.boomerang_edit_form_tags').length) {
+
+        var edit_tags_select2 = $('.boomerang_edit_form_tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+        });
+
+        let current_tags = $('#boomerang-edit-screen #boomerang-tags').attr('data-selected');
+        edit_tags_select2.val(JSON.parse(current_tags));
+        edit_tags_select2.trigger('change');
+    }
+
+    $("body").on(
+        "click",
+        "#boomerang-edit-screen-modal form #cancel",
+        function (e) {
+            e.preventDefault();
+            $('#boomerang-edit-screen-modal').removeClass( 'active' );
+        }
+    );
+
+    $("body").on(
+        "click",
+        "#boomerang-edit-screen-modal form #submit",
+        function (e) {
+            e.preventDefault();
+            edit_boomerang($(this))
+        }
+    );
+
+    function edit_boomerang(e,token = false) {
+        let $button = $(e);
+        let $form = $button.closest('#boomerang-edit-screen #boomerang-edit-form');
+
+        let nonce = $form.attr("data-nonce");
+        let id = $form.attr("data-id");
+        let title = $form.find('#boomerang-title').val();
+        let content = $form.find('#boomerang-content').val();
+        let tags;
+        let board = $form.attr("data-board");
+
+        let fd = new FormData();
+
+        if ($form.find('#boomerang-tags').length ) {
+            tags = $form.find('#boomerang-tags').val();
+            fd.append("tags", tags);
+        }
+
+        fd.append("ID", id);
+        fd.append("title", title);
+        fd.append("content", content);
+        fd.append("boomerang_edit_nonce", nonce);
+        fd.append("board", board);
+        fd.append('action', 'edit_boomerang');
+
+        $.ajax(
+            {
+                type: "POST",
+                url: settings.ajaxurl,
+                data: fd,
+                processData: false,
+                contentType: false,
+                cache: false,
+
+                success: function (response) {
+                    if (!response.success) {
+
+                    } else {
+                        $('.boomerang-single-content header .entry-title').text(response.data.post.post_title);
+                        $('.boomerang-single-content .entry-content-inner').html(response.data.post.post_content);
+                        $('.boomerang-single-content .boomerang-tags-container').html(response.data.tags);
+                        $('#boomerang-edit-screen-modal').removeClass( 'active' );
+                    }
+                },
+            }
+        );
+
+
+    };
+
+    $("body").on(
+        "click",
+        ".boomerang-admin-area #boomerang_mark_as_bug",
+        function (e) {
+            e.preventDefault();
+
+            let button = $(this);
+            let container = button.closest('.boomerang-admin-area');
+            let post_id = container.attr("data-id");
+            let nonce = container.attr("data-nonce");
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: settings.ajaxurl,
+                    data: {
+                        action: 'process_mark_as_bug',
+                        post_id: post_id,
+                        nonce: nonce,
+                        dataType: 'json',
+                    },
+                    success: function (response) {
+                        if (!response.success) {
+                            console.log(response);
+                        } else {
+                            location.reload();
+                        }
+                    },
+                }
+            );
+        }
+    );
+
+
+});

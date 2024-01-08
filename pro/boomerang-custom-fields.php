@@ -54,7 +54,7 @@ add_action( 'boomerang_form_fields_end', __NAMESPACE__ . '\add_custom_fields' );
  */
 function enqueue_acf_assets() {
 	global $post;
-	if( has_shortcode( $post->post_content, 'boomerang' ) || has_block( 'boomerang-block/shortcode-gutenberg', $post->post_content ) ){
+	if( $post && ( has_shortcode( $post->post_content, 'boomerang' ) || has_block( 'boomerang-block/shortcode-gutenberg', $post->post_content ) ) ){
 		acf_form_head();
 	}
 }

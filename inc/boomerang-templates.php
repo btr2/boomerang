@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function boomerang_get_boomerangs( $board, $args = false ) {
 	$defaults = array(
 		'post_type'      => 'boomerang',
-		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft', 'boomerang_locked' ) : 'publish',
+		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
 		'post_parent'    => $board ?? '',
 		'posts_per_page' => 10,
 		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
@@ -430,7 +430,9 @@ function boomerang_posted_by( $post = false ) {
 		echo get_avatar( $user_email, '36' );
 	}
 
-	echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" rel="author">' . esc_html( get_the_author() ) . '</a>';
+	$posted_by_string = '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" rel="author">' . esc_html( get_the_author() ) . '</a>';
+
+	echo wp_kses_post( apply_filters( 'boomerang_posted_by_string', $posted_by_string, $post ) );
 }
 
 /**
@@ -471,7 +473,7 @@ function boomerang_thumbnail() {
 
 	<?php if ( has_post_thumbnail() ) : ?>
 
-	<?php if ( is_singular() ) : ?>
+		<?php if ( is_singular() ) : ?>
 
 		<figure class="post-thumbnail">
 			<?php
@@ -662,9 +664,14 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 	$GLOBALS['comment'] = $comment;
 
 	if ( ! empty( $comment->user_id ) ) {
-		$user   = get_userdata( $comment->user_id );
-		$author = $user->display_name;
-		$url    = get_author_posts_url( $comment->user_id );
+		$user = get_userdata( $comment->user_id );
+
+		if ( get_comment_meta( $comment->comment_ID, 'system_note', true ) ) {
+			$author = $user->display_name . ' (' . esc_html__( 'system generated', 'boomerang' ) . ')';
+		} else {
+			$author = $user->display_name;
+		}
+		$url = get_author_posts_url( $comment->user_id );
 	}
 
 	$classes = apply_filters( 'boomerang_comment_classes', array(), $comment );

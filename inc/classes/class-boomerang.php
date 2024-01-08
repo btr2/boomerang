@@ -53,6 +53,10 @@ class Boomerang {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-frontend.php';
 		}
 
+		if ( ! class_exists( 'Boomerang_Form' ) ) {
+			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-form.php';
+		}
+
 		$boomerang_frontend = new Boomerang_Frontend();
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
@@ -65,9 +69,13 @@ class Boomerang {
 			require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
 			require BOOMERANG_PATH . '/pro/boomerang-related-boomerangs.php';
 			require BOOMERANG_PATH . '/pro/boomerang-suggested-boomerangs.php';
+			require BOOMERANG_PATH . '/pro/boomerang-edit.php';
+			require BOOMERANG_PATH . '/pro/boomerang-bug-reporting.php';
+			require BOOMERANG_PATH . '/pro/boomerang-audit-log.php';
 
-
-
+			if (is_plugin_active('wp-crowdfunding-pro/wp-crowdfunding-pro.php') || is_plugin_active('wp-crowdfunding/wp-crowdfunding.php')) {
+				require BOOMERANG_PATH . '/pro/boomerang-wp-crowdfunding.php';
+			}
 		}
 	}
 

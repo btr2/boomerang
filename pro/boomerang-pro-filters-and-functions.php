@@ -168,6 +168,21 @@ add_action( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_form_headings' 
 /** Locked (private) Boomerangs ***************************************************************************************/
 
 /**
+ * Checks to see if a Boomerang is locked.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function is_locked( $post = false ) {
+	if ( ! $post ) {
+		$post = get_post();
+	}
+
+	return get_post_meta( $post->ID, 'is_locked', true );
+}
+
+/**
  * Add a banner to top of Boomerangs to warn that Boomerang is locked.
  *
  * @param $post
@@ -175,18 +190,24 @@ add_action( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_form_headings' 
  * @return void
  */
 function add_locked_banner( $post ) {
-	if ( 'boomerang_locked' !== $post->post_status ) {
+	if ( ! is_locked( $post ) ) {
 		return;
 	}
 
 	if ( boomerang_can_manage() ) {
-		echo '<div class="locked-banner">';
+		echo '<div class="boomerang-banner locked-banner">';
 
 		if ( ! boomerang_google_fonts_disabled() ) {
 			echo '<span class="material-symbols-outlined">lock</span>';
 		}
 
-		echo '<p>' . esc_html__( 'This Boomerang is private and only visible to team members.', 'boomerang' ) . '</p>';
+		$text = sprintf(
+		/* translators: %s: Singular form of this board's Boomerang name */
+			__( 'This %s is private and only visible to team members.', 'boomerang' ),
+			get_singular( $post->post_parent ),
+		);
+
+		echo '<p>' . esc_html( $text ) . '</p>';
 
 		echo '</div>';
 
@@ -196,28 +217,53 @@ add_action( 'boomerang_archive_boomerang_start', __NAMESPACE__ . '\add_locked_ba
 add_action( 'boomerang_single_boomerang_start', __NAMESPACE__ . '\add_locked_banner' );
 
 /**
+ * Filter posts so bug reports are only shown to managers and the author.
+ *
+ * @param $post
+ *
+ * @return void
+ */
+function filter_locked_boomerangs( $query ) {
+	if ( 'boomerang' === $query->get( 'post_type' ) ) {
+		if ( ! boomerang_can_manage() ) {
+			$query->set(
+				'meta_query',
+				array(
+					array(
+						'key'     => 'is_locked',
+						'compare' => 'NOT EXISTS',
+					),
+				)
+			);
+		}
+	}
+
+	return $query;
+}
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\filter_locked_boomerangs', 20 );
+
+
+/**
  * Adds a visibility menu item in our frontend admin area.
  *
  * @return false|string
  */
 function add_visibility_control() {
-	$status = get_post_status();
-
-	if ( 'pending' === $status ) {
+	if ( 'pending' === get_post_status() ) {
 		$heading      = __( 'Approve', 'boomerang' );
 		$text         = __( 'Publish this new entry.', 'boomerang' );
 		$button_label = __( 'Approve now', 'boomerang' );
 		$action       = 'publish';
-	} elseif ( 'boomerang_locked' === $status ) {
+	} else if ( is_locked( get_post() ) ) {
 		$heading      = __( 'Unlock', 'boomerang' );
 		$text         = __( 'Make this entry visible to all users.', 'boomerang' );
 		$button_label = __( 'Make public', 'boomerang' );
-		$action       = 'publish';
+		$action       = 'unlock';
 	} else {
 		$heading      = __( 'Lock', 'boomerang' );
 		$text         = __( 'Hide this entry from non-team members.', 'boomerang' );
 		$button_label = __( 'Make private', 'boomerang' );
-		$action       = 'boomerang_locked';
+		$action       = 'lock';
 	}
 
 	ob_start();
@@ -252,51 +298,6 @@ function add_visibility_control() {
 add_action( 'boomerang_admin_controls_end', __NAMESPACE__ . '\add_visibility_control' );
 
 /**
- * Add a 'locked' post status, so we can hide Boomerangs from non-team members.
- *
- * @return void
- */
-function custom_post_status() {
-	register_post_status(
-		'boomerang_locked',
-		array(
-			'label'                     => _x( 'Locked', 'post' ),
-			'public'                    => true,
-			'show_in_admin_all_list'    => false,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Archive <span class="count">(%s)</span>', 'Archive <span class="count">(%s)</span>' ),
-		)
-	);
-}
-add_action( 'init', __NAMESPACE__ . '\custom_post_status' );
-
-/**
- * Adds our new locked status to the admin Boomerang edit screen.
- *
- * @return void
- */
-function add_locked_post_status_to_admin() {
-	global $post;
-	$complete = '';
-	$label    = '';
-	if ( $post->post_type == 'boomerang' ) {
-		if ( $post->post_status == 'locked' ) {
-			$complete = ' selected="selected"';
-			$label    = '<span id="post-status-display"> Locked</span>';
-		}
-		echo '
-          <script>
-          jQuery(document).ready(function($){
-               $("select#post_status").append("<option value=\"archive\" ' . $complete . '>Locked</option>");
-               $(".misc-pub-section label").append("' . $label . '");
-          });
-          </script>
-          ';
-	}
-}
-add_action( 'admin_footer-post.php', __NAMESPACE__ . '\add_locked_post_status_to_admin' );
-
-/**
  * Ajax handler to change post status on frontend admin area.
  *
  * @return void
@@ -318,12 +319,21 @@ function process_post_status_submit() {
 	$the_action = sanitize_text_field( $_POST['the_action'] );
 
 	if ( isset( $the_action ) && isset( $post_id ) ) {
-		wp_update_post(
-			array(
-				'ID'          => $post_id,
-				'post_status' => $the_action,
-			)
-		);
+		if ( 'publish' === $the_action ) {
+			wp_update_post(
+				array(
+					'ID'          => $post_id,
+					'post_status' => 'publish',
+				)
+			);
+		} else if ( 'lock' === $the_action ) {
+			update_post_meta( $post_id, 'is_locked', true );
+			do_action( 'boomerang_locked', $post_id );
+		} else if ( 'unlock' === $the_action ) {
+			delete_post_meta( $post_id, 'is_locked' );
+			do_action( 'boomerang_unlocked', $post_id );
+		}
+
 	}
 
 	$return = array(

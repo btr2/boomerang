@@ -41,7 +41,7 @@ $blue: #027AD0;
 
   div, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-  a, abbr, acronym, address, big, cite, code,
+  abbr, acronym, address, big, cite, code,
   del, dfn, em, img, ins, kbd, q, s, samp,
   small, strike, strong, sub, sup, tt, var,
   b, u, i, center,
@@ -122,6 +122,7 @@ body {
 
   @include media(large) {
     width: var(--boomerang-container-width);
+    max-width: 100%;
   }
 
   .boomerang-messages-container {
@@ -556,15 +557,21 @@ Single Boomerang
       .boomerang {
 
         margin: 0;
+        margin-bottom: 60px;
 
         @include media(large) {
-          padding: 0 5%;
+          padding: 0 15px;
         }
 
         .boomerang-single-aside {
+          order: 1;
+
+          @include media(large) {
+            order: 0;
+          }
 
           @include media(860px) {
-            width: 300px;
+            flex: 0;
           }
 
           .boomerang-admin-area {
@@ -733,7 +740,7 @@ Single Boomerang
                 .boomerang-action {
                   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
                   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
-                  transition-duration: .3s;
+                  transition-duration: .2s;
                   border: 1px solid #8f9399;
                   border-radius: 5px;
                   height: 40px;
@@ -749,13 +756,28 @@ Single Boomerang
                     border-color: #000;
                     color: #000;
                   }
+
+                  &.bug {
+                    border-color: darkred;
+                    color: darkred;
+
+                    &:hover {
+                      border-color: red;
+                      color: red;
+                    }
+                  }
                 }
               }
             }
           }
 
           .boomerang-related-ideas {
+            width: 300px;
             margin: 40px 0;
+
+            @media screen and (max-width: 960px) and (min-width:576px) {
+              width: 250px;
+            }
 
             h2 {
               font-weight: 600;
@@ -839,7 +861,7 @@ Single Boomerang
 
 
 
-          .pending-banner, .locked-banner {
+          .boomerang-banner {
             padding: 10px 20px;
             position: relative;
             display: flex;
@@ -859,33 +881,50 @@ Single Boomerang
             @include media(large) {
               padding: 20px 40px;
             }
-          }
 
-          .pending-banner {
-            color: red;
-            border-color: red;
-
-            &:after {
-              background-color: red;
-            }
-
-            p, span {
+            &.pending-banner {
               color: red;
+              border-color: red;
+
+              &:after {
+                background-color: red;
+              }
+
+              p, span {
+                color: red;
+              }
             }
-          }
 
-          .locked-banner {
-            color: var(--boomerang-team-color);
-            border-color: var(--boomerang-team-color);
-
-            &:after {
-              background-color: var(--boomerang-team-color);
-            }
-
-            p, span {
+            &.locked-banner {
               color: var(--boomerang-team-color);
+              border-color: var(--boomerang-team-color);
+
+              &:after {
+                background-color: var(--boomerang-team-color);
+              }
+
+              p, span {
+                color: var(--boomerang-team-color);
+              }
+            }
+
+            &.bug-banner {
+              color: darkred;
+              border-color: darkred;
+
+              &:after {
+                background-color: darkred;
+              }
+
+              p, span {
+                color: darkred;
+              }
             }
           }
+
+
+
+
 
           @include media(large) {
             padding-left: 20px;
@@ -946,10 +985,54 @@ Single Boomerang
             }
           }
 
+          .boomerang-crowdfunding-panel-container {
+            .boomerang-crowdfunding-panel-inner {
+              margin-bottom: 40px;
+
+              .campaign-funding-info {
+                margin-bottom: 20px;
+              }
+
+              .wpneo-raised-percent {
+                margin-bottom: 10px;
+              }
+
+              .percent-button-container {
+                display: flex;
+                gap: 20px;
+                align-items: end;
+
+                .percent-bar-container {
+                  flex: 1;
+
+                  .wpneo-raised-bar {
+                    #neo-progressbar {
+                      > div {
+                        background-color: var(--boomerang-primary-color);
+                      }
+                    }
+                  }
+                }
+
+                .contribute-button {
+                  background-color: var(--boomerang-primary-color);
+                  color: #ffffff;
+                  border-radius: 5px;
+                  border: none;
+                }
+              }
+            }
+          }
+
           .boomerang-meta {
             padding-bottom: 20px;
 
             .boomerang-posted-by {
+              text-decoration: none;
+              font-weight: bold;
+              font-size: 14px;
+              color: #0d0d0e;
+
               a {
                 text-decoration: none;
                 font-weight: bold;
@@ -960,6 +1043,18 @@ Single Boomerang
 
             .boomerang-posted-on {
               font-size: 14px;
+            }
+
+            .boomerang-edit-link {
+              color: #272727;
+              font-size: 14px;
+              display: flex;
+              align-items: center;
+              gap: 2px;
+
+              span {
+                font-size: 20px;
+              }
             }
 
             .boomerang-status {
@@ -1329,6 +1424,64 @@ Single Boomerang
       }
     }
   }
+
+  #boomerang-edit-screen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(52, 73, 94, 0.8);
+    z-index: 50;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.7s;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #boomerang-edit-screen {
+      background: #fff;
+      padding: 20px;
+      z-index: 100;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.5s ease-out;
+      transform: translateY(45px);
+
+      h2 {
+        font-size: 24px;
+      }
+
+      fieldset {
+        padding: 0;
+        margin-bottom: 20px;
+        border: none;
+      }
+
+      footer {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: end;
+
+        button {
+          background-color: var(--boomerang-primary-color);
+        }
+      }
+    }
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+
+      #boomerang-edit-screen {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
 }
 
 /**
@@ -1345,7 +1498,7 @@ Boomerang Directory
     transition-property: background-color;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
 
-    .pending-banner, .locked-banner {
+    .boomerang-banner {
       padding: 10px 20px;
       position: relative;
       display: flex;
@@ -1363,31 +1516,47 @@ Boomerang Directory
       @include media(large) {
         padding: 20px 40px;
       }
-    }
 
-    .pending-banner {
-      color: red;
-
-      &:after {
-        background-color: red;
-      }
-
-      p, span {
+      &.pending-banner {
         color: red;
+
+        &:after {
+          background-color: red;
+        }
+
+        p, span {
+          color: red;
+        }
       }
-    }
 
-    .locked-banner {
-      color: var(--boomerang-team-color);
-
-      &:after {
-        background-color: var(--boomerang-team-color);
-      }
-
-      p, span {
+      &.locked-banner {
         color: var(--boomerang-team-color);
+
+        &:after {
+          background-color: var(--boomerang-team-color);
+        }
+
+        p, span {
+          color: var(--boomerang-team-color);
+        }
+      }
+
+      &.bug-banner {
+        color: darkred;
+
+        &:after {
+          background-color: darkred;
+        }
+
+        p, span {
+          color: darkred;
+        }
       }
     }
+
+
+
+
 
     .boomerang-inner {
       padding: 20px;
@@ -1430,6 +1599,11 @@ Boomerang Directory
       margin-bottom: 20px;
 
       .boomerang-posted-by {
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        color: #64676b;
+
         a {
           text-decoration: none;
           font-weight: bold;

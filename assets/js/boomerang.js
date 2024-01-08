@@ -32,15 +32,25 @@ jQuery(document).ready(function ($) {
             let nonce = $form.attr("data-nonce");
             let title = $form.find('#boomerang-title').val();
             let content = $form.find('#boomerang-content').val();
-            let tags,featured_image,hp;
+            let guest_name,guest_email,tags,featured_image,hp;
             let board = $form.find('#boomerang-board').val();
 
             let fd = new FormData();
 
-            if ($form.find('#boomerang-tags').length ) {
-                tags = $form.find('#boomerang-tags').val();
-                fd.append("tags", tags);
-            }
+        if ($form.find('#boomerang-tags').length ) {
+            tags = $form.find('#boomerang-tags').val();
+            fd.append("tags", tags);
+        }
+
+        if ($form.find('#boomerang-guest-name').length) {
+            guest_name = $form.find('#boomerang-guest-name').val();
+            fd.append("guest_name", guest_name);
+        }
+
+        if ($form.find('#boomerang-guest-email').length) {
+            guest_email = $form.find('#boomerang-guest-email').val();
+            fd.append("guest_email", guest_email);
+        }
 
             if ($form.find('#boomerang_image_upload').length ) {
                 featured_image = $form.find('#boomerang_image_upload').prop('files')[0];
@@ -104,6 +114,11 @@ jQuery(document).ready(function ($) {
                             result.text(response.data.message);
                             result.show();
                             $form.trigger('reset');
+                            var fields = acf.getFields();
+                            fields.forEach(function(field) {
+                                field.val('');
+
+                            });
                             $form.find($('.boomerang_select')).val('').trigger('change');
                             setTimeout(
                                 function () {
@@ -114,6 +129,7 @@ jQuery(document).ready(function ($) {
                             if ($(".boomerang-directory").length) {
                                 $(".boomerang-directory-list").html(response.data.content);
                             }
+                            $(window).unbind('beforeunload');
                         }
                     },
                 }
@@ -245,7 +261,9 @@ jQuery(document).ready(function ($) {
                                     return (className.match (/(^|\s)boomerang_status-\S+/g) || []).join(' ');
                                 });
                                 $('.boomerang').addClass('boomerang_status-' + response.data.term);
-                                $('.boomerang').find('.boomerang-status').text(response.data.content).show();
+                                $('.boomerang').find('.boomerang-meta .boomerang-status').text(response.data.content).show();
+                                container.find('.boomerang-status .control-header').removeClass('open');
+                                container.find('.boomerang-status .control-content').slideToggle();
                             }
                         }
                     },
@@ -411,95 +429,5 @@ jQuery(document).ready(function ($) {
             fileInput.files = e.dataTransfer.files
         })
     }
-
-    $("body").on(
-        "change",
-        ".private-note-toggle input",
-        function (e) {
-            let form = $(this).parents('#commentform');
-            if ($(this).is(':checked')) {
-                console.log('clicked');
-                form.find('#submit').val(settings.note);
-                form.toggleClass('private-note');
-
-            } else {
-                form.find('#submit').val(settings.comment);
-                form.toggleClass('private-note');
-            }
-        }
-    );
-
-    if ($('.private-note-toggle input').is(':checked')) {
-        console.log('clicked');
-    }
-
-    if ($('.boomerang-attachments').length) {
-        var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
-    }
-
-    if ($('.boomerang-suggested-ideas-container').length) {
-        $("body").on(
-            "input",
-            "#boomerang-form #boomerang-title",
-            function (e) {
-                processSuggested($(this));
-            }
-        );
-    }
-
-    function processSuggested(e) {
-        let board = e.attr('data-board');
-        let nonce = e.attr("data-nonce");
-        let value = e.val();
-
-        $.ajax(
-            {
-                type: "POST",
-                url: settings.ajaxurl,
-                data: {
-                    action: 'find_suggested_ideas',
-                    nonce: nonce,
-                    board: board,
-                    value: value,
-                    dataType: 'json',
-                },
-                success: function (response) {
-                    if (!response.success) {
-
-                    } else {
-                        if (response.data.content.length) {
-                            $('.boomerang-suggested-ideas-list').html(response.data.content);
-                            console.log(value);
-                            if ( value.length > 1 ) {
-                                $('.boomerang-suggested-ideas-container').show();
-                            } else {
-                                $('.boomerang-suggested-ideas-container').hide();
-                            }
-
-                        } else {
-                            $('.boomerang-suggested-ideas-container').hide();
-                        }
-                    }
-                },
-            }
-        );
-    }
-
-    $("body").on(
-        "click",
-        ".boomerang-suggested-ideas-container header",
-        function (e) {
-            $(this).next('.boomerang-suggested-ideas-list').slideToggle({
-                start: function () {
-                    $(this).css({
-                        display: "flex"
-                    })
-                }
-            });
-
-            $(this).parent().toggleClass('open');
-        }
-    );
-
 
 });

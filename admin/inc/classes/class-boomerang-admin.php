@@ -268,6 +268,23 @@ class Boomerang_Admin {
 			'title' => esc_html__( 'Enable Comments', 'boomerang' ),
 			'desc'  => esc_html__( 'This allows users to comment on individual Boomerangs.', 'boomerang' ),
 		);
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			$settings[] = array(
+				'id'    => 'enable_edit',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable Editing', 'boomerang' ),
+				'desc'  => esc_html__( 'This allows users to edit their Boomerangs after submitting.', 'boomerang' ),
+			);
+
+			$settings[] = array(
+				'id'    => 'enable_mark_as_bug',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable Bug Report Management', 'boomerang' ),
+				'desc'  => esc_html__( 'Boomerang is not built as a bug reporting tool, but inevitably people will report bugs using Boomerang. Switch this on if your industry in one that may receive bug reports, and you want them handled smartly.', 'boomerang' ),
+			);
+		}
+
 		$settings[] = array(
 			'id'    => 'enable_tags',
 			'type'  => 'switcher',
@@ -382,6 +399,27 @@ class Boomerang_Admin {
 	 */
 	public function label_settings() {
 		$settings = array();
+
+		$settings[] = array(
+			'id'      => 'label_singular',
+			'type'    => 'text',
+			'default' => 'feature request',
+			'title'   => esc_html__( 'Boomerang Singular Name', 'boomerang' ),
+			'desc'   => esc_html__(
+				'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'boomerang'
+			),
+		);
+		$settings[] = array(
+			'id'      => 'label_plural',
+			'type'    => 'text',
+			'default' => 'feature requests',
+			'title'   => esc_html__( 'Boomerang Plural Name', 'boomerang' ),
+			'desc'   => esc_html__(
+				'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'boomerang'
+			),
+		);
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			$settings[] = array(
