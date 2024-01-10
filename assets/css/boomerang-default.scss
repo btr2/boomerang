@@ -512,6 +512,8 @@ body {
     border: 1px solid #ccc;
     padding: 0 10px;
     height: 40px;
+    display: flex;
+    align-items: center;
   }
 
   #boomerang-search {
@@ -1312,6 +1314,9 @@ Single Boomerang
                       padding: 8px 14px;
                       font-size: 16px;
                       background: var(--boomerang-primary-color);
+                      color: #fff;
+                      border: none;
+                      cursor: pointer;
                     }
                   }
                 }

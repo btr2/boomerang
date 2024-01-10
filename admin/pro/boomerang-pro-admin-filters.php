@@ -89,13 +89,15 @@ function add_board_pro_sections( $prefix ) {
 		)
 	);
 
-	\CSF::createSection(
-		$prefix,
-		array(
-			'title'  => 'Custom Fields',
-			'fields' => render_custom_fields_section(),
-		)
-	);
+	if ( class_exists( 'ACF' ) ) {
+		\CSF::createSection(
+			$prefix,
+			array(
+				'title'  => 'Custom Fields',
+				'fields' => render_custom_fields_section(),
+			)
+		);
+	}
 
 	\CSF::createSection(
 		$prefix,
@@ -140,7 +142,7 @@ add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_
 function render_guest_fields() {
 	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
 
-	$text = '<h3>Guest Submissions and Voting</h3><p>Allowing guest submissions means your site visitors don\'t need to create accounts to post new Boomerangs or vote on existing ones. While this offers a quick and efficient experience for your visitors, there are disadvantages, including spam, malicious posts, duplicated statistics and human error. By using some or all of the settings below, you can reduce this. For more information, read our full documentation <a href="https://www.boomerangwp.com/docs">here</a>.</p><p>When you first turn on guest submissions, a new user will be created. You can find this user under the username <i>boomerang_guest</i>. All guest submissions will be attributed to this user.</p>';
+	$text = '<h3>Guest Submissions and Voting</h3><p>Allowing guest submissions means your site visitors don\'t need to create accounts to post new Boomerangs or vote on existing ones. While this offers a quick and efficient experience for your visitors, there are disadvantages, including spam, malicious posts, duplicated statistics and human error. By using some or all of the settings below, you can reduce this.</p><p>When you first turn on guest submissions, a new user will be created. You can find this user under the username <i>boomerang_guest</i>. All guest submissions will be attributed to this user.</p>';
 
 	if ( username_exists( 'boomerang_guest' ) ) {
 		$user = get_user_by( 'login', 'boomerang_guest' );
@@ -302,7 +304,7 @@ function render_custom_fields_section() {
 		'options' => $field_group_options,
 		'desc'    => sprintf(
 			// translators: %1$s: text 1, %2$s: text 2
-			'%1$s <a href="https://boomerangwp.com/docs/"> %2$s</a>',
+			'%1$s <a href="https://boomerangwp.com/support/"> %2$s</a>',
 			esc_html__( 'Choose an ACF Field Group to display on the form for this board. Remember to set the location rule so that the post type is equal to Boomerang. For more information, click', 'boomerang' ),
 			esc_html__( 'here', 'boomerang' ),
 		),

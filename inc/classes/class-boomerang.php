@@ -65,8 +65,13 @@ class Boomerang {
 			if ( boomerang_get_google_recaptcha_keys__premium_only() ) {
 				require BOOMERANG_PATH . '/pro/boomerang-google-captcha.php';
 			}
+
 			require BOOMERANG_PATH . '/pro/boomerang-guest-submissions.php';
-			require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
+
+			if ( class_exists( 'ACF' ) ) {
+				require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
+			}
+
 			require BOOMERANG_PATH . '/pro/boomerang-related-boomerangs.php';
 			require BOOMERANG_PATH . '/pro/boomerang-suggested-boomerangs.php';
 			require BOOMERANG_PATH . '/pro/boomerang-edit.php';

@@ -69,6 +69,7 @@ Boomerang Form
 }
 #boomerang-form .boomerang_select, #boomerang-form input[type=text], #boomerang-form textarea {
   width: 100%;
+  background-color: #fff;
 }
 #boomerang-form #bf-footer {
   display: flex;

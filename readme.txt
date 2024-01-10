@@ -1,14 +1,14 @@
 === Boomerang ===
-Tags: feature requests, requests, feedback, roadmap, ideas, suggestions, idea board, request board
+Tags: feature requests, requests, feedback, ideas, suggestions, idea board, request board
 Contributors: bouncingsprout
 Requires at least: 5.2
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A slick, modern feature request platform for WordPress.
+A slick, modern feature request and feedback platform for WordPress.
 
 == Description ==
 
@@ -61,5 +61,8 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 
 == Changelog ==
 
+= 1.0.1 =
+* General release
+
 = 1.0.0 =
-* Plugin release
+* Repo release

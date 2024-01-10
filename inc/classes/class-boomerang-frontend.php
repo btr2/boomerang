@@ -337,19 +337,21 @@ class Boomerang_Frontend {
 
 		$post_id = sanitize_text_field( $_POST['post_id'] );
 		$status  = sanitize_text_field( $_POST['status'] );
+		$term = '';
 
 		if ( isset( $status ) ) {
 			if ( '-1' === $status ) {
 				wp_delete_object_term_relationships( $post_id, 'boomerang_status' );
 			} else {
 				wp_set_post_terms( $post_id, $status, 'boomerang_status' );
+				$term = get_term( $status )->slug;
 			}
 		}
 
 		$return = array(
 			'message' => __( 'Status Set', 'boomerang' ),
 			'content' => boomerang_get_status( get_post( $post_id ) ),
-			'term'    => get_term( $status )->slug,
+			'term'    => $term,
 		);
 
 		wp_send_json_success( $return );
@@ -564,7 +566,7 @@ class Boomerang_Frontend {
 		// translators: %1$s: Base for our Boomerang CPT %2$s: Boomerang permalink
 			__( 'A new %1$s has been created. You may review it <a href="%2$s">here</a>.', 'boomerang' ),
 			esc_attr( boomerang_get_base() ),
-			esc_url( get_permalink( $post_id ) ),
+			esc_url( get_permalink( $post_id ) )
 		);
 
 		boomerang_send_email( $to, $subject, $body );
@@ -649,7 +651,7 @@ class Boomerang_Frontend {
 			$text = sprintf(
 			/* translators: %s: Singular form of this board's Boomerang name */
 				__( 'This %s requires approval.', 'boomerang' ),
-				get_singular( $post->post_parent ),
+				get_singular( $post->post_parent )
 			);
 
 			echo '<p>' . esc_html( $text ) . '</p>';

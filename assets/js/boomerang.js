@@ -114,11 +114,13 @@ jQuery(document).ready(function ($) {
                             result.text(response.data.message);
                             result.show();
                             $form.trigger('reset');
-                            var fields = acf.getFields();
-                            fields.forEach(function(field) {
-                                field.val('');
+                            if ($form.find('.acf-fields').length ) {
+                                var fields = acf.getFields();
+                                fields.forEach(function (field) {
+                                    field.val('');
 
-                            });
+                                });
+                            }
                             $form.find($('.boomerang_select')).val('').trigger('change');
                             setTimeout(
                                 function () {
@@ -255,13 +257,20 @@ jQuery(document).ready(function ($) {
 
                         } else {
                             if (null === response.data.content) {
-                                $('.boomerang').find('.boomerang-status').hide();
+                                // $('.boomerang').find('.boomerang-status').hide();
+
+                                $(".boomerang").removeClass (function (index, className) {
+                                    return (className.match (/(^|\s)boomerang_status-\S+/g) || []).join(' ');
+                                });
+                                $('.boomerang').find('.boomerang-single-content .boomerang-meta .boomerang-status').hide();
+                                container.find('.boomerang-status .control-header').removeClass('open');
+                                container.find('.boomerang-status .control-content').slideToggle();
                             } else {
                                 $(".boomerang").removeClass (function (index, className) {
                                     return (className.match (/(^|\s)boomerang_status-\S+/g) || []).join(' ');
                                 });
                                 $('.boomerang').addClass('boomerang_status-' + response.data.term);
-                                $('.boomerang').find('.boomerang-meta .boomerang-status').text(response.data.content).show();
+                                $('.boomerang').find('.boomerang-single-content .boomerang-meta .boomerang-status').text(response.data.content).show();
                                 container.find('.boomerang-status .control-header').removeClass('open');
                                 container.find('.boomerang-status .control-content').slideToggle();
                             }

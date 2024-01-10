@@ -446,6 +446,8 @@ body:not(.logged-in) .votes-container {
   border: 1px solid #ccc;
   padding: 0 10px;
   height: 40px;
+  display: flex;
+  align-items: center;
 }
 #boomerang-board-filters #boomerang-search {
   padding: 0 0 0 10px;
@@ -1122,6 +1124,9 @@ Single Boomerang
   padding: 8px 14px;
   font-size: 16px;
   background: var(--boomerang-primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .boomerang-comment-main-title {
   color: #64676b;

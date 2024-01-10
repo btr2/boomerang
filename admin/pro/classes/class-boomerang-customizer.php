@@ -29,13 +29,13 @@ class Boomerang_Customizer {
 	}
 
 	public function enqueue_customizer_scripts() {
-		wp_enqueue_style( 'boomerang-customizer', BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css', array(), BOOMERANG_VERSION );
+		wp_enqueue_style( 'boomerang-customizer', BOOMERANG_URL . 'admin/pro/assets/css/boomerang-admin.css', array(), BOOMERANG_VERSION );
 	}
 
 	public function enqueue_preview_script() {
 		wp_enqueue_script(
 			'boomerang-customizer',
-			BOOMERANG_URL . 'admin/assets/js/boomerang-customizer.js',
+			BOOMERANG_URL . 'admin/pro/assets/js/boomerang-customizer.js',
 			array( 'jquery', 'customize-preview' ),
 			BOOMERANG_VERSION,
 			true

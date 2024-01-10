@@ -2,8 +2,8 @@
 /**
  * Plugin Name:         Boomerang - Feature Request Platform
  * Plugin URI:          https://www.bouncingsprout.com/
- * Description:         A slick, modern feature request platform for WordPress.
- * Version:             1.0.0
+ * Description:         A slick, modern feature request and feedback platform for WordPress.
+ * Version:             1.0.1
  * Requires at least:   5.2
  * Requires PHP:        7.0
  * Author:              Bouncingsprout Studio
@@ -11,9 +11,8 @@
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:         boomerang
  * Domain Path:         /languages
- * Version:             1.0.0
  *
- * @fs_premium_only /admin/inc/classes/class-boomerang-customizer.php, /inc/boomerang-pro-filters-and-functions.php, /admin/inc/boomerang-pro-admin-filters.php
+ * @fs_premium_only /pro, /admin/pro
  */
 
 namespace Bouncingsprout_Boomerang;
@@ -33,21 +32,23 @@ if ( function_exists( 'boo_fs' ) ) {
 
 			if ( ! isset( $boo_fs ) ) {
 				// Include Freemius SDK.
-				require_once dirname( __FILE__ ) . '/freemius/start.php';
+				require_once dirname(__FILE__) . '/freemius/start.php';
 
 				$boo_fs = fs_dynamic_init( array(
-					'id'              => '14215',
-					'slug'            => 'boomerang',
-					'premium_slug'    => 'boomerang-pro',
-					'type'            => 'plugin',
-					'public_key'      => 'pk_227b2104cb4396d666b43182e1861',
-					'is_premium'      => true,
-					'is_premium_only' => true,
-					'has_addons'      => false,
-					'has_paid_plans'  => true,
-					'menu'            => array(
-						'slug'    => 'edit.php?post_type=boomerang',
-						'support' => false,
+					'id'                  => '14215',
+					'slug'                => 'boomerang',
+					'premium_slug'        => 'boomerang-pro',
+					'type'                => 'plugin',
+					'public_key'          => 'pk_227b2104cb4396d666b43182e1861',
+					'is_premium'          => true,
+					'premium_suffix'      => 'Professional',
+					// If your plugin is a serviceware, set this option to false.
+					'has_premium_version' => true,
+					'has_addons'          => false,
+					'has_paid_plans'      => true,
+					'menu'                => array(
+						'slug'           => 'edit.php?post_type=boomerang',
+						'support'        => false,
 					),
 				) );
 			}
@@ -64,7 +65,7 @@ if ( function_exists( 'boo_fs' ) ) {
 	define( 'BOOMERANG_PATH', plugin_dir_path( __FILE__ ) );
 	define( 'BOOMERANG_URL', plugin_dir_url( __FILE__ ) );
 	define( 'BOOMERANG_BASENAME', plugin_basename( __FILE__ ) );
-	define( 'BOOMERANG_VERSION', '1.0.0' );
+	define( 'BOOMERANG_VERSION', '1.0.1' );
 
 	/**
 	 * Get the plugin's version number.

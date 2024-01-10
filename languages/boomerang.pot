@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Ben Roberts
+# Copyright (C) 2024 Bouncingsprout Studio
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-17T12:28:20+00:00\n"
+"POT-Creation-Date: 2024-01-09T13:22:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: boomerang\n"
@@ -27,253 +27,450 @@ msgid "A slick, modern feature request platform for WordPress."
 msgstr ""
 
 #. Author of the plugin
-msgid "Ben Roberts"
+msgid "Bouncingsprout Studio"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:140
+#: admin/inc/classes/class-boomerang-admin.php:202
 msgid "Disable Google Fonts"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:141
+#: admin/inc/classes/class-boomerang-admin.php:203
 msgid "We use Google Icons inside Boomerang. These icons are locally hosted and are therefore GDPR compliant. However, if you would like to disable these, click the button."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:149
+#: admin/inc/classes/class-boomerang-admin.php:211
 msgid "Disable Boomerang's Own Styles"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:150
+#: admin/inc/classes/class-boomerang-admin.php:212
 msgid "Boomerang has a set of default styles. To disable these, and use your theme's native styles, click this."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:174
+#: admin/inc/classes/class-boomerang-admin.php:238
 msgid "Board Settings"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:198
-msgid "Label For Title Input"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:204
-msgid "Label For Content Input"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:210
-msgid "Label For Tags Input"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:216
-msgid "Label For Submit Button"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:231
+#: admin/inc/classes/class-boomerang-admin.php:267
 msgid "Admin Email"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:232
+#: admin/inc/classes/class-boomerang-admin.php:268
 msgid "Enter an email address to send notifications when Boomerangs are created."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:240
+#: admin/inc/classes/class-boomerang-admin.php:276
 msgid "Send New Boomerang Notification"
 msgstr ""
 
 #. translators: %s: ID of the current board
-#: admin/inc/classes/class-boomerang-admin.php:262
+#: admin/inc/classes/class-boomerang-admin.php:300
 msgid "Shortcode: [boomerang board=\"%s\"]"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:271
+#: admin/inc/classes/class-boomerang-admin.php:309
 msgid "Require Approval"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:272
+#: admin/inc/classes/class-boomerang-admin.php:310
 msgid "If turned on, new Boomerangs will be given the status of pending, and will need to be approved before publication."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:280
+#: admin/inc/classes/class-boomerang-admin.php:318
 msgid "Enable Comments"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:281
+#: admin/inc/classes/class-boomerang-admin.php:319
 msgid "This allows users to comment on individual Boomerangs."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:286
-msgid "Enable Tags"
+#: admin/inc/classes/class-boomerang-admin.php:326
+msgid "Enable Editing"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:287
-msgid "Tags are a convenient way of grouping Boomerangs."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:292
-msgid "Enable Statuses"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:293
-msgid "Statuses may be helpful for organising Boomerang priority."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:298
-msgid "Enable Votes"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:299
-msgid "This allows users to vote on individual Boomerangs."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:304
-msgid "Enable Downvoting"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:305
-msgid "Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:313
-msgid "Show Board Title"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:314
-msgid "Show the board title in the archive view. If using as a shortcode, you may create your own heading instead."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:323
-msgid "Enable Featured Image"
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:324
-msgid "This allows users to upload a picture that helps represent a Boomerang."
-msgstr ""
-
-#: admin/inc/classes/class-boomerang-admin.php:332
-msgid "Show Published Date"
+#: admin/inc/classes/class-boomerang-admin.php:327
+msgid "This allows users to edit their Boomerangs after submitting."
 msgstr ""
 
 #: admin/inc/classes/class-boomerang-admin.php:333
-msgid "This displays the date the Boomerang was created."
+msgid "Enable Bug Report Management"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:338
-msgid "Show Friendly Dates"
+#: admin/inc/classes/class-boomerang-admin.php:334
+msgid "Boomerang is not built as a bug reporting tool, but inevitably people will report bugs using Boomerang. Switch this on if your industry in one that may receive bug reports, and you want them handled smartly."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:339
-msgid "Shows the publication date in a friendly way."
+#: admin/inc/classes/class-boomerang-admin.php:341
+msgid "Enable Tags"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:344
-msgid "Show Author"
+#: admin/inc/classes/class-boomerang-admin.php:342
+msgid "Tags are a convenient way of grouping Boomerangs."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:345
-msgid "This displays the details of the user who created the Boomerangs."
+#: admin/inc/classes/class-boomerang-admin.php:347
+msgid "Enable Statuses"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:350
-msgid "Show Author's Avatar"
+#: admin/inc/classes/class-boomerang-admin.php:348
+msgid "Statuses may be helpful for organising Boomerang priority."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:351
-msgid "Shows the profile picture of the author next to the author's username."
+#: admin/inc/classes/class-boomerang-admin.php:353
+msgid "Enable Votes"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:354
+msgid "This allows users to vote on individual Boomerangs."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:359
+msgid "Enable Downvoting"
 msgstr ""
 
 #: admin/inc/classes/class-boomerang-admin.php:360
+msgid "Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:368
+msgid "Show Board Title"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:369
+msgid "Show the board title in the archive view. If using as a shortcode, you may create your own heading instead."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:378
+msgid "Enable Featured Image"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:379
+msgid "This allows users to upload a picture that helps represent a Boomerang."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:387
+msgid "Show Published Date"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:388
+msgid "This displays the date the Boomerang was created."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:393
+msgid "Show Friendly Dates"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:394
+msgid "Shows the publication date in a friendly way."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:399
+msgid "Show Author"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:400
+msgid "This displays the details of the user who created the Boomerangs."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:405
+msgid "Show Author's Avatar"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:406
+msgid "Shows the profile picture of the author next to the author's username."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:415
 msgid "Show Filters"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:361
+#: admin/inc/classes/class-boomerang-admin.php:416
 msgid "Show a set of filters on a board directory to assist users to find Boomerangs."
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:371
+#: admin/inc/classes/class-boomerang-admin.php:424
+msgid "Enable Honeypot"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:425
+msgid "Adds a honeypot to the form, to block a large amount of spam."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:435
 msgid "Container Width"
 msgstr ""
 
-#: admin/inc/classes/class-boomerang-admin.php:372
+#: admin/inc/classes/class-boomerang-admin.php:436
 msgid "Use this to match the width of Boomerang content with that of your theme."
 msgstr ""
 
-#: inc/boomerang-templates.php:147
-msgid "Sort by"
+#: admin/inc/classes/class-boomerang-admin.php:457
+msgid "Boomerang Singular Name"
 msgstr ""
 
-#: inc/boomerang-templates.php:153
-msgid "Latest"
+#: admin/inc/classes/class-boomerang-admin.php:458
+msgid "Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin."
 msgstr ""
 
-#: inc/boomerang-templates.php:154
-msgid "Popular"
+#: admin/inc/classes/class-boomerang-admin.php:467
+msgid "Boomerang Plural Name"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:468
+msgid "Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin."
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:480
+msgid "A heading for the top of your form"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:487
+msgid "A sub-heading for the top of your form"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:495
+msgid "Label For Title Input"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:501
+msgid "Label For Content Input"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:507
+msgid "Label For Tags Input"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:513
+msgid "Label For Submit Button"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:520
+msgid "Message if user has already voted"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:527
+msgid "Message if user has successfully voted"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:648
+#: admin/inc/classes/class-boomerang-admin.php:660
+msgid "Color"
+msgstr ""
+
+#: admin/inc/classes/class-boomerang-admin.php:652
+#: admin/inc/classes/class-boomerang-admin.php:662
+msgid "A unique color for this Boomerang status"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:30
+msgid "Site Key"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:35
+msgid "Secret Key"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:40
+msgid "Hide Google reCAPTCHA Badge"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:44
+msgid "If you wish to remove the Google reCAPTCHA badge, click here. Boomerang will add the required text to your form. For more information, click"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:45
+#: admin/pro/boomerang-pro-admin-filters.php:307
+msgid "here"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:77
+msgid "Enable Google reCAPTCHA v3"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:108
+msgid "Show Related Boomerangs"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:114
+msgid "Title for related Boomerang area"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:120
+msgid "Show Suggested Boomerangs"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:126
+msgid "Title for suggested Boomerang area"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:164
+msgid "Enable Guest Submission"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:171
+msgid "Request a Name"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:179
+msgid "Request an Email"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:187
+msgid "Guest Submission Criteria"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:199
+msgid "Enable Guest Voting"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:206
+msgid "Guest Voting Criteria"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:218
+msgid "No voting within"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:252
+msgid "Anonymous User"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:253
+msgid "A system generated user to hold all Boomerang guest submissions."
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:301
+msgid "Field Group"
+msgstr ""
+
+#: admin/pro/boomerang-pro-admin-filters.php:306
+msgid "Choose an ACF Field Group to display on the form for this board. Remember to set the location rule so that the post type is equal to Boomerang. For more information, click"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:86
+msgid "Primary Color"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:88
+msgid "Changes the color of buttons, borders and other elements"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:93
+msgid "Private Note Color"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:95
+msgid "Color used for all Private Note functionality"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:114
+msgid "Layout"
+msgstr ""
+
+#: admin/pro/classes/class-boomerang-customizer.php:157
+msgid "Boomerang Archive Page"
+msgstr ""
+
+#: inc/boomerang-board-functions.php:356
+msgid "You must be logged in to post"
+msgstr ""
+
+#: inc/boomerang-board-functions.php:433
+msgid "You must be logged in to vote"
 msgstr ""
 
 #: inc/boomerang-templates.php:155
-msgid "Created by me"
+msgid "Sort by"
 msgstr ""
 
-#: inc/boomerang-templates.php:156
-msgid "Voted on by me"
+#: inc/boomerang-templates.php:161
+msgid "Latest"
 msgstr ""
 
 #: inc/boomerang-templates.php:162
-#: inc/boomerang-templates.php:542
+msgid "Popular"
+msgstr ""
+
+#: inc/boomerang-templates.php:165
+msgid "Random"
+msgstr ""
+
+#: inc/boomerang-templates.php:168
+msgid "Created by me"
+msgstr ""
+
+#: inc/boomerang-templates.php:169
+msgid "Voted on by me"
+msgstr ""
+
+#: inc/boomerang-templates.php:175
+#: inc/boomerang-templates.php:598
 #: inc/classes/class-boomerang-cpt-helper.php:37
 msgid "Status"
 msgstr ""
 
-#: inc/boomerang-templates.php:182
+#: inc/boomerang-templates.php:195
 msgid "tags"
 msgstr ""
 
-#: inc/boomerang-templates.php:203
+#: inc/boomerang-templates.php:214
 msgid "Search"
 msgstr ""
 
 #. translators: time
-#: inc/boomerang-templates.php:361
-#: inc/boomerang-templates.php:639
+#: inc/boomerang-templates.php:398
+#: inc/boomerang-templates.php:711
 msgid "%s ago"
 msgstr ""
 
 #. translators: %s: Publish date.
-#: inc/boomerang-templates.php:367
-#: inc/boomerang-templates.php:645
+#: inc/boomerang-templates.php:404
+#: inc/boomerang-templates.php:717
 msgid "Published %s"
 msgstr ""
 
 #. translators: %s: Publish date.
-#: inc/boomerang-templates.php:412
+#: inc/boomerang-templates.php:455
 msgid "Comments: %d"
 msgstr ""
 
-#: inc/boomerang-templates.php:512
-msgid "Select Status"
-msgstr ""
-
-#: inc/boomerang-templates.php:529
-msgid "Admin"
-msgstr ""
-
-#: inc/boomerang-templates.php:553
-msgid "Submit"
-msgstr ""
-
-#: inc/boomerang-templates.php:561
-msgid "To change statuses, enable them under Board Settings"
+#: inc/boomerang-templates.php:543
+msgid "votes"
 msgstr ""
 
 #: inc/boomerang-templates.php:568
+msgid "Select Status"
+msgstr ""
+
+#: inc/boomerang-templates.php:585
+msgid "Admin"
+msgstr ""
+
+#: inc/boomerang-templates.php:610
+#: pro/boomerang-wp-crowdfunding.php:58
+msgid "Submit"
+msgstr ""
+
+#: inc/boomerang-templates.php:619
+msgid "To change statuses, enable them under Board Settings"
+msgstr ""
+
+#: inc/boomerang-templates.php:626
 msgid "Actions"
 msgstr ""
 
-#: inc/boomerang-templates.php:573
+#: inc/boomerang-templates.php:631
 #: inc/classes/class-boomerang-cpt-helper.php:129
 #: inc/classes/class-boomerang-cpt-helper.php:199
+#: pro/boomerang-edit.php:135
 msgid "Edit"
 msgstr ""
 
-#: inc/boomerang-templates.php:580
+#: inc/boomerang-templates.php:638
 msgid "Delete"
+msgstr ""
+
+#: inc/boomerang-templates.php:670
+msgid "system generated"
 msgstr ""
 
 #. translators: Placeholder %s is the plural label of the boomerang 'status' taxonomy.
@@ -315,10 +512,12 @@ msgstr ""
 #. translators: Placeholder %s is the singular label of the boomerang 'status' taxonomy.
 #. translators: Placeholder %s is the singular label of the boomerang post type.
 #. translators: Placeholder %s is the singular label of the boomerang board post type.
+#. translators: %s: Publish date.
 #: inc/classes/class-boomerang-cpt-helper.php:48
 #: inc/classes/class-boomerang-cpt-helper.php:88
 #: inc/classes/class-boomerang-cpt-helper.php:131
 #: inc/classes/class-boomerang-cpt-helper.php:201
+#: pro/boomerang-edit.php:59
 msgid "Edit %s"
 msgstr ""
 
@@ -383,71 +582,282 @@ msgstr ""
 msgid "No %s found in trash"
 msgstr ""
 
-#: inc/classes/class-boomerang-cpt-helper.php:247
+#: inc/classes/class-boomerang-cpt-helper.php:252
 msgid "Boomerang Board base"
 msgstr ""
 
-#: inc/classes/class-boomerang-cpt-helper.php:255
+#: inc/classes/class-boomerang-cpt-helper.php:260
 msgid "Boomerang base"
 msgstr ""
 
-#: inc/classes/class-boomerang-frontend.php:86
-#: inc/classes/class-boomerang-frontend.php:216
-msgid "Saved!"
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:127
-#: inc/classes/class-boomerang-frontend.php:461
-#: inc/classes/class-boomerang-frontend.php:500
-#: inc/classes/class-boomerang-frontend.php:576
-#: inc/classes/class-boomerang-votes.php:41
-msgid "Something went wrong."
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:151
-msgid "Please enter a title. Titles must be at least three characters long."
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:200
-msgid "Please upload one of the following filetypes: jpg, jpeg, png."
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:218
-msgid "We will process your submission shortly. Thank you!"
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:292
-msgid "You must be logged in to submit. Sorry."
-msgstr ""
-
-#: inc/classes/class-boomerang-frontend.php:360
+#: inc/classes/class-boomerang-form.php:132
 msgid "Drop file here"
 msgstr ""
 
-#: inc/classes/class-boomerang-frontend.php:366
+#: inc/classes/class-boomerang-form.php:138
 msgid "or"
 msgstr ""
 
-#: inc/classes/class-boomerang-frontend.php:377
+#: inc/classes/class-boomerang-form.php:149
 msgid "Choose a file"
 msgstr ""
 
-#: inc/classes/class-boomerang-frontend.php:479
+#: inc/classes/class-boomerang-frontend.php:98
+#: inc/classes/class-boomerang-frontend.php:291
+msgid "Saved!"
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:99
+#: templates/comments.php:28
+msgid "Add comment"
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:100
+msgid "Add private note"
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:171
+#: inc/classes/class-boomerang-frontend.php:182
+#: inc/classes/class-boomerang-frontend.php:332
+#: inc/classes/class-boomerang-frontend.php:372
+#: inc/classes/class-boomerang-frontend.php:452
+#: inc/classes/class-boomerang-votes.php:41
+#: pro/boomerang-bug-reporting.php:79
+#: pro/boomerang-edit.php:153
+#: pro/boomerang-edit.php:164
+#: pro/boomerang-pro-filters-and-functions.php:312
+#: pro/boomerang-suggested-boomerangs.php:94
+#: pro/boomerang-wp-crowdfunding.php:84
+msgid "Something went wrong."
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:206
+msgid "Please enter a title. Titles must be at least three characters long."
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:271
+msgid "Please upload one of the following filetypes: jpg, jpeg, png."
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:293
+msgid "We will process your submission shortly. Thank you!"
+msgstr ""
+
+#: inc/classes/class-boomerang-frontend.php:350
 msgid "Status Set"
 msgstr ""
 
 #. translators: %s: Base for our Boomerang CPT
-#: inc/classes/class-boomerang-frontend.php:684
+#: inc/classes/class-boomerang-frontend.php:560
 msgid "New %s created"
 msgstr ""
 
 #. translators: %1$s: Base for our Boomerang CPT %2$s: Boomerang permalink
-#: inc/classes/class-boomerang-frontend.php:689
+#: inc/classes/class-boomerang-frontend.php:565
 msgid "A new %1$s has been created. You may review it <a href=\"%2$s\">here</a>."
 msgstr ""
 
-#: templates/comments.php:28
-msgid "Add comment"
+#: inc/classes/class-boomerang-frontend.php:594
+msgid "Private note"
+msgstr ""
+
+#. translators: %s: Singular form of this board's Boomerang name
+#: inc/classes/class-boomerang-frontend.php:651
+msgid "This %s requires approval."
+msgstr ""
+
+#: pro/boomerang-audit-log.php:24
+msgid "Marked as a bug"
+msgstr ""
+
+#: pro/boomerang-audit-log.php:27
+msgid "Unmarked as a bug"
+msgstr ""
+
+#: pro/boomerang-audit-log.php:30
+msgid "Locked"
+msgstr ""
+
+#: pro/boomerang-audit-log.php:33
+msgid "Unlocked"
+msgstr ""
+
+#: pro/boomerang-bug-reporting.php:55
+#: pro/boomerang-bug-reporting.php:57
+msgid "Mark as Bug"
+msgstr ""
+
+#: pro/boomerang-bug-reporting.php:100
+msgid "Bug Status Changed"
+msgstr ""
+
+#. translators: %s: Singular form of this board's Boomerang name
+#: pro/boomerang-bug-reporting.php:135
+msgid "This %s has been marked as a bug."
+msgstr ""
+
+#: pro/boomerang-edit.php:102
+msgid "Cancel"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:75
+#: pro/boomerang-google-captcha.php:84
+msgid "There was a problem"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:102
+msgid "This site is protected by reCAPTCHA and the Google"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:103
+msgid "Privacy Policy"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:104
+msgid "and"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:105
+msgid "Terms of Service"
+msgstr ""
+
+#: pro/boomerang-google-captcha.php:106
+msgid "apply"
+msgstr ""
+
+#: pro/boomerang-guest-submissions.php:120
+msgid "Display Name"
+msgstr ""
+
+#: pro/boomerang-guest-submissions.php:127
+msgid "Email Address"
+msgstr ""
+
+#: pro/boomerang-guest-submissions.php:220
+msgid "You have already made a submission"
+msgstr ""
+
+#: pro/boomerang-guest-submissions.php:232
+msgid "You are not able to make a submission"
+msgstr ""
+
+#: pro/boomerang-guest-submissions.php:381
+msgid "You need to wait longer before voting again"
+msgstr ""
+
+#. translators: %s: Singular form of this board's Boomerang name
+#: pro/boomerang-pro-filters-and-functions.php:206
+msgid "This %s is private and only visible to team members."
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:253
+msgid "Approve"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:254
+msgid "Publish this new entry."
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:255
+msgid "Approve now"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:258
+msgid "Unlock"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:259
+msgid "Make this entry visible to all users."
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:260
+msgid "Make public"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:263
+msgid "Lock"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:264
+msgid "Hide this entry from non-team members."
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:265
+msgid "Make private"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:277
+msgid "Visibility"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:340
+msgid "Post Status Set"
+msgstr ""
+
+#: pro/boomerang-pro-filters-and-functions.php:382
+msgid "Private"
+msgstr ""
+
+#: pro/boomerang-suggested-boomerangs.php:152
+msgid "vote"
+msgid_plural "votes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pro/boomerang-wp-crowdfunding.php:39
+msgid "Crowdfunding"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:49
+msgid "Select Crowdfunding Product"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:102
+msgid "Crowdfunding Product Linked"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:157
+msgid "Not Set"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:161
+msgid "Funding Goal"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:165
+msgid "Funds Raised"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:173
+msgid "Days to go"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:176
+msgid "Days Until Launch"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:185
+msgid "Target Goal"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:187
+msgid "Target Date"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:189
+msgid "Goal and Date"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:191
+msgid "Campaign Never Ends"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:195
+msgid "Campaign End Method"
+msgstr ""
+
+#: pro/boomerang-wp-crowdfunding.php:203
+msgid "Raised Percent"
 msgstr ""
 
 #: templates/comments.php:40
