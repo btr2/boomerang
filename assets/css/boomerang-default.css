@@ -922,6 +922,7 @@ Single Boomerang
   display: flex;
   align-items: center;
   gap: 2px;
+  cursor: pointer;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link span {
   font-size: 20px;
@@ -1227,11 +1228,22 @@ Single Boomerang
 }
 .single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen h2 {
   font-size: 24px;
+  margin-bottom: 20px;
 }
 .single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset {
   padding: 0;
   margin-bottom: 20px;
   border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset > input, .single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset textarea {
+  border: 1px solid #000;
+  padding: 10px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset > select {
+  padding: 10px;
 }
 .single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen footer {
   display: flex;

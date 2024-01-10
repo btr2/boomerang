@@ -195,6 +195,11 @@ function boomerang_get_ip() {
 /** Permissions **/
 
 function allow_guest_submissions( $permission, $board, $user_id ) {
+	// Site admins can always post.
+	if ( current_user_can( 'manage_options' ) ) {
+		return true;
+	}
+
 	if ( ! boomerang_board_guest_boomerangs_enabled( $board ) ) {
 		return $permission;
 	}
