@@ -214,6 +214,9 @@ span.material-symbols-outlined {
   flex: 1;
   gap: 10px;
 }
+#boomerang-board-filters fieldset input[type=text], #boomerang-board-filters fieldset select, #boomerang-board-filters fieldset textarea {
+  width: 100%;
+}
 #boomerang-board-filters fieldset label {
   display: flex;
   margin: 0;

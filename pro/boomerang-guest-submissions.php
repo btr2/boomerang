@@ -115,6 +115,8 @@ function add_name_and_email_to_form( $board ) {
 		return;
 	}
 
+	do_action( 'boomerang_above_guest_name_field' );
+
 	if ( boomerang_board_guest_boomerangs_request_name_enabled( $board ) ) : ?>
 		<fieldset>
 			<label for="guest_name"><?php esc_html_e( 'Display Name', 'boomerang' ); ?></label>
@@ -122,12 +124,18 @@ function add_name_and_email_to_form( $board ) {
 		</fieldset>
 	<?php endif;
 
+	do_action( 'boomerang_below_guest_name_field' );
+
+	do_action( 'boomerang_above_guest_email_field' );
+
 	if ( boomerang_board_guest_boomerangs_request_email_enabled( $board ) ) : ?>
 		<fieldset>
 			<label for="guest_email"><?php esc_html_e( 'Email Address', 'boomerang' ); ?></label>
 			<input type="text" id="boomerang-guest-email" value="" tabindex="1" size="20" name="guest_email"/>
 		</fieldset>
 	<?php endif;
+
+	do_action( 'boomerang_below_guest_email_field' );
 }
 add_filter( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_name_and_email_to_form' );
 

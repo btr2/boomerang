@@ -160,6 +160,7 @@ class Boomerang_CPT_Helper {
 						'editor',
 						'thumbnail',
 						'author',
+						'comments',
 					),
 					'has_archive'           => true,
 					'show_in_nav_menus'     => true,

@@ -95,13 +95,14 @@ $blue: #027AD0;
   margin: 0 auto;
 
   .boomerang-container {
+    width: 100%;
     max-width: 100%;
   }
 
   &.horizontal {
     @include media(desktop) {
       flex-direction: row;
-      flex-wrap: wrap;
+      //flex-wrap: wrap;
 
       #boomerang-board-filters {
         margin-top: 0;
@@ -206,6 +207,7 @@ body {
 
     h3 {
       font-size: 18px;
+      line-height: 150%;
     }
 
     .boomerang-suggested-ideas-container {
@@ -351,6 +353,8 @@ body {
       padding: 0;
       margin-bottom: 20px;
     }
+
+
 
     input[type=file] {
       max-width: 100%;
@@ -1178,6 +1182,7 @@ Single Boomerang
                 display: flex;
                 flex-direction: column;
                 margin: 0 auto 40px;
+                gap: 20px;
 
                 &.private-note {
                   border: 2px solid var(--boomerang-team-color);

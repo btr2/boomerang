@@ -284,6 +284,10 @@ span.material-symbols-outlined {
     flex: 1;
     gap: 10px;
 
+    input[type=text], select, textarea {
+      width: 100%;
+    }
+
     label {
       display: flex;
       margin: 0;

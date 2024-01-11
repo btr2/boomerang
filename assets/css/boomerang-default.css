@@ -62,12 +62,12 @@ Boomerang Default Styles
   margin: 0 auto;
 }
 #boomerang-full .boomerang-container {
+  width: 100%;
   max-width: 100%;
 }
 @media only screen and (min-width: 1024px) {
   #boomerang-full.horizontal {
     flex-direction: row;
-    flex-wrap: wrap;
   }
   #boomerang-full.horizontal #boomerang-board-filters {
     margin-top: 0;
@@ -76,7 +76,6 @@ Boomerang Default Styles
 @media only screen and (min-width: desktop) {
   #boomerang-full.horizontal {
     flex-direction: row;
-    flex-wrap: wrap;
   }
   #boomerang-full.horizontal #boomerang-board-filters {
     margin-top: 0;
@@ -184,6 +183,7 @@ body:not(.logged-in) .votes-container {
 }
 #boomerang-form-wrapper #boomerang-form h3 {
   font-size: 18px;
+  line-height: 150%;
 }
 #boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container {
   display: none;
@@ -1018,6 +1018,7 @@ Single Boomerang
   display: flex;
   flex-direction: column;
   margin: 0 auto 40px;
+  gap: 20px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note {
   border: 2px solid var(--boomerang-team-color);

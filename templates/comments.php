@@ -28,7 +28,7 @@ $comment_form_args = array(
 	'label_submit'  => esc_attr__( 'Add comment', 'boomerang' ),
 	'title_reply'   => '',
 	'logged_in_as'  => '',
-	'comment_field' => '<textarea id="comment" name="comment" cols="45" rows="2" maxlength="65525" required="required"></textarea>',
+	'comment_field' => '<textarea id="comment" name="comment" cols="45" rows="5" maxlength="65525" required="required"></textarea>',
 	'class_form'    => $class_form,
 );
 ?>
