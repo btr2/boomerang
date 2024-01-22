@@ -1,0 +1,217 @@
+.boomerang-poll-wrapper .boomerang-poll {
+  background-color: #f7f7f7;
+  padding: 20px 30px;
+  border: 1px solid #e5e5ee;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  max-width: 600px;
+  width: 100%;
+  max-height: 500px;
+  box-shadow: 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+.boomerang-poll-wrapper .boomerang-poll .close-button {
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+  color: #64676b;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-title {
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: #0d0d0e;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-description {
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  margin-top: 12px;
+  color: #64676b;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options {
+  margin: 20px 0;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option {
+  margin: 0;
+  padding: 0;
+  border: none;
+  margin-bottom: 20px;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option input {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option label {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: Arial;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option label:hover {
+  border-color: var(--boomerang-primary-color);
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option input[type=radio]:checked + label {
+  border-color: var(--boomerang-primary-color);
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option h3 {
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: #0d0d0e;
+  margin-bottom: 6px;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-options .poll-option p {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: #64676b;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: var(--boomerang-primary-color);
+  margin-bottom: 10px;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none label {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: Arial;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none label:hover {
+  opacity: 0.7;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none #boomerang-none {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none #boomerang-none:checked + label {
+  font-weight: bold;
+  border: 2px solid var(--boomerang-primary-color);
+  border-radius: 10px;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .boomerang-poll-submit {
+  width: 100%;
+  border-radius: 10px;
+  min-height: 40px;
+  background: var(--boomerang-primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 20px 30px;
+}
+.boomerang-poll-wrapper .boomerang-poll .poll-footer .boomerang-poll-submit:hover {
+  opacity: 0.75;
+}
+@media only screen and (min-width: 600px) {
+  .boomerang-poll-wrapper .boomerang-poll .poll-footer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .boomerang-poll-wrapper .boomerang-poll .poll-footer .poll-none {
+    margin-bottom: 0;
+  }
+  .boomerang-poll-wrapper .boomerang-poll .poll-footer .boomerang-poll-submit {
+    width: max-content;
+    padding: 10px 20px;
+  }
+}
+.boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 400px;
+}
+.boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message .boomerang-poll-message-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message .boomerang-poll-message-content span {
+  font-size: 48px;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+.boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message .poll-success-close-button {
+  align-self: end;
+  width: 100%;
+  border-radius: 10px;
+  min-height: 40px;
+  background: var(--boomerang-primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 20px 30px;
+}
+.boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message .poll-success-close-button:hover {
+  opacity: 0.75;
+}
+@media only screen and (min-width: 600px) {
+  .boomerang-poll-wrapper .boomerang-poll .boomerang-poll-message .poll-success-close-button {
+    width: max-content;
+    padding: 10px 20px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .boomerang-poll-wrapper .boomerang-poll {
+    border-radius: 10px;
+  }
+  .boomerang-poll-wrapper.top-left .boomerang-poll {
+    top: 5px;
+    left: 5px;
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  }
+  .boomerang-poll-wrapper.top-right .boomerang-poll {
+    top: 5px;
+    right: 5px;
+    box-shadow: -10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+  }
+  .boomerang-poll-wrapper.bottom-left .boomerang-poll {
+    bottom: 5px;
+    left: 5px;
+    box-shadow: 10px -10px 50px 0px rgba(0, 0, 0, 0.75);
+  }
+  .boomerang-poll-wrapper.bottom-right .boomerang-poll {
+    bottom: 5px;
+    right: 5px;
+    box-shadow: -10px -10px 50px 0px rgba(0, 0, 0, 0.75);
+  }
+  .boomerang-poll-wrapper.center .boomerang-poll {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+  }
+}
+.boomerang-poll-wrapper.success .boomerang-poll-form {
+  display: none;
+}
+.boomerang-poll-wrapper.success .boomerang-poll-message {
+  display: flex;
+}
+
+/*# sourceMappingURL=boomerang-pro.css.map */

@@ -245,5 +245,50 @@ jQuery(document).ready(function ($) {
         }
     );
 
+    $("body").on(
+        "click",
+        ".boomerang-poll .close-button, .boomerang-poll .poll-success-close-button",
+    function (e) {
+        let wrapper = $(this).closest('.boomerang-poll-wrapper');
+        wrapper.hide();
+    });
+
+    $("body").on(
+        "click",
+        ".boomerang-poll-submit",
+        function (e) {
+            e.preventDefault();
+
+            let button = $(this);
+            let wrapper = button.closest('.boomerang-poll-wrapper');
+            let poll_id = wrapper.attr("data-id");
+            let nonce = wrapper.attr("data-nonce");
+            let board = wrapper.attr("data-board");
+            let value = $('.boomerang-poll-wrapper .poll-option:checked').val();
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: settings.ajaxurl,
+                    data: {
+                        action: 'poll_handler',
+                        poll_id: poll_id,
+                        nonce: nonce,
+                        board: board,
+                        value: value,
+                        dataType: 'json',
+                    },
+                    success: function (response) {
+                        if (!response.success) {
+                            console.log(response);
+                        } else {
+                            wrapper.addClass( 'success' );
+                        }
+                    },
+                }
+            );
+        }
+    );
+
 
 });

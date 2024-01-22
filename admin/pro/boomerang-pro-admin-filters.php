@@ -108,7 +108,7 @@ function add_board_pro_sections( $prefix ) {
 					'id'    => 'enable_related_boomerangs',
 					'type'  => 'switcher',
 					'title' => esc_html__( 'Show Related Boomerangs', 'boomerang' ),
-					'desc'  => esc_html__( 'Display related Boomerangs in the sidebar of a single Boomerang. Helps users to see if someone has already posted something similar.' ),
+					'desc'  => esc_html__( 'Display related Boomerangs in the sidebar of a single Boomerang. Helps users to see if someone has already posted something similar.', 'boomerang' ),
 				),
 				array(
 					'id'         => 'related_boomerangs_label',
@@ -120,7 +120,7 @@ function add_board_pro_sections( $prefix ) {
 					'id'    => 'enable_suggested_boomerangs',
 					'type'  => 'switcher',
 					'title' => esc_html__( 'Show Suggested Boomerangs', 'boomerang' ),
-					'desc'  => esc_html__( 'Display suggested Boomerangs when a user types a title into the form. Helps reduce the number of duplicated Boomerangs.' ),
+					'desc'  => esc_html__( 'Display suggested Boomerangs when a user types a title into the form. Helps reduce the number of duplicated Boomerangs.', 'boomerang' ),
 				),
 				array(
 					'id'         => 'suggested_boomerangs_label',
@@ -131,8 +131,199 @@ function add_board_pro_sections( $prefix ) {
 			),
 		)
 	);
+
+	\CSF::createSection(
+		$prefix,
+		array(
+			'title'  => 'Polls',
+			'fields' => render_polls_fields(),
+		)
+	);
 }
 add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_pro_sections' );
+
+function render_polls_fields() {
+	$text    = '<p>To get started with polls, click the \'Add New\' button below.</p>';
+	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+
+	$fields = array();
+
+	$fields[] = array(
+		'type'    => 'content',
+		'content' => wp_kses_post( $text ),
+	);
+
+	$fields[] = array(
+		'id'     => 'polls',
+		'type'   => 'group',
+		'fields' => array(
+			array(
+				'id'    => 'poll_heading',
+				'type'  => 'text',
+				'title' => esc_html__( 'Poll Title', 'boomerang' ),
+				'desc'  => esc_html__( 'A name for your poll.', 'boomerang' ),
+			),
+			array(
+				'id'      => 'poll_heading_show',
+				'type'    => 'switcher',
+				'default' => true,
+				'title'   => esc_html__( 'Show Title', 'boomerang' ),
+				'desc'    => esc_html__( 'This will show the title at the top of the poll.', 'boomerang' ),
+			),
+			array(
+				'id'         => 'poll_slug',
+				'type'       => 'text',
+				'class'      => 'hidden',
+				'attributes' => array(
+					'type' => 'hidden',
+				),
+			),
+			array(
+				'id'         => 'poll_id',
+				'type'       => 'text',
+				'class'      => 'hidden',
+				'attributes' => array(
+					'type' => 'hidden',
+				),
+			),
+			array(
+				'id'         => 'poll_board',
+				'type'       => 'text',
+				'class'      => 'hidden',
+				'attributes' => array(
+					'type' => 'hidden',
+				),
+			),
+			array(
+				'id'    => 'poll_enabled',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable this Poll', 'boomerang' ),
+				'desc'  => esc_html__( 'Switch this poll on or off.', 'boomerang' ),
+			),
+			array(
+				'id'    => 'poll_description',
+				'type'  => 'text',
+				'title' => esc_html__( 'Poll Description', 'boomerang' ),
+				'desc'  => esc_html__( 'Additional text to describe your poll.', 'boomerang' ),
+			),
+			array(
+				'id'          => 'poll_boomerangs',
+				'type'        => 'select',
+				'title'       => esc_html__( 'Boomerangs', 'boomerang' ),
+				'placeholder' => esc_html__( 'Select one or more Boomerangs', 'boomerang' ),
+				'options'     => 'posts',
+				'chosen'      => true,
+				'ajax'        => true,
+				'multiple'    => true,
+				'sortable'    => true,
+				'desc'        => esc_html__( 'Choose which Boomerangs will feature in your poll. We recommend a maximum of two or three.', 'boomerang' ),
+				'query_args'  => array(
+					'post_type'      => 'boomerang',
+					'posts_per_page' => -1,
+					'post_parent'    => $post_id,
+				),
+			),
+			array(
+				'id'    => 'poll_null_enabled',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Allow \'None of the above\'', 'boomerang' ),
+				'desc'  => esc_html__( 'If enabled, users may signal that they would vote for none of the options. This will be included in reports.', 'boomerang' ),
+			),
+			array(
+				'id'          => 'poll_null_label',
+				'type'        => 'text',
+				'title'       => esc_html__( 'Label for \'None of the above\'', 'boomerang' ),
+				'placeholder' => esc_html__( 'None of the above', 'boomerang' ),
+				'default'     => 'None of the above',
+				'dependency'  => array( 'poll_null_enabled', '==', 'true' ),
+			),
+			array(
+				'id'          => 'poll_location',
+				'type'        => 'select',
+				'title'       => esc_html__( 'Poll Location', 'boomerang' ),
+				'placeholder' => esc_html__( 'Where should the poll be displayed?', 'boomerang' ),
+				'options'     => array(
+					'top-left'     => 'Top Left',
+					'top-right'    => 'Top Right',
+					'bottom-left'  => 'Bottom Left',
+					'bottom-right' => 'Bottom Right',
+					'center'       => 'Center',
+				),
+			),
+			array(
+				'id'          => 'poll_visibility',
+				'type'        => 'select',
+				'title'       => esc_html__( 'Poll Visibility', 'boomerang' ),
+				'placeholder' => esc_html__( 'Which pages should feature a poll?', 'boomerang' ),
+				'options'     => array(
+					'all'           => 'Whole Site',
+					'home'          => 'Homepage Only',
+					'board'         => 'Board Directory and all its Boomerangs',
+					'board_archive' => 'Board Directory Page',
+				),
+			),
+			array(
+				'id'    => 'poll_success_message',
+				'type'  => 'text',
+				'title' => esc_html__( 'Success Message', 'boomerang' ),
+				'desc'  => esc_html__( 'A message to display when a user has successfully submitted their vote.', 'boomerang' ),
+			),
+			array(
+				'id'    => 'poll_debug_enabled',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable Debug Mode', 'boomerang' ),
+				'desc'  => esc_html__( 'Allows administrators to vote in polls, and also multiple voting. Useful for checking how a new poll looks and behaves.', 'boomerang' ),
+			),
+		),
+	);
+
+	return $fields;
+}
+
+/**
+ * Generates a slug for each poll, either the sanitized title, or a random number, and also a unique ID.
+ *
+ * @param $data
+ * @param $post_id
+ * @param $instance
+ *
+ * @return void
+ */
+function generate_poll_slug_and_id( $data, $post_id, $instance ) {
+	if ( empty( $data['polls'] ) ) {
+		return $data;
+	}
+
+	foreach ( $data['polls'] as $key => $poll ) {
+		if ( empty( $poll['poll_slug'] ) ) {
+			$title = $poll['poll_heading'];
+
+			if ( empty( $title ) ) {
+				$slug = wp_rand( 10000, 99999 );
+			} else {
+				$slug = sanitize_title( $title );
+			}
+
+			if ( check_unique_poll_slug( $slug ) ) {
+				$data['polls'][ $key ]['poll_slug'] = $slug;
+			} else {
+				$data['polls'][ $key ]['poll_slug'] = $slug . '-' . wp_rand( 100, 999 );
+			}
+		}
+
+		if ( empty( $poll['poll_id'] ) ) {
+			$data['polls'][ $key ]['poll_id'] = get_next_poll_id();
+		}
+
+		if ( empty( $poll['poll_board'] ) ) {
+			$data['polls'][ $key ]['poll_board'] = $post_id;
+		}
+	}
+
+	return $data;
+
+}
+add_filter( 'csf_boomerang_board_options_save', __NAMESPACE__ . '\generate_poll_slug_and_id', 10, 3 );
 
 /**
  * Render the fields for the Guest Submissions section.

@@ -72,6 +72,13 @@ class Boomerang_Frontend {
 		);
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			wp_enqueue_style(
+				'boomerang-pro',
+				BOOMERANG_URL . 'pro/assets/css/boomerang-pro.css',
+				null,
+				BOOMERANG_VERSION
+			);
+
 			wp_enqueue_script(
 				'boomerang-pro',
 				BOOMERANG_URL . 'pro/assets/js/boomerang-pro.js',

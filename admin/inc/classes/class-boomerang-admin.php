@@ -132,7 +132,7 @@ class Boomerang_Admin {
 	 */
 	public function add_upsell() {
 		if ( boo_fs()->is_paying() ) {
-			// return;
+			return;
 		}
 
 		/**

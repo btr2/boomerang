@@ -25,6 +25,32 @@ function boomerang_get_board_slug( $post )  {
 
 /** Conditionals **/
 
+// ToDo: may be added at a later date.
+// function is_board( $board_id = false ) {
+// 	if ( $board_id ) {
+// 		// We can only check blocks for individual Boards.
+// 		global $post;
+//
+// 		if ( has_blocks() ) {
+// 			$blocks = parse_blocks( $post->post_content );
+// 			foreach( $blocks as $block ) {
+// 				if( $block['blockName'] === 'boomerang-block/shortcode-gutenberg' ) {
+//
+// 				}
+// 			}
+// 			return true;
+// 		}
+// 	} else {
+// 		global $post;
+// 		if ( $post && ( has_shortcode( $post->post_content,
+// 					'boomerang_board' ) || has_block( 'boomerang-block/shortcode-gutenberg',
+// 					$post->post_content ) ) ) {
+// 			return true;
+// 		}
+// 	}
+//
+// }
+
 /**
  * Checks whether a given user can manage Boomerangs, or the current user if none specified.
  *
