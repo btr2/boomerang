@@ -72,6 +72,11 @@ class Boomerang_Admin {
 				wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css', null, BOOMERANG_VERSION );
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_script( 'boomerang', BOOMERANG_URL . 'admin/assets/js/boomerang.js', array( 'wp-color-picker' ), BOOMERANG_VERSION, true );
+
+				if ( boo_fs()->can_use_premium_code__premium_only() ) {
+					wp_enqueue_script( 'boomerang-pro', BOOMERANG_URL . 'admin/pro/assets/js/boomerang-pro.js', array(), BOOMERANG_VERSION, true );
+
+				}
 			}
 		}
 	}

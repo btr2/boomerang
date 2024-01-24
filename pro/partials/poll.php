@@ -31,8 +31,8 @@
 		<div class="poll-footer">
 			<?php if ( ! empty( $poll['poll_null_enabled'] ) ) : ?>
 				<div class="poll-none">
-					<input class="poll-option" name="boomerang_poll_<?php echo esc_attr( $poll['poll_id'] ); ?>" type="radio" id="boomerang-none" value="none">
-					<label for="boomerang-none" class="poll-none"><?php echo esc_html( $poll['poll_null_label'] ); ?></label>
+					<input class="poll-option" name="boomerang_poll_<?php echo esc_attr( $poll['poll_id'] ); ?>" type="radio" id="boomerang-none_<?php echo esc_attr( $poll['poll_id'] ); ?>" value="none">
+					<label for="boomerang-none_<?php echo esc_attr( $poll['poll_id'] ); ?>" class="poll-none"><?php echo esc_html( $poll['poll_null_label'] ); ?></label>
 				</div>
 			<?php endif; ?>
 			<input class="boomerang-poll-submit" type="submit">
@@ -43,7 +43,9 @@
 			<?php if ( ! boomerang_google_fonts_disabled() ) : ?>
 				<span class="material-symbols-outlined icon">verified</span>
 			<?php endif; ?>
-			<h2><?php echo esc_html_e( 'Thanks for your feedback!', 'boomerang' ); ?></h2>
+			<?php if ( ! empty( $poll['poll_success_message'] ) ) : ?>
+			<h2><?php echo esc_html( $poll['poll_success_message'] ); ?></h2>
+			<?php endif; ?>
 		</div>
 		<button class="poll-success-close-button"><?php echo esc_html_e( 'Done', 'boomerang' ); ?></button>
 	</div>

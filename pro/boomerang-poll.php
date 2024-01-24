@@ -142,10 +142,6 @@ function poll_is_visible( $poll ) {
 
 	$user_polls = get_user_meta( get_current_user_id(), 'boomerang_submitted_polls', true );
 
-	// TODO Possible Debug?
-	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
-	error_log( print_r($user_polls, true) );
-
 	if ( empty( $poll['poll_debug_enabled'] ) ) {
 		// If not in debug mode, Admins won't see the poll.
 		if ( current_user_can( 'manage_options' ) ) {
@@ -254,8 +250,10 @@ function poll_handler() {
 	if ( ! $user_meta ) {
 		update_user_meta( $user_id, 'boomerang_submitted_polls', array( $poll_id ) );
 	} else {
-		$user_meta[] = $poll_id;
-		update_user_meta( $user_id, 'boomerang_submitted_polls', $user_meta );
+		if ( ! in_array( $poll_id, $user_meta ) ) {
+			$user_meta[] = $poll_id;
+			update_user_meta( $user_id, 'boomerang_submitted_polls', $user_meta );
+		}
 	}
 
 	if ( 'none' != $value ) {
@@ -264,8 +262,10 @@ function poll_handler() {
 		if ( ! $boomerang_meta ) {
 			update_post_meta( $value, 'user_poll_vote', array( $user_id ) );
 		} else {
-			$boomerang_meta[] = $user_id;
-			update_post_meta( $value, 'user_poll_vote', $boomerang_meta );
+			if ( ! in_array( $user_id, $boomerang_meta ) ) {
+				$boomerang_meta[] = $user_id;
+				update_post_meta( $value, 'user_poll_vote', $boomerang_meta );
+			}
 		}
 	}
 
@@ -283,7 +283,7 @@ function poll_handler() {
 			$board_meta[$poll_id] = $poll_voters;
 			update_post_meta( $board, 'polls', $board_meta );
 		} else {
-			$board_meta[$poll_id] = array( $user_id );
+			$board_meta[$poll_id] = array( $value );
 			update_post_meta( $board, 'polls', $board_meta );
 		}
 	}

@@ -264,7 +264,7 @@ jQuery(document).ready(function ($) {
             let poll_id = wrapper.attr("data-id");
             let nonce = wrapper.attr("data-nonce");
             let board = wrapper.attr("data-board");
-            let value = $('.boomerang-poll-wrapper .poll-option:checked').val();
+            let value = wrapper.find('.poll-option:checked').val();
 
             $.ajax(
                 {

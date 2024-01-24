@@ -142,26 +142,102 @@ function add_board_pro_sections( $prefix ) {
 }
 add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_board_pro_sections' );
 
+
+function get_poll_results( $board_id ) {
+	if ( ! $board_id ) {
+		return array();
+	}
+
+	$results = get_post_meta( $board_id, 'polls', true );
+
+	if ( empty( $results ) ) {
+		return array();
+	}
+
+	$data = array();
+
+	foreach ( $results as $result => $value ) {
+		$counted_values = array_count_values( $value );
+		$boomerang_data = array();
+
+		foreach ( $counted_values as $counted_value => $votes ) {
+			$boomerang_data[ $counted_value ] = array(
+				'title' => get_the_title( $counted_value ),
+				'votes' => $votes,
+			);
+		}
+
+		$data[ $result ] = array(
+			'poll_id' => $result,
+			'max'     => max( $counted_values ),
+			'data'    => $boomerang_data,
+		);
+
+	}
+
+	return $data;
+}
+
+function render_poll_results( $board_id = false ) {
+	$results = get_poll_results( $board_id );
+
+	ob_start();
+
+	foreach ( $results as $result ) : ?>
+			<div class="boomerang-result" data-id="<?php echo $result['poll_id']; ?>" style="display: none; padding: 20px 0;">
+				<?php
+				foreach ( $result['data'] as $boomerang ) :
+					$title = ! empty( $boomerang['title'] ) ? $boomerang['title'] : 'None';
+
+					$width = $boomerang['votes'] / $result['max'] * 100;
+					?>
+			<p><?php echo $title; ?></p>
+			<div class="outer-bar" style="height: 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500">
+				<div class="inner-bar" style="width: <?php echo $width; ?>%; height: 100%; background: darkred"></div>
+				<span style="white-space: nowrap"><?php echo $boomerang['votes']; ?> votes</span>
+			</div>
+
+				<?php endforeach; ?>
+			</div>
+	<?php endforeach; ?>
+	<div class="boomerang-result-null" style="display: none"><?php esc_html_e( 'Data will appear once the first vote is submitted...', 'boomerang' ); ?></div>
+
+
+			<?php
+
+			return ob_get_clean();
+}
+
+
 function render_polls_fields() {
-	$text    = '<p>To get started with polls, click the \'Add New\' button below.</p>';
 	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
 
 	$fields = array();
 
-	$fields[] = array(
-		'type'    => 'content',
-		'content' => wp_kses_post( $text ),
-	);
+	if ( empty( get_poll_results( $post_id ) ) ) {
+		$text = '<p>To get started with polls, click the \'Add New\' button below.</p>';
+
+		$fields[] = array(
+			'type'    => 'content',
+			'content' => wp_kses_post( $text ),
+		);
+	}
 
 	$fields[] = array(
 		'id'     => 'polls',
 		'type'   => 'group',
+		'class'  => 'boomerang-poll',
 		'fields' => array(
 			array(
 				'id'    => 'poll_heading',
 				'type'  => 'text',
 				'title' => esc_html__( 'Poll Title', 'boomerang' ),
 				'desc'  => esc_html__( 'A name for your poll.', 'boomerang' ),
+			),
+			array(
+				'type'    => 'content',
+				'title'   => esc_html__( 'Latest Result', 'boomerang' ),
+				'content' => render_poll_results( $post_id ),
 			),
 			array(
 				'id'      => 'poll_heading_show',
@@ -181,7 +257,7 @@ function render_polls_fields() {
 			array(
 				'id'         => 'poll_id',
 				'type'       => 'text',
-				'class'      => 'hidden',
+				'class'      => 'hidden poll_id',
 				'attributes' => array(
 					'type' => 'hidden',
 				),
@@ -263,10 +339,11 @@ function render_polls_fields() {
 				),
 			),
 			array(
-				'id'    => 'poll_success_message',
-				'type'  => 'text',
-				'title' => esc_html__( 'Success Message', 'boomerang' ),
-				'desc'  => esc_html__( 'A message to display when a user has successfully submitted their vote.', 'boomerang' ),
+				'id'          => 'poll_success_message',
+				'type'        => 'text',
+				'placeholder' => esc_html__( 'Thanks for your feedback!', 'boomerang' ),
+				'title'       => esc_html__( 'Success Message', 'boomerang' ),
+				'desc'        => esc_html__( 'A message to display when a user has successfully submitted their vote.', 'boomerang' ),
 			),
 			array(
 				'id'    => 'poll_debug_enabled',
