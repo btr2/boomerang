@@ -182,29 +182,29 @@
   .boomerang-poll-wrapper.top-left .boomerang-poll {
     top: 5px;
     left: 5px;
-    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.1);
   }
   .boomerang-poll-wrapper.top-right .boomerang-poll {
     top: 5px;
     right: 5px;
-    box-shadow: -10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: -10px 10px 50px 0px rgba(0, 0, 0, 0.1);
   }
   .boomerang-poll-wrapper.bottom-left .boomerang-poll {
     bottom: 5px;
     left: 5px;
-    box-shadow: 10px -10px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px -10px 50px 0px rgba(0, 0, 0, 0.1);
   }
   .boomerang-poll-wrapper.bottom-right .boomerang-poll {
     bottom: 5px;
     right: 5px;
-    box-shadow: -10px -10px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: -10px -10px 50px 0px rgba(0, 0, 0, 0.1);
   }
   .boomerang-poll-wrapper.center .boomerang-poll {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.1);
   }
 }
 .boomerang-poll-wrapper.success .boomerang-poll-form {
