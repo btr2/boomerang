@@ -34,11 +34,6 @@ if ( ! class_exists( 'Boomerang_Block' ) ) {
 		 * @since    2.4.0
 		 */
 		public function enqueue_scripts() {
-			/**
-			* The class responsible for defining all actions that occur for the Ultimeter Gutenberg Block.
-			*/
-			$boomerang_frontend = new Boomerang_Frontend();
-
 			if ( is_admin() ) {
 				wp_enqueue_script( 'boomerang-block', BOOMERANG_URL . 'admin/assets/js/boomerang-block.js', array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor', 'wp-compose' ), BOOMERANG_VERSION, false );
 			}
@@ -47,7 +42,7 @@ if ( ! class_exists( 'Boomerang_Block' ) ) {
 				'boomerang-block/shortcode-gutenberg',
 				array(
 					'editor_script'   => 'boomerang-block',
-					'render_callback' => array( $boomerang_frontend, 'render_boomerang_full' ),
+					'render_callback' => '\Bouncingsprout_Boomerang\render_boomerang_full',
 					'attributes'      => array(
 						'board' => array(
 							'type' => 'string',

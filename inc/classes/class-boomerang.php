@@ -25,6 +25,9 @@ class Boomerang {
 		// Require our template file.
 		require BOOMERANG_PATH . '/inc/boomerang-templates.php';
 
+		// Register and populate shortcodes.
+		require BOOMERANG_PATH . '/inc/boomerang-shortcodes.php';
+
 		$this->init_hooks();
 
 		// Do this early, so that CSF can boot up.
@@ -50,7 +53,36 @@ class Boomerang {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-frontend.php';
 		}
 
+		if ( ! class_exists( 'Boomerang_Form' ) ) {
+			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-form.php';
+		}
+
 		$boomerang_frontend = new Boomerang_Frontend();
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			// Pro version functionality
+			require BOOMERANG_PATH . '/pro/boomerang-pro-filters-and-functions.php';
+			if ( boomerang_get_google_recaptcha_keys__premium_only() ) {
+				require BOOMERANG_PATH . '/pro/boomerang-google-captcha.php';
+			}
+
+			require BOOMERANG_PATH . '/pro/boomerang-guest-submissions.php';
+
+			if ( class_exists( 'ACF' ) ) {
+				require BOOMERANG_PATH . '/pro/boomerang-custom-fields.php';
+			}
+
+			require BOOMERANG_PATH . '/pro/boomerang-related-boomerangs.php';
+			require BOOMERANG_PATH . '/pro/boomerang-suggested-boomerangs.php';
+			require BOOMERANG_PATH . '/pro/boomerang-edit.php';
+			require BOOMERANG_PATH . '/pro/boomerang-bug-reporting.php';
+			require BOOMERANG_PATH . '/pro/boomerang-audit-log.php';
+			require BOOMERANG_PATH . '/pro/boomerang-poll.php';
+
+			if (is_plugin_active('wp-crowdfunding-pro/wp-crowdfunding-pro.php') || is_plugin_active('wp-crowdfunding/wp-crowdfunding.php')) {
+				require BOOMERANG_PATH . '/pro/boomerang-wp-crowdfunding.php';
+			}
+		}
 	}
 
 	/**

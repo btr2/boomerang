@@ -4,9 +4,31 @@
  */
 namespace Bouncingsprout_Boomerang;
 
+/**
+ * Helper function that retrieves the WP_Post object for either a Boomerang,
+ * or the current WP_Post if none is provided.
+ *
+ * @param $post
+ *
+ * @return array|WP_Post|null
+ */
+function boomerang_get_boomerang( $post = false ) {
+	if ( ! $post ) {
+		$post = get_post();
+	} else {
+		$post = get_post( $post );
+	}
+
+	if ( ! 'boomerang' === $post->post_type ) {
+		return false;
+	}
+
+	return $post;
+}
+
+/** Statuses **********************************************************************************************************/
+
 /** Comments **********************************************************************************************************/
-
-
 
 /** Voting ************************************************************************************************************/
 
@@ -67,24 +89,3 @@ function boomerang_get_user_voted( $user_id = false ) {
 	return array_keys( $user_votes, '1' );
 }
 
-/**
- * Helper function that retrieves the WP_Post object for either a Boomerang,
- * or the current WP_Post if none is provided.
- *
- * @param $post
- *
- * @return array|WP_Post|null
- */
-function boomerang_get_boomerang( $post = false ) {
-	if ( ! $post ) {
-		$post = get_post();
-	} else {
-		$post = get_post( $post );
-	}
-
-	if ( ! 'boomerang' === $post->post_type ) {
-		return false;
-	}
-
-	return $post;
-}

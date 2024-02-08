@@ -1,14 +1,14 @@
 === Boomerang ===
-Tags: feature requests, requests, feedback, roadmap, ideas, suggestions, idea board, request board
+Tags: feature requests, requests, feedback, ideas, suggestions, idea board, request board
 Contributors: bouncingsprout
 Requires at least: 5.2
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A slick, modern feature request platform for WordPress.
+A slick, modern feature request and feedback platform for WordPress.
 
 == Description ==
 
@@ -32,7 +32,7 @@ The most basic Boomerang has a title, and some content. That's it. Everything el
 
 = The Boomerang Block =
 
-The Boomerang archive comes with everything you need to create and list Boomerangs. A modern, AJAX-enabled form. AJAX-enabled filters to narrow down the Boomerang list. But how do you display it? You can set up each board in your menus (they are actually just custom post types like any other). Alternatively, you could add your Boomerang listing to any page, using the Boomerang shortcode (you'll see this at the top of each board's settings page). Even easier, you could use the Boomerang Block to pick a board you've already created, and add that directly into your block editor.
+The Boomerang archive comes with everything you need to create and list Boomerangs. A modern, AJAX-enabled form. AJAX-enabled filters to narrow down the Boomerang list. But how do you display it? Add your Boomerang listing to any page, using the Boomerang shortcode (you'll see this at the top of each board's settings page). Even easier, you could use the Boomerang Block to pick a board you've already created, and add that directly into your block editor.
 
 = Statuses =
 
@@ -46,7 +46,7 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 
 1. Install and activate Boomerang. Opt in so we can send you updates on how Boomerang is evolving.
 2. Change your permalinks under Settings > Permalinks. You probably don't want to call your feature requests Boomerangs, right?
-3. Create you first board. Use our shortcode or block to add it to any page, or add the board archive to your main menu.
+3. Create you first board. Use our shortcode or block to add it to any page.
 4. Create your first Boomerang. It won't look like much.
 5. Head to your board's settings page in the back-end, and configure it any way you choose.
 6. If you get stuck, or have an amazing idea for Boomerang, head to the support forum.
@@ -55,7 +55,28 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 
 [Facebook](https://www.facebook.com/boomerangWP/)
 
+== Screenshots ==
+1. Boomerang Listing Page (Pro Edition - coming soon)
+2. Single Boomerang Page (Pro Edition - coming soon)
+
 == Changelog ==
 
+= 1.0.3 =
+[//]: # fs_premium_only_begin
+* Add quick poll system
+* Allow template override for single Boomerangs
+* Display email addresses given by anonymous users
+[//]: # fs_premium_only_end
+* Approve Boomerangs from the frontend
+* Minor bugfixes and styling issues
+
+= 1.0.2 =
+* Minor bugfixes and styling issues
+* Add various hooks
+* Update Freemius
+
+= 1.0.1 =
+* General release
+
 = 1.0.0 =
-* Plugin release
+* Repo release

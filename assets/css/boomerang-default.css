@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
 Boomerang Default Styles
  */
@@ -8,9 +9,9 @@ Boomerang Default Styles
   */
   /* HTML5 display-role reset for older browsers */
 }
-.boomerang-container div, .boomerang-container span, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
+.boomerang-container div, .boomerang-container applet, .boomerang-container object, .boomerang-container iframe,
 .boomerang-container h1, .boomerang-container h2, .boomerang-container h3, .boomerang-container h4, .boomerang-container h5, .boomerang-container h6, .boomerang-container p, .boomerang-container blockquote, .boomerang-container pre,
-.boomerang-container a, .boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
+.boomerang-container abbr, .boomerang-container acronym, .boomerang-container address, .boomerang-container big, .boomerang-container cite, .boomerang-container code,
 .boomerang-container del, .boomerang-container dfn, .boomerang-container em, .boomerang-container img, .boomerang-container ins, .boomerang-container kbd, .boomerang-container q, .boomerang-container s, .boomerang-container samp,
 .boomerang-container small, .boomerang-container strike, .boomerang-container strong, .boomerang-container sub, .boomerang-container sup, .boomerang-container tt, .boomerang-container var,
 .boomerang-container b, .boomerang-container u, .boomerang-container i, .boomerang-container center,
@@ -56,25 +57,253 @@ Boomerang Default Styles
   min-height: 30px;
 }
 
+#boomerang-full {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+#boomerang-full .boomerang-container {
+  width: 100%;
+  max-width: 100%;
+}
+@media only screen and (min-width: 1024px) {
+  #boomerang-full.horizontal {
+    flex-direction: row;
+  }
+  #boomerang-full.horizontal #boomerang-board-filters {
+    margin-top: 0;
+  }
+}
+@media only screen and (min-width: desktop) {
+  #boomerang-full.horizontal {
+    flex-direction: row;
+  }
+  #boomerang-full.horizontal #boomerang-board-filters {
+    margin-top: 0;
+  }
+}
+
+body:not(.logged-in) .votes-container {
+  border: 2px solid #e6e7e8;
+  padding: 14px;
+}
+
+@media only screen and (min-width: 576px) {
+  .boomerang-container {
+    width: var(--boomerang-container-width);
+    max-width: 100%;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-container {
+    width: var(--boomerang-container-width);
+    max-width: 100%;
+  }
+}
+.boomerang-container .boomerang-messages-container {
+  padding: 10px 20px;
+  position: relative;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 100%;
+  border: 1px solid;
+  color: #ac9a14;
+  border-color: #ac9a14;
+}
+.boomerang-container .boomerang-messages-container:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.1;
+  content: "";
+  background-color: #ac9a14;
+}
+.boomerang-container .boomerang-messages-container p, .boomerang-container .boomerang-messages-container span {
+  color: #ac9a14;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-container .boomerang-messages-container {
+    padding: 20px 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-container .boomerang-messages-container {
+    padding: 20px 40px;
+  }
+}
+
 .board-title {
   text-align: center;
   margin-top: 40px;
+  flex-basis: 100%;
+  grid-area: boomerang-title;
 }
 
-#boomerang-form {
+#boomerang-form-wrapper {
+  grid-area: boomerang-form;
+  flex: 1;
+}
+#boomerang-form-wrapper.boomerang-form-error {
   max-width: 640px;
+  margin: 20px auto;
+}
+#boomerang-form-wrapper.boomerang-form-error .boomerang-form-error-inner {
+  border: 1px solid #ededee;
+  border-radius: 10px;
+  padding: 20px;
+  background: #f3f4f4;
+}
+#boomerang-form-wrapper.boomerang-form-error .boomerang-form-error-inner p {
+  text-align: center;
+}
+#boomerang-form-wrapper #boomerang-form {
   margin: 20px auto;
   border: 1px solid #ededee;
   border-radius: 10px;
   padding: 20px;
   background: #f3f4f4;
 }
-#boomerang-form fieldset {
+@media only screen and (min-width: 576px) {
+  #boomerang-form-wrapper #boomerang-form {
+    max-width: 400px;
+  }
+}
+@media only screen and (min-width: large) {
+  #boomerang-form-wrapper #boomerang-form {
+    max-width: 400px;
+  }
+}
+#boomerang-form-wrapper #boomerang-form h2, #boomerang-form-wrapper #boomerang-form h3 {
+  text-align: center;
+  color: #64676b;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+#boomerang-form-wrapper #boomerang-form h2 {
+  font-size: 26px;
+}
+#boomerang-form-wrapper #boomerang-form h3 {
+  font-size: 18px;
+  line-height: 150%;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container {
+  display: none;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header {
+  background-color: #f9f9fb;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header h2 {
+  margin: 0;
+  font-size: 14px;
+  color: #0d0d0d;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container header span {
+  color: #aaaab4;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list {
+  list-style-type: none;
+  background-color: #fff;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 200px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion {
+  padding: 16px;
+  border-bottom: 1px solid #e5e5ee;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a {
+  text-decoration: none;
+  display: flex;
+  gap: 14px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container {
+  border: 1px solid #e5e5ee;
+  padding: 5px 10px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container span {
+  color: #64676b;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container .boomerang-vote-count {
+  font-size: 20px;
+  line-height: normal;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-left .votes-container .boomerang-vote-label {
+  line-height: normal;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right {
+  overflow: hidden;
+  flex: 1;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .entry-title {
+  text-align: left;
+  color: #0d0d0e;
+  font-size: 16px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .entry-content {
+  font-size: 15px;
+  color: #64676b;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta {
+  display: flex;
+  justify-content: space-between;
+  color: #64676b;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left .avatar {
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-left .boomerang-posted-on {
+  font-size: 12px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-status {
+  padding: 0 5px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+  border-radius: 0.1875rem;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-comment-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+#boomerang-form-wrapper #boomerang-form .boomerang-suggested-ideas-container .boomerang-suggested-ideas-list .boomerang-suggestion a .suggestion-right .meta .meta-right .boomerang-comment-count span {
+  font-size: 18px;
+}
+#boomerang-form-wrapper #boomerang-form fieldset {
   border: none;
   padding: 0;
   margin-bottom: 20px;
 }
-#boomerang-form input[type=file] {
+#boomerang-form-wrapper #boomerang-form input[type=file] {
   max-width: 100%;
   color: #444;
   padding: 5px;
@@ -82,20 +311,20 @@ Boomerang Default Styles
   border-radius: 10px;
   border: 1px solid #555;
 }
-#boomerang-form input[type=file]::file-selector-button {
+#boomerang-form-wrapper #boomerang-form input[type=file]::file-selector-button {
   margin-right: 20px;
   border: none;
-  background: #027AD0;
+  background: var(--boomerang-primary-color);
   padding: 10px 20px;
   border-radius: 10px;
   color: #fff;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
 }
-#boomerang-form input[type=file]::file-selector-button:hover {
+#boomerang-form-wrapper #boomerang-form input[type=file]::file-selector-button:hover {
   background: #0d45a5;
 }
-#boomerang-form .drop-container {
+#boomerang-form-wrapper #boomerang-form .drop-container {
   position: relative;
   display: flex;
   gap: 10px;
@@ -105,17 +334,17 @@ Boomerang Default Styles
   transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 @media only screen and (max-width: 576px) {
-  #boomerang-form .drop-container .drop-title, #boomerang-form .drop-container .drop-conjunction {
+  #boomerang-form-wrapper #boomerang-form .drop-container .drop-title, #boomerang-form-wrapper #boomerang-form .drop-container .drop-conjunction {
     display: none;
   }
 }
 @media only screen and (min-width: phone) {
-  #boomerang-form .drop-container .drop-title, #boomerang-form .drop-container .drop-conjunction {
+  #boomerang-form-wrapper #boomerang-form .drop-container .drop-title, #boomerang-form-wrapper #boomerang-form .drop-container .drop-conjunction {
     display: none;
   }
 }
 @media only screen and (min-width: 576px) {
-  #boomerang-form .drop-container {
+  #boomerang-form-wrapper #boomerang-form .drop-container {
     height: 200px;
     padding: 20px;
     border-radius: 10px;
@@ -125,7 +354,7 @@ Boomerang Default Styles
   }
 }
 @media only screen and (min-width: large) {
-  #boomerang-form .drop-container {
+  #boomerang-form-wrapper #boomerang-form .drop-container {
     height: 200px;
     padding: 20px;
     border-radius: 10px;
@@ -134,61 +363,98 @@ Boomerang Default Styles
     cursor: pointer;
   }
 }
-#boomerang-form .drop-container:hover {
+#boomerang-form-wrapper #boomerang-form .drop-container:hover {
   background: #eee;
   border-color: #111;
 }
-#boomerang-form .drop-container:hover .drop-title {
+#boomerang-form-wrapper #boomerang-form .drop-container:hover .drop-title {
   color: #222;
 }
-#boomerang-form .drop-title {
+#boomerang-form-wrapper #boomerang-form .drop-title {
   color: #444;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   transition: color 0.2s ease-in-out;
 }
-#boomerang-form .drop-container.drag-active {
+#boomerang-form-wrapper #boomerang-form .drop-container.drag-active {
   background: #eee;
   border-color: #111;
 }
-#boomerang-form .drop-container.drag-active .drop-title {
+#boomerang-form-wrapper #boomerang-form .drop-container.drag-active .drop-title {
   color: #222;
 }
-#boomerang-form #bf-footer {
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field {
+  padding: 16px 0;
+  border: none;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-range-wrap {
+  display: flex;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-range-wrap input[type=range] {
+  flex: 1;
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-color-picker .wp-picker-input-wrap .button {
+  background: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-button-group label.selected {
+  background: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form .acf-fields .acf-field .acf-switch.-on {
+  background: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer {
   flex-direction: column;
   gap: 0;
 }
-#boomerang-form #bf-footer #bf-submit {
+#boomerang-form-wrapper #boomerang-form #bf-footer #bf-submit {
   width: 100%;
   border-radius: 10px;
-  background: #027AD0;
   min-height: 40px;
+  background: var(--boomerang-primary-color);
   color: #fff;
   border: none;
   cursor: pointer;
 }
-#boomerang-form #bf-footer #bf-submit #bf-spinner {
+#boomerang-form-wrapper #boomerang-form #bf-footer #bf-submit:hover {
+  opacity: 0.75;
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer #bf-submit #bf-spinner {
   vertical-align: sub;
   margin-left: 10px;
 }
-#boomerang-form #bf-footer #bf-result {
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding {
+  font-size: 12px;
+  color: #aaaaaa;
+  margin: 10px auto;
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding a {
+  color: var(--boomerang-primary-color);
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer .google-branding a:hover {
+  opacity: 0.75;
+}
+#boomerang-form-wrapper #boomerang-form #bf-footer #bf-result {
   text-align: center;
   font-weight: bold;
 }
 
-.boomerang-container#boomerang-board-filters {
+#boomerang-board-filters {
+  grid-area: boomerang-filters;
   margin-top: 60px;
 }
-.boomerang-container#boomerang-board-filters select, .boomerang-container#boomerang-board-filters input {
+#boomerang-board-filters select, #boomerang-board-filters input {
   border: 1px solid #ccc;
   padding: 0 10px;
   height: 40px;
+  display: flex;
+  align-items: center;
 }
-.boomerang-container#boomerang-board-filters #boomerang-search {
+#boomerang-board-filters #boomerang-search {
   padding: 0 0 0 10px;
 }
-.boomerang-container .votes-container {
+
+.votes-container {
   border-color: #e5e5ee;
   background-color: #fff;
   transition-duration: 0.3s;
@@ -197,10 +463,10 @@ Boomerang Default Styles
   padding-left: 20px;
   padding-right: 20px;
 }
-.boomerang-container .votes-container:hover {
+.votes-container:hover {
   border-color: #000;
 }
-.boomerang-container .votes-container .boomerang-vote-count {
+.votes-container .boomerang-vote-count {
   font-size: 22px;
   font-weight: 600;
 }
@@ -208,23 +474,65 @@ Boomerang Default Styles
 /**
 Single Boomerang
  */
+.single-boomerang.admin-bar .sl-wrapper .sl-close {
+  margin-top: 0;
+}
 .single-boomerang .boomerang-container #main {
   margin: 0 auto;
   justify-content: space-between;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area {
+.single-boomerang .boomerang-container #main .boomerang {
+  margin: 0;
+  margin-bottom: 60px;
+}
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding: 0 15px;
+  }
+}
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang {
+    padding: 0 15px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+  order: 1;
+}
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    order: 0;
+  }
+}
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    order: 0;
+  }
+}
+@media only screen and (min-width: 860px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside {
+    flex: 0;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
   padding: 30px;
   background-color: #f9f9fb;
   border-right: 1px solid #e5e5ee;
-  max-height: 400px;
+  max-height: 600px;
+  flex: 1;
 }
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area {
-    width: 300px;
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
+    height: 600px;
     min-height: 300px;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading {
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
+    height: 600px;
+    min-height: 300px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading {
   color: #0d0d0e;
   font-weight: 600;
   font-size: 20px;
@@ -233,25 +541,36 @@ Single Boomerang
   gap: 10px;
   margin: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading span {
   color: #aaaab4;
 }
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-heading span {
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading span {
     display: none;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-heading span {
+    display: none;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-inner {
   margin-top: 10px;
   gap: 10px;
 }
-@media only screen and (min-width: 860px) {
-  .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-admin-area-inner {
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-inner {
     margin-top: 30px;
     gap: 0;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-admin-area-inner {
+    margin-top: 30px;
+    gap: 0;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -263,71 +582,87 @@ Single Boomerang
   margin-left: -10px;
   margin-right: -10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header:hover {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header:hover {
   background-color: #eeeef1;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .icon {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .icon {
   color: #aaaab4;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header h3 {
   color: #0d0d0e;
   font-weight: 600;
   font-size: 19px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .chevron {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header .chevron {
   color: #64676b;
   margin-left: auto;
   transition-property: rotate;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.3s;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header.open .chevron {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-header.open .chevron {
   rotate: 90deg;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content {
   display: none;
+  margin: 10px -10px 20px -10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset {
   border: none;
+  display: flex;
   margin: 0;
-  max-height: 35px;
   padding: 0;
   gap: 5px;
-  margin-top: 10px;
-  margin-left: -10px;
-  margin-right: -10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content select, .single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset h4 {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 16px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset p {
+  color: #64676b;
+  font-weight: 400;
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset select, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input {
   border: 1px solid #ccc;
   padding-left: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input[type=submit] {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset input[type=submit] {
   width: 100%;
   background: #027AD0;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content .control-content-inline-button {
-  background-color: #027AD0;
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button {
+  background: var(--boomerang-primary-color);
   color: #fff;
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-weight: 600;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button.icon-only {
   height: 40px;
   width: 40px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control.style-2 .control-content fieldset {
+  flex-direction: column;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions-heading {
   color: #64676b;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions {
   display: flex;
   gap: 10px;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
   border: 1px solid #8f9399;
   border-radius: 5px;
   height: 40px;
@@ -339,99 +674,294 @@ Single Boomerang
   justify-content: center;
   text-decoration: none;
 }
-.single-boomerang .boomerang-container #main .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
   border-color: #000;
   color: #000;
 }
-.single-boomerang .boomerang-container #main .boomerang {
-  padding: 0 5%;
-  margin: 0;
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action.bug {
+  border-color: darkred;
+  color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action.bug:hover {
+  border-color: red;
+  color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas {
+  width: 300px;
+  margin: 40px 0;
+}
+@media screen and (max-width: 960px) and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas {
+    width: 250px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas h2 {
+  font-weight: 600;
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #555555;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article {
+  margin-top: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header {
+  padding: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a {
+  color: #777777;
+  text-decoration: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a:hover {
+  opacity: 0.75;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .entry-header a .entry-title {
+  color: #777777;
+  font-weight: 600;
+  text-align: left;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta {
+  color: #64676b;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left {
+  gap: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left .avatar {
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-left .boomerang-posted-on {
+  font-size: 14px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-status {
+  font-size: 12px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-comment-count {
+  gap: 5px;
+  font-size: 16px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-related-ideas article .boomerang-meta .boomerang-meta-right .boomerang-comment-count span {
+  font-size: 18px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
+  padding: 10px 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 100%;
+  border: 1px solid;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner .banner-action-link {
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner .banner-action-link.success {
+  text-decoration: none;
+  cursor: auto;
+  color: darkgreen;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner .banner-action-link.success:before {
+  content: "✓";
+  margin-right: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.1;
+  content: "";
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
+    padding: 20px 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner {
+    padding: 20px 40px;
+  }
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner {
+  color: red;
+  border-color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner:after {
+  background-color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.pending-banner span {
+  color: red;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner {
+  color: var(--boomerang-team-color);
+  border-color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner:after {
+  background-color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.locked-banner span {
+  color: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner {
+  color: darkred;
+  border-color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner:after {
+  background-color: darkred;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-banner.bug-banner span {
+  color: darkred;
+}
+@media only screen and (min-width: 576px) {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
 @media only screen and (min-width: 1440px) {
-  .single-boomerang .boomerang-container #main .boomerang {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content {
     padding: 0;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header {
   padding: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header .entry-title {
   font-weight: 600;
   text-align: left;
   font-size: 20px;
   margin-bottom: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-header .entry-title a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header .entry-title a {
+  color: #0d0d0e;
   text-decoration: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
   gap: 20px;
   flex-direction: column;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
   flex: 1;
   margin-bottom: 30px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content .entry-content-inner {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .entry-content-inner {
   flex: 2;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-content p {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content p {
   color: #64676B;
   margin-bottom: 20px;
 }
 @media only screen and (min-width: 576px) {
-  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
     flex-direction: row;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
     flex: 1;
     margin: 0;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail .wp-post-image {
     margin: 0;
     height: auto;
     width: 100%;
   }
 }
 @media only screen and (min-width: large) {
-  .single-boomerang .boomerang-container #main .boomerang .entry-content {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
     flex-direction: row;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail {
     flex: 1;
     margin: 0;
   }
-  .single-boomerang .boomerang-container #main .boomerang .entry-content .post-thumbnail .wp-post-image {
+  .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content .post-thumbnail .wp-post-image {
     margin: 0;
     height: auto;
     width: 100%;
   }
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner {
+  margin-bottom: 40px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .campaign-funding-info {
+  margin-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .wpneo-raised-percent {
+  margin-bottom: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .percent-bar-container {
+  flex: 1;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .percent-bar-container .wpneo-raised-bar #neo-progressbar > div {
+  background-color: var(--boomerang-primary-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-crowdfunding-panel-container .boomerang-crowdfunding-panel-inner .percent-button-container .contribute-button {
+  background-color: var(--boomerang-primary-color);
+  color: #ffffff;
+  border-radius: 5px;
+  border: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta {
   padding-bottom: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-by a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
   color: #0d0d0e;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-posted-on {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #0d0d0e;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-on {
   font-size: 14px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-status {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link {
+  color: #272727;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link span {
+  font-size: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-status {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.375rem;
@@ -440,122 +970,431 @@ Single Boomerang
   font-weight: 500;
   border-width: 1px;
   border-radius: 0.1875rem;
-  background-color: rgba(0, 0, 0, 0.17);
-  color: rgb(0, 0, 0);
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count {
   color: #64676b;
   gap: 5px;
 }
-.single-boomerang .boomerang-container #main .boomerang .boomerang-meta .boomerang-comment-count span {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count span {
   color: #a3a3a9;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer .boomerang-tags .boomerang-tag {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container {
+  border-top: 1px solid #e7e7e7;
+  padding: 20px 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #64676B;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container p .acf-label {
+  font-weight: bold;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color {
+  display: flex;
+  align-items: center;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color .acf-color-value {
+  border: 2px solid;
+  padding: 2px 4px;
+  height: 24px;
+  width: 30px;
+  margin-left: 4px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container .acf-color .acf-color-value-text {
+  height: 24px;
+  border: 2px solid;
+  padding: 0 4px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer {
+  max-width: 100%;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments div {
+  display: flex;
+  gap: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-attachments a {
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: normal;
+  color: dimgrey;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-tags .boomerang-tag {
   color: #64676b;
   font-size: 14px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments {
-  margin-top: 40px;
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #reply-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #reply-title {
   margin-bottom: 10px;
   line-height: normal;
   color: #0d0d0e;
   font-size: 16px;
   font-weight: bold;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
-  border: 1px solid #eeeef1;
+  transition-duration: 0.2s;
+  border: 2px solid #eeeef1;
   border-radius: 5px;
   box-shadow: 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   padding: 10px 16px;
   display: flex;
   flex-direction: column;
   margin: 0 auto 40px;
+  gap: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform label {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note {
+  border: 2px solid var(--boomerang-team-color);
+  box-shadow: 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 0 var(--boomerang-team-color), 0 4px 6px -1px rgba(var(--boomerang-team-color), 0.75), 0 2px 4px -2px rgba(var(--boomerang-team-color), 0.75);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note .submit-button-container .form-submit #submit {
+  background: var(--boomerang-team-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform.private-note #comment:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform label {
   color: #64676b;
   font-size: 12px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .comment-notes {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .comment-notes {
   margin-bottom: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform:not(.logged-out) #comment {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform #comment:focus {
+  outline: 0;
+  box-shadow: 0 0 3px 0 var(--boomerang-primary-color);
+  --formfieldbordercolor: var(--boomerang-primary-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform:not(.logged-out) #comment {
   border: none;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .form-submit {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle {
+  display: flex;
+  align-items: center;
+  /* The switch - the box around the slider */
+  /* Hide default HTML checkbox */
+  /* The slider */
+  /* Rounded sliders */
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .private-note-label {
+  margin-left: 14px;
+  color: #64676b;
+  font-size: 15px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider {
+  background-color: var(--boomerang-primary-color);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round {
+  border-radius: 34px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .slider.round:before {
+  border-radius: 50%;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .form-submit {
+  margin-left: auto;
   align-self: end;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments #commentform .form-submit #submit {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .form-submit #submit {
   text-align: right;
   border-radius: 5px;
   padding: 8px 14px;
   font-size: 16px;
-  background-color: #027AD0;
+  background: var(--boomerang-primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .boomerang-comment-main-title {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .boomerang-comment-main-title {
   color: #64676b;
   font-size: 14px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment {
   border: none;
+  padding: 20px;
+  margin-bottom: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note {
+  position: relative;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--boomerang-team-color);
+  opacity: 0.1;
+  content: "";
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private_note:after {
+  background: none;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private-note-label {
+  display: flex;
+  align-items: center;
+  color: #64676b;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private-note-label span {
+  font-size: 18px;
+  margin-right: 5px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-container .comment-author-avatar {
+  min-width: 36px;
+}
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body {
   gap: 0;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-author {
   margin-bottom: 12px;
   line-height: normal;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
   line-height: normal;
   color: #0d0d0e;
   font-size: 14px;
   font-weight: bold;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content {
   color: #64676b;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
-  line-height: normal;
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
+  line-height: inherit;
   margin-bottom: 12px;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
   display: flex;
   gap: 10px;
   color: #64676b;
   font-size: 12px;
   align-items: center;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
   line-height: normal;
   color: #64676b;
 }
-.single-boomerang .boomerang-container #main .boomerang .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
+.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
   text-decoration: underline;
+  background: none;
+}
+.single-boomerang #boomerang-edit-screen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(52, 73, 94, 0.8);
+  z-index: 50;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.7s;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen {
+  background: #fff;
+  padding: 20px;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s ease-out;
+  transform: translateY(45px);
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset {
+  padding: 0;
+  margin-bottom: 20px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset > input, .single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset textarea {
+  border: 1px solid #000;
+  padding: 10px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen fieldset > select {
+  padding: 10px;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen footer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: end;
+}
+.single-boomerang #boomerang-edit-screen-modal #boomerang-edit-screen footer button {
+  background-color: var(--boomerang-primary-color);
+}
+.single-boomerang #boomerang-edit-screen-modal.active {
+  visibility: visible;
+  opacity: 1;
+}
+.single-boomerang #boomerang-edit-screen-modal.active #boomerang-edit-screen {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /**
 Boomerang Directory
  */
+.boomerang-directory {
+  grid-area: boomerang-directory;
+  flex: 2;
+}
 .boomerang-directory article {
   border-bottom: 2px solid #e6e7e8;
-  padding: 20px;
   transition-duration: 0.3s;
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+.boomerang-directory article .boomerang-banner {
+  padding: 10px 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 1;
+}
+.boomerang-directory article .boomerang-banner .banner-action-link {
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.boomerang-directory article .boomerang-banner .banner-action-link.success {
+  text-decoration: none;
+  cursor: auto;
+  color: darkgreen;
+}
+.boomerang-directory article .boomerang-banner .banner-action-link.success:before {
+  content: "✓";
+  margin-right: 5px;
+}
+.boomerang-directory article .boomerang-banner:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.1;
+  content: "";
+}
 @media only screen and (min-width: 576px) {
-  .boomerang-directory article {
+  .boomerang-directory article .boomerang-banner {
+    padding: 20px 40px;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang-directory article .boomerang-banner {
+    padding: 20px 40px;
+  }
+}
+.boomerang-directory article .boomerang-banner.pending-banner {
+  color: red;
+}
+.boomerang-directory article .boomerang-banner.pending-banner:after {
+  background-color: red;
+}
+.boomerang-directory article .boomerang-banner.pending-banner p, .boomerang-directory article .boomerang-banner.pending-banner span {
+  color: red;
+}
+.boomerang-directory article .boomerang-banner.locked-banner {
+  color: var(--boomerang-team-color);
+}
+.boomerang-directory article .boomerang-banner.locked-banner:after {
+  background-color: var(--boomerang-team-color);
+}
+.boomerang-directory article .boomerang-banner.locked-banner p, .boomerang-directory article .boomerang-banner.locked-banner span {
+  color: var(--boomerang-team-color);
+}
+.boomerang-directory article .boomerang-banner.bug-banner {
+  color: darkred;
+}
+.boomerang-directory article .boomerang-banner.bug-banner:after {
+  background-color: darkred;
+}
+.boomerang-directory article .boomerang-banner.bug-banner p, .boomerang-directory article .boomerang-banner.bug-banner span {
+  color: darkred;
+}
+.boomerang-directory article .boomerang-inner {
+  padding: 20px;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang-directory article .boomerang-inner {
     padding: 40px;
   }
 }
 @media only screen and (min-width: large) {
-  .boomerang-directory article {
+  .boomerang-directory article .boomerang-inner {
     padding: 40px;
   }
 }
@@ -583,6 +1422,12 @@ Boomerang Directory
 .boomerang-directory article .boomerang-meta {
   margin-bottom: 20px;
 }
+.boomerang-directory article .boomerang-meta .boomerang-posted-by {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #64676b;
+}
 .boomerang-directory article .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;
   font-weight: bold;
@@ -601,8 +1446,6 @@ Boomerang Directory
   font-weight: 500;
   border-width: 1px;
   border-radius: 0.1875rem;
-  background-color: rgba(0, 0, 0, 0.17);
-  color: rgb(0, 0, 0);
 }
 .boomerang-directory article .boomerang-meta .boomerang-comment-count {
   color: #64676b;

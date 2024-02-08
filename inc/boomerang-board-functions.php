@@ -25,6 +25,32 @@ function boomerang_get_board_slug( $post )  {
 
 /** Conditionals **/
 
+// ToDo: may be added at a later date.
+// function is_board( $board_id = false ) {
+// 	if ( $board_id ) {
+// 		// We can only check blocks for individual Boards.
+// 		global $post;
+//
+// 		if ( has_blocks() ) {
+// 			$blocks = parse_blocks( $post->post_content );
+// 			foreach( $blocks as $block ) {
+// 				if( $block['blockName'] === 'boomerang-block/shortcode-gutenberg' ) {
+//
+// 				}
+// 			}
+// 			return true;
+// 		}
+// 	} else {
+// 		global $post;
+// 		if ( $post && ( has_shortcode( $post->post_content,
+// 					'boomerang_board' ) || has_block( 'boomerang-block/shortcode-gutenberg',
+// 					$post->post_content ) ) ) {
+// 			return true;
+// 		}
+// 	}
+//
+// }
+
 /**
  * Checks whether a given user can manage Boomerangs, or the current user if none specified.
  *
@@ -44,6 +70,8 @@ function boomerang_can_manage( $user = false ) {
 
 	return apply_filters('boomerang_can_manage', false, $user );
 }
+
+
 
 /**
  * Checks if titles are displayed for a given board or boomerang.
@@ -207,7 +235,7 @@ function boomerang_board_date_enabled( $post = false ) {
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
-	return $meta['show_date'] ?? false;
+	return $meta['show_date'] ?? true;
 }
 
 /**
@@ -255,6 +283,11 @@ function boomerang_get_default_status( $post ) {
  */
 function boomerang_get_container_width( $post = false ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post) {
+		return;
+	}
+
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	if ( empty( $meta['container_width']['width'] ) || empty( $meta['container_width']['unit'] ) ) {
@@ -279,14 +312,14 @@ function boomerang_get_post( $post = false ) {
 		$post = get_post( $post );
 	}
 
-	if ( 'boomerang' === $post->post_type ) {
+	if ( $post && 'boomerang' === $post->post_type ) {
 		$post = get_post( $post->post_parent );
 	}
 
 	return $post;
 }
 
-/** Boomerang Form ****************************************************************************************************/
+/** Labels ************************************************************************************************************/
 
 /**
  * Get the form labels from a boards settings screen.
@@ -295,18 +328,90 @@ function boomerang_get_post( $post = false ) {
  *
  * @return mixed
  */
-function boomerang_get_form_labels( $board ) {
+function boomerang_get_labels( $board ) {
 	$board = get_post( $board );
 
 	$meta = get_post_meta( $board->ID, 'boomerang_board_options', true );
 
 	return array(
+		'singular' =>$meta['label_singular'] ?? 'feature request',
+		'plural' =>$meta['label_plural'] ?? 'feature requests',
 		'title' => $meta['label_title'] ?? 'Title',
 		'content' => $meta['label_content'] ?? 'Content',
 		'tags' => $meta['label_tags'] ?? 'Tags',
 		'submit' => $meta['label_submit'] ?? 'Submit',
+		'already_voted' => $meta['message_already_voted'] ?? 'You have already voted',
+		'message_vote_recorded' => $meta['message_vote_recorded'] ?? 'Thank you for your vote',
 	);
 }
+
+/**
+ * Gets the singular form of a board's name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_singular( $board ) {
+	return boomerang_get_labels( $board )['singular'];
+}
+
+/**
+ * Gets the plural form of a board's name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_plural( $board ) {
+	return boomerang_get_labels( $board )['plural'];
+}
+
+/** Boomerang Form ****************************************************************************************************/
+
+/**
+ * Checks to see if the current user can submit Boomerangs via the Boomerang form.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_user_can_submit( $board, $user_id ) {
+	if ( ! is_user_logged_in() ) {
+		$result = array(
+			'message' => esc_html__( 'You must be logged in to post', 'boomerang' )
+		);
+	} else {
+		$result = true;
+	}
+
+	/**
+	 * Filter the result.
+	 *
+	 * @param true|array $result  The result to pass and filter
+	 * @param string     $board   The ID of the current board
+	 * @param int        $user_id The user ID of the current user trying to post a Boomerang
+	 */
+	$result = apply_filters( 'boomerang_user_can_submit', $result, $board, $user_id );
+
+	return $result;
+}
+
+/**
+ * Checks to see if a honeypot is enabled in our form.
+ *
+ * @param $board
+ *
+ * @return false|mixed
+ */
+function boomerang_board_honeypot_enabled( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_honeypot'] ?? false;
+}
+
 
 /** Notifications *****************************************************************************************************/
 
@@ -337,4 +442,34 @@ function boomerang_board_new_boomerang_email_addresses( $post = false ) {
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['admin_email'] ?? false;
+}
+
+/** Voting **/
+
+/**
+ * Checks to see if the current user can vote on Boomerangs.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function boomerang_user_can_vote( $board, $user_id ) {
+	if ( ! is_user_logged_in() ) {
+		$result = array(
+			'message' => esc_html__( 'You must be logged in to vote', 'boomerang' )
+		);
+	} else {
+		$result = true;
+	}
+
+	/**
+	 * Filter the result.
+	 *
+	 * @param true|array $result  The result to pass and filter
+	 * @param string     $board   The ID of the current board
+	 * @param int        $user_id The user ID of the current user trying to vote
+	 */
+	$result = apply_filters( 'boomerang_user_can_vote', $result, $board, $user_id );
+
+	return $result;
 }

@@ -7,6 +7,7 @@ Fonts
 @font-face {
   font-family: "Material Symbols Outlined";
   font-style: normal;
+  font-display: block;
   src: url("../fonts/material-symbols.woff2") format("woff2");
 }
 .material-symbols-outlined {
@@ -24,11 +25,24 @@ Fonts
   direction: ltr;
 }
 
+#boomerang-full {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+}
+
+.boomerang-messages-container {
+  display: none;
+}
+
 /**
 Styles for the Boomerang Board CPT Default Archive page
  */
 .single-boomerang_board #boomerang-full {
   width: 100%;
+  max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin: 0 auto;
@@ -46,12 +60,24 @@ Styles for our primary Boomerang container. The width can be dynamically altered
 /**
 Boomerang Form
  */
-#boomerang-form .boomerang_select, #boomerang-form input, #boomerang-form textarea {
+#boomerang-form .boomerang-suggested-ideas-container header {
+  display: flex;
+  justify-content: space-between;
+}
+#boomerang-form .boomerang-suggested-ideas-container header h2 {
+  font-weight: 500;
+  font-size: 12px;
+}
+#boomerang-form .boomerang_select, #boomerang-form input[type=text], #boomerang-form textarea {
   width: 100%;
+  background-color: #fff;
 }
 #boomerang-form #bf-footer {
   display: flex;
   gap: 10px;
+}
+#boomerang-form #bf-footer .antispam {
+  display: none;
 }
 #boomerang-form #bf-footer #bf-spinner {
   display: none;
@@ -94,13 +120,13 @@ span.material-symbols-outlined {
   border: 1px solid #000;
   border-radius: 7px;
 }
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 690px) {
   .votes-container {
     flex-direction: column;
     gap: 0;
   }
 }
-@media only screen and (min-width: large) {
+@media only screen and (min-width: x-large) {
   .votes-container {
     flex-direction: column;
     gap: 0;
@@ -119,6 +145,10 @@ span.material-symbols-outlined {
 .votes-container .vote-down.status--1 {
   color: #9e1313;
 }
+.votes-container .logged-out-text {
+  font-size: 12px;
+}
+
 .boomerang-admin-toggle {
   margin-left: auto;
   display: flex;
@@ -138,7 +168,12 @@ span.material-symbols-outlined {
   height: 100%;
   justify-content: space-between;
 }
-@media only screen and (min-width: 860px) {
+@media only screen and (min-width: 690px) {
+  .boomerang-admin-area .boomerang-admin-area-inner {
+    display: flex;
+  }
+}
+@media only screen and (min-width: x-large) {
   .boomerang-admin-area .boomerang-admin-area-inner {
     display: flex;
   }
@@ -170,6 +205,7 @@ span.material-symbols-outlined {
   justify-content: space-between;
   gap: 20px;
   padding-bottom: 20px;
+  height: fit-content;
 }
 @media only screen and (min-width: 840px) {
   #boomerang-board-filters {
@@ -183,6 +219,9 @@ span.material-symbols-outlined {
   display: flex;
   flex: 1;
   gap: 10px;
+}
+#boomerang-board-filters fieldset input[type=text], #boomerang-board-filters fieldset select, #boomerang-board-filters fieldset textarea {
+  width: 100%;
 }
 #boomerang-board-filters fieldset label {
   display: flex;
@@ -219,19 +258,39 @@ Single Boomerang
   flex-direction: column;
   flex: 1;
   gap: 20px;
+  flex-wrap: wrap;
 }
-@media only screen and (min-width: 576px) {
+.single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+@media only screen and (min-width: 690px) {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: x-large) {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: 690px) {
   .single-boomerang .boomerang-container .boomerang {
     flex-direction: row;
   }
 }
-@media only screen and (min-width: large) {
+@media only screen and (min-width: x-large) {
   .single-boomerang .boomerang-container .boomerang {
     flex-direction: row;
   }
 }
 .single-boomerang .boomerang-container .boomerang .boomerang-right {
   flex: 1;
+  max-width: 100%;
 }
 .single-boomerang .boomerang-container .entry-header, .single-boomerang .boomerang-container .entry-content, .single-boomerang .boomerang-container .entry-footer {
   display: flex;
@@ -282,7 +341,7 @@ Single Boomerang
   border-radius: 100%;
 }
 .single-boomerang .boomerang-container .boomerang-meta .boomerang-status {
-  border: 1px solid black;
+  border: 1px solid;
   border-radius: 7px;
   padding: 0 5px;
 }
@@ -335,19 +394,23 @@ Archive boomerangs
 .boomerang-directory .boomerang {
   display: flex;
   flex-direction: column;
+}
+.boomerang-directory .boomerang .boomerang-inner {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 @media only screen and (min-width: 576px) {
-  .boomerang-directory .boomerang {
+  .boomerang-directory .boomerang .boomerang-inner {
     flex-direction: row;
   }
 }
 @media only screen and (min-width: large) {
-  .boomerang-directory .boomerang {
+  .boomerang-directory .boomerang .boomerang-inner {
     flex-direction: row;
   }
 }
-.boomerang-directory .boomerang .boomerang-right {
+.boomerang-directory .boomerang .boomerang-inner .boomerang-right {
   flex: 1;
 }
 .boomerang-directory .entry-header, .boomerang-directory .entry-content, .boomerang-directory .entry-footer {
@@ -400,7 +463,7 @@ Archive boomerangs
   gap: 10px;
 }
 .boomerang-directory .boomerang-meta .boomerang-status {
-  border: 1px solid black;
+  border: 1px solid;
   border-radius: 7px;
   padding: 0 5px;
 }

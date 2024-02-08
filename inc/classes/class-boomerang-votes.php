@@ -47,10 +47,20 @@ class Boomerang_Votes {
 		$post_id  = sanitize_text_field( $_POST['post_id'] );
 		$modifier = sanitize_text_field( $_POST['modifier'] );
 		$current  = intval( get_post_meta( $post_id, 'boomerang_votes', true ) ?? 0 );
+		$post     = get_post( $post_id );
+		$can_vote = false;
 
-		$can_vote = $this->user_can_vote( $post_id, $modifier );
+		if ( is_user_logged_in() ) {
+			$can_vote = $this->user_can_vote( $post_id, $modifier );
+		}
 
-		if ( true === $can_vote ) {switch ( $modifier ) {
+		/**
+		 * Filter whether a user can vote, immediately before processing begins.
+		 */
+		$can_vote = apply_filters( 'boomerang_process_vote_before', $can_vote, $post_id, get_current_user_id() );
+
+		if ( true === $can_vote ) {
+			switch ( $modifier ) {
 				case '1':
 					++ $current;
 					$current = apply_filters( 'boomerang_upvoted', $current, $post_id );
@@ -61,14 +71,15 @@ class Boomerang_Votes {
 					break;
 			}
 
-			$message = '';
+			$labels  = boomerang_get_labels( $post->post_parent );
+			$message = $labels['message_vote_recorded'];
 
-			update_post_meta( $post_id, 'boomerang_votes', $current );
+			$this->record_vote( $post_id, $post->post_parent, get_current_user_id(), $modifier, $current );
+
+			do_action( 'boomerang_new_vote', $post_id, $post->post_parent, get_current_user_id() );
 		} else {
-			$message = $can_vote;
+			$message = $can_vote['message'];
 		}
-
-		$post = get_post( $post_id );
 
 		$content = boomerang_get_votes_html( $post );
 
@@ -83,8 +94,20 @@ class Boomerang_Votes {
 		wp_die();
 	}
 
+	/**
+	 * Checks to see if the logged-in user can vote on a Boomerang.
+	 *
+	 * @param $post_id
+	 * @param $modifier
+	 *
+	 * @return array|bool
+	 */
 	public function user_can_vote( $post_id, $modifier ) {
 		$user_id = get_current_user_id();
+		$result  = false;
+		$post    = get_post( $post_id );
+		$board   = $post->post_parent;
+		$labels  = boomerang_get_labels( $board );
 
 		// get the votes array from user's meta.
 		$user_votes = get_user_meta( get_current_user_id(), 'boomerang_user_votes', true ) ?? array();
@@ -96,7 +119,7 @@ class Boomerang_Votes {
 
 			$user_votes[ $post_id ] = $modifier;
 			update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-			return true;
+			$result = true;
 		} else {
 			$vote_status = array_key_exists( $post_id, $user_votes ) ? $user_votes[ $post_id ] : 0;
 
@@ -104,20 +127,24 @@ class Boomerang_Votes {
 				switch ( $vote_status ) {
 					case '1':
 						if ( '1' === $modifier ) {
-							return 'Already voted';
+							$result = array(
+								'message' => $labels['already_voted'],
+							);
 						} elseif ( '-1' === $modifier ) {
 							$user_votes[ $post_id ] = '0';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						}
 						break;
 					case '0':
 						if ( '1' === $modifier ) {
 							$user_votes[ $post_id ] = '1';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						} elseif ( '-1' === $modifier ) {
-							return 'Already voted';
+							$result = array(
+								'message' => $labels['already_voted'],
+							);
 						}
 						break;
 				}
@@ -125,80 +152,75 @@ class Boomerang_Votes {
 				switch ( $vote_status ) {
 					case '1':
 						if ( '1' === $modifier ) {
-							return 'Already voted';
+							$result = array(
+								'message' => $labels['already_voted'],
+							);
 						} elseif ( '-1' === $modifier ) {
 							$user_votes[ $post_id ] = '0';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						}
 						break;
 					case '0':
 						if ( '1' === $modifier ) {
 							$user_votes[ $post_id ] = '1';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						} elseif ( '-1' === $modifier ) {
 							$user_votes[ $post_id ] = '-1';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						}
 						break;
 					case '-1':
 						if ( '1' === $modifier ) {
 							$user_votes[ $post_id ] = '0';
 							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
-							return true;
+							$result = true;
 						} elseif ( '-1' === $modifier ) {
-							return 'Already voted';
+							$result = array(
+								'message' => $labels['already_voted'],
+							);
 						}
 						break;
 				}
 			}
 		}
+
+		return $result;
 	}
 
 	/**
-	 * Fires when a user has upvoted, so we can check they are allowed to.
+	 * Create a record of the vote as Boomerang metadata.
 	 *
-	 * @param $post_id WP_Post Boomerang
-	 * @param $current int     The current number of votes, including the change
+	 * @param $post_id
+	 * @param $board_id
+	 * @param $user_id
+	 * @param $modifier
+	 * @param $score
 	 *
 	 * @return void
 	 */
-	public function user_has_upvoted( $post_id, $current ) {
-		// // get the votes array from user's meta.
-		// $user_votes = get_user_meta( get_current_user_id(), 'boomerang_user_votes' ) ?? array();
-		//
-		// // check to see if user has already voted on this Boomerang.
-		// if ( empty( $user_votes ) ) {
-		// 	// empty array - user hasn't voted on any Boomerangs. Return the current back to the Boomerang,
-		// 	// and update the vote array.
-		// 	$user_votes[ $post_id ] = 'up';
-		// 	update_user_meta( get_current_user_id(), 'boomerang_user_votes', $user_votes );
-		// 	return $current;
-		// } else if (array_key_exists($post_id)) {
-		//
-		// }
-	}
+	public function record_vote( $post_id, $board_id, $user_id, $modifier, $score ) {
+		// Add metadata to record the latest number of votes.
+		update_post_meta( $post_id, 'boomerang_votes', $score );
 
-	/**
-	 * Fires when a user has upvoted, so we can check they are allowed to.
-	 *
-	 * @param $post_id WP_Post Boomerang
-	 * @param $current int     The current number of votes, including the change
-	 *
-	 * @return void
-	 */
-	public function user_has_downvoted( $post_id, $current ) {
-		// // get the votes array from user's meta.
-		// $user_votes = get_user_meta( get_current_user_id(), 'boomerang_user_votes' ) ?? array();
-		//
-		// // check to see if user has already voted on this Boomerang.
-		// if ( empty( $user_votes ) ) {
-		// 	// empty array - user hasn't voted on any Boomerangs. Return the current back to the Boomerang,
-		// 	// and update the vote array.
-		// 	$user_votes[ $post_id ] = 'up';
-		// 	return $current;
-		// }
+		// Build an array of votedata
+		$newdata = array(
+			'user'     => intval( $user_id ),
+			'datetime' => current_datetime(),
+			'modifier' => intval( $modifier ),
+		);
+
+		$newdata = apply_filters( 'boomerang_vote_data', $newdata, $post_id, $board_id, $score );
+
+		$current_data = get_post_meta( $post_id, 'boomerang_vote_data', true );
+		if ( empty( $current_data ) ) {
+			$current_data = array();
+		}
+
+		$current_data[] = $newdata;
+
+		update_post_meta( $post_id, 'boomerang_vote_data', $current_data );
 	}
 }
