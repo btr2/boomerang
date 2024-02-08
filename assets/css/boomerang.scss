@@ -16,6 +16,12 @@ Global Styles
     }
   }
 
+  @if $breakpoint == x-large {
+    @media only screen and (min-width: 690px) {
+      @content;
+    }
+  }
+
   @media only screen and (min-width: $breakpoint) {
     @content;
   }
@@ -156,7 +162,7 @@ span.material-symbols-outlined {
   border: 1px solid #000;
   border-radius: 7px;
 
-  @include media(large) {
+  @include media(x-large) {
     flex-direction: column;
     gap: 0;
   }
@@ -219,7 +225,7 @@ span.material-symbols-outlined {
     height: 100%;
     justify-content: space-between;
 
-    @include media(860px) {
+    @include media(x-large) {
       display: flex;
 
     }
@@ -342,18 +348,20 @@ Single Boomerang
         flex: 1;
         gap: 20px;
         flex-wrap: wrap;
+        max-width: 100%;
 
-        @include media(large) {
+        @include media(x-large) {
           flex-direction: row;
         }
       }
 
-      @include media(large) {
+      @include media(x-large) {
         flex-direction: row;
       }
 
       .boomerang-right {
         flex: 1;
+        max-width: 100%;
       }
     }
 

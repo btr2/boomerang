@@ -33,6 +33,7 @@ class Boomerang_Frontend {
 		add_action( 'wp_ajax_process_filter', array( $this, 'process_filter' ) );
 		add_action( 'wp_ajax_nopriv_process_filter', array( $this, 'process_filter' ) );
 		add_action( 'wp_ajax_process_tag', array( $this, 'process_tag' ) );
+		add_action( 'wp_ajax_process_approve_now', array( $this, 'process_approve_now' ) );
 		add_action( 'wp_ajax_nopriv_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'boomerang_new_boomerang', array( $this, 'send_admin_email' ) );
 		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
@@ -101,10 +102,11 @@ class Boomerang_Frontend {
 			'boomerang',
 			'settings',
 			array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'success' => __( 'Saved!', 'boomerang' ),
-				'comment' => __( 'Add comment', 'boomerang' ),
-				'note'    => __( 'Add private note', 'boomerang' ),
+				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+				'success'  => __( 'Saved!', 'boomerang' ),
+				'comment'  => __( 'Add comment', 'boomerang' ),
+				'note'     => __( 'Add private note', 'boomerang' ),
+				'approved' => esc_html__( 'Approved', 'boomerang' ),
 			)
 		);
 	}
@@ -311,12 +313,30 @@ class Boomerang_Frontend {
 		wp_die();
 	}
 
+	/**
+	 * Locate and serve a template for our Boomerang pages.
+	 *
+	 * @param $single_template
+	 *
+	 * @return mixed|string
+	 */
 	public function do_single_template( $single_template ) {
 		global $post;
 
 		if ( 'boomerang' === $post->post_type ) {
-			$single_template = BOOMERANG_PATH . '/templates/single.php';
+			if ( boo_fs()->can_use_premium_code__premium_only() ) {
+				$theme_template = locate_template( 'boomerang/single.php' );
+
+				if ( $theme_template ) {
+					$single_template = $theme_template;
+				} else {
+					$single_template = BOOMERANG_PATH . '/templates/single.php';
+				}
+			} else {
+				$single_template = BOOMERANG_PATH . '/templates/single.php';
+			}
 		}
+
 		if ( 'boomerang_board' === $post->post_type ) {
 			$single_template = BOOMERANG_PATH . '/templates/archive.php';
 		}
@@ -344,7 +364,7 @@ class Boomerang_Frontend {
 
 		$post_id = sanitize_text_field( $_POST['post_id'] );
 		$status  = sanitize_text_field( $_POST['status'] );
-		$term = '';
+		$term    = '';
 
 		if ( isset( $status ) ) {
 			if ( '-1' === $status ) {
@@ -661,10 +681,56 @@ class Boomerang_Frontend {
 				get_singular( $post->post_parent )
 			);
 
+			$approve_now = '<span class="banner-action-link approve-now-link" data-id="' . $post->ID . '" data-nonce="' . wp_create_nonce( 'boomerang_approve_now' ) . '">' . __( 'Approve now?', 'boomerang' ) . '</span>';
+
 			echo '<p>' . esc_html( $text ) . '</p>';
+
+			echo wp_kses_post( $approve_now );
 
 			echo '</div>';
 
 		}
+	}
+
+	/**
+	 * AJAX handler to approve Boomerangs.
+	 *
+	 * @return void
+	 */
+	public function process_approve_now() {
+		if ( ! wp_verify_nonce(
+			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
+			'boomerang_approve_now'
+		) ) {
+			$error = new WP_Error(
+				'Boomerang: Failed Security Check on Boomerang Approval',
+				__( 'Something went wrong.', 'boomerang' )
+			);
+
+			wp_send_json_error( $error );
+		}
+
+		$post_id = sanitize_text_field( $_POST['post_id'] );
+
+		wp_update_post(
+			array(
+				'ID'          => $post_id,
+				'post_status' => 'publish',
+			)
+		);
+
+		$message = sprintf(
+		/* translators: %s: Singular form of this board's Boomerang name */
+			__( '%s approved.', 'boomerang' ),
+			get_singular( get_post( $post_id )->post_parent )
+		);
+
+		$return = array(
+			'message' => esc_html( ucfirst( $message ) ),
+		);
+
+		wp_send_json_success( $return );
+
+		wp_die();
 	}
 }

@@ -120,13 +120,13 @@ span.material-symbols-outlined {
   border: 1px solid #000;
   border-radius: 7px;
 }
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 690px) {
   .votes-container {
     flex-direction: column;
     gap: 0;
   }
 }
-@media only screen and (min-width: large) {
+@media only screen and (min-width: x-large) {
   .votes-container {
     flex-direction: column;
     gap: 0;
@@ -168,7 +168,12 @@ span.material-symbols-outlined {
   height: 100%;
   justify-content: space-between;
 }
-@media only screen and (min-width: 860px) {
+@media only screen and (min-width: 690px) {
+  .boomerang-admin-area .boomerang-admin-area-inner {
+    display: flex;
+  }
+}
+@media only screen and (min-width: x-large) {
   .boomerang-admin-area .boomerang-admin-area-inner {
     display: flex;
   }
@@ -261,29 +266,31 @@ Single Boomerang
   flex: 1;
   gap: 20px;
   flex-wrap: wrap;
+  max-width: 100%;
 }
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 690px) {
   .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
     flex-direction: row;
   }
 }
-@media only screen and (min-width: large) {
+@media only screen and (min-width: x-large) {
   .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
     flex-direction: row;
   }
 }
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 690px) {
   .single-boomerang .boomerang-container .boomerang {
     flex-direction: row;
   }
 }
-@media only screen and (min-width: large) {
+@media only screen and (min-width: x-large) {
   .single-boomerang .boomerang-container .boomerang {
     flex-direction: row;
   }
 }
 .single-boomerang .boomerang-container .boomerang .boomerang-right {
   flex: 1;
+  max-width: 100%;
 }
 .single-boomerang .boomerang-container .entry-header, .single-boomerang .boomerang-container .entry-content, .single-boomerang .boomerang-container .entry-footer {
   display: flex;

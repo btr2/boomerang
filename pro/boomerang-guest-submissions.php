@@ -165,9 +165,17 @@ function filter_guest_user_name( $string, $post ) {
 		$guest_name = get_post_meta( $post->ID, 'guest_user_name', true );
 
 		if ( $guest_name ) {
-			return $guest_name;
+			$string = $guest_name;
 		} else {
-			return get_the_author();
+			$string = get_the_author();
+		}
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$guest_email = get_post_meta( $post->ID, 'guest_user_email', true );
+
+			if ( $guest_email ) {
+				$string .= ' (' . $guest_email . ')';
+			}
 		}
 	}
 

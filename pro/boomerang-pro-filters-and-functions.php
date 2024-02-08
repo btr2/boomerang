@@ -461,4 +461,3 @@ function boomerang_comments_count( $count, $post ) {
 	return get_comments( $args );
 }
 add_filter( 'boomerang_comments_count', __NAMESPACE__ . '\boomerang_comments_count', 10, 2 );
-

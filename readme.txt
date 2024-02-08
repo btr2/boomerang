@@ -4,7 +4,7 @@ Contributors: bouncingsprout
 Requires at least: 5.2
 Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,15 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 2. Single Boomerang Page (Pro Edition - coming soon)
 
 == Changelog ==
+
+= 1.0.3 =
+[//]: # fs_premium_only_begin
+* Add quick poll system
+* Allow template override for single Boomerangs
+* Display email addresses given by anonymous users
+[//]: # fs_premium_only_end
+* Approve Boomerangs from the frontend
+* Minor bugfixes and styling issues
 
 = 1.0.2 =
 * Minor bugfixes and styling issues
