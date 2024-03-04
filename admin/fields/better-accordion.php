@@ -8,8 +8,8 @@
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_accordion' ) ) {
-	class CSF_Field_accordion extends CSF_Fields {
+if ( ! class_exists( 'CSF_Field_better_accordion' ) ) {
+	class CSF_Field_better_accordion extends CSF_Fields {
 
 		public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
@@ -64,6 +64,6 @@ if ( ! class_exists( 'CSF_Field_accordion' ) ) {
 			echo $this->field_after();
 
 		}
-
 	}
 }
+

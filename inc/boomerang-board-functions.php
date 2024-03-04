@@ -444,6 +444,56 @@ function boomerang_board_new_boomerang_email_addresses( $post = false ) {
 	return $meta['admin_email'] ?? false;
 }
 
+/**
+ * Are new Boomerang emails enabled?
+ *
+ * @param $post
+ *
+ * @return bool
+ */
+function send_new_boomerang_email_enabled( $post = false ) {
+
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	// TODO Possible Debug?
+	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
+	error_log( print_r($meta, true) );
+
+	// TODO Possible Debug?
+	error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
+	error_log( print_r(count($meta['notifications']), true) );
+
+
+
+	if ( $meta['notifications']['send_email_new_boomerang'] ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Are new Boomerang emails enabled?
+ *
+ * @param $post
+ *
+ * @return bool
+ */
+function send_new_boomerang_email_data( $post = false ) {
+
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	if ( ! $meta['notifications']['send_email_new_boomerang'] ) {
+		return false;
+	}
+
+	return false;
+}
+
 /** Voting **/
 
 /**

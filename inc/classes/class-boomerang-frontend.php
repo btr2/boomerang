@@ -35,7 +35,7 @@ class Boomerang_Frontend {
 		add_action( 'wp_ajax_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'wp_ajax_process_approve_now', array( $this, 'process_approve_now' ) );
 		add_action( 'wp_ajax_nopriv_process_tag', array( $this, 'process_tag' ) );
-		add_action( 'boomerang_new_boomerang', array( $this, 'send_admin_email' ) );
+		add_action( 'boomerang_new_boomerang', array( $this, 'send_new_boomerang_email' ) );
 		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
 		add_action( 'boomerang_archive_boomerang_start', array( $this, 'add_pending_banner' ) );
 		add_action( 'boomerang_single_boomerang_start', array( $this, 'add_pending_banner' ) );
@@ -582,21 +582,26 @@ class Boomerang_Frontend {
 	 *
 	 * @return void
 	 */
-	public function send_admin_email( $post_id ) {
-		$to      = boomerang_board_new_boomerang_email_addresses( $post_id );
-		$subject = sprintf(
-		// translators: %s: Base for our Boomerang CPT
-			esc_attr__( 'New %s created', 'boomerang' ),
-			esc_attr( boomerang_get_base() )
-		);
-		$body = sprintf(
-		// translators: %1$s: Base for our Boomerang CPT %2$s: Boomerang permalink
-			__( 'A new %1$s has been created. You may review it <a href="%2$s">here</a>.', 'boomerang' ),
-			esc_attr( boomerang_get_base() ),
-			esc_url( get_permalink( $post_id ) )
-		);
+	public function send_new_boomerang_email( $post_id ) {
+		if ( ! send_new_boomerang_email_enabled( $post_id ) ) {
+			return;
+		}
 
-		boomerang_send_email( $to, $subject, $body );
+
+		// $to      = boomerang_board_new_boomerang_email_addresses( $post_id );
+		// $subject = sprintf(
+		// // translators: %s: Base for our Boomerang CPT
+		// 	esc_attr__( 'New %s created', 'boomerang' ),
+		// 	esc_attr( boomerang_get_base() )
+		// );
+		// $body = sprintf(
+		// // translators: %1$s: Base for our Boomerang CPT %2$s: Boomerang permalink
+		// 	__( 'A new %1$s has been created. You may review it <a href="%2$s">here</a>.', 'boomerang' ),
+		// 	esc_attr( boomerang_get_base() ),
+		// 	esc_url( get_permalink( $post_id ) )
+		// );
+		//
+		// boomerang_send_email( $to, $subject, $body );
 	}
 
 	/**

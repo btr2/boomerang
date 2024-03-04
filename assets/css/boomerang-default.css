@@ -456,7 +456,6 @@ body:not(.logged-in) .votes-container {
 
 .votes-container {
   border-color: #e5e5ee;
-  background-color: #fff;
   transition-duration: 0.3s;
   transition-property: border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

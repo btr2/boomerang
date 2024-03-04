@@ -44,6 +44,70 @@
   display: none;
 }
 
+/** CSF Notification Accordions **/
+.notification-accordions .csf-accordion-item {
+  position: relative;
+  margin-bottom: 5px;
+}
+.notification-accordions .csf-accordion-item:last-child {
+  margin-bottom: 0;
+}
+.notification-accordions .csf-accordion-item h4 {
+  font-size: 1em;
+}
+.notification-accordions .csf-accordion-title {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  padding: 15px;
+  min-height: 0;
+  font-size: 100%;
+  user-select: none;
+  border: 1px solid #ccd0d4;
+  background-color: #fafafa;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s;
+}
+.notification-accordions .csf-accordion-title:active, .notification-accordions .csf-field-accordion .csf-accordion-title:hover, .notification-accordions .csf-field-accordion .csf-accordion-title:focus {
+  outline: none;
+  border-color: #999;
+}
+.notification-accordions .csf-accordion-title .csf--icon {
+  width: 20px;
+  text-align: center;
+  margin-right: 2px;
+}
+.notification-accordions .csf-accordion-icon {
+  width: 16px;
+  text-align: center;
+}
+.notification-accordions .csf-accordion-content {
+  display: none;
+  padding: 0;
+  border: 1px solid #ccd0d4;
+  border-top: none;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.notification-accordions .csf-accordion-content > .csf-field {
+  padding: 15px;
+}
+.notification-accordions .csf-accordion-open {
+  display: block;
+}
+.notification-accordions .boomerang-notification-placeholder-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 5px;
+}
+.notification-accordions .boomerang-notification-placeholder-container span {
+  background-color: #ededed;
+  border-radius: 5px;
+  padding: 4px 8px;
+  text-align: center;
+}
+
 /* Upsell */
 .upsell {
   text-decoration: none;
