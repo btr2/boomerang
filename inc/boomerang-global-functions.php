@@ -111,3 +111,21 @@ function boomerang_get_google_recaptcha_keys__premium_only() {
 		);
 	}
 }
+
+/**
+ * Checks to see if Simple Feature Requests is active.
+ *
+ * @return bool|void
+ */
+function boomerang_is_simple_feature_requests_active() {
+	include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		return;
+	}
+
+	if ( is_plugin_active( 'simple-feature-requests/simple-feature-requests.php' ) || is_plugin_active( 'simple-feature-requests-pro/simple-feature-requests.php' ) ) {
+		return true;
+	}
+
+	return false;
+}

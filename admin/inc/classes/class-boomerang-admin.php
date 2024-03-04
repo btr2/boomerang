@@ -24,6 +24,8 @@ class Boomerang_Admin {
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require_once BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-customizer.php';
 			$boomerang_customizer = new Boomerang_Customizer();
+
+
 		}
 	}
 
@@ -52,6 +54,9 @@ class Boomerang_Admin {
 			add_action( 'boomerang_status_edit_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
 			add_action( 'edited_boomerang_status', array( $this, 'save_category_fields__premium_only' ), 10, 2 );
 			add_action( 'create_boomerang_status', array( $this, 'save_category_fields__premium_only' ), 10, 2 );
+
+			// Migration Tools
+			require_once BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-migrator.php';
 		}
 	}
 
@@ -223,7 +228,7 @@ class Boomerang_Admin {
 				)
 			);
 
-			apply_filters( 'boomerang_global_settings_section_end', $prefix );
+			do_action( 'boomerang_global_settings_section_end', $prefix );
 		}
 	}
 

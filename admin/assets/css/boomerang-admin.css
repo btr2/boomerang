@@ -85,4 +85,27 @@
   margin-left: auto;
 }
 
+/** Data Import Page **/
+.boomerang_page_boomerang_data_import #accordion-container .accordion-item {
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #000;
+}
+.boomerang_page_boomerang_data_import #accordion-container .accordion-item .accordion-header {
+  font-size: large;
+  font-weight: 500;
+}
+.boomerang_page_boomerang_data_import #accordion-container .accordion-item .accordion-body .controls {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+.boomerang_page_boomerang_data_import #accordion-container .accordion-item .accordion-body .controls .import-result {
+  color: darkgreen;
+  font-size: large;
+  font-weight: 500;
+}
+
 /*# sourceMappingURL=boomerang-admin.css.map */
