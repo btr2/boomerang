@@ -2,13 +2,13 @@
 Tags: feature requests, requests, feedback, ideas, suggestions, idea board, request board
 Contributors: bouncingsprout
 Requires at least: 5.2
-Tested up to: 6.4.2
+Tested up to: 6.5.0
 Requires PHP: 7.0
 Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A slick, modern feature request and feedback platform for WordPress.
+A slick, modern feature request and feedback platform for WordPress. Visit us at [boomerangwp.com](https://boomerangwp.com/).
 
 == Description ==
 
@@ -40,7 +40,25 @@ Some plugins don't let you edit your statuses. Boomerang really doesn't care wha
 
 = Amazing Help and Support =
 
-We are busy creating a dedicated website for Boomerang. So please feel free to ask questions in the plugin support forum. You can see the link at the top of this page. Alternatively, you will find a 'Contact Us' item on the Boomerang menu.Please don't hesitate to reach out, while we are creating a full set of technical docs and so on. We really want to meet you, and find out more about how you are using Boomerang. When you activate Boomerang, you will be asked to opt in to receive emails from us. We don't do spam. We hate it. But if you choose to opt in, we can send you updates on how our website is getting on, and what new features we have planned.
+Feel free to ask questions in the plugin support forum. You can see the link at the top of this page. Alternatively, you will find a 'Contact Us' item on the Boomerang menu.Please don't hesitate to reach out, while we are creating a full set of technical docs and so on. We really want to meet you, and find out more about how you are using Boomerang. When you activate Boomerang, you will be asked to opt in to receive emails from us. We don't do spam. We hate it. But if you choose to opt in, we can send you updates on how our website is getting on, and what new features we have planned.
+
+== 💲Premium Features ==
+
+We have a huge number of premium features available. To see how powerful our Professional Edition is, head to our [website](https://boomerangwp.com/). Features include:
+
+* Quick Polls
+* Boomerang Merging
+* Better styling, colored statuses, improved layouts
+* Bug Management
+* Guest Submissions
+* Anonymous voting
+* Boomerang Editing
+* Related and suggested Boomerangs, to reduce duplication
+* Google ReCaptcha v3 integration
+* Crowdfunding (for when you can't justify developing an idea, but your users want to pay for it)
+* Custom Fields
+* Audit Logging
+* And much, much more...
 
 == ⚙️ Getting Started ==
 
@@ -63,11 +81,14 @@ We are busy creating a dedicated website for Boomerang. So please feel free to a
 
 = 1.0.3 =
 [//]: # fs_premium_only_begin
+* Allow merging of Boomerangs
+* Add a migration tool to import from Simple Feature Requests
 * Add quick poll system
 * Allow template override for single Boomerangs
 * Display email addresses given by anonymous users
 [//]: # fs_premium_only_end
 * Approve Boomerangs from the frontend
+* Allow bulk voting by managers to aid debugging
 * Minor bugfixes and styling issues
 
 = 1.0.2 =
