@@ -134,6 +134,21 @@ function boomerang_board_votes_enabled( $post = false ) {
 }
 
 /**
+ * Checks if bulk votes are enabled for a given board or boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_bulk_votes_enabled( $post = false ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['enable_bulk_votes'] ?? false;
+}
+
+/**
  * Checks if down-voting is enabled for a given board or boomerang.
  *
  * @param $post

@@ -347,11 +347,27 @@ Single Boomerang
         flex-direction: column;
         flex: 1;
         gap: 20px;
-        flex-wrap: wrap;
-        max-width: 100%;
 
         @include media(x-large) {
-          flex-direction: row;
+          //flex-direction: row;
+        }
+
+        .boomerang-single-content-inner {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          @include media(x-large) {
+            flex-direction: row;
+          }
+
+          .boomerang-left {
+
+          }
+
+          .boomerang-left {
+
+          }
         }
       }
 

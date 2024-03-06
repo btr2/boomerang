@@ -109,6 +109,10 @@ class Boomerang_Votes {
 		$board   = $post->post_parent;
 		$labels  = boomerang_get_labels( $board );
 
+		if ( boomerang_can_manage() && boomerang_board_bulk_votes_enabled( $post ) ) {
+			return true;
+		}
+
 		// get the votes array from user's meta.
 		$user_votes = get_user_meta( get_current_user_id(), 'boomerang_user_votes', true ) ?? array();
 
