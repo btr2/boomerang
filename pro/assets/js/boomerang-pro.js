@@ -290,5 +290,80 @@ jQuery(document).ready(function ($) {
         }
     );
 
+    $("body").on(
+        "click",
+        ".boomerang .boomerang-merge-button",
+        function (e) {
+            e.preventDefault();
+            $('#boomerang-merge-screen-modal').addClass( 'active' );
+        }
+    );
+
+    $('.boomerang-merge-select').select2({
+        placeholder: "Search for a Boomerang..."
+    });
+
+    $("body").on(
+        "click",
+        "#boomerang-merge-screen-modal form #cancel",
+        function (e) {
+            e.preventDefault();
+            $('#boomerang-merge-screen-modal').removeClass( 'active' );
+        }
+    );
+
+    $("body").on(
+        "click",
+        "#boomerang-merge-screen-modal form #submit",
+        function (e) {
+            e.preventDefault();
+            console.log(e);
+            merge_boomerang($(this))
+        }
+    );
+
+    function merge_boomerang(e) {
+        let button = $(e);
+        let form = button.closest('#boomerang-merge-screen #boomerang-merge-form');
+        let nonce = form.attr("data-nonce");
+        let id = form.attr("data-id");
+        let primary = form.find('.boomerang-merge-select').val();
+
+        $.ajax(
+            {
+                type: "POST",
+                url: settings.ajaxurl,
+                data: {
+                    action: 'merge_boomerang',
+                    nonce: nonce,
+                    ID: id,
+                    primary: primary,
+                    dataType: 'json',
+                },
+                success: function (response) {
+                    if (!response.success) {
+                        console.log(response);
+                        form.find('.merge-result').text(response.data[0].message)
+                    } else {
+                        console.log(response);
+                        form.find('.merge-result').addClass('success')
+                        form.find('.merge-result').text(response.data.message)
+                        setTimeout(
+                            function () {
+                                $('#boomerang-merge-screen-modal').removeClass( 'active' );
+                                form.find('.merge-result').removeClass('success')
+                                form.find('.merge-result').text('')
+                                // Clears the Select2 dropdown.
+                                form.find('.boomerang-merge-select').val(null).trigger('change');
+                            },
+                            1500
+                        );
+
+                    }
+                },
+            }
+        );
+    }
+
 
 });

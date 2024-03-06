@@ -363,6 +363,17 @@ class Boomerang_Admin {
 			'title' => esc_html__( 'Enable Votes', 'boomerang' ),
 			'desc'  => esc_html__( 'This allows users to vote on individual Boomerangs.', 'boomerang' ),
 		);
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			$settings[] = array(
+				'id'    => 'enable_bulk_votes',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable Bulk Votes', 'boomerang' ),
+				'desc'  => esc_html__( 'This allows managers to vote multiple times, for debugging purposes.', 'boomerang' ),
+				'dependency' => array( 'enable_votes', '==', 'true' ),
+			);
+		}
+
 		$settings[] = array(
 			'id'    => 'enable_downvoting',
 			'type'  => 'switcher',
