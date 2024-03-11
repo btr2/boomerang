@@ -69,6 +69,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
+			'id' => 'safety',
 			'title'  => 'Safety',
 			'fields' => array(
 				array(
@@ -84,6 +85,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
+			'id' => 'guest_submissions',
 			'title'  => 'Guest Submissions',
 			'fields' => render_guest_fields(),
 		)
@@ -93,6 +95,7 @@ function add_board_pro_sections( $prefix ) {
 		\CSF::createSection(
 			$prefix,
 			array(
+				'custom_fields',
 				'title'  => 'Custom Fields',
 				'fields' => render_custom_fields_section(),
 			)
@@ -102,6 +105,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
+			'id' => 'other_boomerangs',
 			'title'  => 'Other Boomerangs',
 			'fields' => array(
 				array(
@@ -135,6 +139,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
+			'id' => 'polls',
 			'title'  => 'Polls',
 			'fields' => render_polls_fields(),
 		)

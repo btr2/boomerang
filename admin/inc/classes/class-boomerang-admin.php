@@ -18,6 +18,7 @@ class Boomerang_Admin {
 	 */
 	public function __construct() {
 		require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
+		require_once BOOMERANG_PATH . '/admin/fields/better-accordion.php';
 
 		$this->init_hooks();
 
@@ -49,6 +50,7 @@ class Boomerang_Admin {
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require BOOMERANG_PATH . 'admin/pro/boomerang-pro-admin-filters.php';
+			require BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-admin-email-notifications.php';
 
 			add_action( 'boomerang_status_add_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
 			add_action( 'boomerang_status_edit_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
@@ -76,7 +78,7 @@ class Boomerang_Admin {
 			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) {
 				wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'admin/assets/css/boomerang-admin.css', null, BOOMERANG_VERSION );
 				wp_enqueue_style( 'wp-color-picker' );
-				wp_enqueue_script( 'boomerang', BOOMERANG_URL . 'admin/assets/js/boomerang.js', array( 'wp-color-picker' ), BOOMERANG_VERSION, true );
+				wp_enqueue_script( 'boomerang', BOOMERANG_URL . 'admin/assets/js/boomerang.js', array( 'wp-color-picker', 'jquery-ui-droppable' ), BOOMERANG_VERSION, true );
 
 				if ( boo_fs()->can_use_premium_code__premium_only() ) {
 					wp_enqueue_script( 'boomerang-pro', BOOMERANG_URL . 'admin/pro/assets/js/boomerang-pro.js', array(), BOOMERANG_VERSION, true );
@@ -253,6 +255,7 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
+					'id' => 'general',
 					'title'  => 'General',
 					'fields' => $this->general_settings(),
 				)
@@ -261,6 +264,7 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
+					'id' => 'labels',
 					'title'  => 'Labels',
 					'fields' => $this->label_settings(),
 				)
@@ -269,23 +273,9 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
+					'id' => 'notifications',
 					'title'  => 'Notifications',
-					'fields' => array(
-						array(
-							'id'    => 'admin_email',
-							'type'  => 'text',
-							'title' => esc_html__( 'Admin Email', 'boomerang' ),
-							'desc'  => esc_html__(
-								'Enter an email address to send notifications when Boomerangs are created.',
-								'boomerang'
-							),
-						),
-						array(
-							'id'    => 'send_email_new_boomerang',
-							'type'  => 'switcher',
-							'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
-						),
-					),
+					'fields' => $this->notification_settings(),
 				)
 			);
 
@@ -549,6 +539,154 @@ class Boomerang_Admin {
 		);
 
 		return apply_filters( 'boomerang_board_label_settings', $settings );
+	}
+
+	/**
+	 * Populate our Notification Settings array.
+	 *
+	 * @return array
+	 */
+	public function notification_settings() {
+		$settings = array();
+
+		$settings[] = array(
+			'id'         => 'notifications',
+			'type'       => 'better_accordion',
+			'class'      => 'notification-accordions',
+			'accordions' => $this->notification_settings_accordions(),
+		);
+
+		return apply_filters( 'boomerang_board_notification_settings', $settings );
+	}
+
+	/**
+	 * Populate our Notification Settings Accordions array.
+	 *
+	 * @return array
+	 */
+	public function notification_settings_accordions() {
+		$accordions = array();
+
+		$accordions[] = array(
+			'id'     => 'send_new_boomerang_email',
+			'title'  => 'Admin Notification',
+			'fields' => array(
+				array(
+					'id'    => 'enabled',
+					'type'  => 'switcher',
+					'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
+				),
+				array(
+					'id'    => 'admin_email',
+					'type'  => 'text',
+					'title' => esc_html__( 'Admin Email', 'boomerang' ),
+					'desc'  => esc_html__(
+						'Enter an email address to send notifications when Boomerangs are created.',
+						'boomerang'
+					),
+				),
+				array(
+					'id'      => 'placeholders',
+					'type'    => 'content',
+					'title'   => esc_html__( 'Placeholders', 'boomerang' ),
+					'desc'    => esc_html__(
+						'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.',
+						'boomerang'
+					),
+					'content' => wp_kses_post( $this->get_placeholder_box() ),
+				),
+				array(
+					'id'         => 'new_boomerang_subject',
+					'type'       => 'textarea',
+					'title'      => esc_html__( 'Email Subject', 'boomerang' ),
+					'attributes' => array(
+						'rows'  => 3,
+						'style' => 'min-height: 0;',
+					),
+				),
+				array(
+					'id'            => 'new_boomerang_content',
+					'type'          => 'wp_editor',
+					'title'         => esc_html__( 'Email Content', 'boomerang' ),
+					'quicktags'     => false,
+					'media_buttons' => false,
+				),
+			),
+		);
+
+		$accordions[] = array(
+			'id'     => 'send_new_blah',
+			'title'  => 'Admin Notification',
+			'fields' => array(
+				array(
+					'id'    => 'enabled',
+					'type'  => 'switcher',
+					'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
+				),
+				array(
+					'id'    => 'admin_email',
+					'type'  => 'text',
+					'title' => esc_html__( 'Admin Email', 'boomerang' ),
+					'desc'  => esc_html__(
+						'Enter an email address to send notifications when Boomerangs are created.',
+						'boomerang'
+					),
+				),
+				array(
+					'id'      => 'placeholders',
+					'type'    => 'content',
+					'title'   => esc_html__( 'Placeholders', 'boomerang' ),
+					'desc'    => esc_html__(
+						'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.',
+						'boomerang'
+					),
+					'content' => wp_kses_post( $this->get_placeholder_box() ),
+				),
+				array(
+					'id'         => 'new_boomerang_subject',
+					'type'       => 'textarea',
+					'title'      => esc_html__( 'Email Subject', 'boomerang' ),
+					'attributes' => array(
+						'rows'  => 3,
+						'style' => 'min-height: 0;',
+					),
+				),
+				array(
+					'id'            => 'new_boomerang_content',
+					'type'          => 'wp_editor',
+					'title'         => esc_html__( 'Email Content', 'boomerang' ),
+					'quicktags'     => false,
+					'media_buttons' => false,
+				),
+			),
+		);
+
+		return apply_filters( 'boomerang_board_notification_settings_accordions', $accordions );
+	}
+
+	/**
+	 * Render a box to hold placeholders.
+	 *
+	 * @return string
+	 */
+	public function get_placeholder_box() {
+		$placeholders = array(
+			'Boomerang Title',
+			'Board Name',
+			'Boomerang Link',
+		);
+
+		$placeholder_string = '<div class="boomerang-notification-placeholder-container">';
+
+		foreach ( $placeholders as $placeholder ) {
+			$placeholder_string .= '<span>{{' . $placeholder . '}}</span>';
+		}
+
+		$placeholder_string .= '</div>';
+
+		$placeholder_string .= '<div class="csf-desc-text">' . __( 'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.', 'boomerang' ) . '</div>';
+
+		return $placeholder_string;
 	}
 
 	/**
