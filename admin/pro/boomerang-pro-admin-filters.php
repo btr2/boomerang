@@ -494,7 +494,9 @@ function render_guest_fields() {
 			'1440'  => '1 day',
 			'10080' => '1 week',
 		),
-		'dependency' => array( 'enable_guest_voting_criteria', '==', 'time' ),
+		'dependency' => array(
+			array( 'enable_guest_voting_criteria', 'any', 'time' ),
+		),
 	);
 
 	return $fields;
