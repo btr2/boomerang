@@ -75,6 +75,7 @@ class Boomerang {
 			require BOOMERANG_PATH . '/pro/boomerang-related-boomerangs.php';
 			require BOOMERANG_PATH . '/pro/boomerang-suggested-boomerangs.php';
 			require BOOMERANG_PATH . '/pro/boomerang-edit.php';
+			require BOOMERANG_PATH . '/pro/boomerang-merge.php';
 			require BOOMERANG_PATH . '/pro/boomerang-bug-reporting.php';
 			require BOOMERANG_PATH . '/pro/boomerang-audit-log.php';
 			require BOOMERANG_PATH . '/pro/boomerang-poll.php';

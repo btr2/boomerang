@@ -179,3 +179,36 @@ $blue: #027AD0;
     }
   }
 }
+
+/** Data Import Page **/
+.boomerang_page_boomerang_data_import {
+  #accordion-container {
+    .accordion-item {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #000;
+
+      .accordion-header {
+        font-size: large;
+        font-weight: 500;
+      }
+
+      .accordion-body {
+        .controls {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          gap: 10px;
+          margin: 20px 0;
+
+          .import-result {
+            color: darkgreen;
+            font-size: large;
+            font-weight: 500;
+          }
+        }
+
+      }
+    }
+  }
+}

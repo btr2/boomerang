@@ -384,23 +384,28 @@ function process_guest_voting( $can_vote, $post_id, $user_id ) {
 
 	if ( in_array( 'time', $criteria ) ) {
 		$votedata = get_post_meta( $post_id, 'boomerang_vote_data', true );
-		// We need to check IP
-		$current_ip = boomerang_get_ip();
 
-		foreach ( $votedata as $vote => $data ) {
-			if ( empty($data['ip']) || $current_ip !== $data['ip'] ) {
-				unset($votedata[$vote]);
+		if ( ! empty( $votedata ) ) {
+			// We need to check IP
+			$current_ip = boomerang_get_ip();
+
+			foreach ( $votedata as $vote => &$data ) {
+				if ( empty($data['ip']) || $current_ip !== $data['ip'] ) {
+					unset($votedata[$vote]);
+				}
 			}
-		}
 
-		$vote = end($votedata)['datetime']->getTimestamp();
-		$gap = boomerang_board_get_guest_vote_time_gap( $board );
-		$diff = '-' . $gap . ' minutes';
+			if ( ! empty( $votedata ) ) {
+				$vote = end($votedata)['datetime']->getTimestamp();
+				$gap = boomerang_board_get_guest_vote_time_gap( $board );
+				$diff = '-' . $gap . ' minutes';
 
-		if ( $vote >= strtotime( $diff ) ) {
-			return array(
-				'message' =>  esc_html__( 'You need to wait longer before voting again', 'boomerang' )
-			);
+				if ( $vote >= strtotime( $diff ) ) {
+					return array(
+						'message' =>  esc_html__( 'You need to wait longer before voting again', 'boomerang' )
+					);
+				}
+			}
 		}
 	}
 

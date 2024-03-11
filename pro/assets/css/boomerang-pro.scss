@@ -299,3 +299,123 @@ $blue: #027AD0;
     }
   }
 }
+
+/**
+Single Boomerang
+ */
+.single-boomerang {
+  .boomerang-merge-container {
+    margin-bottom: 30px;
+    border: 1px solid #8f9399;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+
+    li {
+      font-size: 13px;
+      color: #64676b;
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+
+      span {
+        font-size: 20px;
+        align-self: start;
+      }
+    }
+  }
+
+  #boomerang-merge-screen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(52, 73, 94, 0.8);
+    z-index: 50;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.7s;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #boomerang-merge-screen {
+      background: #fff;
+      padding: 3rem;
+      z-index: 100;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.5s ease-out;
+      transform: translateY(45px);
+      border-radius: 6px;
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #64676b;
+
+        &.merge-intro {
+          margin-bottom: 5px;
+        }
+
+        &.merge-disclaimer {
+          font-size: 14px;
+        }
+
+        &.merge-result {
+          font-weight: bold;
+          margin-bottom: 0;
+          margin-top: 20px;
+          color: darkred;
+
+          &.success {
+            color: darkgreen;
+          }
+        }
+      }
+
+      fieldset {
+        padding: 0;
+        margin-bottom: 20px;
+        border: none;
+        gap: 10px;
+
+        > select {
+          .merge-initial {
+            color: #64676b;
+          }
+        }
+      }
+
+      footer {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          background-color: var(--boomerang-primary-color);
+        }
+      }
+    }
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+
+      #boomerang-merge-screen {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}

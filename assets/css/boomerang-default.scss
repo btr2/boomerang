@@ -21,6 +21,12 @@ $blue: #027AD0;
       @content;
     }
   }
+  @if $breakpoint == small {
+    @media only screen and (min-width: 576px) {
+      @content;
+    }
+  }
+
 
   @if $breakpoint == large {
     @media only screen and (min-width: 576px) {
@@ -30,6 +36,12 @@ $blue: #027AD0;
 
   @if $breakpoint == x-large {
     @media only screen and (min-width: 690px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == xx-large {
+    @media only screen and (min-width: 1024px) {
       @content;
     }
   }
@@ -116,6 +128,7 @@ $blue: #027AD0;
     }
   }
 }
+
 
 body {
   &:not(.logged-in) {
@@ -864,12 +877,12 @@ Single Boomerang
         }
 
         .boomerang-single-content {
-          display: flex;
-          flex-direction: column;
-
-          @include media(x-large) {
-            flex-direction: row;
-          }
+          //display: flex;
+          //flex-direction: column;
+          //
+          //@include media(x-large) {
+          //  flex-direction: row;
+          //}
 
 
 
@@ -879,7 +892,6 @@ Single Boomerang
             display: flex;
             align-items: center;
             gap: 15px;
-            flex-basis: 100%;
             border: 1px solid;
 
             .banner-action-link {
@@ -939,6 +951,19 @@ Single Boomerang
             }
 
             &.bug-banner {
+              color: darkred;
+              border-color: darkred;
+
+              &:after {
+                background-color: darkred;
+              }
+
+              p, span {
+                color: darkred;
+              }
+            }
+
+            &.merge-banner {
               color: darkred;
               border-color: darkred;
 
@@ -1624,6 +1649,18 @@ Boomerang Directory
           color: darkred;
         }
       }
+
+      &.merge-banner {
+        color: darkred;
+
+        &:after {
+          background-color: darkred;
+        }
+
+        p, span {
+          color: darkred;
+        }
+      }
     }
 
 
@@ -1725,3 +1762,31 @@ Boomerang Directory
     }
   }
 }
+
+/** Body Class, so treated separately **/
+.boomerang-is-manager {
+  &.single-boomerang {
+    .boomerang-container #main .boomerang {
+      @media only screen and (min-width: 576px) {
+        flex-direction: column;
+      }
+
+      @include media( xx-large ) {
+        flex-direction: row;
+      }
+
+      .boomerang-single-aside {
+        order: 1;
+
+        @media only screen and (min-width: 764px) {
+          order: 1
+        }
+
+        @media only screen and (min-width: 1024px) {
+          order: 0
+        }
+      }
+    }
+  }
+}
+

@@ -623,6 +623,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 				</div>
 			</div>
 			<div class="boomerang-actions-container">
+				<?php do_action( 'boomerang_actions_container_start', $post ); ?>
 				<h3 class="boomerang-actions-heading"><?php esc_html_e( 'Actions', 'boomerang' ); ?></h3>
 				<div class="boomerang-actions">
 					<?php do_action( 'boomerang_admin_actions_start', $post ); ?>
@@ -642,6 +643,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 					</a>
 					<?php do_action( 'boomerang_admin_actions_end', $post ); ?>
 				</div>
+				<?php do_action( 'boomerang_actions_container_end', $post ); ?>
 			</div>
 			<?php do_action( 'boomerang_admin_area_end', $post ); ?>
 		</div>

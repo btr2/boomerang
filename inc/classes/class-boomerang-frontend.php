@@ -555,6 +555,10 @@ class Boomerang_Frontend {
 			return $classes;
 		}
 
+		if ( boomerang_can_manage() ) {
+			return array_merge( $classes, array( 'boomerang-default', 'boomerang-is-manager' ) );
+		}
+
 		return array_merge( $classes, array( 'boomerang-default' ) );
 	}
 

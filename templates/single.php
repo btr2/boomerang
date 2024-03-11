@@ -27,6 +27,7 @@ get_header(); ?>
 					</div>
 					<div class="boomerang-single-content">
 						<?php do_action( 'boomerang_single_boomerang_start', $post ); ?>
+						<div class="boomerang-single-content-inner">
 						<div class="boomerang-left">
 							<?php if ( boomerang_board_votes_enabled() ) : ?>
 								<div class="votes-container-outer">
@@ -111,6 +112,7 @@ get_header(); ?>
 								<?php do_action( 'boomerang_single_boomerang_footer_end', $post ); ?>
 							</footer><!-- .entry-footer -->
 						</div>
+					</div>
 						<?php do_action( 'boomerang_single_boomerang_end', $post ); ?>
 					</div>
 

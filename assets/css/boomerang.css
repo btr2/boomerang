@@ -265,16 +265,19 @@ Single Boomerang
   flex-direction: column;
   flex: 1;
   gap: 20px;
-  flex-wrap: wrap;
-  max-width: 100%;
+}
+.single-boomerang .boomerang-container .boomerang .boomerang-single-content .boomerang-single-content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 @media only screen and (min-width: 690px) {
-  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content .boomerang-single-content-inner {
     flex-direction: row;
   }
 }
 @media only screen and (min-width: x-large) {
-  .single-boomerang .boomerang-container .boomerang .boomerang-single-content {
+  .single-boomerang .boomerang-container .boomerang .boomerang-single-content .boomerang-single-content-inner {
     flex-direction: row;
   }
 }
