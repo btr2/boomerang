@@ -96,10 +96,13 @@ function render_boomerang_directory( $atts ) {
 		$atts
 	);
 
+	global $wp;
+	$base = home_url( $wp->request ); // Gets the current page we are on.
+
 	ob_start();
 	?>
 
-	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
+	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>" data-base="<?php echo esc_url( $base ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_directory' ) ); ?>">
 
 		<?php
 		if ( boomerang_board_filters_enabled( $a['board'] ) ) {
@@ -108,7 +111,7 @@ function render_boomerang_directory( $atts ) {
 		?>
 
 		<div class="boomerang-directory-list">
-			<?php echo boomerang_get_boomerangs( $a['board'] ); ?>
+			<?php //echo boomerang_get_boomerangs( $a['board'] ); ?>
 		</div>
 
 
