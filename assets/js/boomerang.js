@@ -319,99 +319,110 @@ jQuery(document).ready(function ($) {
         }
     );
 
+    /**
+     * Handle when a filter is selected.
+     */
     $("body").on(
         "change",
         "#boomerang-board-filters select",
         function (e) {
-            processFilter($(this));
+            getBoomerangs();
 
             return false;
         }
     );
 
+    /**
+     * Handle when a search term is entered.
+     */
     $("body").on(
         "input",
         "#boomerang-board-filters #boomerang-search",
         function (e) {
-            processFilter($(this));
+            getBoomerangs();
         }
     );
 
-    function processFilter(e) {
-        let filters = e.parents('#boomerang-board-filters');
-        let board = filters.parents('.boomerang-directory').attr('data-board');
-        let nonce = filters.attr("data-nonce");
-
-        let boomerang_order = filters.find('#boomerang-order').val();
-        let boomerang_status = filters.find('#boomerang-status').val();
-        let boomerang_tags = filters.find('#boomerang-tags').val();
-        let boomerang_search = filters.find('#boomerang-search').val();
-
-        $.ajax(
-            {
-                type: "POST",
-                url: settings.ajaxurl,
-                data: {
-                    action: 'process_filter',
-                    nonce: nonce,
-                    board: board,
-                    boomerang_order: boomerang_order,
-                    boomerang_status: boomerang_status,
-                    boomerang_tags: boomerang_tags,
-                    boomerang_search: boomerang_search,
-                    dataType: 'json',
-                },
-                success: function (response) {
-                    if (!response.success) {
-
-                    } else {
-                        filters.next().html(response.data.content);
-                    }
-                },
-            }
-        );
-    }
-
+    /**
+     * Handle when a tag inside a single archive item is clicked.
+     */
     $("body").on(
         "click",
         ".boomerang-directory .boomerang .boomerang-tag",
         function (e) {
-            processTag($(this));
+            let tag = $(this).attr( 'data-id' );
+            $('#boomerang-board-filters').find('#boomerang-tags').val(tag);
+            getBoomerangs();
         }
     );
 
-    function processTag(e) {
-        // let filters = e.parents('#boomerang-board-filters');
-        let board = e.parents('.boomerang-directory').attr('data-board');
-        let nonce = e.parent().attr("data-nonce");
+    /**
+     * Handle when an archive is loaded fresh as a daisy.
+     */
+    $( document ).ready(
+        function () {
+            if ($( ".boomerang-directory" ).length > 0) {
+                getBoomerangs();
+            }
+        }
+    );
 
-        let boomerang_order  = $('#boomerang-board-filters').find('#boomerang-order').val();
-        let boomerang_status = $('#boomerang-board-filters').find('#boomerang-status').val();
-        let boomerang_tags   = e.attr("data-id");
-        let boomerang_search = $('#boomerang-board-filters').find('#boomerang-search').val();
+    /**
+     * Handle when a pagination item is clicked.
+     */
+    $( ".boomerang-directory" ).on(
+        "click",
+        ".page-numbers a",
+        function (e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
 
-        console.log($('#boomerang-board-filters'));
+            page = parseInt($(this).html());
+            getBoomerangs(page);
+        }
+    );
+
+    /**
+     * Get our Boomerangs.
+     *
+     * @param page
+     */
+    function getBoomerangs(page) {
+        let container = $( ".boomerang-directory-list" );
+        let directory = $( ".boomerang-directory" );
+
+        let data = {
+            action: 'get_boomerangs',
+            dataType: 'json',
+            nonce: directory.attr('data-nonce'),
+            board: directory.attr('data-board'),
+            base: directory.attr('data-base'),
+            page: page ?? 1,
+        };
+
+        if ($( "#boomerang-board-filters" ).length > 0) {
+            let filters = $( "#boomerang-board-filters" );
+
+            data.order = filters.find('#boomerang-order').val();
+            data.status = filters.find('#boomerang-status').val();
+            data.tags = filters.find('#boomerang-tags').val();
+            data.search = filters.find('#boomerang-search').val();
+        }
 
         $.ajax(
             {
                 type: "POST",
                 url: settings.ajaxurl,
-                data: {
-                    action: 'process_tag',
-                    nonce: nonce,
-                    board: board,
-                    boomerang_order: boomerang_order,
-                    boomerang_status: boomerang_status,
-                    boomerang_tags: boomerang_tags,
-                    boomerang_search: boomerang_search,
-                    dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    container.html( '<div class="boomerang-directory-spinner"><span class="spinner"></span></div>' );
                 },
                 success: function (response) {
                     if (!response.success) {
 
                     } else {
-                        e.parents('.boomerang-directory-list').html(response.data.content);
-                        $('#boomerang-board-filters').find('#boomerang-tags').val(boomerang_tags);
+                        container.html(response.data);
                     }
                 },
             }
