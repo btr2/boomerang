@@ -152,7 +152,8 @@ class Boomerang_CPT_Helper {
 					'exclude_from_search'   => false,
 					'hierarchical'          => false,
 					'rewrite'               => array(
-						'slug' => boomerang_get_base(),
+						'slug'       => boomerang_get_base(),
+						'with_front' => false,
 					),
 					'query_var'             => true,
 					'supports'              => array(
