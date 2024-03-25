@@ -21,6 +21,8 @@ function render_boomerang_full( $atts ) {
 		$atts
 	);
 
+	$styles = boomerang_get_styling( $a['board'] );
+
 	$classes = array();
 
 	$classes[] = get_post_field( 'post_name', get_post( $a['board'] ) );
@@ -44,7 +46,7 @@ function render_boomerang_full( $atts ) {
 
 	ob_start();
 	?>
-
+	<style><?php echo wp_strip_all_tags( $styles ); ?></style>
 	<div id="boomerang-full" style="width: <?php echo esc_attr( $width ); ?>;" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 		<?php
 

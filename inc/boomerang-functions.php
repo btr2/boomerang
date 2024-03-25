@@ -26,6 +26,27 @@ function boomerang_get_boomerang( $post = false ) {
 	return $post;
 }
 
+/**
+ * Is this a Boomerang?
+ *
+ * @param $post
+ *
+ * @return bool
+ */
+function boomerang_is_boomerang( $post = false ) {
+	if ( ! $post ) {
+		$post = get_post();
+	} else {
+		$post = get_post( $post );
+	}
+
+	if ( 'boomerang' === $post->post_type ) {
+		return true;
+	}
+
+	return false;
+}
+
 /** Statuses **********************************************************************************************************/
 
 /** Comments **********************************************************************************************************/

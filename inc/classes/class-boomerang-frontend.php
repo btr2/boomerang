@@ -60,7 +60,10 @@ class Boomerang_Frontend {
 		);
 
 		wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'assets/css/boomerang.css', null, BOOMERANG_VERSION );
-		wp_add_inline_style( 'boomerang', $this->render_inline_styles() );
+
+		if ( boomerang_is_boomerang() ) {
+			wp_add_inline_style( 'boomerang', boomerang_get_styling() );
+		}
 
 		wp_enqueue_script(
 			'boomerang',
@@ -107,60 +110,6 @@ class Boomerang_Frontend {
 				'approved' => esc_html__( 'Approved', 'boomerang' ),
 			)
 		);
-	}
-
-	/**
-	 * Render our dynamic styles from board settings, customizers and so on.
-	 *
-	 * @return void
-	 */
-	public function render_inline_styles() {
-		global $post;
-
-		$custom_css = '';
-
-		// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
-		$custom_css .= ':root {--boomerang-primary-color:#027AB0;}';
-		$custom_css .= ':root {--boomerang-team-color:#fab347;}';
-		$custom_css .= ':root {--boomerang-container-width:' . esc_attr( boomerang_get_container_width() ) . '}';
-
-		if ( boo_fs()->can_use_premium_code__premium_only() ) {
-			$options = get_option( 'boomerang_customizer' );
-			$terms   = get_terms(
-				array(
-					'taxonomy'   => 'boomerang_status',
-					'hide_empty' => false,
-				)
-			);
-
-			if ( ! empty( $terms ) ) {
-				foreach ( $terms as $term ) {
-					$color_meta            = get_term_meta( $term->term_id, 'color', true );
-					$background_color_meta = get_term_meta( $term->term_id, 'background_color', true );
-
-					$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
-					$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
-
-					$custom_css .= '.boomerang_status-' . $term->slug . ' .boomerang-meta .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-					$custom_css .= '.boomerang-related-idea.boomerang_status-' . $term->slug . ' .boomerang-meta .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-					$custom_css .= '.boomerang-suggestion.boomerang_status-' . $term->slug . ' .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-				}
-			}
-
-			if ( $options['archive_layout'] && 'grid' === $options['archive_layout'] ) {
-				$custom_css .= '.boomerang-default #boomerang-full{width:' . esc_attr( boomerang_get_container_width() ) . ';}';
-			}
-
-			if ( isset( $options['primary_color'] ) ) {
-				$custom_css .= ':root {--boomerang-primary-color: ' . esc_attr( $options['primary_color'] ) . ';}';
-			}
-
-			if ( isset( $options['private_note_color'] ) ) {
-				$custom_css .= ':root {--boomerang-team-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
-			}
-		}
-
-		return $custom_css;
 	}
 
 	/**
