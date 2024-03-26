@@ -16,7 +16,7 @@ class Boomerang_Email_Notifications {
 	 * Define the admin email notifications functionality of the plugin.
 	 */
 	public function __construct() {
-		$this->populate_placeholders();
+		// $this->populate_placeholders();
 		$this->init_hooks();
 	}
 
@@ -76,6 +76,8 @@ class Boomerang_Email_Notifications {
 		);
 
 		$this->placeholders = $placeholders;
+
+		return $placeholders;
 	}
 
 	/**
@@ -133,18 +135,15 @@ class Boomerang_Email_Notifications {
 	 * @return array|string|string[]
 	 */
 	public function format_text( $text, $post ) {
-		$this->populate_placeholders( $post );
-		$placeholders = $this->get_placeholders();
-
-		// TODO Possible Debug?
-		error_log( pathinfo(__FILE__ )['dirname'] . '/' . pathinfo(__FILE__ )['basename'] );
-		error_log( print_r($placeholders, true) );
-
+		$placeholders = $this->populate_placeholders( $post );
 
 		$text = strtr( $text, $placeholders );
 
 		$text = str_replace( 'http://http://', 'http://', $text);
 		$text = str_replace( 'https://https://', 'https://', $text);
+
+		// Lastly, if a placeholder doesn't have any associated variable (such as a status in a new Boomerang) clear it.
+		$text = preg_replace( '/\{\{(.*?)\}\}/i', '', $text );
 
 		return $text;
 	}
@@ -172,4 +171,3 @@ class Boomerang_Email_Notifications {
 		wp_mail( $notification['recipient'], $subject, $content, $this->get_headers() );
 	}
 }
-$email_notifications = new Boomerang_Email_Notifications();

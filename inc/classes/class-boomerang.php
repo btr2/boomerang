@@ -149,9 +149,11 @@ class Boomerang {
 	 */
 	public function initialise_notifications(  ) {
 		require_once BOOMERANG_PATH . 'inc/classes/class-boomerang-email-notifications.php';
+		$notifications = new Boomerang_Email_Notifications();
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require_once BOOMERANG_PATH . '/pro/inc/classes/class-boomerang-pro-email-notifications.php';
+			$pro_notifications = new Boomerang_Pro_Email_Notifications();
 		}
 	}
 
