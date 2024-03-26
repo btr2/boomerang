@@ -16,7 +16,6 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 	 * Define the admin email notifications functionality of the plugin.
 	 */
 	public function __construct() {
-		// $this->populate_placeholders();
 		$this->init_hooks();
 	}
 
@@ -28,38 +27,6 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 	public function init_hooks() {
 		add_action( 'set_object_terms', array( $this, 'status_change_notification' ), 10, 6 );
 	}
-
-	/**
-	 * Checks to see if a notification is active for a given Board.
-	 *
-	 * @param $notification
-	 * @param $board_id
-	 *
-	 * @return bool
-	 */
-	// public function is_enabled( $notification, $board_id ) {
-	// 	$meta = get_post_meta( $board_id, 'boomerang_board_options', true );
-	//
-	// 	if ( $meta['notifications'][ $notification ]['enabled'] ) {
-	// 		return true;
-	// 	}
-	//
-	// 	return false;
-	// }
-
-	/**
-	 * Get all the data for this notification.
-	 *
-	 * @param $notification
-	 * @param $board_id
-	 *
-	 * @return mixed
-	 */
-	// public function get_notification(  $notification, $board_id  ) {
-	// 	$meta = get_post_meta( $board_id, 'boomerang_board_options', true );
-	//
-	// 	return $meta['notifications'][ $notification ];
-	// }
 
 	/**
 	 * Populate our placeholders, where necessary adding values based on a current Boomerang.
@@ -76,14 +43,16 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 			'{{title}}'  => $post->post_title ?? '',
 			'{{board}}'  => $post->post_parent ?? '',
 			'{{link}}'   => get_permalink( $post ) ?? '',
-			'{{status}}' => $status ?? '',
+			'{{status}}' => $status ?? 'No Status',
 		);
 
 		$this->placeholders = $placeholders;
+
+		return $placeholders;
 	}
 
 	/**
-	 * Gte our placeholders.
+	 * Get our placeholders.
 	 *
 	 * @return mixed
 	 */
@@ -92,62 +61,17 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 	}
 
 	/**
-	 * Get email headers.
+	 * Sends email when a Boomerang's status changes.
 	 *
-	 * @return string[]
+	 * @param int $object_id
+	 * @param array $terms
+	 * @param array $tt_ids
+	 * @param string $taxonomy
+	 * @param bool $append
+	 * @param array $old_tt_ids
+	 *
+	 * @return void
 	 */
-	// public function get_headers() {
-	// 	return array( 'Content-Type: text/html; charset=UTF-8' );
-	// }
-
-	/**
-	 * Get the notification subject.
-	 *
-	 * @param $notification
-	 * @param $post
-	 *
-	 * @return array|string|string[]
-	 */
-	// public function get_subject( $notification, $post ) {
-	// 	$raw_subject = $notification['subject'];
-	//
-	// 	return $this->format_text( $raw_subject, $post );
-	// }
-
-	/**
-	 * Get the notification content.
-	 *
-	 * @param $notification
-	 * @param $post
-	 *
-	 * @return array|string|string[]
-	 */
-	// public function get_content( $notification, $post ) {
-	// 	$raw_subject = $notification['content'];
-	//
-	// 	return $this->format_text( $raw_subject, $post );
-	// }
-
-	/**
-	 * Get a formatted text, where placeholders are replaced with valid values.
-	 *
-	 * @param $text
-	 * @param $post
-	 *
-	 * @return array|string|string[]
-	 */
-	// public function format_text( $text, $post ) {
-	// 	$this->populate_placeholders( $post );
-	// 	$placeholders = $this->get_placeholders();
-	//
-	// 	$text = strtr( $text, $placeholders );
-	//
-	// 	$text = str_replace( 'http://http://', 'http://', $text);
-	// 	$text = str_replace( 'https://https://', 'https://', $text);
-	//
-	// 	return $text;
-	// }
-
 	public function status_change_notification( int $object_id, array $terms, array $tt_ids, string $taxonomy, bool $append, array $old_tt_ids ) {
 		$post = get_post( $object_id );
 
@@ -176,4 +100,3 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 		wp_mail( $author_email, $subject, $content, $this->get_headers() );
 	}
 }
-$pro_email_notifications = new Boomerang_Pro_Email_Notifications();
