@@ -638,7 +638,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 							<span class="material-symbols-outlined">edit</span>
 						<?php endif; ?>
 					</a>
-					<a class="boomerang-action" href="<?php echo get_delete_post_link(); ?>">
+					<a class="boomerang-action" href="<?php echo esc_url( add_query_arg( 'frontend', 'true', get_delete_post_link() ) ); ?>">
 						<?php if ( boomerang_google_fonts_disabled() ) : ?>
 							<span><?php esc_html_e( 'Delete', 'boomerang' ); ?></span>
 						<?php else : ?>

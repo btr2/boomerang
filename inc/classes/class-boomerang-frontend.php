@@ -37,6 +37,7 @@ class Boomerang_Frontend {
 		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
 		add_action( 'boomerang_archive_boomerang_start', array( $this, 'add_pending_banner' ) );
 		add_action( 'boomerang_single_boomerang_start', array( $this, 'add_pending_banner' ) );
+		add_action( 'trashed_post', array( $this, 'process_deletions' ) );
 
 		add_filter( 'single_template', array( $this, 'do_single_template' ) );
 		add_filter( 'comments_template', array( $this, 'load_comments_template' ) );
@@ -677,5 +678,26 @@ class Boomerang_Frontend {
 		wp_send_json_success( $return );
 
 		wp_die();
+	}
+
+	/**
+	 * When a Boomerang is trashed on the frontend, redirect back to home.
+	 *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	public function process_deletions( $post_id ) {
+		$post = get_post( $post_id );
+
+		if ( ! $post || 'boomerang' !== $post->post_type ) {
+			return;
+		}
+
+		if ( filter_input( INPUT_GET, 'frontend', FILTER_VALIDATE_BOOLEAN ) ) {
+			wp_safe_redirect( home_url() );
+
+			exit;
+		}
 	}
 }
