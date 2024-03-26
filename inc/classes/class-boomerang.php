@@ -29,7 +29,6 @@ class Boomerang {
 		require BOOMERANG_PATH . '/inc/boomerang-shortcodes.php';
 
 		$this->init_hooks();
-
 		// Do this early, so that CSF can boot up.
 		$this->initialise_admin();
 
@@ -41,6 +40,9 @@ class Boomerang {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'initialise_front_end' ) );
 		add_action( 'init', array( $this, 'initialise_voting' ) );
+		add_action( 'init', array( $this, 'initialise_notifications' ) );
+
+
 	}
 
 	/**
@@ -138,6 +140,19 @@ class Boomerang {
 		}
 
 		$boomerang_voting = new Boomerang_Votes();
+	}
+
+	/**
+	 * Boot up our notifications system.
+	 *
+	 * @return void
+	 */
+	public function initialise_notifications(  ) {
+		require_once BOOMERANG_PATH . 'inc/classes/class-boomerang-email-notifications.php';
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			require_once BOOMERANG_PATH . '/pro/inc/classes/class-boomerang-pro-email-notifications.php';
+		}
 	}
 
 }
