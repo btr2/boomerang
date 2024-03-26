@@ -300,7 +300,8 @@ jQuery(document).ready(function ($) {
     );
 
     $('.boomerang-merge-select').select2({
-        placeholder: "Search for a Boomerang..."
+        placeholder: "Search for a Boomerang...",
+        width: '100%',
     });
 
     $("body").on(
