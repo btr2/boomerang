@@ -21,6 +21,8 @@ function render_boomerang_full( $atts ) {
 		$atts
 	);
 
+	$styles = boomerang_get_styling( $a['board'] );
+
 	$classes = array();
 
 	$classes[] = get_post_field( 'post_name', get_post( $a['board'] ) );
@@ -44,7 +46,7 @@ function render_boomerang_full( $atts ) {
 
 	ob_start();
 	?>
-
+	<style><?php echo wp_strip_all_tags( $styles ); ?></style>
 	<div id="boomerang-full" style="width: <?php echo esc_attr( $width ); ?>;" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 		<?php
 
@@ -96,10 +98,13 @@ function render_boomerang_directory( $atts ) {
 		$atts
 	);
 
+	global $wp;
+	$base = home_url( $wp->request ); // Gets the current page we are on.
+
 	ob_start();
 	?>
 
-	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
+	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>" data-base="<?php echo esc_url( $base ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_directory' ) ); ?>">
 
 		<?php
 		if ( boomerang_board_filters_enabled( $a['board'] ) ) {
@@ -108,7 +113,7 @@ function render_boomerang_directory( $atts ) {
 		?>
 
 		<div class="boomerang-directory-list">
-			<?php echo boomerang_get_boomerangs( $a['board'] ); ?>
+			<?php //echo boomerang_get_boomerangs( $a['board'] ); ?>
 		</div>
 
 

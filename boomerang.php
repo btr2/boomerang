@@ -84,18 +84,37 @@ if ( function_exists( 'boo_fs' ) ) {
 		return $plugin_data['Version'];
 	}
 
+	if ( ! function_exists( 'boomerang_init' ) ) {
+		/**
+		 * Bootstrap plugin.
+		 *
+		 * @return void
+		 * @since 1.0.0
+		 */
+		function boomerang_init() {
+			require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
+			require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
+			require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
+
+			do_action( 'boomerang_before_init' );
+			$boomerang = new Boomerang();
+			do_action( 'boomerang_after_init' );
+		}
+	}
+	add_action( 'plugins_loaded', __NAMESPACE__ . '\boomerang_init' );
+
 	/**
 	 * Start the engines, Captain...
 	 */
-	function boomerang_init() {
-		require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
-		require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
-		require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
+	// function boomerang_init() {
+	// 	require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
+	// 	require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
+	// 	require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
+	//
+	// 	$boomerang = new Boomerang();
+	// }
 
-		$boomerang = new Boomerang();
-	}
-
-	boomerang_init();
+	// boomerang_init();
 
 	/**
 	 * Tasks to run on plugin activation.

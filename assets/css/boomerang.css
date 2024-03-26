@@ -394,6 +394,26 @@ Archive boomerangs
 .boomerang-directory {
   margin-top: 20px;
 }
+.boomerang-directory .boomerang-directory-spinner {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.boomerang-directory .boomerang-directory-spinner .spinner {
+  width: 40px;
+  height: 40px;
+  margin-top: 40px;
+  border: 4px #ddd solid;
+  border-top: 4px var(--boomerang-primary-color) solid;
+  border-radius: 50%;
+  animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .boomerang-directory .boomerang {
   display: flex;
   flex-direction: column;

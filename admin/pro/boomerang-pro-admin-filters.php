@@ -437,14 +437,14 @@ function render_guest_fields() {
 		'id'    => 'enable_guest_boomerangs',
 		'type'  => 'switcher',
 		'title' => esc_html__( 'Enable Guest Submission', 'boomerang' ),
-		'desc'  => esc_html__( 'Allow guests to submit Boomerangs. ' ),
+		'desc'  => esc_html__( 'Allow guests to submit Boomerangs.', 'boomerang' ),
 	);
 
 	$fields[] = array(
 		'id'         => 'enable_guest_boomerangs_name_request',
 		'type'       => 'switcher',
 		'title'      => esc_html__( 'Request a Name', 'boomerang' ),
-		'desc'       => esc_html__( 'Allow guests to enter their name. This will replace \'Anonymous User\' for that guest\'s Boomerang' ),
+		'desc'       => esc_html__( 'Allow guests to enter their name. This will replace \'Anonymous User\' for that guest\'s Boomerang', 'boomerang' ),
 		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
 	);
 
@@ -452,7 +452,7 @@ function render_guest_fields() {
 		'id'         => 'enable_guest_boomerangs_email_request',
 		'type'       => 'switcher',
 		'title'      => esc_html__( 'Request an Email', 'boomerang' ),
-		'desc'       => esc_html__( 'Allow guests to enter an email. ' ),
+		'desc'       => esc_html__( 'Allow guests to enter an email.', 'boomerang' ),
 		'dependency' => array( 'enable_guest_boomerangs', '==', 'true' ),
 	);
 
@@ -460,7 +460,7 @@ function render_guest_fields() {
 		'id'         => 'enable_guest_boomerang_criteria',
 		'type'       => 'checkbox',
 		'title'      => esc_html__( 'Guest Submission Criteria', 'boomerang' ),
-		'desc'       => esc_html__( 'Pick any criteria that must be fulfilled, when a guest submits a Boomerang.' ),
+		'desc'       => esc_html__( 'Pick any criteria that must be fulfilled, when a guest submits a Boomerang.', 'boomerang' ),
 		'options'    => array(
 			'ip'     => 'Unique IP Address',
 			'params' => 'A link with correct parameters must be used',
@@ -472,14 +472,14 @@ function render_guest_fields() {
 		'id'    => 'enable_guest_voting',
 		'type'  => 'switcher',
 		'title' => esc_html__( 'Enable Guest Voting', 'boomerang' ),
-		'desc'  => esc_html__( 'Allow guests to vote on Boomerangs. ' ),
+		'desc'  => esc_html__( 'Allow guests to vote on Boomerangs.', 'boomerang' ),
 	);
 
 	$fields[] = array(
 		'id'         => 'enable_guest_voting_criteria',
 		'type'       => 'checkbox',
 		'title'      => esc_html__( 'Guest Voting Criteria', 'boomerang' ),
-		'desc'       => esc_html__( 'Pick any criteria that must be fulfilled, when a guest votes on a Boomerang.' ),
+		'desc'       => esc_html__( 'Pick any criteria that must be fulfilled, when a guest votes on a Boomerang.', 'boomerang' ),
 		'options'    => array(
 			'ip'   => 'Unique IP Address',
 			'time' => 'Time based restrictions',
@@ -491,7 +491,7 @@ function render_guest_fields() {
 		'id'         => 'guest_vote_time_gap',
 		'type'       => 'radio',
 		'title'      => esc_html__( 'No voting within', 'boomerang' ),
-		'desc'       => esc_html__( 'of the last vote from the same IP address.' ),
+		'desc'       => esc_html__( 'of the last vote from the same IP address.', 'boomerang' ),
 		'default'    => '60',
 		'options'    => array(
 			'1'     => '1 minute',
@@ -555,7 +555,7 @@ function render_custom_fields_section() {
 	if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) && ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
 		$fields[] = array(
 			'type'    => 'content',
-			'content' => 'To get started, blah, blah...',
+			'content' => 'To get started, install and activate Advanced Custom Fields',
 		);
 
 		return $fields;
@@ -587,6 +587,7 @@ function render_custom_fields_section() {
 
 	return $fields;
 }
+
 
 function get_placeholder_box() {
 	$placeholders = array(
@@ -669,3 +670,17 @@ function add_additional_placeholders( $placeholders ) {
 	return $placeholders;
 }
 add_action( 'boomerang_notification_placeholders', __NAMESPACE__ . '\add_additional_placeholders' );
+
+function add_styling_fields( $settings ) {
+	$settings[] = array(
+		'id'      => 'admin_color',
+		'type'    => 'color',
+		'title'   => 'Admin Color',
+		'default' => '#fab347',
+		'desc'       => esc_html__( 'The color used for anything related to managers or the administration team, for example private notes.', 'boomerang' ),
+	);
+
+	return $settings;
+}
+add_filter( 'boomerang_board_styling_settings', __NAMESPACE__ . '\add_styling_fields' );
+

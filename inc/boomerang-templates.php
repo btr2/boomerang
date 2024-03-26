@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return false|string
  */
-function boomerang_get_boomerangs( $board, $args = false ) {
+function boomerang_get_boomerangs( $board, $args = false, $base = false ) {
 	$defaults = array(
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
@@ -116,10 +116,14 @@ function boomerang_get_boomerangs( $board, $args = false ) {
 
 		<?php
 		$big = 999999999; // need an unlikely integer
+
+		// Fallback if there is not base set.
+		$fallback_base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+
 		echo wp_kses_post(
 			paginate_links(
 				array(
-					'base'    => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
+					'base'    => isset( $base ) ? trailingslashit( $base ) . '%_%' : $fallback_base,
 					'format'  => '?paged=%#%',
 					'current' => max( 1, get_query_var( 'paged' ) ),
 					'total'   => $the_query->max_num_pages,
@@ -634,7 +638,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 							<span class="material-symbols-outlined">edit</span>
 						<?php endif; ?>
 					</a>
-					<a class="boomerang-action" href="<?php echo get_delete_post_link(); ?>">
+					<a class="boomerang-action" href="<?php echo esc_url( add_query_arg( 'frontend', 'true', get_delete_post_link() ) ); ?>">
 						<?php if ( boomerang_google_fonts_disabled() ) : ?>
 							<span><?php esc_html_e( 'Delete', 'boomerang' ); ?></span>
 						<?php else : ?>

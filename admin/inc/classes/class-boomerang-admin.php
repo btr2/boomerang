@@ -26,7 +26,6 @@ class Boomerang_Admin {
 			require_once BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-customizer.php';
 			$boomerang_customizer = new Boomerang_Customizer();
 
-
 		}
 	}
 
@@ -254,7 +253,7 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id' => 'general',
+					'id'     => 'general',
 					'title'  => 'General',
 					'fields' => $this->general_settings(),
 				)
@@ -263,7 +262,16 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id' => 'labels',
+					'id'     => 'styling',
+					'title'  => 'Styling',
+					'fields' => $this->styling_settings(),
+				)
+			);
+
+			\CSF::createSection(
+				$prefix,
+				array(
+					'id'     => 'labels',
 					'title'  => 'Labels',
 					'fields' => $this->label_settings(),
 				)
@@ -272,7 +280,7 @@ class Boomerang_Admin {
 			\CSF::createSection(
 				$prefix,
 				array(
-					'id' => 'notifications',
+					'id'     => 'notifications',
 					'title'  => 'Notifications',
 					'fields' => $this->notification_settings(),
 				)
@@ -355,10 +363,10 @@ class Boomerang_Admin {
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			$settings[] = array(
-				'id'    => 'enable_bulk_votes',
-				'type'  => 'switcher',
-				'title' => esc_html__( 'Enable Bulk Votes', 'boomerang' ),
-				'desc'  => esc_html__( 'This allows managers to vote multiple times, for debugging purposes.', 'boomerang' ),
+				'id'         => 'enable_bulk_votes',
+				'type'       => 'switcher',
+				'title'      => esc_html__( 'Enable Bulk Votes', 'boomerang' ),
+				'desc'       => esc_html__( 'This allows managers to vote multiple times, for debugging purposes.', 'boomerang' ),
 				'dependency' => array( 'enable_votes', '==', 'true' ),
 			);
 		}
@@ -437,6 +445,29 @@ class Boomerang_Admin {
 				'boomerang'
 			),
 		);
+
+		return apply_filters( 'boomerang_board_general_settings', $settings );
+	}
+
+	/**
+	 * Populate our Styling Settings array.
+	 *
+	 * @return array
+	 */
+	public function styling_settings() {
+		$settings = array();
+
+		$settings[] = array(
+			'id'      => 'primary_color',
+			'type'    => 'color',
+			'title'   => 'Primary Color',
+			'default' => '#027AD0',
+			'desc'    => esc_html__(
+				'The main color used throughout this board\'s Boomerang elements.',
+				'boomerang'
+			),
+		);
+
 		$settings[] = array(
 			'id'     => 'container_width',
 			'type'   => 'dimensions',
@@ -449,7 +480,7 @@ class Boomerang_Admin {
 			),
 		);
 
-		return apply_filters( 'boomerang_board_general_settings', $settings );
+		return apply_filters( 'boomerang_board_styling_settings', $settings );
 	}
 
 	/**

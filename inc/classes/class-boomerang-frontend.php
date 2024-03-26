@@ -29,16 +29,15 @@ class Boomerang_Frontend {
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'wp_ajax_save_boomerang', array( $this, 'save_boomerang' ) );
 		add_action( 'wp_ajax_nopriv_save_boomerang', array( $this, 'save_boomerang' ) );
+		add_action( 'wp_ajax_get_boomerangs', array( $this, 'get_boomerangs' ) );
+		add_action( 'wp_ajax_nopriv_get_boomerangs', array( $this, 'get_boomerangs' ) );
 		add_action( 'wp_ajax_process_admin_action', array( $this, 'process_admin_action' ) );
-		add_action( 'wp_ajax_process_filter', array( $this, 'process_filter' ) );
-		add_action( 'wp_ajax_nopriv_process_filter', array( $this, 'process_filter' ) );
-		add_action( 'wp_ajax_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'wp_ajax_process_approve_now', array( $this, 'process_approve_now' ) );
-		add_action( 'wp_ajax_nopriv_process_tag', array( $this, 'process_tag' ) );
 		add_action( 'boomerang_new_boomerang', array( $this, 'send_new_boomerang_email' ) );
 		add_action( 'comment_post', array( $this, 'save_comment_meta_data' ) );
 		add_action( 'boomerang_archive_boomerang_start', array( $this, 'add_pending_banner' ) );
 		add_action( 'boomerang_single_boomerang_start', array( $this, 'add_pending_banner' ) );
+		add_action( 'trashed_post', array( $this, 'process_deletions' ) );
 
 		add_filter( 'single_template', array( $this, 'do_single_template' ) );
 		add_filter( 'comments_template', array( $this, 'load_comments_template' ) );
@@ -62,7 +61,10 @@ class Boomerang_Frontend {
 		);
 
 		wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'assets/css/boomerang.css', null, BOOMERANG_VERSION );
-		wp_add_inline_style( 'boomerang', $this->render_inline_styles() );
+
+		if ( boomerang_is_boomerang() ) {
+			wp_add_inline_style( 'boomerang', boomerang_get_styling() );
+		}
 
 		wp_enqueue_script(
 			'boomerang',
@@ -109,60 +111,6 @@ class Boomerang_Frontend {
 				'approved' => esc_html__( 'Approved', 'boomerang' ),
 			)
 		);
-	}
-
-	/**
-	 * Render our dynamic styles from board settings, customizers and so on.
-	 *
-	 * @return void
-	 */
-	public function render_inline_styles() {
-		global $post;
-
-		$custom_css = '';
-
-		// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
-		$custom_css .= ':root {--boomerang-primary-color:#027AB0;}';
-		$custom_css .= ':root {--boomerang-team-color:#fab347;}';
-		$custom_css .= ':root {--boomerang-container-width:' . esc_attr( boomerang_get_container_width() ) . '}';
-
-		if ( boo_fs()->can_use_premium_code__premium_only() ) {
-			$options = get_option( 'boomerang_customizer' );
-			$terms   = get_terms(
-				array(
-					'taxonomy'   => 'boomerang_status',
-					'hide_empty' => false,
-				)
-			);
-
-			if ( ! empty( $terms ) ) {
-				foreach ( $terms as $term ) {
-					$color_meta            = get_term_meta( $term->term_id, 'color', true );
-					$background_color_meta = get_term_meta( $term->term_id, 'background_color', true );
-
-					$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
-					$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
-
-					$custom_css .= '.boomerang_status-' . $term->slug . ' .boomerang-meta .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-					$custom_css .= '.boomerang-related-idea.boomerang_status-' . $term->slug . ' .boomerang-meta .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-					$custom_css .= '.boomerang-suggestion.boomerang_status-' . $term->slug . ' .boomerang-status{color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}';
-				}
-			}
-
-			if ( $options['archive_layout'] && 'grid' === $options['archive_layout'] ) {
-				$custom_css .= '.boomerang-default #boomerang-full{width:' . esc_attr( boomerang_get_container_width() ) . ';}';
-			}
-
-			if ( isset( $options['primary_color'] ) ) {
-				$custom_css .= ':root {--boomerang-primary-color: ' . esc_attr( $options['primary_color'] ) . ';}';
-			}
-
-			if ( isset( $options['private_note_color'] ) ) {
-				$custom_css .= ':root {--boomerang-team-color: ' . esc_attr( $options['private_note_color'] ) . ';}';
-			}
-		}
-
-		return $custom_css;
 	}
 
 	/**
@@ -387,14 +335,34 @@ class Boomerang_Frontend {
 	}
 
 	/**
-	 * Process a Boomerang filter.
+	 * Gets a template file, offering the ability for a theme override. Because we're nice like that...
+	 *
+	 * @param $file
 	 *
 	 * @return void
 	 */
-	public function process_filter() {
+	public function get_template( $file ) {
+		$real_file = $file . '.php';
+
+		// Look for a file in theme
+		if ( $theme_template = locate_template('boomerang' . '/' . $real_file ) ) {
+			require $theme_template;
+		} else {
+			// Nothing found, let's look in our plugin
+			$plugin_template = BOOMERANG_PATH . '/templates/' . $real_file;
+			if ( file_exists( $plugin_template ) ){
+				require $plugin_template;
+			}
+		}
+	}
+
+	/**
+	 * Get our Boomerangs
+	 */
+	public function get_boomerangs() {
 		if ( ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
-			'boomerang_filters'
+			'boomerang_directory'
 		) ) {
 			$error = new WP_Error(
 				'Boomerang: Failed Security Check on Filtering',
@@ -404,144 +372,114 @@ class Boomerang_Frontend {
 			wp_send_json_error( $error );
 		}
 
-		$board            = sanitize_text_field( $_POST['board'] );
-		$boomerang_order  = sanitize_text_field( $_POST['boomerang_order'] );
-		$boomerang_status = sanitize_text_field( $_POST['boomerang_status'] );
-		$boomerang_tags   = sanitize_text_field( $_POST['boomerang_tags'] );
-		$boomerang_search = sanitize_text_field( $_POST['boomerang_search'] );
-		$args             = array();
+		$base = isset( $_POST['base'] ) ? sanitize_text_field( $_POST['base'] ) : '';
+		$page = isset( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 1;
+		$order  = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : null;
+		$status = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : null;
+		$tags   = isset( $_POST['tags'] ) ? sanitize_text_field( $_POST['tags'] ) : null;
+		$search = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : null;
+
 		$tax_query        = array( 'relation' => 'AND' );
 
-		if ( '-1' !== $boomerang_status ) {
+		if ( $status && '-1' !== $status ) {
 			$tax_query[] = array(
 				'taxonomy' => 'boomerang_status',
-				'terms'    => $boomerang_status,
+				'terms'    => $status,
 			);
 		}
 
-		if ( '-1' !== $boomerang_tags ) {
+		if ( $tags && '-1' !== $tags ) {
 			$tax_query[] = array(
 				'taxonomy' => 'boomerang_tag',
-				'terms'    => $boomerang_tags,
+				'terms'    => $tags,
 			);
 		}
+
+		$args = array(
+			'post_type'      => 'boomerang',
+			'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
+			'post_parent'    => isset( $_POST['board'] ) ? sanitize_text_field( $_POST['board'] ) : '',
+			'posts_per_page' => 10,
+			'paged' => $page,
+		);
 
 		$args['tax_query'] = $tax_query;
 
-		if ( $boomerang_search ) {
-			$args['s'] = $boomerang_search;
+		if ( $search ) {
+			$args['s'] = $search;
 		}
 
-		switch ( $boomerang_order ) {
-			case 'latest':
-			default:
-				$args['order'] = 'DESC';
-				break;
+		if ( $order ) {
+			switch ( $order ) {
+				case 'latest':
+				default:
+					$args['order'] = 'DESC';
+					break;
 
-			case 'popular':
-				$args['orderby']  = 'meta_value_num date';
-				$args['order']    = 'DESC';
-				$args['meta_key'] = 'boomerang_votes';
-				break;
+				case 'popular':
+					$args['orderby']  = 'meta_value_num date';
+					$args['order']    = 'DESC';
+					$args['meta_key'] = 'boomerang_votes';
+					break;
 
-			case 'mine':
-				$args['author'] = get_current_user_id();
-				break;
+				case 'mine':
+					$args['author'] = get_current_user_id();
+					break;
 
-			case 'voted':
-				$args['post__in'] = boomerang_get_user_voted( get_current_user_id() );
-				break;
+				case 'voted':
+					$args['post__in'] = boomerang_get_user_voted( get_current_user_id() );
+					break;
 
-			case 'random':
-				$args['orderby'] = 'rand';
-				break;
+				case 'random':
+					$args['orderby'] = 'rand';
+					break;
+			}
 		}
 
-		$return = array(
-			'content' => boomerang_get_boomerangs( $board, $args ),
-		);
+		$query = new \WP_Query( $args );
 
-		wp_send_json_success( $return );
+		ob_start();
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$this->get_template( 'archive-single' );
+			}
+
+			$this->get_pagination( $query->max_num_pages, $page );
+		} else {
+			echo '<div><p>' . esc_html__( 'Sorry, no posts matched your criteria.' ) . '</p></div>';
+		}
+
+		wp_send_json_success( ob_get_clean() );
 
 		wp_die();
 	}
 
-	/**
-	 * Process a Boomerang tag.
-	 *
-	 * @return void
-	 */
-	public function process_tag() {
-		if ( ! wp_verify_nonce(
-			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
-			'boomerang_select_tag'
-		) ) {
-			$error = new WP_Error(
-				'Boomerang: Failed Security Check on Tag Selection',
-				__( 'Something went wrong.', 'boomerang' )
-			);
+	public function get_pagination(  $max_num_pages, $paged  ) {
+		$big = 999999999;
+		$search_for   = array( $big, '#038;' );
+		$replace_with = array( '%#%', '' );
 
-			wp_send_json_error( $error );
-		}
 
-		$board            = sanitize_text_field( $_POST['board'] );
-		$boomerang_order  = isset( $_POST['boomerang_order'] ) ? sanitize_text_field( $_POST['boomerang_order'] ) : '';
-		$boomerang_status = isset( $_POST['boomerang_status'] ) ? sanitize_text_field( $_POST['boomerang_status'] ) : '';
-		$boomerang_tags   = isset( $_POST['boomerang_tags'] ) ? sanitize_text_field( $_POST['boomerang_tags'] ) : '';
-		$boomerang_search = isset( $_POST['boomerang_search'] ) ? sanitize_text_field( $_POST['boomerang_search'] ) : '';
-		$args             = array();
-		$tax_query        = array( 'relation' => 'AND' );
+		$paginate = paginate_links( array(
+			'base'              => str_replace( $search_for, $replace_with, esc_url( get_pagenum_link( $big ) ) ),
+			'format'            => '?page=%#%',
+			'type' => 'array',
+			'current'           => max( 1, $paged ),
+			'total'             => $max_num_pages,
+			'prev_next'         => false,
+		));
 
-		if ( $boomerang_status && '-1' !== $boomerang_status ) {
-			$tax_query[] = array(
-				'taxonomy' => 'boomerang_status',
-				'terms'    => $boomerang_status,
-			);
-		}
-
-		if ( $boomerang_tags && '-1' !== $boomerang_tags ) {
-			$tax_query[] = array(
-				'taxonomy' => 'boomerang_tag',
-				'terms'    => $boomerang_tags,
-			);
-		}
-
-		$args['tax_query'] = $tax_query;
-
-		if ( $boomerang_search ) {
-			$args['s'] = $boomerang_search;
-		}
-
-		switch ( $boomerang_order ) {
-			case 'latest':
-			default:
-				$args['order'] = 'DESC';
-				break;
-
-			case 'popular':
-				$args['orderby']  = 'meta_value_num date';
-				$args['order']    = 'DESC';
-				$args['meta_key'] = 'boomerang_votes';
-				break;
-
-			case 'mine':
-				$args['author'] = get_current_user_id();
-				break;
-
-			case 'voted':
-				$args['post__in'] = boomerang_get_user_voted( get_current_user_id() );
-				break;
-		}
-
-		$return = array(
-			'content' => boomerang_get_boomerangs( $board, $args ),
-		);
-
-		wp_send_json_success( $return );
-
-		wp_die();
+		if ($max_num_pages > 1) : ?>
+			<ul class="page-numbers">
+				<?php foreach ( $paginate as $page ) :?>
+					<li data-page="<?php $page; ?>"><?php echo $page; ?></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif;
 	}
-
 
 	/**
 	 * Adds a class to the body if house styles have been enabled.
@@ -590,7 +528,6 @@ class Boomerang_Frontend {
 		if ( ! send_new_boomerang_email_enabled( $post_id ) ) {
 			return;
 		}
-
 
 		// $to      = boomerang_board_new_boomerang_email_addresses( $post_id );
 		// $subject = sprintf(
@@ -741,5 +678,26 @@ class Boomerang_Frontend {
 		wp_send_json_success( $return );
 
 		wp_die();
+	}
+
+	/**
+	 * When a Boomerang is trashed on the frontend, redirect back to home.
+	 *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	public function process_deletions( $post_id ) {
+		$post = get_post( $post_id );
+
+		if ( ! $post || 'boomerang' !== $post->post_type ) {
+			return;
+		}
+
+		if ( filter_input( INPUT_GET, 'frontend', FILTER_VALIDATE_BOOLEAN ) ) {
+			wp_safe_redirect( home_url() );
+
+			exit;
+		}
 	}
 }

@@ -350,3 +350,29 @@ function get_swallowed_up_boomerangs( $post = false ) {
 
 	return get_post_meta( $post->ID, 'swallowed_up', true );
 }
+
+/**
+ * Filter posts so merged Boomerangs are only shown to managers and the author.
+ *
+ * @param $post
+ *
+ * @return void
+ */
+function filter_merged_boomerangs( $query ) {
+	if ( 'boomerang' === $query->get( 'post_type' ) ) {
+		if ( ! boomerang_can_manage() ) {
+			$query->set(
+				'meta_query',
+				array(
+					array(
+						'key'     => 'merged_into',
+						'compare' => 'NOT EXISTS',
+					),
+				)
+			);
+		}
+	}
+
+	return $query;
+}
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\filter_merged_boomerangs', 30 );
