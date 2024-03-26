@@ -49,6 +49,7 @@ class Boomerang_Admin {
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require BOOMERANG_PATH . 'admin/pro/boomerang-pro-admin-filters.php';
+			require BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-admin-email-notifications.php';
 
 			add_action( 'boomerang_status_add_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
 			add_action( 'boomerang_status_edit_form_fields', array( $this, 'add_category_fields__premium_only' ), 10, 2 );
@@ -607,7 +608,7 @@ class Boomerang_Admin {
 					'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
 				),
 				array(
-					'id'    => 'recipient',
+					'id'    => 'admin_email',
 					'type'  => 'text',
 					'title' => esc_html__( 'Admin Email', 'boomerang' ),
 					'desc'  => esc_html__(
@@ -626,7 +627,7 @@ class Boomerang_Admin {
 					'content' => wp_kses_post( $this->get_placeholder_box() ),
 				),
 				array(
-					'id'         => 'subject',
+					'id'         => 'new_boomerang_subject',
 					'type'       => 'textarea',
 					'title'      => esc_html__( 'Email Subject', 'boomerang' ),
 					'attributes' => array(
@@ -635,7 +636,54 @@ class Boomerang_Admin {
 					),
 				),
 				array(
-					'id'            => 'content',
+					'id'            => 'new_boomerang_content',
+					'type'          => 'wp_editor',
+					'title'         => esc_html__( 'Email Content', 'boomerang' ),
+					'quicktags'     => false,
+					'media_buttons' => false,
+				),
+			),
+		);
+
+		$accordions[] = array(
+			'id'     => 'send_new_blah',
+			'title'  => 'Admin Notification',
+			'fields' => array(
+				array(
+					'id'    => 'enabled',
+					'type'  => 'switcher',
+					'title' => esc_html__( 'Send New Boomerang Notification', 'boomerang' ),
+				),
+				array(
+					'id'    => 'admin_email',
+					'type'  => 'text',
+					'title' => esc_html__( 'Admin Email', 'boomerang' ),
+					'desc'  => esc_html__(
+						'Enter an email address to send notifications when Boomerangs are created.',
+						'boomerang'
+					),
+				),
+				array(
+					'id'      => 'placeholders',
+					'type'    => 'content',
+					'title'   => esc_html__( 'Placeholders', 'boomerang' ),
+					'desc'    => esc_html__(
+						'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.',
+						'boomerang'
+					),
+					'content' => wp_kses_post( $this->get_placeholder_box() ),
+				),
+				array(
+					'id'         => 'new_boomerang_subject',
+					'type'       => 'textarea',
+					'title'      => esc_html__( 'Email Subject', 'boomerang' ),
+					'attributes' => array(
+						'rows'  => 3,
+						'style' => 'min-height: 0;',
+					),
+				),
+				array(
+					'id'            => 'new_boomerang_content',
 					'type'          => 'wp_editor',
 					'title'         => esc_html__( 'Email Content', 'boomerang' ),
 					'quicktags'     => false,
@@ -654,22 +702,15 @@ class Boomerang_Admin {
 	 */
 	public function get_placeholder_box() {
 		$placeholders = array(
-			'{{title}}',
-			'{{board}}',
-			'{{link}}',
+			'Boomerang Title',
+			'Board Name',
+			'Boomerang Link',
 		);
-
-		/**
-		 * Filters the placeholder list. This should match the placeholder array in the main notifications class.
-		 *
-		 * @see Boomerang_Email_Notifications::populate_placeholders()
-		 */
-		$placeholders = apply_filters( 'boomerang_notification_placeholders', $placeholders );
 
 		$placeholder_string = '<div class="boomerang-notification-placeholder-container">';
 
 		foreach ( $placeholders as $placeholder ) {
-			$placeholder_string .= '<span>' . $placeholder . '</span>';
+			$placeholder_string .= '<span>{{' . $placeholder . '}}</span>';
 		}
 
 		$placeholder_string .= '</div>';

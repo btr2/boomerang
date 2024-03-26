@@ -588,89 +588,6 @@ function render_custom_fields_section() {
 	return $fields;
 }
 
-
-function get_placeholder_box() {
-	$placeholders = array(
-		'{{title}}',
-		'{{board}}',
-		'{{link}}',
-	);
-
-	/**
-	 * Filters the placeholder list. This should match the placeholder array in the main notifications class.
-	 *
-	 * @see Boomerang_Email_Notifications::populate_placeholders()
-	 */
-	$placeholders = apply_filters( 'boomerang_notification_placeholders', $placeholders );
-
-	$placeholder_string = '<div class="boomerang-notification-placeholder-container">';
-
-	foreach ( $placeholders as $placeholder ) {
-		$placeholder_string .= '<span>' . $placeholder . '</span>';
-	}
-
-	$placeholder_string .= '</div>';
-
-	$placeholder_string .= '<div class="csf-desc-text">' . __( 'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.', 'boomerang' ) . '</div>';
-
-	return $placeholder_string;
-}
-
-function add_notifications( $notifications ) {
-	$notifications[] = array(
-		'id'     => 'status_change_email',
-		'title'  => 'Status Change',
-		'fields' => array(
-			array(
-				'id'    => 'enabled',
-				'type'  => 'switcher',
-				'title' => esc_html__( 'Send email to author when the status changes', 'boomerang' ),
-			),
-			array(
-				'id'      => 'placeholders',
-				'type'    => 'content',
-				'title'   => esc_html__( 'Placeholders', 'boomerang' ),
-				'desc'    => esc_html__(
-					'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.',
-					'boomerang'
-				),
-				'content' => wp_kses_post( get_placeholder_box() ),
-			),
-			array(
-				'id'         => 'subject',
-				'type'       => 'textarea',
-				'title'      => esc_html__( 'Email Subject', 'boomerang' ),
-				'attributes' => array(
-					'rows'  => 3,
-					'style' => 'min-height: 0;',
-				),
-			),
-			array(
-				'id'            => 'content',
-				'type'          => 'wp_editor',
-				'title'         => esc_html__( 'Email Content', 'boomerang' ),
-				'quicktags'     => false,
-				'media_buttons' => false,
-			),
-		),
-	);
-
-	return $notifications;
-}
-add_action( 'boomerang_board_notification_settings_accordions', __NAMESPACE__ . '\add_notifications' );
-
-function add_additional_placeholders( $placeholders ) {
-	$placeholders = array(
-		'{{title}}',
-		'{{board}}',
-		'{{link}}',
-		'{{status}}',
-	);
-
-	return $placeholders;
-}
-add_action( 'boomerang_notification_placeholders', __NAMESPACE__ . '\add_additional_placeholders' );
-
 function add_styling_fields( $settings ) {
 	$settings[] = array(
 		'id'      => 'admin_color',
@@ -683,4 +600,3 @@ function add_styling_fields( $settings ) {
 	return $settings;
 }
 add_filter( 'boomerang_board_styling_settings', __NAMESPACE__ . '\add_styling_fields' );
-
