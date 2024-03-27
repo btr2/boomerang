@@ -19,7 +19,8 @@ class Boomerang {
 		// Require our board function file.
 		require BOOMERANG_PATH . '/inc/boomerang-board-functions.php';
 
-		// Require our boomerang function file.
+		// Require our boomerang function files.
+		require_once BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
 		require BOOMERANG_PATH . '/inc/boomerang-functions.php';
 
 		// Require our template file.

@@ -94,7 +94,6 @@ if ( function_exists( 'boo_fs' ) ) {
 		function boomerang_init() {
 			require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
 			require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
-			require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
 
 			do_action( 'boomerang_before_init' );
 			$boomerang = new Boomerang();
