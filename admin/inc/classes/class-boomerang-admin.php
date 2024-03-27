@@ -376,7 +376,7 @@ class Boomerang_Admin {
 			'type'  => 'switcher',
 			'title' => esc_html__( 'Enable Downvoting', 'boomerang' ),
 			'desc'  => esc_html__(
-				'Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion.',
+				'Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion. Due to the way guest votes are recorded, guests can always downvote even if this is turned off.',
 				'boomerang'
 			),
 			'dependency' => array( 'enable_votes', '==', 'true' ),
