@@ -379,6 +379,7 @@ class Boomerang_Admin {
 				'Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion.',
 				'boomerang'
 			),
+			'dependency' => array( 'enable_votes', '==', 'true' ),
 		);
 		$settings[] = array(
 			'id'    => 'show_title',
