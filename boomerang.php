@@ -3,7 +3,7 @@
  * Plugin Name:         Boomerang - Feature Request Platform
  * Plugin URI:          https://www.bouncingsprout.com/
  * Description:         A slick, modern feature request and feedback platform for WordPress.
- * Version:             1.0.3
+ * Version:             1.0.4
  * Requires at least:   5.2
  * Requires PHP:        7.0
  * Author:              Bouncingsprout Studio
@@ -65,7 +65,7 @@ if ( function_exists( 'boo_fs' ) ) {
 	define( 'BOOMERANG_PATH', plugin_dir_path( __FILE__ ) );
 	define( 'BOOMERANG_URL', plugin_dir_url( __FILE__ ) );
 	define( 'BOOMERANG_BASENAME', plugin_basename( __FILE__ ) );
-	define( 'BOOMERANG_VERSION', '1.0.3' );
+	define( 'BOOMERANG_VERSION', '1.0.4' );
 
 	/**
 	 * Get the plugin's version number.
@@ -101,19 +101,6 @@ if ( function_exists( 'boo_fs' ) ) {
 		}
 	}
 	add_action( 'plugins_loaded', __NAMESPACE__ . '\boomerang_init' );
-
-	/**
-	 * Start the engines, Captain...
-	 */
-	// function boomerang_init() {
-	// 	require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
-	// 	require BOOMERANG_PATH . '/inc/classes/class-boomerang.php';
-	// 	require BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
-	//
-	// 	$boomerang = new Boomerang();
-	// }
-
-	// boomerang_init();
 
 	/**
 	 * Tasks to run on plugin activation.
