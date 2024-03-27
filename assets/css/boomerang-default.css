@@ -676,6 +676,7 @@ Single Boomerang
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  cursor: pointer;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-actions-container .boomerang-actions .boomerang-action:hover {
   border-color: #000;

@@ -16,6 +16,8 @@ class Boomerang_CPT_Helper {
 	 * Constructor.
 	 */
 	public function __construct() {
+		require_once BOOMERANG_PATH . '/inc/boomerang-global-functions.php';
+
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'admin_init', array( $this, 'add_define_slug_setting' ) );
 		add_action( 'admin_init', array( $this, 'save_slug_setting' ) );
