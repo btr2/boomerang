@@ -75,6 +75,16 @@ class Boomerang_Frontend {
 		);
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			if ( is_singular( 'boomerang' ) ) {
+				wp_enqueue_style( 'boomerang-lightbox', BOOMERANG_URL . 'pro/assets/css/simple-lightbox.min.css', null, BOOMERANG_VERSION );
+				wp_enqueue_script(
+					'boomerang-lightbox',
+					BOOMERANG_URL . 'pro/assets/js/simple-lightbox.min.js',
+					array(),
+					BOOMERANG_VERSION
+				);
+			}
+
 			wp_enqueue_style(
 				'boomerang-pro',
 				BOOMERANG_URL . 'pro/assets/css/boomerang-pro.css',
