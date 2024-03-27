@@ -573,6 +573,14 @@ Single Boomerang
     }
   }
 
+  // SimpleLightBox styles
+  .sl-wrapper {
+    .sl-close {
+      font-weight: 500;
+      box-shadow: none;
+    }
+  }
+
   .boomerang-container {
     #main {
       margin: 0 auto;

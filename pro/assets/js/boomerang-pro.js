@@ -22,7 +22,9 @@ jQuery(document).ready(function ($) {
     }
 
     if ($('.boomerang-attachments').length) {
-        var lightbox = $('.boomerang-image-attachments a').simpleLightbox({});
+        if (typeof SimpleLightbox === 'function') {
+            var lightbox = new SimpleLightbox('.boomerang-image-attachments a', { /* options */});
+        }
     }
 
     if ($('.boomerang-suggested-ideas-container').length) {

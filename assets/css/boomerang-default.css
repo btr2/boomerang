@@ -476,6 +476,10 @@ Single Boomerang
 .single-boomerang.admin-bar .sl-wrapper .sl-close {
   margin-top: 0;
 }
+.single-boomerang .sl-wrapper .sl-close {
+  font-weight: 500;
+  box-shadow: none;
+}
 .single-boomerang .boomerang-container #main {
   margin: 0 auto;
   justify-content: space-between;

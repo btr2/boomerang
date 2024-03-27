@@ -77,7 +77,7 @@ function lightbox_enqueues() {
 		);
 	}
 }
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\lightbox_enqueues' );
+// add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\lightbox_enqueues' );
 
 /**
  * Add an attachment area under the Boomerang content.
