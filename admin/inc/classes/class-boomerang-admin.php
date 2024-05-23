@@ -18,11 +18,11 @@ class Boomerang_Admin {
 	 */
 	public function __construct() {
 		require_once BOOMERANG_PATH . 'vendor/codestar-framework/codestar-framework.php';
-		require_once BOOMERANG_PATH . '/admin/fields/better-accordion.php';
 
 		$this->init_hooks();
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			require_once BOOMERANG_PATH . '/admin/fields/better-accordion.php';
 			require_once BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-customizer.php';
 			$boomerang_customizer = new Boomerang_Customizer();
 

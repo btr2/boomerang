@@ -82,10 +82,13 @@ class Boomerang {
 			require BOOMERANG_PATH . '/pro/boomerang-bug-reporting.php';
 			require BOOMERANG_PATH . '/pro/boomerang-audit-log.php';
 			require BOOMERANG_PATH . '/pro/boomerang-poll.php';
+			require BOOMERANG_PATH . 'pro/inc/classes/class-boomerang-crowdfunding.php';
 
 			if (is_plugin_active('wp-crowdfunding-pro/wp-crowdfunding-pro.php') || is_plugin_active('wp-crowdfunding/wp-crowdfunding.php')) {
-				require BOOMERANG_PATH . '/pro/boomerang-wp-crowdfunding.php';
+				require BOOMERANG_PATH . '/pro/integrations/boomerang-wp-crowdfunding.php';
 			}
+
+			require BOOMERANG_PATH . '/pro/integrations/boomerang-ignitiondeck.php';
 		}
 	}
 
