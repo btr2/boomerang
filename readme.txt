@@ -4,7 +4,7 @@ Contributors: bouncingsprout
 Requires at least: 5.2
 Tested up to: 6.5.0
 Requires PHP: 7.0
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ We have a huge number of premium features available. To see how powerful our Pro
 2. Single Boomerang Page (Pro Edition - coming soon)
 
 == Changelog ==
+
+= 1.0.5 =
+* Bug on activation
+* Update libraries
 
 = 1.0.4 =
 * Fix redirection issue after delete
