@@ -15,10 +15,17 @@
 					<?php if ( ! $custom || ( $custom && isset( $attrs['project_title'] ) ) ) { ?>
 						<h2 class="id-product-title"><a href="<?php echo getProjectURLfromType( $project_id ); ?>"><?php echo stripslashes( get_the_title( $the_deck->post_id ) ); ?></a></h2>
 					<?php } ?>
+					<?php if ( ! $custom || ( $custom && isset( $attrs['project_description'] ) ) ) { ?>
+						<!-- Project description -->
+						<div class="id-product-description"><?php echo $the_deck->project_desc; ?></div>
+						<!-- end id product description -->
+					<?php } ?>
 					<?php if ( ! $custom || ( $custom && isset( $attrs['project_bar'] ) ) ) { ?>
 					<div class="progress-wrapper">
 						<div class="progress-percentage"> <?php echo $the_deck->rating_per; ?>% </div>
-						<div class="progress-bar" style="width: <?php echo $the_deck->rating_per; ?>%"> 
+						<div class="progress-bar-wrapper">
+							<div class="progress-bar" style="width: <?php echo $the_deck->rating_per; ?>%">
+						</div>
 						</div>
 						<!-- end progress bar --> 
 					</div>
@@ -28,61 +35,67 @@
 				
 				<!-- end pledge -->
 				
-				<div class="clearing"></div>
-				<?php if ( ! $custom || ( $custom && isset( $attrs['project_pledged'] ) ) ) { ?>
-					<div class="id-progress-raised"> <?php echo $the_deck->p_current_sale; ?> </div>
-				<?php } ?>
-				<?php if ( ! $custom || ( $custom && isset( $attrs['project_goal'] ) ) ) { ?>
-					<div class="id-product-funding"><?php _e( 'Pledged of', 'ignitiondeck' ); ?> <?php echo $the_deck->item_fund_goal; ?> <?php _e( 'Goal', 'ignitiondeck' ); ?></div>
-				<?php } ?>
+				<div class="project-metrics">
+					<div class="raised-metric">
+						<?php if ( ! $custom || ( $custom && isset( $attrs['project_pledged'] ) ) ) { ?>
+							<div class="id-progress-raised"> <?php echo $the_deck->p_current_sale; ?> </div>
+						<?php } ?>
+						<?php if ( ! $custom || ( $custom && isset( $attrs['project_goal'] ) ) ) { ?>
+							<div class="id-product-funding"><?php _e( 'Pledged of', 'ignitiondeck' ); ?> <?php echo $the_deck->item_fund_goal; ?> <?php _e( 'Goal', 'ignitiondeck' ); ?></div>
+						<?php } ?>
+					</div>
+
 				<?php if ( ! $custom || ( $custom && isset( $attrs['project_pledgers'] ) ) ) { ?>
+					<div class="pledger-metric">
 					<div class="id-product-total"><?php echo $the_deck->p_count->p_number; ?></div>
 					<div class="id-product-pledges"><?php _e( 'Pledgers', 'ignitiondeck' ); ?></div>
+					</div>
 				<?php } ?>
+
+					<?php if ( ! $custom || ( $custom && isset( $attrs['days_left'] ) )  || ( $custom && isset( $attrs['project_end'] ) ) ) { ?>
+
+					<div class="date-metric">
+						<div class="days-left-metric">
 				<?php if ( ! $custom || ( $custom && isset( $attrs['days_left'] ) ) ) { ?>
 					<?php if ( isset( $the_deck->days_left ) && $the_deck->days_left > 0 ) { ?>
 						<div class="id-product-days"><?php echo ( ( $the_deck->days_left !== '' || $the_deck->days_left !== 0 ) ? $the_deck->days_left : '0' ); ?></div>
 						<div class="id-product-days-to-go"><?php _e( 'Days Left', 'ignitiondeck' ); ?></div>
 					<?php } ?>
 				<?php } ?>
+						</div>
+						<?php if ( ! $custom || ( $custom && isset( $attrs['project_end'] ) ) ) { ?>
+							<?php if ( $the_deck->item_fund_end !== '' ) { ?>
+								<div class="id-product-proposed-end"><?php echo ( $the_deck->days_left > 0 ? __( 'Ends on', 'ignitiondeck' ) : __( 'Ended On', 'ignitiondeck' ) ); ?>
+									<div class="id-widget-date">
+										<div class="id-widget-month"><?php echo $the_deck->month; ?></div>
+										<div class="id-widget-day"><?php echo $the_deck->day; ?></div>
+										<div class="id-widget-year"><?php echo $the_deck->year; ?></div>
+									</div>
+								</div>
+							<?php } ?>
+						<?php } ?>
+					</div>
+
+					<?php } ?>
 			</div>
 			
 			<!-- end product-wrapper -->	
-			<?php if ( ! $custom || ( $custom && isset( $attrs['project_end'] ) ) ) { ?>
-				<?php if ( $the_deck->item_fund_end !== '' ) { ?>	
-				<div class="id-product-proposed-end"><?php echo ( $the_deck->days_left > 0 ? __( 'Crowdfunding ends on', 'ignitiondeck' ) : __( 'Ended On', 'ignitiondeck' ) ); ?>
-					<div class="id-widget-date">
-						<div class="id-widget-month"><?php echo $the_deck->month; ?></div>
-						<div class="id-widget-day"><?php echo $the_deck->day; ?></div>
-						<div class="id-widget-year"><?php echo $the_deck->year; ?></div>
-					</div>
-				</div>
-				<?php } ?>
-			<?php } ?>
+
+		</div>
 			<div class="separator">&nbsp;</div>
 			<?php if ( ! $custom || ( $custom && isset( $attrs['project_button'] ) ) ) { ?>
-				<?php /*?><div class="btn-container">
-					<?php if ( isset( $the_deck->end_type ) && $the_deck->end_type == 'open' && is_id_licensed() ) { ?>
-						<a href="<?php echo ( isset( $_GET['ig_embed_widget'] ) ? getProjectURLfromType( $project_id ) : getPurchaseURLfromType( $project_id, 'purchaseform' ) ); ?>" class="main-btn"><?php echo ( isset( $_GET['ig_embed_widget'] ) ? __( 'Learn More', 'ignitiondeck' ) : __( 'Support Now', 'ignitiondeck' ) ); ?></a>
-						<?php
-					} elseif ( isset( $the_deck->days_left ) && $the_deck->days_left > 0 && is_id_licensed() ) {
-						?>
-					<a href="<?php echo ( isset( $_GET['ig_embed_widget'] ) ? getProjectURLfromType( $project_id ) : getPurchaseURLfromType( $project_id, 'purchaseform' ) ); ?>" class="main-btn"><?php echo ( isset( $_GET['ig_embed_widget'] ) ? __( 'Learn More', 'ignitiondeck' ) : __( 'Support Now', 'ignitiondeck' ) ); ?></a>
-					<?php } ?>
-				</div>
-				<?php */ ?>
 				<div class="ign-supportnow" data-projectid="<?php echo ( isset( $project_id ) ? $project_id : '' ); ?>">
 					<?php
 					if ($the_deck->end_type == 'closed' && $the_deck->days_left <= 0) {
 						?>
-						<a href="" class=""><?php __('Project Closed', 'idc');?></a>
+						<a href="" class="button"><?php __('Project Closed', 'idc');?></a>
 						<?php
 					} else {
 						if (function_exists('is_id_licensed') && is_id_licensed()) {
 							if (empty($permalinks) || $permalinks == '') {
-								echo '<a href="'.get_permalink($project_id).'&purchaseform=500&amp;prodid='.( isset( $project_id ) ? $project_id : '' ).'">'.__('Support Now', 'idc').'</a>';
+								echo '<a class="button" href="'.get_permalink($project_id).'&purchaseform=500&amp;prodid='.( isset( $project_id ) ? $project_id : '' ).'">'.__('Support Now', 'idc').'</a>';
 							} else {
-								echo '<a href="'.get_permalink($project_id).'?purchaseform=500&amp;prodid='.( isset( $project_id ) ? $project_id : '' ).'">'.__('Support Now', 'idc').'</a>';
+								echo '<a class="button" href="'.get_permalink($project_id).'?purchaseform=500&amp;prodid='.( isset( $project_id ) ? $project_id : '' ).'">'.__('Support Now', 'idc').'</a>';
 							}
 						}
 					}
@@ -90,11 +103,7 @@
 				</div>
 			<?php } ?>
 			
-			<?php if ( ! $custom || ( $custom && isset( $attrs['project_description'] ) ) ) { ?>
-				<!-- Project description -->
-				<div class="id-product-description"><?php echo $the_deck->project_desc; ?></div>
-				<!-- end id product description -->
-			<?php } ?>
+
 			<?php
 			if ( ! $custom || ( $custom && isset( $attrs['project_levels'] ) ) ) {
 				$permalink_structure = get_option('permalink_structure');

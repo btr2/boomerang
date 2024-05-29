@@ -29,6 +29,26 @@ $blue: #027AD0;
   }
 }
 
+.boomerang-admin-area {
+  .boomerang-crowdfunding {
+    .control-content {
+      flex-direction: column;
+
+      .crowdfund-dropdown {
+        margin-bottom: 10px;
+
+        label {
+          color: #0d0d0e;
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+
+
+    }
+  }
+}
+
 .boomerang-poll-wrapper {
 
   .boomerang-poll {
@@ -417,5 +437,187 @@ Single Boomerang
         transform: translateY(0);
       }
     }
+  }
+}
+
+.boomerang {
+  .ignitiondeck {
+    .id-product-infobox {
+      background: none;
+
+      .pledge {
+        .id-product-title {
+          text-align: center;
+
+          a {
+            color: #0d0d0e;
+            text-decoration: none;
+          }
+        }
+
+        .id-product-description {
+          text-align: center;
+        }
+
+        .progress-wrapper {
+          display: flex;
+          background: none;
+          height: auto;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 40px;
+
+          .progress-percentage {
+            position: relative;
+            order: 1;
+            width: 15%;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 16px;
+          }
+
+          .progress-bar-wrapper {
+            height: 10px;
+            width: 85%;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            padding: 0px;
+
+            .progress-bar {
+              height: 10px;
+              background-color: var(--boomerang-primary-color);
+              border-radius: 10px;
+            }
+          }
+        }
+      }
+
+      .project-metrics {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-bottom: 40px;
+        gap: 10px;
+
+        .raised-metric {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .id-progress-raised {
+            font-size: 36px;
+          }
+        }
+
+        .pledger-metric {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 10px;
+
+          .id-product-total {
+            font-size: 36px;
+          }
+        }
+
+        .date-metric {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 10px;
+
+          .days-left-metric {
+            display: flex;
+            flex-direction: column;
+
+            .id-product-days {
+              font-size: 24px;
+            }
+
+            .id-product-days-to-go {
+              font-size: 16px;
+              margin-top: 8px;
+            }
+          }
+
+          .id-product-proposed-end {
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+
+      .ign-supportnow {
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .button {
+          display: block;
+          width: 100%;
+          background-color: var(--boomerang-primary-color);
+          color: #ffffff;
+          border-radius: 5px;
+          border: none;
+          padding: 20px;
+          font-size: 18px;
+        }
+
+      }
+    }
+
+  }
+
+  @include media(large) {
+    .ignitiondeck {
+      .id-product-infobox {
+        .project-metrics {
+          flex-direction: row;
+        }
+
+        .ign-supportnow {
+          .button {
+            display: flex;
+            width: max-content;
+          }
+
+        }
+      }
+    }
+  }
+
+   @include media(desktop) {
+     .ignitiondeck {
+       .id-product-infobox {
+         .pledge {
+           .id-product-title {
+             text-align: left;
+           }
+
+           .id-product-description {
+             text-align: left;
+           }
+
+           .progress-wrapper {
+             flex-direction: row;
+
+             .progress-percentage {
+             }
+
+             .progress-bar-wrapper {
+
+
+               .progress-bar {
+
+               }
+
+             }
+           }
+         }
+       }
+
+     }
   }
 }

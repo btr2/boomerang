@@ -92,15 +92,18 @@ jQuery(document).ready(function ($) {
 
     $("body").on(
         "click",
-        ".boomerang-admin-area #boomerang-crowdfunding-product-submit",
+        ".boomerang-admin-area .crowdfund-submit",
         function (e) {
             e.preventDefault();
 
             let $button = $(this);
+            let plugin = $button.attr('data-plugin');
             let container = $button.closest('.boomerang-admin-area');
             let post_id = container.attr("data-id");
             let nonce = container.attr("data-nonce");
-            let product = container.find('#boomerang-crowdfunding-products-dropdown').val();
+            let product = $button.closest('fieldset').find('select').val();
+
+            console.log(product);
 
             $.ajax(
                 {
@@ -112,6 +115,7 @@ jQuery(document).ready(function ($) {
                         nonce: nonce,
                         dataType: 'json',
                         product_id: product,
+                        plugin: plugin,
                     },
                     success: function (response) {
                         if (!response.success) {
