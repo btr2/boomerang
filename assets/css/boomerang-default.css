@@ -161,7 +161,7 @@ body:not(.logged-in) .votes-container {
   border: 1px solid #ededee;
   border-radius: 10px;
   padding: 20px;
-  background: #f3f4f4;
+  background: var(--boomerang-form-background-color);
 }
 @media only screen and (min-width: 576px) {
   #boomerang-form-wrapper #boomerang-form {
@@ -175,7 +175,6 @@ body:not(.logged-in) .votes-container {
 }
 #boomerang-form-wrapper #boomerang-form h2, #boomerang-form-wrapper #boomerang-form h3 {
   text-align: center;
-  color: #64676b;
   margin-bottom: 20px;
   text-wrap: balance;
 }
@@ -349,7 +348,6 @@ body:not(.logged-in) .votes-container {
     padding: 20px;
     border-radius: 10px;
     border: 2px dashed #555;
-    color: #444;
     cursor: pointer;
   }
 }
@@ -359,7 +357,6 @@ body:not(.logged-in) .votes-container {
     padding: 20px;
     border-radius: 10px;
     border: 2px dashed #555;
-    color: #444;
     cursor: pointer;
   }
 }
@@ -370,8 +367,10 @@ body:not(.logged-in) .votes-container {
 #boomerang-form-wrapper #boomerang-form .drop-container:hover .drop-title {
   color: #222;
 }
+#boomerang-form-wrapper #boomerang-form .drop-container:hover .drop-conjunction {
+  color: #222;
+}
 #boomerang-form-wrapper #boomerang-form .drop-title {
-  color: #444;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -638,7 +637,6 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content fieldset .control-content-inline-button {
   background: var(--boomerang-primary-color);
   color: #fff;
-  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -859,7 +857,6 @@ Single Boomerang
   margin-bottom: 5px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-header .entry-title a {
-  color: #0d0d0e;
   text-decoration: none;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content {
@@ -874,7 +871,6 @@ Single Boomerang
   flex: 2;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-content p {
-  color: #64676B;
   margin-bottom: 20px;
 }
 @media only screen and (min-width: 576px) {
@@ -938,19 +934,16 @@ Single Boomerang
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  color: #0d0d0e;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  color: #0d0d0e;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-posted-on {
   font-size: 14px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-edit-link {
-  color: #272727;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -971,11 +964,7 @@ Single Boomerang
   border-radius: 0.1875rem;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count {
-  color: #64676b;
   gap: 5px;
-}
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-meta .boomerang-comment-count span {
-  color: #a3a3a9;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .boomerang-acf-container {
   border-top: 1px solid #e7e7e7;
@@ -1030,7 +1019,6 @@ Single Boomerang
   gap: 5px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer .boomerang-tags .boomerang-tag {
-  color: #64676b;
   font-size: 14px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments {
@@ -1041,7 +1029,6 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #reply-title {
   margin-bottom: 10px;
   line-height: normal;
-  color: #0d0d0e;
   font-size: 16px;
   font-weight: bold;
 }
@@ -1049,7 +1036,7 @@ Single Boomerang
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.2s;
-  border: 2px solid #eeeef1;
+  border: 2px solid;
   border-radius: 5px;
   box-shadow: 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 0 rgba(0, 0, 0, 0), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   padding: 10px 16px;
@@ -1070,7 +1057,6 @@ Single Boomerang
   box-shadow: none;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform p, .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform label {
-  color: #64676b;
   font-size: 12px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .comment-notes {
@@ -1099,7 +1085,6 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .private-note-label {
   margin-left: 14px;
-  color: #64676b;
   font-size: 15px;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments #commentform .submit-button-container .private-note-toggle .switch {
@@ -1169,7 +1154,6 @@ Single Boomerang
   cursor: pointer;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .boomerang-comment-main-title {
-  color: #64676b;
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -1196,7 +1180,6 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment.private_note .private-note-label {
   display: flex;
   align-items: center;
-  color: #64676b;
   font-size: 12px;
   margin-bottom: 10px;
 }
@@ -1216,12 +1199,8 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-author a {
   line-height: normal;
-  color: #0d0d0e;
   font-size: 14px;
   font-weight: bold;
-}
-.single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content {
-  color: #64676b;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-content p {
   line-height: inherit;
@@ -1230,13 +1209,11 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata {
   display: flex;
   gap: 10px;
-  color: #64676b;
   font-size: 12px;
   align-items: center;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata a {
   line-height: normal;
-  color: #64676b;
 }
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-content .entry-footer #comments .comment-list .comment .comment-body .comment-meta .comment-metadata span a {
   text-decoration: underline;
@@ -1409,9 +1386,6 @@ Boomerang Directory
 .boomerang-directory article:first-of-type {
   border-top: 2px solid #e6e7e8;
 }
-.boomerang-directory article:hover {
-  background-color: #f9f9fb;
-}
 .boomerang-directory article .entry-header {
   padding: 0;
 }
@@ -1424,7 +1398,6 @@ Boomerang Directory
   text-decoration: none;
 }
 .boomerang-directory article .entry-content p {
-  color: #64676B;
   margin-bottom: 20px;
 }
 .boomerang-directory article .boomerang-meta {
@@ -1434,13 +1407,11 @@ Boomerang Directory
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  color: #64676b;
 }
 .boomerang-directory article .boomerang-meta .boomerang-posted-by a {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  color: #64676b;
 }
 .boomerang-directory article .boomerang-meta .boomerang-posted-on {
   font-size: 14px;
@@ -1456,14 +1427,9 @@ Boomerang Directory
   border-radius: 0.1875rem;
 }
 .boomerang-directory article .boomerang-meta .boomerang-comment-count {
-  color: #64676b;
   gap: 5px;
 }
-.boomerang-directory article .boomerang-meta .boomerang-comment-count span {
-  color: #a3a3a9;
-}
 .boomerang-directory article .entry-footer .boomerang-tags .boomerang-tag {
-  color: #64676b;
   font-size: 14px;
 }
 .boomerang-directory article .entry-footer .boomerang-tags .boomerang-tag:hover {
