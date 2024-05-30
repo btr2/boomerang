@@ -79,6 +79,15 @@ function boomerang_default_styles_disabled() {
 }
 
 /**
+ * Checks whether Select2 has been disabled.
+ *
+ * @return bool
+ */
+function boomerang_select2_disabled() {
+	return boomerang_get_option( 'disable_select2', false );
+}
+
+/**
  * Sends an email.
  *
  * @param $to

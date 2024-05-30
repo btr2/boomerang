@@ -256,6 +256,15 @@ class Boomerang_Admin {
 								'boomerang'
 							),
 						),
+						array(
+							'id'    => 'disable_select2',
+							'type'  => 'switcher',
+							'title' => esc_attr__( 'Disable Select2', 'boomerang' ),
+							'desc'  => esc_attr__(
+								'Select2 is a advanced dropdown list, used throughout Boomerang. If you are experiencing issues with the dropdown, tick this box. You may be using a theme that has a customized earlier version of Select2, which you should use instead of our latest version.',
+								'boomerang'
+							),
+						),
 					),
 				)
 			);
