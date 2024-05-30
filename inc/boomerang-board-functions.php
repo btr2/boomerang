@@ -364,6 +364,12 @@ function boomerang_get_styling( $board = false ) {
 		$custom_css .= ':root {--boomerang-primary-color:' . $meta['primary_color'] . ';}';
 	}
 
+	if ( empty( $meta['form_background_color'] ) ) {
+		$custom_css .= ':root {--boomerang-form-background-color:#f3f4f4;}';
+	} else {
+		$custom_css .= ':root {--boomerang-form-background-color:' . $meta['form_background_color'] . ';}';
+	}
+
 	$custom_css .= ':root {--boomerang-team-color:#fab347;}';
 
 	// Widths are generally handled by pages containing Boomerang shortcodes, so we defer to them
