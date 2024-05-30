@@ -69,7 +69,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
-			'id' => 'safety',
+			'id'     => 'safety',
 			'title'  => 'Safety',
 			'fields' => array(
 				array(
@@ -85,7 +85,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
-			'id' => 'guest_submissions',
+			'id'     => 'guest_submissions',
 			'title'  => 'Guest Submissions',
 			'fields' => render_guest_fields(),
 		)
@@ -105,7 +105,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
-			'id' => 'other_boomerangs',
+			'id'     => 'other_boomerangs',
 			'title'  => 'Other Boomerangs',
 			'fields' => array(
 				array(
@@ -139,7 +139,7 @@ function add_board_pro_sections( $prefix ) {
 	\CSF::createSection(
 		$prefix,
 		array(
-			'id' => 'polls',
+			'id'     => 'polls',
 			'title'  => 'Polls',
 			'fields' => render_polls_fields(),
 		)
@@ -675,12 +675,36 @@ function add_styling_fields( $settings ) {
 	$settings[] = array(
 		'id'      => 'admin_color',
 		'type'    => 'color',
-		'title'   => 'Admin Color',
+		'title'   => esc_html__( 'Admin Color', 'boomerang' ),
 		'default' => '#fab347',
-		'desc'       => esc_html__( 'The color used for anything related to managers or the administration team, for example private notes.', 'boomerang' ),
+		'desc'    => esc_html__( 'The color used for anything related to managers or the administration team, for example private notes.', 'boomerang' ),
 	);
 
 	return $settings;
 }
 add_filter( 'boomerang_board_styling_settings', __NAMESPACE__ . '\add_styling_fields' );
+
+function add_ign_field( $settings ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+	}
+
+	if ( ! is_plugin_active( 'ignitiondeck/idf.php' ) ) {
+		return $settings;
+	}
+
+	require_once BOOMERANG_PATH . '/pro/integrations/boomerang-ignitiondeck.php';
+
+	$settings[] = array(
+		'id'          => 'ign_deck',
+		'type'        => 'select',
+		'placeholder' => esc_html__( 'None', 'boomerang' ),
+		'title'       => esc_html__( 'IgnitionDeck Deck', 'boomerang' ),
+		'desc'        => esc_html__( 'Choose a Deck. Decks can be created in the IgnitionDeck Deck Builder. By creating Decks, you can control what is shown and what is hidden within the project’s data display.', 'boomerang' ),
+		'options'     => get_ign_decks(),
+	);
+
+	return $settings;
+}
+add_filter( 'boomerang_board_general_settings', __NAMESPACE__ . '\add_ign_field' );
 

@@ -1,5 +1,5 @@
 === Boomerang ===
-Tags: feature requests, requests, feedback, ideas, suggestions, idea board, request board
+Tags: feature requests, requests, feedback, ideas, suggestions
 Contributors: bouncingsprout
 Requires at least: 5.2
 Tested up to: 6.5.0

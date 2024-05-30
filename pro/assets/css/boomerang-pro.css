@@ -1,3 +1,15 @@
+.boomerang-admin-area .boomerang-crowdfunding .control-content {
+  flex-direction: column;
+}
+.boomerang-admin-area .boomerang-crowdfunding .control-content .crowdfund-dropdown {
+  margin-bottom: 10px;
+}
+.boomerang-admin-area .boomerang-crowdfunding .control-content .crowdfund-dropdown label {
+  color: #0d0d0e;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 .boomerang-poll-wrapper .boomerang-poll {
   background-color: #f7f7f7;
   padding: 20px 30px;
@@ -312,6 +324,150 @@ Single Boomerang
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
+}
+
+.boomerang .ignitiondeck .id-product-infobox {
+  background: none;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .id-product-title {
+  text-align: center;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .id-product-title a {
+  color: #0d0d0e;
+  text-decoration: none;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .id-product-description {
+  text-align: center;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper {
+  display: flex;
+  background: none;
+  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper .progress-percentage {
+  position: relative;
+  order: 1;
+  width: 15%;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper .progress-bar-wrapper {
+  height: 10px;
+  width: 85%;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 0px;
+}
+.boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper .progress-bar-wrapper .progress-bar {
+  height: 10px;
+  background-color: var(--boomerang-primary-color);
+  border-radius: 10px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 40px;
+  gap: 10px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .raised-metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .raised-metric .id-progress-raised {
+  font-size: 36px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .pledger-metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .pledger-metric .id-product-total {
+  font-size: 36px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .date-metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .date-metric .days-left-metric {
+  display: flex;
+  flex-direction: column;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .date-metric .days-left-metric .id-product-days {
+  font-size: 24px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .date-metric .days-left-metric .id-product-days-to-go {
+  font-size: 16px;
+  margin-top: 8px;
+}
+.boomerang .ignitiondeck .id-product-infobox .project-metrics .date-metric .id-product-proposed-end {
+  padding: 0;
+  margin: 0;
+}
+.boomerang .ignitiondeck .id-product-infobox .ign-supportnow {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.boomerang .ignitiondeck .id-product-infobox .ign-supportnow .button {
+  display: block;
+  width: 100%;
+  background-color: var(--boomerang-primary-color);
+  color: #ffffff;
+  border-radius: 5px;
+  border: none;
+  padding: 20px;
+  font-size: 18px;
+}
+@media only screen and (min-width: 576px) {
+  .boomerang .ignitiondeck .id-product-infobox .project-metrics {
+    flex-direction: row;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .ign-supportnow .button {
+    display: flex;
+    width: max-content;
+  }
+}
+@media only screen and (min-width: large) {
+  .boomerang .ignitiondeck .id-product-infobox .project-metrics {
+    flex-direction: row;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .ign-supportnow .button {
+    display: flex;
+    width: max-content;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .boomerang .ignitiondeck .id-product-infobox .pledge .id-product-title {
+    text-align: left;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .pledge .id-product-description {
+    text-align: left;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper {
+    flex-direction: row;
+  }
+}
+@media only screen and (min-width: desktop) {
+  .boomerang .ignitiondeck .id-product-infobox .pledge .id-product-title {
+    text-align: left;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .pledge .id-product-description {
+    text-align: left;
+  }
+  .boomerang .ignitiondeck .id-product-infobox .pledge .progress-wrapper {
+    flex-direction: row;
+  }
 }
 
 /*# sourceMappingURL=boomerang-pro.css.map */
