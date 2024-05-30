@@ -112,9 +112,7 @@ function render_boomerang_directory( $atts ) {
 		}
 		?>
 
-		<div class="boomerang-directory-list">
-			<?php //echo boomerang_get_boomerangs( $a['board'] ); ?>
-		</div>
+		<div class="boomerang-directory-list"></div>
 
 
 

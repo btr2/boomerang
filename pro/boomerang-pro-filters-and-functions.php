@@ -285,7 +285,7 @@ function add_visibility_control() {
 			<fieldset>
 				<h4><?php echo esc_html( $heading ); ?></h4>
 				<p><?php echo esc_html( $text ); ?></p>
-				<div id="boomerang-post-status-submit" class="control-content-inline-button" data-action="<?php echo esc_attr( $action ); ?>">
+				<div id="boomerang-post-status-submit" class="wp-element-button button control-content-inline-button" data-action="<?php echo esc_attr( $action ); ?>">
 					<span><?php echo esc_html( $button_label ); ?></span>
 				</div>
 			</fieldset>

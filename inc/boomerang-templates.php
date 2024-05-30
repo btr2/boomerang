@@ -609,7 +609,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 						<div class="control-content">
 							<fieldset>
 								<?php wp_dropdown_categories( $args ); ?>
-								<div class="control-content-inline-button icon-only" id="boomerang-status-submit">
+								<div class=control-content-inline-button icon-only" id="boomerang-status-submit">
 									<?php if ( boomerang_google_fonts_disabled() ) : ?>
 										<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
 									<?php else : ?>

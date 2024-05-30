@@ -167,7 +167,7 @@ class Boomerang_Form {
 						echo '<p class="antispam">Leave this empty: <input type="text" id="boomerang_hp" name="boomerang_hp" /></p>';
 					}
 					?>
-					<button id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?>
+					<button class="button wp-element-button" id="bf-submit"><?php echo esc_html( $labels['submit'] ); ?>
 						<div id="bf-spinner"></div>
 					</button>
 					<?php do_action( 'boomerang_form_footer', $board ); ?>

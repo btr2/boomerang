@@ -70,9 +70,9 @@ $blue: #027AD0;
   figure, figcaption, footer, header, hgroup,
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
+    margin: initial;
+    padding: initial;
+    border: initial;
     vertical-align: baseline;
   }
   /* HTML5 display-role reset for older browsers */
@@ -376,6 +376,7 @@ body {
 
     input[type=file] {
       max-width: 100%;
+      width: 100%;
       color: #444;
       padding: 5px;
       background: #fff;
@@ -614,9 +615,10 @@ Single Boomerang
             max-height: 600px;
             flex: 1;
 
-            @include media(x-large) {
+            @include media(xx-large) {
               height: 600px;
               min-height: 300px;
+              width: 350px;
             }
 
             .boomerang-admin-area-heading {
@@ -696,11 +698,12 @@ Single Boomerang
 
                   .control-content {
                     display: none;
-                    margin: 10px -10px 20px -10px;
+                    margin: 10px auto;
 
                     fieldset {
                       border: none;
                       display: flex;
+                      flex: 1;
                       margin: 0;
                       padding: 0;
                       gap: 5px;
@@ -721,6 +724,7 @@ Single Boomerang
                       select, input {
                         border: 1px solid #ccc;
                         padding-left: 10px;
+                        flex: 1;
                       }
 
                       input[type=submit] {
@@ -732,14 +736,16 @@ Single Boomerang
                         background: var(--boomerang-primary-color);
                         color: #fff;
                         display: flex;
+                        border-radius: 5px;
                         align-items: center;
                         justify-content: center;
+                        padding: 8px 14px;
                         cursor: pointer;
                         font-weight: 600;
 
                         &.icon-only {
-                          height: 40px;
-                          width: 40px;
+                          //height: 40px;
+                          //width: 40px;
                         }
                       }
                     }
@@ -759,6 +765,8 @@ Single Boomerang
             }
 
             .boomerang-actions-container {
+              margin-top: 20px;
+
               .boomerang-actions-heading {
                 color: #64676b;
                 font-weight: 600;
@@ -1365,8 +1373,6 @@ Single Boomerang
                     #submit {
                       text-align: right;
                       border-radius: 5px;
-                      padding: 8px 14px;
-                      font-size: 16px;
                       background: var(--boomerang-primary-color);
                       color: #fff;
                       border: none;
