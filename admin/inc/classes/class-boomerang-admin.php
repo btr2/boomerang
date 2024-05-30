@@ -41,6 +41,7 @@ class Boomerang_Admin {
 		add_action( 'csf_loaded', array( $this, 'add_board_metabox' ) );
 		add_action( 'add_meta_boxes_boomerang', array( $this, 'add_boomerang_parent_metabox' ), 10, 2 );
 		add_action( 'admin_notices', array( $this, 'add_upsell' ) );
+		add_action( 'admin_notices', array( $this, 'block_theme_warning' ) );
 
 		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_block_editor' ), 10, 2 );
 		add_filter( 'manage_boomerang_posts_columns', array( $this, 'add_boomerang_board_column' ) );
@@ -169,6 +170,37 @@ class Boomerang_Admin {
 
 			</div>
 		</a>
+				<?php
+		endif;
+		}
+	}
+
+	public function block_theme_warning() {
+		if ( ! wp_is_block_theme() ) {
+			return;
+		}
+		/**
+		 * Check whether the get_current_screen function exists
+		 * because it is loaded only after 'admin_init' hook.
+		 */
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+
+			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) :
+
+				$shortcode = '';
+
+				if ( ! empty( $_GET['post'] ) ) {
+					$shortcode = sprintf(
+						// translators: %s: ID of the current board
+						__( 'The shortcode for this board is: [boomerang board="%s"]', 'boomerang' ),
+						$_GET['post']
+					);
+				}
+				?>
+		<div class="notice notice-warning is-dismissible">
+			<p><?php _e( 'Boomerang has detected you may be using a Block Theme. If you are having issues displaying your board, please use our shortcode instead of the Boomerang Block. ', 'boomerang' ); ?><?php echo esc_html( $shortcode ); ?></p>
+		</div>
 				<?php
 		endif;
 		}
@@ -372,10 +404,10 @@ class Boomerang_Admin {
 		}
 
 		$settings[] = array(
-			'id'    => 'enable_downvoting',
-			'type'  => 'switcher',
-			'title' => esc_html__( 'Enable Downvoting', 'boomerang' ),
-			'desc'  => esc_html__(
+			'id'         => 'enable_downvoting',
+			'type'       => 'switcher',
+			'title'      => esc_html__( 'Enable Downvoting', 'boomerang' ),
+			'desc'       => esc_html__(
 				'Downvoting allows users to register disapproval for a Boomerang rather than simply a neutral opinion. Due to the way guest votes are recorded, guests can always downvote even if this is turned off.',
 				'boomerang'
 			),
@@ -477,6 +509,17 @@ class Boomerang_Admin {
 			'title'  => esc_html__( 'Container Width', 'boomerang' ),
 			'desc'   => esc_html__(
 				'Use this to match the width of Boomerang content with that of your theme.',
+				'boomerang'
+			),
+		);
+
+		$settings[] = array(
+			'id'      => 'form_background_color',
+			'type'    => 'color',
+			'title'   => 'Form Background Color',
+			'default' => '#f3f4f4',
+			'desc'    => esc_html__(
+				'The background color for the Boomerang Form.',
 				'boomerang'
 			),
 		);

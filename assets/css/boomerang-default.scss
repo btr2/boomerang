@@ -207,7 +207,7 @@ body {
     border: 1px solid #ededee;
     border-radius: 10px;
     padding: 20px;
-    background: #f3f4f4;
+    background: var(--boomerang-form-background-color);
 
     @include media(large) {
       max-width: 400px;
@@ -215,7 +215,6 @@ body {
 
     h2, h3 {
       text-align: center;
-      color: #64676b;
       margin-bottom: 20px;
       text-wrap: balance;
     }
@@ -419,7 +418,6 @@ body {
         padding: 20px;
         border-radius: 10px;
         border: 2px dashed #555;
-        color: #444;
         cursor: pointer;
       }
     }
@@ -433,8 +431,11 @@ body {
       color: #222;
     }
 
+    .drop-container:hover .drop-conjunction {
+      color: #222;
+    }
+
     .drop-title {
-      color: #444;
       font-size: 20px;
       font-weight: bold;
       text-align: center;
@@ -730,7 +731,6 @@ Single Boomerang
                       .control-content-inline-button {
                         background: var(--boomerang-primary-color);
                         color: #fff;
-                        padding: 5px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -1009,7 +1009,6 @@ Single Boomerang
               margin-bottom: 5px;
 
               a {
-                color: #0d0d0e;
                 text-decoration: none;
               }
             }
@@ -1029,7 +1028,6 @@ Single Boomerang
             }
 
             p {
-              color: #64676B;
               margin-bottom: 20px;
             }
 
@@ -1095,13 +1093,11 @@ Single Boomerang
               text-decoration: none;
               font-weight: bold;
               font-size: 14px;
-              color: #0d0d0e;
 
               a {
                 text-decoration: none;
                 font-weight: bold;
                 font-size: 14px;
-                color: #0d0d0e;
               }
             }
 
@@ -1110,7 +1106,6 @@ Single Boomerang
             }
 
             .boomerang-edit-link {
-              color: #272727;
               font-size: 14px;
               display: flex;
               align-items: center;
@@ -1134,12 +1129,7 @@ Single Boomerang
             }
 
             .boomerang-comment-count {
-              color: #64676b;
               gap: 5px;
-
-              span {
-                color: #a3a3a9;
-              }
             }
           }
 
@@ -1214,7 +1204,6 @@ Single Boomerang
 
             .boomerang-tags {
               .boomerang-tag {
-                color: #64676b;
                 font-size: 14px;
               }
             }
@@ -1227,7 +1216,6 @@ Single Boomerang
               #reply-title {
                 margin-bottom: 10px;
                 line-height: normal;
-                color: #0d0d0e;
                 font-size: 16px;
                 font-weight: bold;
 
@@ -1237,7 +1225,7 @@ Single Boomerang
                 transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
                 transition-timing-function: cubic-bezier(.4, 0, .2, 1);
                 transition-duration: .2s;
-                border: 2px solid #eeeef1;
+                border: 2px solid;
                 border-radius: 5px;
                 box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
                 padding: 10px 16px;
@@ -1268,7 +1256,6 @@ Single Boomerang
                 }
 
                 p, label {
-                  color: #64676b;
                   font-size: 12px;
                 }
 
@@ -1302,7 +1289,6 @@ Single Boomerang
 
                     .private-note-label {
                       margin-left: 14px;
-                      color: #64676b;
                       font-size: 15px;
                     }
 
@@ -1393,7 +1379,6 @@ Single Boomerang
               }
 
               .boomerang-comment-main-title {
-                color: #64676b;
                 font-size: 14px;
                 font-weight: bold;
                 margin-bottom: 20px;
@@ -1426,7 +1411,6 @@ Single Boomerang
                     .private-note-label {
                       display: flex;
                       align-items: center;
-                      color: #64676b;
                       font-size: 12px;
                       margin-bottom: 10px;
 
@@ -1452,7 +1436,6 @@ Single Boomerang
 
                       a {
                         line-height: normal;
-                        color: #0d0d0e;
                         font-size: 14px;
                         font-weight: bold;
                       }
@@ -1460,8 +1443,6 @@ Single Boomerang
 
 
                     .comment-content {
-                      color: #64676b;
-
                       p {
                         line-height: inherit;
                         margin-bottom: 12px;
@@ -1472,13 +1453,11 @@ Single Boomerang
                       .comment-metadata {
                         display: flex;
                         gap: 10px;
-                        color: #64676b;
                         font-size: 12px;
                         align-items: center;
 
                         a {
                           line-height: normal;
-                          color: #64676b;
                         }
 
                         span {
@@ -1689,7 +1668,7 @@ Boomerang Directory
     }
 
     &:hover {
-      background-color: #f9f9fb;
+      //background-color: #f9f9fb;
     }
 
     .entry-header {
@@ -1708,7 +1687,6 @@ Boomerang Directory
 
     .entry-content {
       p {
-        color: #64676B;
         margin-bottom: 20px;
       }
     }
@@ -1720,13 +1698,11 @@ Boomerang Directory
         text-decoration: none;
         font-weight: bold;
         font-size: 14px;
-        color: #64676b;
 
         a {
           text-decoration: none;
           font-weight: bold;
           font-size: 14px;
-          color: #64676b;
         }
       }
 
@@ -1746,11 +1722,10 @@ Boomerang Directory
       }
 
       .boomerang-comment-count {
-        color: #64676b;
         gap: 5px;
 
         span {
-          color: #a3a3a9;
+          //color: #a3a3a9;
         }
       }
     }
@@ -1758,7 +1733,6 @@ Boomerang Directory
     .entry-footer {
       .boomerang-tags {
         .boomerang-tag {
-          color: #64676b;
           font-size: 14px;
 
           &:hover {
