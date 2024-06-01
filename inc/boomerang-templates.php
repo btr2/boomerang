@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return false|string
  */
-function boomerang_get_boomerangs( $board, $args = false, $base = false ) {
+function boomerang_get_boomerangs( $board = false, $args = false, $base = false ) {
 	$defaults = array(
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
@@ -134,7 +134,14 @@ function boomerang_get_boomerangs( $board, $args = false, $base = false ) {
 		?>
 
 	<?php else : ?>
-		<div><p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p></div>
+		<div><p>
+		<?php
+		print_r(
+			esc_html( 'Sorry, no %s matched your criteria.' ),
+			get_plural( $board )
+		);
+		?>
+				</p></div>
 		<?php
 	endif;
 

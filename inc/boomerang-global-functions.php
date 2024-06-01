@@ -2,6 +2,7 @@
 /**
  * Functions that relate to the plugin as a whole - global functionality.
  */
+
 namespace Bouncingsprout_Boomerang;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,6 +48,28 @@ function boomerang_board_get_base() {
 function boomerang_get_option( $option = '', $default = null ) {
 	$options = get_option( 'boomerang_global_options' );
 	return ( isset( $options[ $option ] ) ) ? $options[ $option ] : $default;
+}
+
+/**
+ * Gets the singular form of a name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_singular_global() {
+	return boomerang_get_option( 'global_label_singular', 'boomerang' );
+}
+
+/**
+ * Gets the plural form of a name for a Boomerang.
+ *
+ * @param $board
+ *
+ * @return mixed
+ */
+function get_plural_global() {
+	return boomerang_get_option( 'global_label_plural', 'boomerangs' );
 }
 
 /** Conditionals **/

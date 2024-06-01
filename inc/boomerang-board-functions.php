@@ -453,7 +453,13 @@ function boomerang_get_labels( $board ) {
  * @return mixed
  */
 function get_singular( $board ) {
-	return boomerang_get_labels( $board )['singular'];
+	if ( boomerang_get_labels( $board )['singular'] ) {
+		return boomerang_get_labels( $board )['singular'];
+	} else if ( get_singular_global() ) {
+		return get_singular_global();
+	} else {
+		return 'boomerang';
+	}
 }
 
 /**
@@ -464,7 +470,13 @@ function get_singular( $board ) {
  * @return mixed
  */
 function get_plural( $board ) {
-	return boomerang_get_labels( $board )['plural'];
+	if ( boomerang_get_labels( $board )['plural'] ) {
+		return boomerang_get_labels( $board )['plural'];
+	} else if ( get_plural_global() ) {
+		return get_plural_global();
+	} else {
+		return 'boomerangs';
+	}
 }
 
 /** Boomerang Form ****************************************************************************************************/

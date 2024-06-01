@@ -36,6 +36,10 @@ function boomerang_get_boomerang( $post = false ) {
 function boomerang_is_boomerang( $post = false ) {
 	if ( ! $post ) {
 		$post = get_post();
+
+		if ( ! $post ) {
+			return false;
+		}
 	} else {
 		$post = get_post( $post );
 	}

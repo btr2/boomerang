@@ -239,6 +239,24 @@ class Boomerang_Admin {
 					'title'  => 'General',
 					'fields' => array(
 						array(
+							'id'      => 'global_label_singular',
+							'type'    => 'text',
+							'title'   => esc_html__( 'Boomerang Singular Name (Global)', 'boomerang' ),
+							'desc'    => esc_html__(
+								'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin. This can be overridden at the board level.',
+								'boomerang'
+							),
+						),
+						array(
+							'id'      => 'global_label_plural',
+							'type'    => 'text',
+							'title'   => esc_html__( 'Boomerang Plural Name (Global)', 'boomerang' ),
+							'desc'    => esc_html__(
+								'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin. This can be overridden at the board level.',
+								'boomerang'
+							),
+						),
+						array(
 							'id'    => 'disable_google_fonts',
 							'type'  => 'switcher',
 							'title' => esc_attr__( 'Disable Google Fonts', 'boomerang' ),
@@ -547,20 +565,18 @@ class Boomerang_Admin {
 		$settings[] = array(
 			'id'      => 'label_singular',
 			'type'    => 'text',
-			'default' => 'feature request',
 			'title'   => esc_html__( 'Boomerang Singular Name', 'boomerang' ),
 			'desc'    => esc_html__(
-				'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin. If you leave this blank, Boomerang will use the global label (Boomerang > Settings > General).',
 				'boomerang'
 			),
 		);
 		$settings[] = array(
 			'id'      => 'label_plural',
 			'type'    => 'text',
-			'default' => 'feature requests',
 			'title'   => esc_html__( 'Boomerang Plural Name', 'boomerang' ),
 			'desc'    => esc_html__(
-				'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin. If you leave this blank, Boomerang will use the global label (Boomerang > Settings > General).',
 				'boomerang'
 			),
 		);

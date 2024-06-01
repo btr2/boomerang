@@ -71,7 +71,7 @@ class Boomerang_Frontend {
 		wp_enqueue_script(
 			'boomerang',
 			BOOMERANG_URL . 'assets/js/boomerang.js',
-			array( 'jquery', 'select2' ),
+			array( 'jquery' ),
 			BOOMERANG_VERSION,
 			true
 		);
@@ -461,7 +461,14 @@ class Boomerang_Frontend {
 
 			$this->get_pagination( $query->max_num_pages, $page );
 		} else {
-			echo '<div><p>' . esc_html__( 'Sorry, no posts matched your criteria.' ) . '</p></div>';
+			echo '<div><p>';
+
+		printf(
+			esc_html( 'Sorry, no %s matched your criteria.' ),
+			get_plural( $_POST['board'] )
+		);
+
+				echo '</p></div>';
 		}
 
 		wp_send_json_success( ob_get_clean() );

@@ -42,6 +42,7 @@ class Boomerang {
 		add_action( 'init', array( $this, 'initialise_front_end' ) );
 		add_action( 'init', array( $this, 'initialise_voting' ) );
 		add_action( 'init', array( $this, 'initialise_notifications' ) );
+		add_action( 'bp_loaded', array( $this, 'initialise_buddypress' ) );
 
 
 	}
@@ -85,6 +86,20 @@ class Boomerang {
 
 			require BOOMERANG_PATH . 'pro/inc/classes/class-boomerang-crowdfunding.php';
 			$boomerang_crowdfunding = new Boomerang_Crowdfunding();
+
+
+		}
+	}
+
+	/**
+	 * Boot up all admin functionality.
+	 *
+	 * @return void
+	 */
+	public function initialise_buddypress(  ) {
+		if ( class_exists( 'Buddypress' ) ) {
+			require BOOMERANG_PATH . 'pro/inc/classes/class-boomerang-buddypress.php';
+			$boomerang_buddypress = new Boomerang_BuddyPress();
 		}
 	}
 

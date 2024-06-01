@@ -621,3 +621,33 @@ Single Boomerang
      }
   }
 }
+
+.bp-boomerang-container {
+  background: #fff;
+  border: 1px solid #e7e9ec;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-flow: column;
+
+  .bp-boomerang-listing {
+    display: flex;
+  }
+}
+
+.bb-template-v2 {
+  .bp-boomerang-container {
+    background: var(--bb-content-background-color);
+    border: 1px solid var(--bb-content-border-color);
+    border-radius: var(--bb-block-radius);
+
+    .bp-boomerang-listing {
+      display: flex;
+
+      h2 {
+        color: var(--bb-headings-color);
+      }
+    }
+  }
+}
