@@ -165,7 +165,7 @@ function get_crowdfunding_info_html( $post, $product ) {
 			</div>
 		</div>
 
-		<a class="contribute-button button btn" href="<?php echo esc_url( get_permalink( $product ) ); ?>"><?php echo esc_html( $button_text ); ?></a>
+		<a class="wp-element-button contribute-button button btn" href="<?php echo esc_url( get_permalink( $product ) ); ?>"><?php echo esc_html( $button_text ); ?></a>
 	</div>
 
 

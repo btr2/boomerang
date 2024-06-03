@@ -43,6 +43,9 @@ class Boomerang {
 		add_action( 'init', array( $this, 'initialise_voting' ) );
 		add_action( 'init', array( $this, 'initialise_notifications' ) );
 
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			add_action( 'bp_loaded', array( $this, 'initialise_buddypress__premium_only' ) );
+		}
 
 	}
 
@@ -51,7 +54,7 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function initialise_front_end(  ) {
+	public function initialise_front_end() {
 		if ( ! class_exists( 'Boomerang_Frontend' ) ) {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-frontend.php';
 		}
@@ -85,6 +88,7 @@ class Boomerang {
 
 			require BOOMERANG_PATH . 'pro/inc/classes/class-boomerang-crowdfunding.php';
 			$boomerang_crowdfunding = new Boomerang_Crowdfunding();
+
 		}
 	}
 
@@ -93,7 +97,19 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function initialise_admin(  ) {
+	public function initialise_buddypress__premium_only() {
+		if ( class_exists( 'Buddypress' ) ) {
+			require BOOMERANG_PATH . 'pro/inc/classes/class-boomerang-buddypress.php';
+			$boomerang_buddypress = new Boomerang_BuddyPress();
+		}
+	}
+
+	/**
+	 * Boot up all admin functionality.
+	 *
+	 * @return void
+	 */
+	public function initialise_admin() {
 		if ( ! class_exists( 'Boomerang_Admin' ) ) {
 			require_once BOOMERANG_PATH . '/admin/inc/classes/class-boomerang-admin.php';
 		}
@@ -106,7 +122,7 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function initialise_block(  ) {
+	public function initialise_block() {
 		if ( ! class_exists( 'Boomerang_Block' ) ) {
 			require_once BOOMERANG_PATH . '/admin/inc/classes/class-boomerang-block.php';
 		}
@@ -119,7 +135,7 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function register_cpt(  ) {
+	public function register_cpt() {
 		if ( ! class_exists( 'Boomerang_CPT_Helper' ) ) {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-cpt-helper.php';
 		}
@@ -134,7 +150,7 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function initialise_voting(  ) {
+	public function initialise_voting() {
 		if ( ! class_exists( 'Boomerang_Votes' ) ) {
 			require_once BOOMERANG_PATH . '/inc/classes/class-boomerang-votes.php';
 		}
@@ -147,7 +163,7 @@ class Boomerang {
 	 *
 	 * @return void
 	 */
-	public function initialise_notifications(  ) {
+	public function initialise_notifications() {
 		require_once BOOMERANG_PATH . 'inc/classes/class-boomerang-email-notifications.php';
 		$notifications = new Boomerang_Email_Notifications();
 

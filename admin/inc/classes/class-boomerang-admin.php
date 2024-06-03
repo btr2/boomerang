@@ -239,6 +239,24 @@ class Boomerang_Admin {
 					'title'  => 'General',
 					'fields' => array(
 						array(
+							'id'      => 'global_label_singular',
+							'type'    => 'text',
+							'title'   => esc_html__( 'Boomerang Singular Name (Global)', 'boomerang' ),
+							'desc'    => esc_html__(
+								'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin. This can be overridden at the board level.',
+								'boomerang'
+							),
+						),
+						array(
+							'id'      => 'global_label_plural',
+							'type'    => 'text',
+							'title'   => esc_html__( 'Boomerang Plural Name (Global)', 'boomerang' ),
+							'desc'    => esc_html__(
+								'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin. This can be overridden at the board level.',
+								'boomerang'
+							),
+						),
+						array(
 							'id'    => 'disable_google_fonts',
 							'type'  => 'switcher',
 							'title' => esc_attr__( 'Disable Google Fonts', 'boomerang' ),
@@ -253,6 +271,15 @@ class Boomerang_Admin {
 							'title' => esc_attr__( 'Disable Boomerang\'s Own Styles', 'boomerang' ),
 							'desc'  => esc_attr__(
 								'Boomerang has a set of default styles. To disable these, and use your theme\'s native styles, click this.',
+								'boomerang'
+							),
+						),
+						array(
+							'id'    => 'disable_select2',
+							'type'  => 'switcher',
+							'title' => esc_attr__( 'Disable Select2', 'boomerang' ),
+							'desc'  => esc_attr__(
+								'Select2 is a advanced dropdown list, used throughout Boomerang. If you are experiencing issues with the dropdown, tick this box. You may be using a theme that has a customized earlier version of Select2, which you should use instead of our latest version.',
 								'boomerang'
 							),
 						),
@@ -538,20 +565,18 @@ class Boomerang_Admin {
 		$settings[] = array(
 			'id'      => 'label_singular',
 			'type'    => 'text',
-			'default' => 'feature request',
 			'title'   => esc_html__( 'Boomerang Singular Name', 'boomerang' ),
 			'desc'    => esc_html__(
-				'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'Choose what you want to call a single Boomerang. We suggest using lowercase. You may see this used in various places around the plugin. If you leave this blank, Boomerang will use the global label (Boomerang > Settings > General).',
 				'boomerang'
 			),
 		);
 		$settings[] = array(
 			'id'      => 'label_plural',
 			'type'    => 'text',
-			'default' => 'feature requests',
 			'title'   => esc_html__( 'Boomerang Plural Name', 'boomerang' ),
 			'desc'    => esc_html__(
-				'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin.',
+				'Choose what you want to call a group of Boomerangs. We suggest using lowercase. You may see this used in various places around the plugin. If you leave this blank, Boomerang will use the global label (Boomerang > Settings > General).',
 				'boomerang'
 			),
 		);

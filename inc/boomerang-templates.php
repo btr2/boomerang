@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return false|string
  */
-function boomerang_get_boomerangs( $board, $args = false, $base = false ) {
+function boomerang_get_boomerangs( $board = false, $args = false, $base = false ) {
 	$defaults = array(
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
@@ -134,7 +134,14 @@ function boomerang_get_boomerangs( $board, $args = false, $base = false ) {
 		?>
 
 	<?php else : ?>
-		<div><p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p></div>
+		<div><p>
+		<?php
+		print_r(
+			esc_html( 'Sorry, no %s matched your criteria.' ),
+			get_plural( $board )
+		);
+		?>
+				</p></div>
 		<?php
 	endif;
 
@@ -609,7 +616,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 						<div class="control-content">
 							<fieldset>
 								<?php wp_dropdown_categories( $args ); ?>
-								<div class="control-content-inline-button icon-only" id="boomerang-status-submit">
+								<div class=control-content-inline-button icon-only" id="boomerang-status-submit">
 									<?php if ( boomerang_google_fonts_disabled() ) : ?>
 										<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
 									<?php else : ?>

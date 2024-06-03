@@ -196,7 +196,6 @@ span.material-symbols-outlined {
 .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content select, .boomerang-admin-area .boomerang-controls-container .boomerang-controls .boomerang-control .control-content input {
   border: 1px solid #ccc;
   padding: 0 0 0 10px;
-  height: 40px;
 }
 
 #boomerang-board-filters {

@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
     $('.boomerang_select.select2').select2({
         tags: true,
         tokenSeparators: [',', ' '],

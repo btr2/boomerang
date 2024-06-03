@@ -470,4 +470,93 @@ Single Boomerang
   }
 }
 
+.bp-boomerang-container {
+  background: #fff;
+  border: 1px solid #e7e9ec;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-flow: column;
+}
+.bp-boomerang-container .bp-boomerang-listing {
+  display: flex;
+  flex-direction: column;
+}
+.bp-boomerang-container .bp-boomerang-listing .boomerang-data-table-head {
+  display: flex;
+}
+.bp-boomerang-container .bp-boomerang-listing .boomerang-data-table article {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.bp-boomerang-container .bp-boomerang-listing .boomerang-data-table article h2 {
+  margin: 0;
+}
+.bp-boomerang-container .bp-boomerang-listing .boomerang-data-table article .boomerang-status {
+  padding: 2px 4px;
+  font-weight: 500;
+  border-radius: 0.1875rem;
+  border: 1px solid;
+  text-align: center;
+  width: fit-content;
+}
+.bp-boomerang-container .bp-boomerang-listing .data-head, .bp-boomerang-container .bp-boomerang-listing .data-table {
+  width: 20%;
+}
+.bp-boomerang-container .bp-boomerang-listing .data-head-title, .bp-boomerang-container .bp-boomerang-listing .data-table-title {
+  width: 60%;
+}
+
+.buddyboss-theme .bp-boomerang-container {
+  background: var(--bb-content-background-color);
+  border: 1px solid var(--bb-content-border-color);
+  border-radius: var(--bb-block-radius);
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing {
+  display: flex;
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing h2 {
+  color: var(--bb-headings-color);
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .boomerang-data-table-head {
+  border-bottom: 1px solid #e7e9ec;
+  padding: 0 0 8px;
+  border-color: var(--bb-content-border-color);
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .boomerang-data-table article {
+  margin: 0;
+  border-bottom: 1px solid #e7e9ec;
+  padding: 15px 0;
+  border-color: var(--bb-content-border-color);
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .boomerang-data-table article:last-of-type {
+  border: none;
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .data-head {
+  font-size: 12px;
+  color: #939597;
+  text-transform: uppercase;
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .data-table {
+  color: #9b9c9f;
+  background-color: transparent;
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: -0.15px;
+  line-height: 1.1875;
+  vertical-align: middle;
+}
+.buddyboss-theme .bp-boomerang-container .bp-boomerang-listing .data-table-title h2 {
+  color: #122b46;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /*# sourceMappingURL=boomerang-pro.css.map */

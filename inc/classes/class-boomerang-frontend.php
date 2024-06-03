@@ -51,14 +51,16 @@ class Boomerang_Frontend {
 	 * @return void
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_style( 'select2', BOOMERANG_URL . 'assets/css/select2.min.css', null, '4.1.0-rc.0' );
-		wp_enqueue_script(
-			'select2',
-			BOOMERANG_URL . 'assets/js/select2.min.js',
-			array( 'jquery' ),
-			'4.1.0-rc.0',
-			true
-		);
+		if ( ! boomerang_select2_disabled() ) {
+			wp_enqueue_style( 'select2', BOOMERANG_URL . 'assets/css/select2.min.css', null, '4.1.0-rc.0' );
+			wp_enqueue_script(
+				'select2',
+				BOOMERANG_URL . 'assets/js/select2.min.js',
+				array( 'jquery' ),
+				'4.1.0-rc.0',
+				true
+			);
+		}
 
 		wp_enqueue_style( 'boomerang', BOOMERANG_URL . 'assets/css/boomerang.css', null, BOOMERANG_VERSION );
 
@@ -69,7 +71,7 @@ class Boomerang_Frontend {
 		wp_enqueue_script(
 			'boomerang',
 			BOOMERANG_URL . 'assets/js/boomerang.js',
-			array( 'jquery', 'select2' ),
+			array( 'jquery' ),
 			BOOMERANG_VERSION,
 			true
 		);
@@ -459,7 +461,14 @@ class Boomerang_Frontend {
 
 			$this->get_pagination( $query->max_num_pages, $page );
 		} else {
-			echo '<div><p>' . esc_html__( 'Sorry, no posts matched your criteria.' ) . '</p></div>';
+			echo '<div><p>';
+
+		printf(
+			esc_html( 'Sorry, no %s matched your criteria.' ),
+			get_plural( $_POST['board'] )
+		);
+
+				echo '</p></div>';
 		}
 
 		wp_send_json_success( ob_get_clean() );
