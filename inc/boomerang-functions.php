@@ -51,6 +51,21 @@ function boomerang_is_boomerang( $post = false ) {
 	return false;
 }
 
+/**
+ * Gets the total number of Boomerangs published by a user.
+ *
+ * @param $user_id
+ *
+ * @return string
+ */
+function boomerang_get_count( $user_id = false ) {
+	if ( ! $user_id ) {
+		$user_id = get_current_user_id();
+	}
+
+	return count_user_posts( $user_id, 'boomerang', true );
+}
+
 /** Statuses **********************************************************************************************************/
 
 /** Comments **********************************************************************************************************/

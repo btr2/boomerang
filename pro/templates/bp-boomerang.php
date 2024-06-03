@@ -9,10 +9,9 @@ namespace Bouncingsprout_Boomerang;
 
 <?php do_action( 'boomerang_profile_page_start' ); ?>
 <div class="bp-boomerang-container">
-<div class="bp-document-listing">
 	<h2 class="bb-title"><?php echo esc_html( ucwords( get_plural_global() ) ); ?></h2>
-</div>
-	<div class="document-data-table-head boomerang-data-table-head">
+<div class="bp-boomerang-listing">
+	<div class="boomerang-data-table-head">
 		<div class="data-head data-head-title " data-target="title">
 			<span><?php esc_html_e( 'Title', 'boomerang' ); ?></span>
 		</div>
@@ -25,6 +24,9 @@ namespace Bouncingsprout_Boomerang;
 		<div class="data-head data-head-votes " data-target="votes">
 			<span><?php esc_html_e( 'Votes', 'boomerang' ); ?></span>
 		</div>
+		<div class="data-head data-head-comments " data-target="comments">
+			<span><?php esc_html_e( 'Comments', 'boomerang' ); ?></span>
+		</div>
 	</div>
 	<?php
 
@@ -32,6 +34,7 @@ namespace Bouncingsprout_Boomerang;
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
 		'post_parent'    => '',
+		'author__in'     => bp_displayed_user_id(),
 		'posts_per_page' => 10,
 		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 	);
@@ -41,7 +44,11 @@ namespace Bouncingsprout_Boomerang;
 	$the_query = new \WP_Query( $args );
 
 	if ( $the_query->have_posts() ) :
+		?>
 
+	<div class="boomerang-data-table">
+
+		<?php
 		while ( $the_query->have_posts() ) :
 			$the_query->the_post();
 
@@ -49,8 +56,7 @@ namespace Bouncingsprout_Boomerang;
 			?>
 			<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
 				<?php do_action( 'boomerang_profile_page_boomerang_start', $post ); ?>
-				<div class="boomerang-inner">
-					<div class="boomerang-title">
+					<div class="data-table data-table-title">
 						<?php
 						the_title(
 							'<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">',
@@ -58,69 +64,20 @@ namespace Bouncingsprout_Boomerang;
 						);
 						?>
 					</div>
-					<div class="boomerang-left">
-						<?php if ( boomerang_board_votes_enabled() ) : ?>
-							<div class="votes-container-outer">
-								<?php echo boomerang_get_votes_html(); ?>
-							</div>
-						<?php endif; ?>
+					<div class="data-table data-table-modified">
+						<?php echo get_the_modified_date(); ?>
 					</div>
-					<div class="boomerang-right">
-						<?php do_action( 'boomerang_above_title' ); ?>
-						<div class="boomerang-messages-container"></div>
-						<header class="entry-header">
-
-						</header><!-- .entry-header -->
-
-						<div class="entry-content">
-
-							<?php the_excerpt(); ?>
-
-							<div class="boomerang-meta alignwide">
-								<div class="boomerang-meta-left">
-									<?php if ( boomerang_board_author_enabled() ) : ?>
-										<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?>
-											<span>&#x2022;</span></div>
-									<?php endif; ?>
-									<?php if ( boomerang_board_date_enabled() ) : ?>
-										<div class="boomerang-posted-on"><?php boomerang_posted_on(); ?></div>
-									<?php endif; ?>
-								</div>
-								<div class="boomerang-meta-right">
-									<?php if ( boomerang_board_statuses_enabled() && boomerang_has_status() ) : ?>
-										<div class="boomerang-status"><?php boomerang_the_status(); ?></div>
-									<?php endif; ?>
-									<?php if ( boomerang_board_comments_enabled() ) : ?>
-										<div class="boomerang-comment-count">
-											<?php boomerang_get_comments_count_html(); ?>
-										</div>
-									<?php endif; ?>
-								</div>
-							</div>
-
-						</div><!-- .entry-content -->
-
-						<footer class="entry-footer">
-							<?php
-							echo wp_kses(
-								boomerang_get_tag_list(),
-								array(
-									'span' => array(
-										'rel'     => array(),
-										'class'   => array(),
-										'data-id' => array(),
-									),
-									'div'  => array(
-										'class'      => array(),
-										'id'         => array(),
-										'data-nonce' => array(),
-									),
-								)
-							);
-							?>
-						</footer><!-- .entry-footer -->
+					<div class="data-table data-table-status">
+						<div class="boomerang-status">
+							<?php boomerang_the_status( $post ); ?>
+						</div>
 					</div>
-				</div>
+					<div class="data-table data-table-votes">
+						<?php echo boomerang_get_votes( $post ); ?>
+					</div>
+					<div class="data-table data-table-comments">
+						<?php echo get_comments_number( $post ); ?>
+					</div>
 				<?php do_action( 'boomerang_archive_boomerang_end', $post ); ?>
 			</article><!-- .post -->
 
@@ -146,8 +103,10 @@ namespace Bouncingsprout_Boomerang;
 		);
 		?>
 
+	</div>
+
 	<?php else : ?>
-		<div><p>
+		<div class="boomerang-data-none"><p>
 				<?php
 				print_r(
 					esc_html( 'Sorry, no %s matched your criteria.' ),
@@ -162,6 +121,6 @@ namespace Bouncingsprout_Boomerang;
 
 	?>
 
-
+</div>
 
 </div>
