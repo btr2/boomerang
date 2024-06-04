@@ -40,7 +40,7 @@ class Boomerang_Admin {
 		add_action( 'csf_loaded', array( $this, 'add_settings_page' ) );
 		add_action( 'csf_loaded', array( $this, 'add_board_metabox' ) );
 		add_action( 'add_meta_boxes_boomerang', array( $this, 'add_boomerang_parent_metabox' ), 10, 2 );
-		add_action( 'admin_notices', array( $this, 'add_upsell' ) );
+		// add_action( 'admin_notices', array( $this, 'add_upsell' ) );
 		add_action( 'admin_notices', array( $this, 'block_theme_warning' ) );
 
 		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_block_editor' ), 10, 2 );
