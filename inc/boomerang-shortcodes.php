@@ -31,12 +31,7 @@ function render_boomerang_full( $atts ) {
 		$classes[] = 'logged-out';
 	}
 
-	if ( boo_fs()->can_use_premium_code__premium_only() ) {
-		$options = get_option( 'boomerang_customizer' );
-		if ( $options['archive_layout'] ) {
-			$classes[] = $options['archive_layout'];
-		}
-	}
+	$classes[] = boomerang_get_layout( $a['board'] );
 
 	$width = boomerang_get_container_width( $a['board'] );
 

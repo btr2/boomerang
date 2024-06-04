@@ -23,9 +23,6 @@ class Boomerang_Admin {
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require_once BOOMERANG_PATH . '/admin/fields/better-accordion.php';
-			require_once BOOMERANG_PATH . 'admin/pro/classes/class-boomerang-customizer.php';
-			$boomerang_customizer = new Boomerang_Customizer();
-
 		}
 	}
 
@@ -536,6 +533,17 @@ class Boomerang_Admin {
 			'desc'    => esc_html__(
 				'The main color used throughout this board\'s Boomerang elements.',
 				'boomerang'
+			),
+		);
+
+		$settings[] = array(
+			'id'      => 'archive_layout',
+			'type'    => 'image_select',
+			'title'   => esc_attr__( 'Layout', 'boomerang' ),
+			'default' => 'horizontal',
+			'options' => array(
+				'vertical'   => BOOMERANG_URL . 'admin/assets/images/vertical.png',
+				'horizontal' => BOOMERANG_URL . 'admin/assets/images/horizontal.png',
 			),
 		);
 
