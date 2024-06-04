@@ -209,6 +209,46 @@ function boomerang_board_filters_enabled( $post = false ) {
 }
 
 /**
+ * Gets the default ordering value for a given Board or Boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_default_ordering( $post = false ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['default_ordering'] ?? false;
+}
+
+/**
+ * Retrieves the ordering values for the board.
+ *
+ * This function retrieves the ordering values for the board by calling the boomerang_get_order_values() function. If the board has a default ordering value set, it rearranges the array
+ * of values so that the default value is the first element.
+ *
+ * @param $post The Boomerang Board ID for which to retrieve the ordering values.
+ *
+ * @return array The ordering values for the board.
+ * @see boomerang_get_order_values()
+ *
+ */
+function boomerang_board_get_ordering_values( $post ) {
+	$values = boomerang_get_order_values();
+
+	if (boomerang_board_default_ordering($post)) {
+		$key = boomerang_board_default_ordering($post);
+		$value = $values[$key];
+		unset($values[$key]);
+		$values = array($key => $value) + $values;
+	}
+
+	return $values;
+}
+
+/**
  * Checks if authors are displayed for a given board or boomerang.
  *
  * @param $post
