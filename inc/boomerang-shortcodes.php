@@ -108,7 +108,7 @@ function render_boomerang_directory( $atts ) {
 
 		<?php
 		if ( boomerang_board_filters_enabled( $a['board'] ) ) {
-			echo boomerang_get_filters();
+			echo boomerang_get_filters( $a['board'] );
 		}
 		?>
 

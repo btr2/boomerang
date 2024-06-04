@@ -161,3 +161,26 @@ function boomerang_is_simple_feature_requests_active() {
 
 	return false;
 }
+
+/**
+ * Retrieves an array of order values.
+ *
+ * This method returns an array of order values, where each key represents an order option
+ * and each value represents the translated string for that order option.
+ *
+ * @return array An associative array of order values.
+ */
+function boomerang_get_order_values() {
+	$values = array(
+		'latest'  => esc_html__( 'Latest', 'boomerang' ),
+		'popular' => esc_html__( 'Popular', 'boomerang' ),
+		'created' => esc_html__( 'Created by me', 'boomerang' ),
+		'voted'   => esc_html__( 'Voted on by me', 'boomerang' ),
+	);
+
+	if ( boo_fs()->can_use_premium_code__premium_only() ) {
+		$values['random'] = esc_html__( 'Random', 'boomerang' );
+	}
+
+	return $values;
+}

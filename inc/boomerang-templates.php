@@ -155,7 +155,7 @@ function boomerang_get_boomerangs( $board = false, $args = false, $base = false 
  *
  * @return false|string
  */
-function boomerang_get_filters() {
+function boomerang_get_filters( $board ) {
 	ob_start();
 	?>
 
@@ -169,15 +169,13 @@ function boomerang_get_filters() {
 				<?php endif; ?>
 			</label>
 			<select id="boomerang-order" name="boomerang_order">
-				<option value="latest"><?php esc_html_e( 'Latest', 'boomerang' ); ?></option>
-				<option value="popular"><?php esc_html_e( 'Popular', 'boomerang' ); ?></option>
 				<?php
-				if ( boo_fs()->can_use_premium_code__premium_only() ) {
-					echo '<option value="random">' . esc_html__( 'Random', 'boomerang' ) . '</option>';
+				$ordering_values = boomerang_board_get_ordering_values( $board );
+
+				foreach ( $ordering_values as $key => $value ) {
+					echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $value ) . '</option>';
 				}
 				?>
-				<option value="mine"><?php esc_html_e( 'Created by me', 'boomerang' ); ?></option>
-				<option value="voted"><?php esc_html_e( 'Voted on by me', 'boomerang' ); ?></option>
 			</select>
 		</fieldset>
 		<fieldset>
