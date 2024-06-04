@@ -31,34 +31,45 @@ $blue: #027AD0;
 
 /* CSF Settings Page */
 .csf {
-  .csf-footer {
-    .csf-copyright {
-      display: none;
-    }
-  }
-}
-
-/* Customizer */
-.csf-customize-field {
   .csf-field-image_select {
     .csf--image {
-      border: 4px solid transparent;
-      margin-bottom: 15px;
+      margin: 20px;
+
+      @media screen and (min-width: 1654px) {
+        &:first-of-type {
+          margin-left: 0;
+        }
+      }
+
+      figure {
+        border: 4px solid transparent;
+        margin-bottom: 15px;
+      }
+
 
       &:hover {
-        border-color: #0073aa;
+        figure {
+          border-color: #0073aa;
+        }
+
       }
 
       &.csf--active {
-        border-color: #0073aa;
+
 
         figure {
-          border: none;
+          border-color: #0073aa;
           &:before {
-            display: none;
+            //display: none;
           }
         }
       }
+    }
+  }
+
+  .csf-footer {
+    .csf-copyright {
+      display: none;
     }
   }
 }

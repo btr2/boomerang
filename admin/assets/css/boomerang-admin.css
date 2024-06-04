@@ -22,25 +22,25 @@
 }
 
 /* CSF Settings Page */
-.csf .csf-footer .csf-copyright {
-  display: none;
+.csf .csf-field-image_select .csf--image {
+  margin: 20px;
 }
-
-/* Customizer */
-.csf-customize-field .csf-field-image_select .csf--image {
+@media screen and (min-width: 1654px) {
+  .csf .csf-field-image_select .csf--image:first-of-type {
+    margin-left: 0;
+  }
+}
+.csf .csf-field-image_select .csf--image figure {
   border: 4px solid transparent;
   margin-bottom: 15px;
 }
-.csf-customize-field .csf-field-image_select .csf--image:hover {
+.csf .csf-field-image_select .csf--image:hover figure {
   border-color: #0073aa;
 }
-.csf-customize-field .csf-field-image_select .csf--image.csf--active {
+.csf .csf-field-image_select .csf--image.csf--active figure {
   border-color: #0073aa;
 }
-.csf-customize-field .csf-field-image_select .csf--image.csf--active figure {
-  border: none;
-}
-.csf-customize-field .csf-field-image_select .csf--image.csf--active figure:before {
+.csf .csf-footer .csf-copyright {
   display: none;
 }
 

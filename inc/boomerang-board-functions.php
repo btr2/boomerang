@@ -352,6 +352,18 @@ function boomerang_get_container_width( $post = false ) {
 	}
 }
 
+function boomerang_get_layout( $post = false ) {
+	$post = boomerang_get_post( $post );
+
+	if ( ! $post) {
+		return;
+	}
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['archive_layout'] ?? 'horizontal';
+}
+
 /**
  * Helper function that retrieves the WP_Post object for either a Boomerang, or it's parent board,
  * or the current WP_Post if none is provided.
