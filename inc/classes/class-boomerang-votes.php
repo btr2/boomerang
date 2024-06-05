@@ -206,7 +206,7 @@ class Boomerang_Votes {
 	 * @return void
 	 */
 	public function record_vote( $post_id, $board_id, $user_id, $modifier, $score ) {
-		// Add metadata to record the latest number of votes.
+		// Add simple metadata to record the latest number of votes.
 		update_post_meta( $post_id, 'boomerang_votes', $score );
 
 		// Build an array of votedata
@@ -226,5 +226,26 @@ class Boomerang_Votes {
 		$current_data[] = $newdata;
 
 		update_post_meta( $post_id, 'boomerang_vote_data', $current_data );
+
+		// Add a third metadata to record positive and unique voters
+		$current_unique_positives = get_post_meta( $post_id, 'boomerang_unique_voters', true );
+
+		if ( ! $current_unique_positives ) {
+			$current_unique_positives = array();
+		}
+
+		if ( '1' === $modifier ) {
+			if ( ! in_array( $user_id, $current_unique_positives, true ) ) {
+				$current_unique_positives[] = $user_id;
+			}
+		} else {
+			if ( in_array( $user_id, $current_unique_positives, true ) ) {
+				$current_unique_positives = array_diff( $current_unique_positives, array( $user_id ) );
+			}
+		}
+
+		if ( is_array( $current_unique_positives ) ) {
+			update_post_meta( $post_id, 'boomerang_unique_voters', $current_unique_positives );
+		}
 	}
 }

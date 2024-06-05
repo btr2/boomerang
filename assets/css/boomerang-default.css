@@ -519,7 +519,7 @@ Single Boomerang
 .single-boomerang .boomerang-container #main .boomerang .boomerang-single-aside .boomerang-admin-area {
   padding: 30px;
   background-color: #f9f9fb;
-  border-right: 1px solid #e5e5ee;
+  border: 1px solid #e5e5ee;
   max-height: 600px;
   flex: 1;
 }
