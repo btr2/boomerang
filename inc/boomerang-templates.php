@@ -63,7 +63,7 @@ function boomerang_get_boomerangs( $board = false, $args = false, $base = false 
 
 						<?php the_excerpt(); ?>
 
-						<div class="boomerang-meta alignwide">
+						<div class="boomerang-meta">
 							<div class="boomerang-meta-left">
 								<?php if ( boomerang_board_author_enabled() ) : ?>
 									<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?>
