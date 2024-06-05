@@ -43,7 +43,7 @@ use function Bouncingsprout_Boomerang\boomerang_the_status;
 
 				<?php the_excerpt(); ?>
 
-				<div class="boomerang-meta alignwide">
+				<div class="boomerang-meta">
 					<div class="boomerang-meta-left">
 						<?php if ( boomerang_board_author_enabled() ) : ?>
 							<div class="boomerang-posted-by"><?php boomerang_posted_by(); ?>
