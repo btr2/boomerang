@@ -419,6 +419,16 @@ class Boomerang_Admin {
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			$settings[] = array(
+				'id'         => 'display_voter_avatars',
+				'type'       => 'switcher',
+				'title'      => esc_html__( 'Display Voter Avatars', 'boomerang' ),
+				'desc'       => esc_html__( 'Display profile pictures of some of those who have voted on a Boomerang.', 'boomerang' ),
+				'dependency' => array( 'enable_votes', '==', 'true' ),
+			);
+		}
+
+		if ( boo_fs()->can_use_premium_code__premium_only() ) {
+			$settings[] = array(
 				'id'         => 'enable_bulk_votes',
 				'type'       => 'switcher',
 				'title'      => esc_html__( 'Enable Bulk Votes', 'boomerang' ),

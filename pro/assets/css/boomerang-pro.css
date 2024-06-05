@@ -558,5 +558,35 @@ Single Boomerang
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/** Voter Avatar List */
+.boomerang .voter-avatar-container {
+  display: flex;
+  align-items: center;
+}
+.boomerang .voter-avatar-container .voter-avatars {
+  display: flex;
+}
+.boomerang .voter-avatar-container .voter-avatars .voter-avatar {
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 32px;
+  border: 1px solid lightgrey;
+}
+.boomerang .voter-avatar-container .voter-avatars .voter-avatar:not(:first-child) {
+  margin-left: -8px;
+  mask: radial-gradient(circle 43px at -45px 50%, transparent 99%, #fff 100%);
+}
+.boomerang .voter-avatar-container .voter-avatars .voter-avatar img {
+  width: 100%;
+  display: block;
+}
+.boomerang .voter-avatar-container .remainder {
+  margin-left: 5px;
+  font-weight: 500;
+  line-height: 1;
+  color: #64676b;
+  font-size: 14px;
+}
 
 /*# sourceMappingURL=boomerang-pro.css.map */

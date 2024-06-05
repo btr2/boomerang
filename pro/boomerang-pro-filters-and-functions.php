@@ -59,6 +59,21 @@ function boomerang_board_get_form_headings( $board ) {
 	);
 }
 
+/**
+ * Get the value of the `display_voter_avatars` option for a Boomerang board.
+ *
+ * @param mixed $post The board post object or ID (optional).
+ *
+ * @return bool The value of the `display_voter_avatars` option, or false if not set.
+ */
+function boomerang_board_display_voter_avatars( $post = false  ) {
+	$post = boomerang_get_post( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['display_voter_avatars'] ?? false;
+}
+
 /** Single Boomerangs *************************************************************************************************/
 
 /**
@@ -147,6 +162,39 @@ function attachment_area( $post ) {
 	echo '</div>';
 }
 add_action( 'boomerang_single_boomerang_footer_start', __NAMESPACE__ . '\attachment_area' );
+
+/** Avatar Votes ******************************************************************************************************/
+
+function add_voter_avatars( $post ) {
+	if ( ! boomerang_board_display_voter_avatars( $post ) ) {
+		return;
+	}
+
+	$voter_data = get_post_meta( $post->ID, 'boomerang_unique_voters', true );
+
+	if ( $voter_data && ! empty( $voter_data ) ) {
+		$count = count( $voter_data );
+		$max = apply_filters( 'boomerang_max_voter_avatars', 5 );
+		$remainder = $count - $max;
+
+		echo '<div class="voter-avatar-container"><div class="voter-avatars">';
+
+		foreach ( array_slice( $voter_data, 0, $max ) as $voter ) {
+			echo '<div class="voter-avatar">';
+			echo get_avatar( $voter, 32 );
+			echo '</div>';
+		}
+
+		echo '</div>';
+
+		if ( $remainder > 0 ) {
+			echo '<span class="remainder">+' . $remainder . '</span>';
+		}
+
+		echo '</div>';
+	}
+}
+add_action( 'boomerang_after_meta_left', __NAMESPACE__ . '\add_voter_avatars' );
 
 /** Boomerang Form ****************************************************************************************************/
 

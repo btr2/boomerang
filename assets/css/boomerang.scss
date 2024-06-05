@@ -80,8 +80,7 @@ Styles for the Boomerang Board CPT Default Archive page
 Styles for our primary Boomerang container. The width can be dynamically altered.
  */
 .boomerang-container {
-  padding-right: 15px;
-  padding-left: 15px;
+  padding: 80px 15px;
   margin: 0 auto;
 }
 
@@ -417,6 +416,7 @@ Single Boomerang
         display: flex;
         align-items: center;
         gap: 10px;
+        flex-wrap: wrap;
       }
 
       .boomerang-posted-by {
