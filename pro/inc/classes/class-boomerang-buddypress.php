@@ -29,6 +29,7 @@ class Boomerang_BuddyPress {
 		add_action( 'bp_setup_nav', array( $this, 'boomerang_nav_item' ) );
 		add_action( 'wp_head', array( $this, 'set_status_colors' ) );
 		add_action( 'buddyboss_theme_after_bb_setting_menu', array( $this, 'setup_user_profile_bar' ) );
+		add_action( 'boomerang_new_boomerang', array( $this, 'post_activity' ) );
 
 		add_filter( 'bp_get_template_stack', array( $this, 'add_template_stack' ) );
 		add_filter( 'bp_nouveau_nav_has_count', array( $this, 'add_count' ), 10, 3 );
@@ -158,5 +159,11 @@ class Boomerang_BuddyPress {
 		}
 
 		return $value;
+	}
+
+	public function post_activity( $post_id ) {
+		$post = get_post( $post_id );
+
+
 	}
 }
