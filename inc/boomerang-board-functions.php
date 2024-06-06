@@ -621,32 +621,17 @@ function send_new_boomerang_email_enabled( $post = false ) {
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
+	// No notifications at all
+	if ( ! $meta['notifications'] ) {
+		return false;
+	}
+
 	if ( $meta['notifications']['send_new_boomerang_email']['enabled'] ) {
 		return true;
 	}
 
 	return false;
 }
-
-// /**
-//  * Are new Boomerang emails enabled?
-//  *
-//  * @param $post
-//  *
-//  * @return bool
-//  */
-// function send_new_boomerang_email_data( $post = false ) {
-//
-// 	$post = boomerang_get_post( $post );
-//
-// 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
-//
-// 	if ( ! $meta['notifications']['send_email_new_boomerang'] ) {
-// 		return false;
-// 	}
-//
-// 	return false;
-// }
 
 /** Voting **/
 

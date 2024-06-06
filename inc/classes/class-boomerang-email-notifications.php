@@ -40,6 +40,11 @@ class Boomerang_Email_Notifications {
 	public function is_enabled( $notification, $board_id ) {
 		$meta = get_post_meta( $board_id, 'boomerang_board_options', true );
 
+		// No notifications at all.
+		if ( ! $meta['notifications'] ) {
+			return false;
+		}
+
 		if ( $meta['notifications'][ $notification ]['enabled'] ) {
 			return true;
 		}
