@@ -26,6 +26,7 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 	 */
 	public function init_hooks() {
 		add_action( 'set_object_terms', array( $this, 'status_change_notification' ), 10, 6 );
+		add_action( 'comment_post', array( $this, 'new_comment_notification' ), 10, 3 );
 	}
 
 	/**
@@ -113,6 +114,39 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 		}
 
 		$notification = $this->get_notification( 'status_change_email', $post->post_parent );
+		$author_email = $this->get_author_email( $post );
+		$subject      = $this->get_subject( $notification, $post );
+		$content      = $this->get_content( $notification, $post );
+		$headers      = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		wp_mail( $author_email, $subject, $content, $this->get_headers() );
+	}
+
+	/**
+	 * Sends email when a new comment is posted on a Boomerang.
+	 *
+	 * @param int $comment_id The ID of the comment.
+	 * @param string $comment_approved The approval status of the comment.
+	 * @param array $commentdata The data of the comment.
+	 *
+	 * @return void
+	 */
+	public function new_comment_notification( $comment_id, $comment_approved, $commentdata ) {
+		$post = get_post( $commentdata['comment_post_ID'] );
+
+		if ( ! $post || 'boomerang' !== $post->post_type || 1 !== $comment_approved ) {
+			return;
+		}
+
+		if ( ! $this->is_enabled( 'new_comment_email', $post->post_parent ) ) {
+			return;
+		}
+
+		if ( get_comment_meta( $comment_id, 'boomerang_private_note', true ) ) {
+			return;
+		}
+
+		$notification = $this->get_notification( 'new_comment_email', $post->post_parent );
 		$author_email = $this->get_author_email( $post );
 		$subject      = $this->get_subject( $notification, $post );
 		$content      = $this->get_content( $notification, $post );

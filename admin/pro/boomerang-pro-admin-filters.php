@@ -655,6 +655,44 @@ function add_notifications( $notifications ) {
 		),
 	);
 
+	$notifications[] = array(
+		'id'     => 'new_comment_email',
+		'title'  => 'New Comment',
+		'fields' => array(
+			array(
+				'id'    => 'enabled',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Send email to Boomerang author when a new comment is created', 'boomerang' ),
+			),
+			array(
+				'id'      => 'placeholders',
+				'type'    => 'content',
+				'title'   => esc_html__( 'Placeholders', 'boomerang' ),
+				'desc'    => esc_html__(
+					'Cut and paste any placeholder into the boxes below. Make sure the double brackets are also entered. These will then be replaced in any notification sent with live data.',
+					'boomerang'
+				),
+				'content' => wp_kses_post( get_placeholder_box() ),
+			),
+			array(
+				'id'         => 'subject',
+				'type'       => 'textarea',
+				'title'      => esc_html__( 'Email Subject', 'boomerang' ),
+				'attributes' => array(
+					'rows'  => 3,
+					'style' => 'min-height: 0;',
+				),
+			),
+			array(
+				'id'            => 'content',
+				'type'          => 'wp_editor',
+				'title'         => esc_html__( 'Email Content', 'boomerang' ),
+				'quicktags'     => false,
+				'media_buttons' => false,
+			),
+		),
+	);
+
 	return $notifications;
 }
 add_action( 'boomerang_board_notification_settings_accordions', __NAMESPACE__ . '\add_notifications' );
