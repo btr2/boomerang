@@ -61,6 +61,28 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 	}
 
 	/**
+	 * Retrieves the email address of the author for a given post.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return string|null The author's email address, or null if not found.
+	 */
+	public function get_author_email( $post ) {
+		// Check if post is guest created.
+		if ( get_post_meta( $post->ID, 'guest_created', true ) ) {
+			$guest_email = get_post_meta( $post->ID, 'guest_user_email', true );
+			// If the guest supplied an address, use that.
+			if ( $guest_email ) {
+				return $guest_email;
+			}
+		} else {
+			// Must be user created, so use the post author email.
+			$author_id = $post->post_author;
+			return get_the_author_meta( 'email', $author_id );
+		}
+	}
+
+	/**
 	 * Sends email when a Boomerang's status changes.
 	 *
 	 * @param int $object_id
@@ -91,8 +113,7 @@ class Boomerang_Pro_Email_Notifications extends Boomerang_Email_Notifications {
 		}
 
 		$notification = $this->get_notification( 'status_change_email', $post->post_parent );
-		$author_id    = $post->post_author;
-		$author_email = get_the_author_meta( 'email', $author_id );
+		$author_email = $this->get_author_email( $post );
 		$subject      = $this->get_subject( $notification, $post );
 		$content      = $this->get_content( $notification, $post );
 		$headers      = array( 'Content-Type: text/html; charset=UTF-8' );
