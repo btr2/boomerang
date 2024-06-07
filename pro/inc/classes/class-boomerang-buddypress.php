@@ -29,7 +29,7 @@ class Boomerang_BuddyPress {
 		add_action( 'bp_setup_nav', array( $this, 'boomerang_nav_item' ) );
 		add_action( 'wp_head', array( $this, 'set_status_colors' ) );
 		add_action( 'buddyboss_theme_after_bb_setting_menu', array( $this, 'setup_user_profile_bar' ) );
-		add_action( 'boomerang_new_boomerang', array( $this, 'post_activity' ) );
+		add_action( 'boomerang_new_boomerang', array( $this, 'add_activity' ) );
 
 		add_filter( 'bp_get_template_stack', array( $this, 'add_template_stack' ) );
 		add_filter( 'bp_nouveau_nav_has_count', array( $this, 'add_count' ), 10, 3 );
@@ -121,7 +121,7 @@ class Boomerang_BuddyPress {
 				$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
 				$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
 
-				echo '.boomerang_status-' . $term->slug . ' .data-table-status .boomerang-status {color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}'. "\r\n";
+				echo '.boomerang_status-' . $term->slug . ' .data-table-status .boomerang-status {color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}' . "\r\n";
 			}
 			echo '</style>';
 		}
@@ -161,9 +161,63 @@ class Boomerang_BuddyPress {
 		return $value;
 	}
 
-	public function post_activity( $post_id ) {
+	/**
+	 * Check if board activity posts are enabled.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return bool Returns true if board activity posts are enabled, false otherwise.
+	 */
+	public function board_activity_posts_enabled( $post ) {
+		$board = $post->post_parent;
+
+		$meta = get_post_meta( $board, 'boomerang_board_options', true );
+
+		return $meta['bp_activity_enabled'] ?? false;
+	}
+
+	public function add_activity( $post_id ) {
 		$post = get_post( $post_id );
 
+		if ( ! $this->board_activity_posts_enabled( $post ) ) {
+			return;
+		}
 
+		$label = get_singular( $post->post_parent );
+
+		// Get our boomerang_guest user
+		$guest_user = get_user_by( 'login', 'boomerang_guest' );
+
+		// Check if post is guest created.
+		if ( $guest_user && 0 == $post->post_author ) {
+			// Post was created by our anonymous guest user
+			$author = 'A guest user';
+		} else {
+			// Must be user created, so use the post author email.
+			$author_id = $post->post_author;
+			$author    = bp_core_get_userlink( $author_id );
+		}
+
+		$action = sprintf(
+			esc_attr__( '%1$s posted a new %2$s', 'boomerang' ),
+			$author,
+			ucwords( $label )
+		);
+
+		ob_start();
+		include BOOMERANG_PATH . 'pro/templates/bp-boomerang-activity.php';
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		$activity_id = bp_activity_add(
+			array(
+				'action'    => $action,
+				'content'   => $content,
+				'component' => 'boomerang',
+				'type'      => 'boomerang',
+			)
+		);
+
+		return $activity_id;
 	}
 }

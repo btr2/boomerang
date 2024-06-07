@@ -5,6 +5,10 @@
 
 namespace Bouncingsprout_Boomerang;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 
 <?php do_action( 'boomerang_profile_page_start' ); ?>
