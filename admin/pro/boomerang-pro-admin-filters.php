@@ -746,3 +746,19 @@ function add_ign_field( $settings ) {
 }
 add_filter( 'boomerang_board_general_settings', __NAMESPACE__ . '\add_ign_field' );
 
+function add_buddypress_fields( $settings ) {
+	if ( ! class_exists( 'BuddyPress' ) || ! bp_is_active( 'activity' ) ) {
+		return $settings;
+	}
+
+	$settings[] = array(
+		'id'    => 'bp_activity_enabled',
+		'type'  => 'switcher',
+		'title' => esc_html__( 'Post to Activity Feed?', 'boomerang' ),
+		'desc'  => esc_html__( 'Should a BuddyPress activity be created, when a Boomerang is created for this Board?', 'boomerang' ),
+	);
+
+	return $settings;
+}
+add_filter( 'boomerang_board_general_settings', __NAMESPACE__ . '\add_buddypress_fields' );
+

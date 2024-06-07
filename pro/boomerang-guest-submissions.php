@@ -167,7 +167,7 @@ function filter_guest_user_name( $string, $post ) {
 		if ( $guest_name ) {
 			$string = $guest_name;
 		} else {
-			$string = get_the_author();
+			$string = esc_html__( 'Anonymous User', 'boomerang' );
 		}
 
 		if ( current_user_can( 'manage_options' ) ) {
