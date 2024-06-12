@@ -89,6 +89,10 @@ function render_ignitiondeck_dropdown() {
  * @return array
  */
 function get_ign_decks() {
+	if ( ! class_exists( 'Deck' ) ) {
+		return array();
+	}
+
 	$deck_class = new \Deck();
 	$deck_list  = $deck_class::get_deck_list();
 	$decks      = array();
