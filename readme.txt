@@ -1,10 +1,10 @@
 === Boomerang ===
-Tags: feature requests, requests, feedback, ideas, suggestions
+Tags: feature requests, requests, customer feedback, ideas, crowdfunding
 Contributors: bouncingsprout
 Requires at least: 5.2
 Tested up to: 6.5.0
 Requires PHP: 7.0
-Stable tag: 1.0.5
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Boomerang provides a simple interface for your users or customers to provide fee
 
 It all starts with a board. And with Boomerang, you can create as many as you want. Boards contain Boomerangs. These are the individual pieces of feedback your users provide. Whenever a user creates a 'Boomerang', it is assigned to a chosen board. So if you are a software company with multiple products, you are all set. If you run a chain of hotels, each hotel can have a board, and you can easily keep track of your feedback.
 
-Here's where Boomerang get's really clever. Each board has it's own set of options. Because we know that collecting feedback may not be done the same way across your whole product or service offer. So go ahead and customise each one accordingly.
+Here's where Boomerang get's really clever. Each board has its own set of options. Because we know that collecting feedback may not be done the same way across your whole product or service offer. So go ahead and customise each one accordingly.
 
 == ✨ Features ==
 
@@ -36,11 +36,11 @@ The Boomerang archive comes with everything you need to create and list Boomeran
 
 = Statuses =
 
-Some plugins don't let you edit your statuses. Boomerang really doesn't care what your statuses are. You create them, you edit them, you assign them to Boomerangs. And you do all that in the Boomerang Status Center. You'll find it in the Boomerang menu.
+Some plugins don't let you edit your statuses. Boomerang gives you full control over them. You create them, you edit them, you assign them to Boomerangs. And you do all that in the Boomerang Status Center. You'll find it in the Boomerang menu.
 
 = Amazing Help and Support =
 
-Feel free to ask questions in the plugin support forum. You can see the link at the top of this page. Alternatively, you will find a 'Contact Us' item on the Boomerang menu.Please don't hesitate to reach out, while we are creating a full set of technical docs and so on. We really want to meet you, and find out more about how you are using Boomerang. When you activate Boomerang, you will be asked to opt in to receive emails from us. We don't do spam. We hate it. But if you choose to opt in, we can send you updates on how our website is getting on, and what new features we have planned.
+Feel free to ask questions in the plugin support forum. You can see the link at the top of this page. Alternatively, you will find a 'Contact Us' item on the Boomerang menu.Please don't hesitate to reach out! We really want to meet you, and find out more about how you are using Boomerang. When you activate Boomerang, you will be asked to opt in to receive emails from us. We don't do spam. We hate it. But if you choose to opt in, we can send you updates on how our website is getting on, and what new features we have planned.
 
 == 💲Premium Features ==
 
@@ -54,10 +54,14 @@ We have a huge number of premium features available. To see how powerful our Pro
 * Anonymous voting
 * Boomerang Editing
 * Related and suggested Boomerangs, to reduce duplication
-* Google ReCaptcha v3 integration
+* Google reCaptcha v3 integration
 * Crowdfunding (for when you can't justify developing an idea, but your users want to pay for it)
 * Custom Fields
 * Audit Logging
+* IgnitionDeck integration
+* BuddyPress/BuddyBoss integration
+* Status change notifications
+* New comment notifications
 * And much, much more...
 
 == ⚙️ Getting Started ==
@@ -78,6 +82,24 @@ We have a huge number of premium features available. To see how powerful our Pro
 2. Single Boomerang Page (Pro Edition - coming soon)
 
 == Changelog ==
+
+= 1.1.0 =
+* Improve styling so Boomerang better adapts to Block themes
+* Fix bug preventing notification setting from appearing
+* Fix bug where user avatar was displaying inside votes container
+* Add a default ordering dropdown
+* Ability to disable Select2
+* Add a new horizontal layout
+* Add ability to change the Boomerang Form background color
+[//]: # fs_premium_only_begin
+* BuddyPress/BuddyBoss integration
+* IgnitionDeck integration
+* Move layout options to board
+* Add a global label for Boomerangs
+* Add status change notification
+* Add new comment notification
+* Send notifications to guest users where an email address is provided
+[//]: # fs_premium_only_end
 
 = 1.0.5 =
 * Bug on activation
