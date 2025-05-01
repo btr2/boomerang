@@ -151,6 +151,17 @@ class Boomerang_Votes {
 							);
 						}
 						break;
+					case '-1':
+						if ( '1' === $modifier ) {
+							$user_votes[ $post_id ] = '0';
+							update_user_meta( $user_id, 'boomerang_user_votes', $user_votes );
+							$result = true;
+						} elseif ( '-1' === $modifier ) {
+							$result = array(
+								'message' => $labels['already_voted'],
+							);
+						}
+						break;
 				}
 			} else {
 				switch ( $vote_status ) {
