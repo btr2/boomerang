@@ -41,6 +41,10 @@ class Boomerang_Admin {
 		add_filter( 'manage_boomerang_posts_columns', array( $this, 'add_boomerang_board_column' ) );
 		add_filter( 'manage_boomerang_posts_columns', array( $this, 'position_boomerang_board_column' ) );
 		add_filter( 'manage_posts_custom_column', array( $this, 'populate_boomerang_board_column' ), 10, 2 );
+		
+		// Add board filter dropdown
+		add_action( 'restrict_manage_posts', array( $this, 'add_board_filter_dropdown' ) );
+		add_action( 'pre_get_posts', array( $this, 'filter_boomerang_by_board' ) );
 
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
 			require BOOMERANG_PATH . 'admin/pro/boomerang-pro-admin-filters.php';
@@ -923,5 +927,74 @@ class Boomerang_Admin {
 		foreach ( $_POST['term_fields'] as $key => $value ) {
 			update_term_meta( $term_id, $key, sanitize_text_field( $value ) );
 		}
+	}
+
+	/**
+	 * Add board filter dropdown to the admin list table.
+	 *
+	 * @return void
+	 */
+	public function add_board_filter_dropdown() {
+		global $typenow;
+
+		// Only show on boomerang post type
+		if ( 'boomerang' !== $typenow ) {
+			return;
+		}
+
+		// Get all boards using direct database query to avoid any filter interference
+		global $wpdb;
+		$boards = $wpdb->get_results( $wpdb->prepare(
+			"SELECT ID, post_title 
+			FROM {$wpdb->posts} 
+			WHERE post_type = %s 
+			AND post_status = %s 
+			ORDER BY post_title ASC",
+			'boomerang_board',
+			'publish'
+		) );
+
+		// Get current filter value
+		$selected_board = isset( $_GET['board_filter'] ) ? intval( $_GET['board_filter'] ) : '';
+
+		?>
+		<select name="board_filter" id="board-filter">
+			<option value=""><?php esc_html_e( 'All Boards', 'boomerang' ); ?></option>
+			<?php foreach ( $boards as $board ) : ?>
+				<option value="<?php echo esc_attr( $board->ID ); ?>" <?php selected( $selected_board, $board->ID ); ?>>
+					<?php echo esc_html( $board->post_title ); ?></option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Filter boomerang posts by board in the admin list table.
+	 *
+	 * @param WP_Query $query The query object.
+	 * @return void
+	 */
+	public function filter_boomerang_by_board( $query ) {
+		global $pagenow, $typenow;
+
+		// Only filter on the boomerang post type admin page
+		if ( ! is_admin() || 'edit.php' !== $pagenow || 'boomerang' !== $typenow ) {
+			return;
+		}
+
+		// Only modify the main query
+		if ( ! $query->is_main_query() ) {
+			return;
+		}
+
+		// Check if board filter is set
+		if ( ! isset( $_GET['board_filter'] ) || empty( $_GET['board_filter'] ) ) {
+			return;
+		}
+
+		$board_id = intval( $_GET['board_filter'] );
+
+		// Filter by post_parent (hierarchical relationship)
+		$query->set( 'post_parent', $board_id );
 	}
 }

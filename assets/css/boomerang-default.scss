@@ -1749,11 +1749,11 @@ Boomerang Directory
         }
       }
     }
-  }
+  } 
 }
 
-/** Body Class, so treated separately **/
-.boomerang-is-manager {
+/** Body Classes, so treated separately **/
+body.boomerang-is-manager {
   &.single-boomerang {
     .boomerang-container #main .boomerang {
       @media only screen and (min-width: 576px) {
@@ -1777,5 +1777,75 @@ Boomerang Directory
       }
     }
   }
+}
+
+body:not(.boomerang-pagination-styles-disabled) {
+  .boomerang-directory {
+    .page-numbers {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    
+      li {
+        a,
+        span {
+          display: inline-block;
+          padding: 0.4em 0.8em;
+          background: #f2f2f2;
+          border-radius: 4px;
+          color: #333;
+          text-decoration: none;
+          transition: background 0.2s ease;
+        }
+    
+        a:hover {
+          background: #ddd;
+        }
+    
+        &.current span {
+          background: var(--boomerang-primary-color);
+          color: #fff;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Infinite Scroll Styles
+ */
+ .boomerang-infinite-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.boomerang-infinite-loading .spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: ajax-spinner-spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+/* Hide pagination when infinite scroll is enabled */
+.boomerang-directory.boomerang-infinite-scroll .page-numbers {
+  display: none;
+}
+
+/* Hide pagination when pagination is disabled */
+.boomerang-directory.boomerang-pagination-none .page-numbers {
+  display: none;
 }
 

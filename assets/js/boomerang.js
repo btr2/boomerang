@@ -327,6 +327,16 @@ jQuery(document).ready(function ($) {
         "change",
         "#boomerang-board-filters select",
         function (e) {
+            // Reset infinite scroll state when filters change
+            let paginationType = null;
+            if (typeof boomerangPaginationType !== 'undefined' && boomerangPaginationType.type) {
+                paginationType = boomerangPaginationType.type;
+            } else if ($(".boomerang-directory").hasClass('boomerang-infinite-scroll')) {
+                paginationType = 'infinite';
+            }
+            if (paginationType === 'infinite') {
+                $(window).off('scroll.boomerangInfinite');
+            }
             getBoomerangs();
 
             return false;
@@ -340,6 +350,16 @@ jQuery(document).ready(function ($) {
         "input",
         "#boomerang-board-filters #boomerang-search",
         function (e) {
+            // Reset infinite scroll state when search changes
+            let paginationType = null;
+            if (typeof boomerangPaginationType !== 'undefined' && boomerangPaginationType.type) {
+                paginationType = boomerangPaginationType.type;
+            } else if ($(".boomerang-directory").hasClass('boomerang-infinite-scroll')) {
+                paginationType = 'infinite';
+            }
+            if (paginationType === 'infinite') {
+                $(window).off('scroll.boomerangInfinite');
+            }
             getBoomerangs();
         }
     );
@@ -353,6 +373,16 @@ jQuery(document).ready(function ($) {
         function (e) {
             let tag = $(this).attr( 'data-id' );
             $('#boomerang-board-filters').find('#boomerang-tags').val(tag);
+            // Reset infinite scroll state when tag filter is applied
+            let paginationType = null;
+            if (typeof boomerangPaginationType !== 'undefined' && boomerangPaginationType.type) {
+                paginationType = boomerangPaginationType.type;
+            } else if ($(".boomerang-directory").hasClass('boomerang-infinite-scroll')) {
+                paginationType = 'infinite';
+            }
+            if (paginationType === 'infinite') {
+                $(window).off('scroll.boomerangInfinite');
+            }
             getBoomerangs();
         }
     );
@@ -364,9 +394,117 @@ jQuery(document).ready(function ($) {
         function () {
             if ($( ".boomerang-directory" ).length > 0) {
                 getBoomerangs();
+                
+                // Initialize infinite scroll if enabled
+                initInfiniteScroll();
             }
         }
     );
+
+    /**
+     * Initialize infinite scroll functionality
+     */
+    function initInfiniteScroll() {
+        let directory = $(".boomerang-directory");
+        let board = directory.attr('data-board');
+        
+        // Fallback: if boomerangPaginationType is not defined, check if the directory has the infinite scroll class
+        let paginationType = null;
+        if (typeof boomerangPaginationType !== 'undefined' && boomerangPaginationType.type) {
+            paginationType = boomerangPaginationType.type;
+        } else if (directory.hasClass('boomerang-infinite-scroll')) {
+            paginationType = 'infinite';
+        }
+        
+        // Check if infinite scroll is enabled for this board
+        if (board && paginationType === 'infinite') {
+            // Remove any existing scroll handlers to prevent duplicates
+            $(window).off('scroll.boomerangInfinite');
+            
+            let isLoading = false;
+            let currentPage = 1;
+            let hasMore = true;
+            
+            // Add scroll event listener with namespace
+            $(window).on('scroll.boomerangInfinite', function() {
+                if (isLoading || !hasMore) return;
+                
+                let scrollTop = $(window).scrollTop();
+                let windowHeight = $(window).height();
+                let documentHeight = $(document).height();
+                
+                // Load more when user is near bottom (within 200px)
+                if (scrollTop + windowHeight >= documentHeight - 200) {
+                    loadMoreBoomerangs();
+                }
+            });
+            
+            /**
+             * Load more boomerangs for infinite scroll
+             */
+            function loadMoreBoomerangs() {
+                if (isLoading || !hasMore) return;
+                
+                isLoading = true;
+                currentPage++;
+                
+                let container = $(".boomerang-directory-list");
+                let loadingIndicator = $('<div class="boomerang-infinite-loading"><span class="spinner"></span> Loading more...</div>');
+                
+                // Add loading indicator
+                container.append(loadingIndicator);
+                
+                let data = {
+                    action: 'get_boomerangs',
+                    dataType: 'json',
+                    nonce: directory.attr('data-nonce'),
+                    board: directory.attr('data-board'),
+                    base: directory.attr('data-base'),
+                    page: currentPage,
+                };
+
+                if ($("#boomerang-board-filters").length > 0) {
+                    let filters = $("#boomerang-board-filters");
+                    data.order = filters.find('#boomerang-order').val();
+                    data.status = filters.find('#boomerang-status').val();
+                    data.tags = filters.find('#boomerang-tags').val();
+                    data.search = filters.find('#boomerang-search').val();
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: settings.ajaxurl,
+                    data: data,
+                    success: function (response) {
+                        loadingIndicator.remove();
+                        
+                        if (!response.success) {
+                            console.error('Failed to load more boomerangs');
+                            return;
+                        }
+                        
+                        // Handle infinite scroll response
+                        if (response.data.hasOwnProperty('content')) {
+                            // Append new content
+                            container.append(response.data.content);
+                            hasMore = response.data.has_more;
+                            currentPage = response.data.current_page;
+                        } else {
+                            // Fallback for non-infinite scroll response
+                            container.append(response.data);
+                        }
+                        
+                        isLoading = false;
+                    },
+                    error: function() {
+                        loadingIndicator.remove();
+                        isLoading = false;
+                        console.error('Error loading more boomerangs');
+                    }
+                });
+            }
+        }
+    }
 
     /**
      * Handle when a pagination item is clicked.
@@ -377,6 +515,17 @@ jQuery(document).ready(function ($) {
         function (e) {
             if (e.preventDefault) {
                 e.preventDefault();
+            }
+
+            // Reset infinite scroll state when pagination is manually clicked
+            let paginationType = null;
+            if (typeof boomerangPaginationType !== 'undefined' && boomerangPaginationType.type) {
+                paginationType = boomerangPaginationType.type;
+            } else if ($(".boomerang-directory").hasClass('boomerang-infinite-scroll')) {
+                paginationType = 'infinite';
+            }
+            if (paginationType === 'infinite') {
+                $(window).off('scroll.boomerangInfinite');
             }
 
             page = parseInt($(this).html());
@@ -423,7 +572,15 @@ jQuery(document).ready(function ($) {
                     if (!response.success) {
 
                     } else {
-                        container.html(response.data);
+                        // Handle infinite scroll response
+                        if (response.data.hasOwnProperty('content')) {
+                            container.html(response.data.content);
+                        } else {
+                            container.html(response.data);
+                        }
+                        
+                        // Re-initialize infinite scroll after content update
+                        initInfiniteScroll();
                     }
                 },
             }

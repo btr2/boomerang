@@ -123,6 +123,20 @@ class Boomerang_Frontend {
 				'approved' => esc_html__( 'Approved', 'boomerang' ),
 			)
 		);
+
+		// Add pagination type for infinite scroll
+		$board = boomerang_get_board();
+		
+		if ( $board ) {
+			// Get board ID if it's a WP_Post object
+			$board_id = is_object( $board ) ? $board->ID : $board;
+			$pagination_type = boomerang_board_pagination_type( $board_id );
+			wp_localize_script(
+				'boomerang',
+				'boomerangPaginationType',
+				array( 'type' => $pagination_type )
+			);
+		}
 	}
 
 	/**
@@ -390,6 +404,7 @@ class Boomerang_Frontend {
 		$status = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : null;
 		$tags   = isset( $_POST['tags'] ) ? sanitize_text_field( $_POST['tags'] ) : null;
 		$search = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : null;
+		$board = isset( $_POST['board'] ) ? sanitize_text_field( $_POST['board'] ) : '';
 
 		$tax_query        = array( 'relation' => 'AND' );
 
@@ -407,11 +422,14 @@ class Boomerang_Frontend {
 			);
 		}
 
+		// Get pagination type to determine how to handle posts_per_page
+		$pagination_type = boomerang_board_pagination_type( $board );
+		
 		$args = array(
 			'post_type'      => 'boomerang',
 			'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
-			'post_parent'    => isset( $_POST['board'] ) ? sanitize_text_field( $_POST['board'] ) : '',
-			'posts_per_page' => 10,
+			'post_parent'    => $board,
+			'posts_per_page' => ( 'none' === $pagination_type ) ? -1 : ( boomerang_board_pagination_limit( $board ) ?? 10 ),
 			'paged' => $page,
 		);
 
@@ -459,19 +477,36 @@ class Boomerang_Frontend {
 				$this->get_template( 'archive-single' );
 			}
 
-			$this->get_pagination( $query->max_num_pages, $page );
+			// Only show pagination if it's not infinite scroll, not 'none' type, and there are multiple pages
+			if ( 'infinite' !== $pagination_type && 'none' !== $pagination_type && $query->max_num_pages > 1 ) {
+				$this->get_pagination( $query->max_num_pages, $page );
+			}
 		} else {
 			echo '<div><p>';
 
 		printf(
 			esc_html( 'Sorry, no %s matched your criteria.' ),
-			get_plural( $_POST['board'] )
+			get_plural( $board )
 		);
 
 				echo '</p></div>';
 		}
 
-		wp_send_json_success( ob_get_clean() );
+		$content = ob_get_clean();
+
+		// For infinite scroll, return additional data
+		if ( 'infinite' === $pagination_type ) {
+			$return = array(
+				'content' => $content,
+				'has_more' => $page < $query->max_num_pages,
+				'current_page' => $page,
+				'max_pages' => $query->max_num_pages,
+			);
+		} else {
+			$return = $content;
+		}
+
+		wp_send_json_success( $return );
 
 		wp_die();
 	}
@@ -491,13 +526,17 @@ class Boomerang_Frontend {
 			'prev_next'         => false,
 		));
 
-		if ($max_num_pages > 1) : ?>
-			<ul class="page-numbers">
-				<?php foreach ( $paginate as $page ) :?>
-					<li data-page="<?php $page; ?>"><?php echo $page; ?></li>
-				<?php endforeach; ?>
-			</ul>
-		<?php endif;
+		if ( $max_num_pages > 1 && is_array( $paginate ) ) :
+			echo '<ul class="page-numbers">';
+			foreach ( $paginate as $page_html ) {
+				$is_current = strpos( $page_html, 'current' ) !== false;
+		
+				echo '<li class="' . ( $is_current ? 'current' : '' ) . '">';
+				echo $page_html; // Output untouched link or span
+				echo '</li>';
+			}
+			echo '</ul>';
+		endif;
 	}
 
 	/**
@@ -511,12 +550,18 @@ class Boomerang_Frontend {
 		if ( boomerang_default_styles_disabled() ) {
 			return $classes;
 		}
-
+	
+		$classes[] = 'boomerang-default';
+	
 		if ( boomerang_can_manage() ) {
-			return array_merge( $classes, array( 'boomerang-default', 'boomerang-is-manager' ) );
+			$classes[] = 'boomerang-is-manager';
 		}
-
-		return array_merge( $classes, array( 'boomerang-default' ) );
+	
+		if ( boomerang_board_pagination_styling_disabled() ) {
+			$classes[] = 'boomerang-pagination-styles-disabled';
+		}
+	
+		return $classes;
 	}
 
 	/**

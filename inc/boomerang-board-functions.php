@@ -23,6 +23,50 @@ function boomerang_get_board_slug( $post )  {
 	return $post->post_name;
 }
 
+/**
+ * Get the board for a given post. This function intrusively searches for a board in the post's parent hierarchy.
+ *
+ * @param $post
+ *
+ * @return WP_Post|null
+ */
+function boomerang_get_board( $post = false ) {
+	$post = get_post( $post );
+
+	// If the post is a board, return it. That's the easy case.
+	if ( $post && 'boomerang_board' === $post->post_type ) {
+		return $post;
+	}
+
+	// If the post is a Boomerang, return the parent board.
+	if ( $post && 'boomerang' === $post->post_type ) {
+		return get_post( $post->post_parent );
+	}
+
+	// If the post is a page or post, check if it has a Boomerang shortcode, either as a Gutenberg block or a shortcode.
+	if ( $post && ( 'page' === $post->post_type || 'post' === $post->post_type ) ) {
+		// If the post has Gutenberg blocks, check if it has a Boomerang shortcode as a Gutenberg block.
+		$blocks = parse_blocks( $post->post_content );
+		foreach( $blocks as $block ) {
+			if( $block['blockName'] === 'boomerang-block/shortcode-gutenberg' ) {
+				return get_post( $block['attrs']['board'] );
+			}
+		}
+
+		// If the post has a shortcode, check if it's a Boomerang shortcode.
+		if ( has_shortcode( $post->post_content, 'boomerang' ) ) {
+			// Extract board ID from shortcode attributes
+			$pattern = '/\[boomerang\s+board=["\']?(\d+)["\']?\]/';
+			if ( preg_match( $pattern, $post->post_content, $matches ) ) {
+				return get_post( $matches[1] );
+			}
+		}
+	}
+
+	// If we get here, we couldn't find a board.
+	return null;
+}
+
 /** Conditionals **/
 
 // ToDo: may be added at a later date.
@@ -308,6 +352,51 @@ function boomerang_board_friendly_date_enabled( $post = false ) {
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['show_friendly_date'] ?? false;
+}
+
+/**
+ * Checks if pagination styling is disabled for a given board or boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_pagination_styling_disabled( $post = false ) {
+	$post = boomerang_get_board( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['boomerang_disable_pagination_styling'] ?? false;
+}
+
+/**
+ * Gets the pagination limit (items per page) for a given board or boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_pagination_limit( $post = false ) {
+	$post = boomerang_get_board( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['boomerang_pagination_limit'] ?? 10;
+}
+
+/**
+ * Gets the pagination type for a given board or boomerang.
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
+function boomerang_board_pagination_type( $post = false ) {
+	$post = boomerang_get_board( $post );
+
+	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
+
+	return $meta['boomerang_pagination_type'] ?? 'numbered';
 }
 
 /**

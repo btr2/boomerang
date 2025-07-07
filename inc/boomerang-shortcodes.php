@@ -96,10 +96,19 @@ function render_boomerang_directory( $atts ) {
 	global $wp;
 	$base = home_url( $wp->request ); // Gets the current page we are on.
 
+	// Get pagination type for CSS class
+	$pagination_type = boomerang_board_pagination_type( $a['board'] );
+	$pagination_class = '';
+	if ( 'infinite' === $pagination_type ) {
+		$pagination_class = ' boomerang-infinite-scroll';
+	} elseif ( 'none' === $pagination_type ) {
+		$pagination_class = ' boomerang-pagination-none';
+	}
+
 	ob_start();
 	?>
 
-	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>" data-base="<?php echo esc_url( $base ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_directory' ) ); ?>">
+	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) . $pagination_class ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>" data-base="<?php echo esc_url( $base ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_directory' ) ); ?>">
 
 		<?php
 		if ( boomerang_board_filters_enabled( $a['board'] ) ) {

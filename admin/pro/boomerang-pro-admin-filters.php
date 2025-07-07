@@ -762,3 +762,49 @@ function add_buddypress_fields( $settings ) {
 }
 add_filter( 'boomerang_board_general_settings', __NAMESPACE__ . '\add_buddypress_fields' );
 
+/**
+ * Adds a pagination section to the Boomerang Global settings.
+ *
+ * @param $post
+ *
+ * @return void
+ */
+function add_pagination_section( $prefix ) {
+	$fields = array(
+		array(
+			'id'    => 'boomerang_pagination_limit',
+			'type'  => 'number',
+			'title' => esc_html__( 'Pagination Limit', 'boomerang' ),
+			'default' => '10',
+			'desc'  => esc_html__( 'The number of Boomerangs to display per page. This is only used if the pagination type is set to numbered. Default is 10.', 'boomerang' ),
+		),
+		array(
+			'id'    => 'boomerang_pagination_type',
+			'type'  => 'select',
+			'title' => esc_html__( 'Pagination Type', 'boomerang' ),
+			'options' => array(
+				'numbered' => esc_html__( 'Default (numbered)', 'boomerang' ),
+				'infinite' => esc_html__( 'Infinite Scroll', 'boomerang' ),
+				'none' => esc_html__( 'Disabled', 'boomerang' ),
+			),
+			'default' => 'numbered',
+			'desc'  => esc_html__( 'The type of pagination to use. Default is numbered.', 'boomerang' ),
+		),
+		array(
+			'id'    => 'boomerang_disable_pagination_styling',
+			'type'  => 'switcher',
+			'title' => esc_html__( 'Disable Pagination Styling', 'boomerang' ),
+			'desc'  => esc_html__( 'If you wish to remove the pagination styling, click here.', 'boomerang' ),
+		),
+	);
+
+	\CSF::createSection(
+		$prefix,
+		array(
+			'id'     => 'pagination',
+			'title'  => 'Pagination',
+			'fields' => $fields,
+		)
+	);
+}
+add_action( 'boomerang_board_settings_section_end', __NAMESPACE__ . '\add_pagination_section' );

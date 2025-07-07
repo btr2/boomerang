@@ -16,11 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return false|string
  */
 function boomerang_get_boomerangs( $board = false, $args = false, $base = false ) {
+	// Get pagination type to determine how to handle posts_per_page
+	$pagination_type = boomerang_board_pagination_type( $board );
+	
 	$defaults = array(
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
 		'post_parent'    => $board ?? '',
-		'posts_per_page' => 10,
+		'posts_per_page' => ( 'none' === $pagination_type ) ? -1 : 10,
 		'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 	);
 
@@ -115,22 +118,25 @@ function boomerang_get_boomerangs( $board = false, $args = false, $base = false 
 		<?php endwhile; ?>
 
 		<?php
-		$big = 999999999; // need an unlikely integer
+		// Only show pagination if it's not 'none' type and there are multiple pages
+		if ( 'none' !== $pagination_type && $the_query->max_num_pages > 1 ) {
+			$big = 999999999; // need an unlikely integer
 
-		// Fallback if there is not base set.
-		$fallback_base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+			// Fallback if there is not base set.
+			$fallback_base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
 
-		echo wp_kses_post(
-			paginate_links(
-				array(
-					'base'    => isset( $base ) ? trailingslashit( $base ) . '%_%' : $fallback_base,
-					'format'  => '?paged=%#%',
-					'current' => max( 1, get_query_var( 'paged' ) ),
-					'total'   => $the_query->max_num_pages,
-					'type'    => 'list',
+			echo wp_kses_post(
+				paginate_links(
+					array(
+						'base'    => isset( $base ) ? trailingslashit( $base ) . '%_%' : $fallback_base,
+						'format'  => '?paged=%#%',
+						'current' => max( 1, get_query_var( 'paged' ) ),
+						'total'   => $the_query->max_num_pages,
+						'type'    => 'list',
+					)
 				)
-			)
-		);
+			);
+		}
 		?>
 
 	<?php else : ?>

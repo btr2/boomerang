@@ -496,7 +496,9 @@ Archive boomerangs
 }
 .boomerang-directory .entry-footer .boomerang-tags {
   display: flex;
-  gap: 10px;
+  gap: 5px;
+  flex-wrap: wrap;
 }
+
 
 /*# sourceMappingURL=boomerang.css.map */
