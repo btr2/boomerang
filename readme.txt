@@ -4,7 +4,7 @@ Contributors: bouncingsprout
 Requires at least: 5.2
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,14 @@ We have a huge number of premium features available. To see how powerful our Pro
 2. Single Boomerang Page (Pro Edition - coming soon)
 
 == Changelog ==
+
+= 1.1.3 =
+* Add ability to disable pagination or use an infinite scroller
+* Improve pagination styling
+* Add ability to disable pagination styling
+* Add ability to set the number of Boomerangs per page
+* Freemius update
+* Add a Boomerang Board filter in backend Boomerang list table
 
 = 1.1.2 =
 * Fix issue with downvoting
