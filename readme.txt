@@ -84,10 +84,12 @@ We have a huge number of premium features available. To see how powerful our Pro
 == Changelog ==
 
 = 1.1.3 =
+[//]: # fs_premium_only_begin
 * Add ability to disable pagination or use an infinite scroller
-* Improve pagination styling
 * Add ability to disable pagination styling
 * Add ability to set the number of Boomerangs per page
+[//]: # fs_premium_only_end
+* Improve pagination styling
 * Freemius update
 * Add a Boomerang Board filter in backend Boomerang list table
 
