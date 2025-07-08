@@ -369,6 +369,9 @@ if ( ! class_exists( 'CSF_Setup' ) ) {
 
     // Sanitize dirname
     public static function sanitize_dirname( $dirname ) {
+      if ( is_null( $dirname ) ) {
+        return '';
+      }
       return preg_replace( '/[^A-Za-z]/', '', $dirname );
     }
 

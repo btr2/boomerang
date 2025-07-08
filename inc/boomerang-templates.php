@@ -268,13 +268,13 @@ function boomerang_get_tag_list( $post = false ) {
 	}
 
 	if ( ! boomerang_has_tags( $post ) ) {
-		return;
+		return '';
 	}
 
 	$terms = get_the_terms( $post->ID, 'boomerang_tag' );
 
 	if ( is_wp_error( $terms ) ) {
-		return $terms;
+		return '';
 	}
 
 	$links = array();
@@ -341,6 +341,8 @@ function boomerang_get_status( $post = false ) {
 			return $terms[0]->name;
 		}
 	}
+	
+	return '';
 }
 
 /**
@@ -387,6 +389,8 @@ function boomerang_get_status_color( $post ) {
 			return '#000000';
 		}
 	}
+	
+	return '#000000';
 }
 
 /** Meta **************************************************************************************************************/

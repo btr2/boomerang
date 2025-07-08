@@ -127,6 +127,10 @@ function boomerang_can_manage( $user = false ) {
 function boomerang_board_title_enabled( $post = false ) {
 	$post = boomerang_get_post( $post );
 
+	if ( ! $post ) {
+		return false;
+	}
+
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['show_title'] ?? false;
@@ -141,6 +145,10 @@ function boomerang_board_title_enabled( $post = false ) {
  */
 function boomerang_board_image_enabled( $post = false ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
@@ -157,6 +165,10 @@ function boomerang_board_image_enabled( $post = false ) {
 function boomerang_board_comments_enabled( $post = false ) {
 	$post = boomerang_get_post( $post );
 
+	if ( ! $post ) {
+		return false;
+	}
+
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['enable_comments'] ?? false;
@@ -171,6 +183,10 @@ function boomerang_board_comments_enabled( $post = false ) {
  */
 function boomerang_board_votes_enabled( $post = false ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
@@ -216,6 +232,10 @@ function boomerang_board_downvoting_enabled( $post = false ) {
  */
 function boomerang_board_tags_enabled( $post = false ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
@@ -364,6 +384,10 @@ function boomerang_board_friendly_date_enabled( $post = false ) {
 function boomerang_board_pagination_styling_disabled( $post = false ) {
 	$post = boomerang_get_board( $post );
 
+	if ( ! $post ) {
+		return false;
+	}
+
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
 	return $meta['boomerang_disable_pagination_styling'] ?? false;
@@ -378,6 +402,10 @@ function boomerang_board_pagination_styling_disabled( $post = false ) {
  */
 function boomerang_board_pagination_limit( $post = false ) {
 	$post = boomerang_get_board( $post );
+
+	if ( ! $post ) {
+		return 10;
+	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
@@ -408,6 +436,10 @@ function boomerang_board_pagination_type( $post = false ) {
  */
 function boomerang_get_default_status( $post ) {
 	$post = boomerang_get_post( $post );
+
+	if ( ! $post ) {
+		return 'publish';
+	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
 
@@ -445,7 +477,7 @@ function boomerang_get_layout( $post = false ) {
 	$post = boomerang_get_post( $post );
 
 	if ( ! $post) {
-		return;
+		return 'horizontal';
 	}
 
 	$meta = get_post_meta( $post->ID, 'boomerang_board_options', true );
