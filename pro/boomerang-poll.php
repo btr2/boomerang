@@ -228,11 +228,11 @@ add_action( 'wp_footer', __NAMESPACE__ . '\render_polls' );
  * @return void
  */
 function poll_handler() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 		'boomerang_poll_handler'
 	) ) {
-		$error = new WP_Error(
+		$error = new \WP_Error(
 			'Boomerang: Failed Security Check on processing of poll',
 			__( 'Something went wrong.', 'boomerang' )
 		);
@@ -240,9 +240,9 @@ function poll_handler() {
 		wp_send_json_error( $error );
 	}
 
-	$poll_id = intval( $_POST['poll_id'] );
-	$board   = intval( $_POST['board'] );
-	$value   = intval( $_POST['value'] );
+	$poll_id = isset( $_POST['poll_id'] ) ? absint( $_POST['poll_id'] ) : 0;
+	$board   = isset( $_POST['board'] ) ? absint( $_POST['board'] ) : 0;
+	$value   = isset( $_POST['value'] ) ? absint( $_POST['value'] ) : 0;
 	$user_id = get_current_user_id();
 
 	// Save poll ID to user meta

@@ -54,11 +54,11 @@ class Boomerang_Migrator {
 			<h2><?php echo esc_html__( 'Data Import', 'boomerang' ); ?></h2>
 			<p><?php echo esc_html__( 'Use the settings below to migrate ideas from other feature request platforms to Boomerang', 'boomerang' ); ?></p>
 			<div id="accordion-container">
-			<?php if ( boomerang_is_simple_feature_requests_active() ) : ?>
+		<?php if ( boomerang_is_simple_feature_requests_active() ) : ?>
 
-			<div id="simple-feature-requests" class="accordion-item" data-nonce="<?php echo wp_create_nonce( 'boomerang-sfr-import-nonce'); ?>">
-				<div class="accordion-header"><?php echo esc_html__( 'Simple Feature Requests', 'boomerang' ); ?></div>
-				<div class="accordion-body">
+		<div id="simple-feature-requests" class="accordion-item" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang-sfr-import-nonce' ) ); ?>">
+			<div class="accordion-header"><?php echo esc_html__( 'Simple Feature Requests', 'boomerang' ); ?></div>
+			<div class="accordion-body">
 					<?php
 
 					$args  = array(
@@ -104,17 +104,28 @@ class Boomerang_Migrator {
 
 					<?php endif; ?>
 					<div class="controls">
-						<?php
-						$dropdown_args = array(
-							'post_type'        => 'boomerang_board',
-							'name'             => 'board',
-							'show_option_none' => __('None (I will set manually)'),
-						);
+					<?php
+			$dropdown_args = array(
+				'post_type'        => 'boomerang_board',
+				'name'             => 'board',
+				'show_option_none' => __('None (I will set manually)', 'boomerang'),
+				'echo'             => 0,
+			);
 
-						$boards = wp_dropdown_pages( $dropdown_args );
-						?>
+			echo wp_kses( wp_dropdown_pages( $dropdown_args ), array(
+				'select' => array(
+					'name' => array(),
+					'id' => array(),
+					'class' => array(),
+				),
+				'option' => array(
+					'value' => array(),
+					'selected' => array(),
+				),
+			) );
+			?>
 
-						<label for="move-comments-sfr">
+					<label for="move-comments-sfr">
 							<?php esc_html_e( 'Also move comments?', 'boomerang' ); ?>
 							<input type="checkbox" id="move-comments-sfr" name="move_comments">
 						</label>
@@ -143,7 +154,7 @@ class Boomerang_Migrator {
 	 * @return void
 	 */
 	public function process_sfr() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 			'boomerang-sfr-import-nonce'
 		) ) {
@@ -171,13 +182,13 @@ class Boomerang_Migrator {
 
 			wp_send_json_error( $error );
 
-			wp_die();
-		}
+		wp_die();
+	}
 
-		$board = $_POST['board'] ?? '';
-		$boomerangs = array();
+	$board = isset( $_POST['board'] ) ? absint( wp_unslash( $_POST['board'] ) ) : 0;
+	$boomerangs = array();
 
-		foreach ( $posts as $post ) {
+	foreach ( $posts as $post ) {
 			$args = array(
 				'post_title'     => sanitize_text_field( $post->post_title ),
 				'post_content'   => wp_kses_post( $post->post_content ),
@@ -193,11 +204,11 @@ class Boomerang_Migrator {
 				),
 			);
 
-			$post_id = wp_insert_post( $args, true );
-			$boomerangs[] = $post_id;
+		$post_id = wp_insert_post( $args, true );
+		$boomerangs[] = $post_id;
 
-			if ( 'yes' === $_POST['move_comments'] ) {
-				$comments = get_comments( array( 'post_id' => $post->ID ) );
+		if ( isset( $_POST['move_comments'] ) && 'yes' === sanitize_text_field( wp_unslash( $_POST['move_comments'] ) ) ) {
+			$comments = get_comments( array( 'post_id' => $post->ID ) );
 
 				foreach ( $comments as $comment ) :
 					$commentarr = array();

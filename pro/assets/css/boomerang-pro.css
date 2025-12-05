@@ -252,7 +252,7 @@ Single Boomerang
   top: 0;
   left: 0;
   background: rgba(52, 73, 94, 0.8);
-  z-index: 50;
+  z-index: 100;
   visibility: hidden;
   opacity: 0;
   transition: 0.7s;
@@ -285,6 +285,9 @@ Single Boomerang
 }
 .single-boomerang #boomerang-merge-screen-modal #boomerang-merge-screen p.merge-intro {
   margin-bottom: 5px;
+}
+.single-boomerang #boomerang-merge-screen-modal #boomerang-merge-screen .select2-container .select2-selection--single {
+  height: auto;
 }
 .single-boomerang #boomerang-merge-screen-modal #boomerang-merge-screen p.merge-disclaimer {
   font-size: 14px;

@@ -85,7 +85,7 @@ add_action( 'boomerang_form_below_title', __NAMESPACE__ . '\display_suggested_id
  * @return void
  */
 function find_suggested_ideas() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 		'boomerang-title-nonce'
 	) ) {
@@ -100,10 +100,10 @@ function find_suggested_ideas() {
 	}
 
 	if ( ! empty( $_POST['board'] ) ) {
-		$board = intval( $_POST['board'] );
+		$board = absint( $_POST['board'] );
 	}
 
-	$value = sanitize_text_field( $_POST['value'] );
+	$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) ) : '';
 
 	$args = array(
 		'post_type'      => 'boomerang',
@@ -143,13 +143,13 @@ function render_suggested_idea( $post ) {
 	ob_start();
 	?>
 
-	<li class="boomerang-suggestion <?php echo $status ?? '' ?>">
+	<li class="boomerang-suggestion <?php echo esc_attr( $status ?? '' ); ?>">
 		<a href="<?php echo esc_url( get_permalink( $post ) ) ?>">
 			<div class="suggestion-left">
 				<div class="votes-container">
-					<span class="boomerang-vote-count"><?php echo boomerang_get_votes( $post ); ?></span>
+					<span class="boomerang-vote-count"><?php echo esc_html( boomerang_get_votes( $post ) ); ?></span>
 					<span class="boomerang-vote-label">
-						<?php printf( _n( 'vote','votes',	boomerang_get_votes( $post ),'boomerang'	) ); ?>
+						<?php echo esc_html( sprintf( _n( 'vote','votes',	boomerang_get_votes( $post ),'boomerang' ) ) ); ?>
 					</span>
 				</div>
 			</div>
@@ -158,7 +158,7 @@ function render_suggested_idea( $post ) {
 					<?php echo esc_html( get_the_title( $post ) ) ?>
 				</h2>
 				<p class="entry-content">
-					<?php echo $post->post_content ?>
+					<?php echo wp_kses_post( $post->post_content ); ?>
 				</p>
 				<div class="meta">
 					<div class="meta-left">
@@ -173,12 +173,12 @@ function render_suggested_idea( $post ) {
 						<?php if ( boomerang_board_date_enabled( $post->post_parent ) ) : ?>
 							<div class="boomerang-posted-on"><?php boomerang_posted_on( $post ); ?></div>
 						<?php endif; ?>
-					</div>
-					<div class="meta-right">
-						<?php if ( boomerang_board_statuses_enabled( $post->post_parent ) ) : ?>
-							<div class="boomerang-status" <?php echo boomerang_has_status( $post ) ? '' : 'style="display: none"'; ?>><?php echo boomerang_get_status( $post ); ?></div>
-						<?php endif; ?>
-						<?php if ( boomerang_board_comments_enabled( $post->post_parent ) ) : ?>
+				</div>
+				<div class="meta-right">
+					<?php if ( boomerang_board_statuses_enabled( $post->post_parent ) ) : ?>
+						<div class="boomerang-status" <?php echo boomerang_has_status( $post ) ? '' : 'style="display: none"'; ?>><?php echo wp_kses_post( boomerang_get_status( $post ) ); ?></div>
+					<?php endif; ?>
+					<?php if ( boomerang_board_comments_enabled( $post->post_parent ) ) : ?>
 							<div class="boomerang-comment-count">
 								<?php boomerang_get_comments_count_html( $post ); ?>
 							</div>

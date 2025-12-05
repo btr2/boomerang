@@ -41,7 +41,7 @@ function render_boomerang_full( $atts ) {
 
 	ob_start();
 	?>
-	<style><?php echo wp_strip_all_tags( $styles ); ?></style>
+	<style><?php echo esc_html( wp_strip_all_tags( $styles ) ); ?></style>
 	<div id="boomerang-full" style="width: <?php echo esc_attr( $width ); ?>;" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>">
 		<?php
 
@@ -110,11 +110,42 @@ function render_boomerang_directory( $atts ) {
 
 	<div class="boomerang-container boomerang-directory <?php echo esc_attr( boomerang_get_board_slug( $a['board'] ) . $pagination_class ); ?>" data-board="<?php echo esc_attr( $a['board'] ); ?>" data-base="<?php echo esc_url( $base ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'boomerang_directory' ) ); ?>">
 
-		<?php
-		if ( boomerang_board_filters_enabled( $a['board'] ) ) {
-			echo boomerang_get_filters( $a['board'] );
-		}
-		?>
+	<?php
+	if ( boomerang_board_filters_enabled( $a['board'] ) ) {
+		$allowed_html = array(
+			'div' => array(
+				'id' => array(),
+				'class' => array(),
+				'data-nonce' => array(),
+			),
+			'fieldset' => array(),
+			'label' => array(
+				'for' => array(),
+			),
+			'span' => array(
+				'class' => array(),
+			),
+			'select' => array(
+				'name' => array(),
+				'id' => array(),
+				'class' => array(),
+			),
+			'option' => array(
+				'value' => array(),
+				'selected' => array(),
+			),
+			'input' => array(
+				'type' => array(),
+				'name' => array(),
+				'id' => array(),
+				'class' => array(),
+				'placeholder' => array(),
+				'value' => array(),
+			),
+		);
+		echo wp_kses( boomerang_get_filters( $a['board'] ), $allowed_html );
+	}
+	?>
 
 		<div class="boomerang-directory-list"></div>
 

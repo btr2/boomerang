@@ -34,6 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<?php
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 	$args = array(
 		'post_type'      => 'boomerang',
 		'post_status'    => boomerang_can_manage() ? array( 'publish', 'pending', 'draft' ) : 'publish',
@@ -45,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	// $args = wp_parse_args( $args, $defaults );
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 	$the_query = new \WP_Query( $args );
 
 	if ( $the_query->have_posts() ) :
@@ -65,34 +67,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 						the_title(
 							'<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">',
 							'</a></h2>'
-						);
-						?>
+					);
+					?>
+				</div>
+				<div class="data-table data-table-modified">
+					<?php echo esc_html( get_the_modified_date() ); ?>
+				</div>
+				<div class="data-table data-table-status">
+					<div class="boomerang-status">
+						<?php boomerang_the_status( $post ); ?>
 					</div>
-					<div class="data-table data-table-modified">
-						<?php echo get_the_modified_date(); ?>
-					</div>
-					<div class="data-table data-table-status">
-						<div class="boomerang-status">
-							<?php boomerang_the_status( $post ); ?>
-						</div>
-					</div>
-					<div class="data-table data-table-votes">
-						<?php echo boomerang_get_votes( $post ); ?>
-					</div>
-					<div class="data-table data-table-comments">
-						<?php echo get_comments_number( $post ); ?>
-					</div>
+				</div>
+				<div class="data-table data-table-votes">
+					<?php echo esc_html( boomerang_get_votes( $post ) ); ?>
+				</div>
+				<div class="data-table data-table-comments">
+					<?php echo esc_html( get_comments_number( $post ) ); ?>
+				</div>
 				<?php do_action( 'boomerang_archive_boomerang_end', $post ); ?>
 			</article><!-- .post -->
 
 
 		<?php endwhile; ?>
 
-		<?php
-		$big = 999999999; // need an unlikely integer
+	<?php
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
+	$big = 999999999; // need an unlikely integer
 
-		// Fallback if there is no base set.
-		$fallback_base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+	// Fallback if there is no base set.
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
+	$fallback_base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
 
 		echo wp_kses_post(
 			paginate_links(
@@ -111,12 +115,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php else : ?>
 		<div class="boomerang-data-none"><p>
-				<?php
-				print_r(
-					esc_html( 'Sorry, no %s matched your criteria.' ),
-					get_plural_global()
-				);
-				?>
+			<?php
+			printf(
+				esc_html( 'Sorry, no %s matched your criteria.' ),
+				esc_html( get_plural_global() )
+			);
+			?>
 			</p></div>
 		<?php
 	endif;

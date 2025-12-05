@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 $board = get_the_ID();
 
 echo do_shortcode( "[boomerang board='{$board}']" );

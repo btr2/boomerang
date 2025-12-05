@@ -123,18 +123,27 @@ class  Boomerang_Crowdfunding {
 					<span class="material-symbols-outlined chevron">chevron_right</span>
 				<?php endif; ?>
 			</div>
-			<div class="control-content">
-			<?php
+		<div class="control-content">
+		<?php
 
-			if ( $this->is_ignitiondeck() ) {
-				echo render_ignitiondeck_dropdown();
-			}
+		$allowed_crowdfund_html = array(
+			'div' => array( 'class' => array(), 'id' => array(), 'data-plugin' => array() ),
+			'label' => array(),
+			'fieldset' => array(),
+			'select' => array( 'name' => array(), 'id' => array(), 'class' => array() ),
+			'option' => array( 'value' => array(), 'selected' => array(), 'class' => array() ),
+			'span' => array( 'class' => array() ),
+		);
 
-			if ( $this->is_wpcrowdfunding() ) {
-				echo render_wp_crowdfunding_dropdown();
-			}
+		if ( $this->is_ignitiondeck() ) {
+			echo wp_kses( render_ignitiondeck_dropdown(), $allowed_crowdfund_html );
+		}
 
-			?>
+		if ( $this->is_wpcrowdfunding() ) {
+			echo wp_kses( render_wp_crowdfunding_dropdown(), $allowed_crowdfund_html );
+		}
+
+		?>
 			</div>
 		</div>
 
@@ -148,11 +157,11 @@ class  Boomerang_Crowdfunding {
 	 * @return void
 	 */
 	public function process_crowdfunding_product_submit() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 			'boomerang_admin_area'
 		) ) {
-			$error = new WP_Error(
+			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Change of crowdfunding product',
 				__( 'Something went wrong.', 'boomerang' )
 			);
@@ -160,9 +169,9 @@ class  Boomerang_Crowdfunding {
 			wp_send_json_error( $error );
 		}
 
-		$post_id    = sanitize_text_field( $_POST['post_id'] );
-		$product_id = sanitize_text_field( $_POST['product_id'] );
-		$plugin = sanitize_text_field( $_POST['plugin'] );
+		$post_id    = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		$product_id = isset( $_POST['product_id'] ) ? absint( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$plugin = isset( $_POST['plugin'] ) ? sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) : '';
 
 		if ( isset( $post_id ) && isset( $product_id ) && isset( $plugin ) ) {
 			if ( '0' === $product_id ) {

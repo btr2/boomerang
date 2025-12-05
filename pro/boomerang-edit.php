@@ -144,7 +144,7 @@ add_action( 'boomerang_after_meta_left', __NAMESPACE__ . '\add_edit_link' );
  * @return void
  */
 function edit_boomerang() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['boomerang_edit_nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['boomerang_edit_nonce'] ) ),
 		'boomerang-edit-nonce'
 	) ) {
@@ -170,25 +170,26 @@ function edit_boomerang() {
 	}
 
 	$args = array(
-		'ID' => intval( $_POST['ID'] ),
+		'ID' => absint( wp_unslash( $_POST['ID'] ) ),
 	);
 
 	if ( isset( $_POST['title'] ) ) {
-		$args['post_title'] = sanitize_text_field( $_POST['title'] );
+		$args['post_title'] = sanitize_text_field( wp_unslash( $_POST['title'] ) );
 	}
 
 	if ( isset( $_POST['content'] ) ) {
-		$args['post_content'] = sanitize_textarea_field( $_POST['content'] );
+		$args['post_content'] = sanitize_textarea_field( wp_unslash( $_POST['content'] ) );
 	}
 
-	$content = sanitize_textarea_field( $_POST['content'] );
-	$board   = intval( $_POST['board'] );
+	$content = isset( $_POST['content'] ) ? sanitize_textarea_field( wp_unslash( $_POST['content'] ) ) : '';
+	$board   = isset( $_POST['board'] ) ? absint( $_POST['board'] ) : 0;
 
 	if ( ! empty( $_POST['tags'] ) ) {
 		if ( is_array( $_POST['tags'] ) ) {
-			$tags = array_map( 'sanitize_text_field', $_POST['tags'] );
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Sanitized in array_map
+			$tags = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $_POST['tags'] ) );
 		} else {
-			$tags = sanitize_text_field( $_POST['tags'] );
+			$tags = sanitize_text_field( wp_unslash( $_POST['tags'] ) );
 		}
 	}
 

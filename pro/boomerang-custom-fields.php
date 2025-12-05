@@ -125,16 +125,16 @@ function display_acf( $post ) {
 							echo '<p><span class="acf-label">' . esc_html( $field['label'] ) . '</span>: ' . esc_html( get_field($field['name']) ) . '</p>';
 						}
 						break;
-					case 'checkbox':
-					case 'select':
-						if ( ! empty( $value ) ) {
-							if ( is_array( $value ) ) {
-								echo '<p><span class="acf-label">' . esc_html( $field['label'] ) . '</span>: ' . implode( ', ', $value ) . '</p>';
-							} else {
-								echo '<p><span class="acf-label">' . esc_html( $field['label'] ) . '</span>: ' . esc_html( $value ) . '</p>';
-							}
+				case 'checkbox':
+				case 'select':
+					if ( ! empty( $value ) ) {
+						if ( is_array( $value ) ) {
+							echo '<p><span class="acf-label">' . esc_html( $field['label'] ) . '</span>: ' . esc_html( implode( ', ', array_map( 'esc_html', $value ) ) ) . '</p>';
+						} else {
+							echo '<p><span class="acf-label">' . esc_html( $field['label'] ) . '</span>: ' . esc_html( $value ) . '</p>';
 						}
-						break;
+					}
+					break;
 					case 'true_false':
 						$on  = $value['ui_on_text'] ?? 'Yes';
 						$off = $value['ui_off_text'] ?? 'No';

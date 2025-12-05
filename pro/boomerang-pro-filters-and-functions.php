@@ -118,12 +118,12 @@ function attachment_area( $post ) {
 		foreach ( $images as $image ) {
 			echo '<a href="' . esc_url( wp_get_attachment_url( $image->ID, 'full' ) ) . '">';
 
-			if ( ! boomerang_google_fonts_disabled() ) {
-				echo '<span class="material-symbols-outlined">image</span>';
-			}
+		if ( ! boomerang_google_fonts_disabled() ) {
+			echo '<span class="material-symbols-outlined">image</span>';
+		}
 
-			esc_html_e( basename( get_attached_file( $image->ID ) ) );
-			echo '</a>';
+		echo esc_html( basename( get_attached_file( $image->ID ) ) );
+		echo '</a>';
 		}
 
 		do_action( 'boomerang_image_attachment_area_end', $post );
@@ -143,12 +143,12 @@ function attachment_area( $post ) {
 		foreach ( $files as $file ) {
 			echo '<a href="' . esc_url( wp_get_attachment_url( $file->ID, 'full' ) ) . '">';
 
-			if ( ! boomerang_google_fonts_disabled() ) {
-				echo '<span class="material-symbols-outlined">attach_file</span>';
-			}
+		if ( ! boomerang_google_fonts_disabled() ) {
+			echo '<span class="material-symbols-outlined">attach_file</span>';
+		}
 
-			esc_html_e( basename( get_attached_file( $file->ID ) ) );
-			echo '</a>';
+		echo esc_html( basename( get_attached_file( $file->ID ) ) );
+		echo '</a>';
 		}
 
 		do_action( 'boomerang_file_attachment_area_end', $post );
@@ -185,13 +185,13 @@ function add_voter_avatars( $post ) {
 			echo '</div>';
 		}
 
-		echo '</div>';
+	echo '</div>';
 
-		if ( $remainder > 0 ) {
-			echo '<span class="remainder">+' . $remainder . '</span>';
-		}
+	if ( $remainder > 0 ) {
+		echo '<span class="remainder">+' . esc_html( $remainder ) . '</span>';
+	}
 
-		echo '</div>';
+	echo '</div>';
 	}
 }
 add_action( 'boomerang_after_meta_left', __NAMESPACE__ . '\add_voter_avatars' );
@@ -351,11 +351,11 @@ add_action( 'boomerang_admin_controls_end', __NAMESPACE__ . '\add_visibility_con
  * @return void
  */
 function process_post_status_submit() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 		'boomerang_admin_area'
 	) ) {
-		$error = new WP_Error(
+		$error = new \WP_Error(
 			'Boomerang: Failed Security Check on Post Status Change',
 			__( 'Something went wrong.', 'boomerang' )
 		);
@@ -363,8 +363,8 @@ function process_post_status_submit() {
 		wp_send_json_error( $error );
 	}
 
-	$post_id    = sanitize_text_field( $_POST['post_id'] );
-	$the_action = sanitize_text_field( $_POST['the_action'] );
+	$post_id    = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+	$the_action = isset( $_POST['the_action'] ) ? sanitize_text_field( wp_unslash( $_POST['the_action'] ) ) : '';
 
 	if ( isset( $the_action ) && isset( $post_id ) ) {
 		if ( 'publish' === $the_action ) {

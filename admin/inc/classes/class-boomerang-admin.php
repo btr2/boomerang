@@ -186,20 +186,23 @@ class Boomerang_Admin {
 
 			if ( 'boomerang' === $current_screen->post_type || 'boomerang_board' === $current_screen->post_type ) :
 
-				$shortcode = '';
+		$shortcode = '';
 
-				if ( ! empty( $_GET['post'] ) ) {
-					$shortcode = sprintf(
-						// translators: %s: ID of the current board
-						__( 'The shortcode for this board is: [boomerang board="%s"]', 'boomerang' ),
-						$_GET['post']
-					);
-				}
-				?>
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin notice, no nonce needed for GET parameter
+		if ( ! empty( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin notice, no nonce needed for GET parameter
+			$post_id = absint( wp_unslash( $_GET['post'] ) );
+			$shortcode = sprintf(
+				// translators: %s: ID of the current board
+				__( 'The shortcode for this board is: [boomerang board="%s"]', 'boomerang' ),
+				$post_id
+			);
+		}
+			?>
 		<div class="notice notice-warning is-dismissible">
-			<p><?php _e( 'Boomerang has detected you may be using a Block Theme. If you are having issues displaying your board, please use our shortcode instead of the Boomerang Block. ', 'boomerang' ); ?><?php echo esc_html( $shortcode ); ?></p>
+			<p><?php esc_html_e( 'Boomerang has detected you may be using a Block Theme. If you are having issues displaying your board, please use our shortcode instead of the Boomerang Block. ', 'boomerang' ); ?><?php echo esc_html( $shortcode ); ?></p>
 		</div>
-				<?php
+			<?php
 		endif;
 		}
 	}
@@ -355,14 +358,17 @@ class Boomerang_Admin {
 	public function general_settings() {
 		$settings = array();
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin settings display, no nonce needed for GET parameter
 		if ( ! empty( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin settings display, no nonce needed for GET parameter
+			$post_id = absint( wp_unslash( $_GET['post'] ) );
 			$settings[] = array(
 				'type'    => 'subheading',
 				'style'   => 'success',
 				'content' => sprintf(
 					// translators: %s: ID of the current board
 					esc_html__( 'Shortcode: [boomerang board="%s"]', 'boomerang' ),
-					esc_attr( $_GET['post'] )
+					$post_id
 				),
 			);
 		}
@@ -788,7 +794,7 @@ class Boomerang_Admin {
 	public function add_boomerang_parent_metabox( $post ) {
 		add_meta_box(
 			'boomerang-board',
-			__( 'Board' ),
+			__( 'Board', 'boomerang' ),
 			array( $this, 'output_boomerang_parent_metabox' ),
 			'boomerang',
 			'side',
@@ -811,7 +817,7 @@ class Boomerang_Admin {
 				'post_type'        => 'boomerang_board',
 				'selected'         => esc_attr( $post->post_parent ),
 				'name'             => 'parent_id',
-				'show_option_none' => esc_html__( 'None' ),
+				'show_option_none' => esc_html__( 'None', 'boomerang' ),
 				'sort_column'      => 'menu_order, post_title',
 				'echo'             => 0,
 			)
@@ -867,15 +873,15 @@ class Boomerang_Admin {
 	 *
 	 */
 	public function populate_boomerang_board_column( $column_id, $post_id ) {
-		if ( 'board' === $column_id ) {
-			$ancestors     = get_ancestors( $post_id, 'subject', 'post_type' );
-			$post_ancestor = end( $ancestors );
-			if ( 0 != $post_ancestor ) {
-				echo '<a href="' . get_edit_post_link( $post_ancestor ) . '">' . get_the_title( $post_ancestor ) . '</a>';
-			} else {
-				echo '-';
-			}
+	if ( 'board' === $column_id ) {
+		$ancestors     = get_ancestors( $post_id, 'subject', 'post_type' );
+		$post_ancestor = end( $ancestors );
+		if ( 0 != $post_ancestor ) {
+			echo '<a href="' . esc_url( get_edit_post_link( $post_ancestor ) ) . '">' . esc_html( get_the_title( $post_ancestor ) ) . '</a>';
+		} else {
+			echo '-';
 		}
+	}
 	}
 
 	/**
@@ -920,12 +926,15 @@ class Boomerang_Admin {
 	 * @return void
 	 */
 	public function save_category_fields__premium_only( $term_id ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled by WordPress in the edit_term action
 		if ( ! isset( $_POST['term_fields'] ) ) {
 			return;
 		}
 
-		foreach ( $_POST['term_fields'] as $key => $value ) {
-			update_term_meta( $term_id, $key, sanitize_text_field( $value ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce handled by WP, data is sanitized in the loop below
+		$term_fields = wp_unslash( $_POST['term_fields'] );
+		foreach ( $term_fields as $key => $value ) {
+			update_term_meta( $term_id, sanitize_key( $key ), sanitize_text_field( $value ) );
 		}
 	}
 
@@ -952,13 +961,14 @@ class Boomerang_Admin {
 			ORDER BY post_title ASC",
 			'boomerang_board',
 			'publish'
-		) );
+	) );
 
-		// Get current filter value
-		$selected_board = isset( $_GET['board_filter'] ) ? intval( $_GET['board_filter'] ) : '';
+	// Get current filter value
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a GET filter, no nonce needed
+	$selected_board = isset( $_GET['board_filter'] ) ? absint( wp_unslash( $_GET['board_filter'] ) ) : 0;
 
-		?>
-		<select name="board_filter" id="board-filter">
+	?>
+	<select name="board_filter" id="board-filter">
 			<option value=""><?php esc_html_e( 'All Boards', 'boomerang' ); ?></option>
 			<?php foreach ( $boards as $board ) : ?>
 				<option value="<?php echo esc_attr( $board->ID ); ?>" <?php selected( $selected_board, $board->ID ); ?>>
@@ -985,16 +995,18 @@ class Boomerang_Admin {
 		// Only modify the main query
 		if ( ! $query->is_main_query() ) {
 			return;
-		}
-
-		// Check if board filter is set
-		if ( ! isset( $_GET['board_filter'] ) || empty( $_GET['board_filter'] ) ) {
-			return;
-		}
-
-		$board_id = intval( $_GET['board_filter'] );
-
-		// Filter by post_parent (hierarchical relationship)
-		$query->set( 'post_parent', $board_id );
 	}
+
+	// Check if board filter is set
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a GET filter, no nonce needed
+	if ( ! isset( $_GET['board_filter'] ) || empty( $_GET['board_filter'] ) ) {
+		return;
+	}
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a GET filter, no nonce needed
+	$board_id = absint( wp_unslash( $_GET['board_filter'] ) );
+
+	// Filter by post_parent (hierarchical relationship)
+	$query->set( 'post_parent', $board_id );
+}
 }

@@ -18,7 +18,7 @@ function enqueue_google_recaptcha_scripts() {
 	$site_key = boomerang_get_google_recaptcha_keys__premium_only()['key'];
 
 	$url = 'https://www.google.com/recaptcha/api.js?render=' . $site_key;
-	wp_enqueue_script( 'google-recaptcha', esc_url_raw( $url ) );
+	wp_enqueue_script( 'google-recaptcha', esc_url( $url ), array(), null, false );
 
 	wp_add_inline_script(
 		'boomerang',
@@ -34,12 +34,12 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_google_recaptcha_scr
 
 function is_valid_captcha_response( $captcha ) {
 	$captcha_postdata = http_build_query(
-		array(
-			'secret'   => boomerang_get_google_recaptcha_keys__premium_only()['secret'],
-			'response' => $captcha,
-			'remoteip' => $_SERVER['REMOTE_ADDR'],
-		)
-	);
+	array(
+		'secret'   => boomerang_get_google_recaptcha_keys__premium_only()['secret'],
+		'response' => $captcha,
+		'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
+	)
+);
 	$captcha_opts     = array(
 		'http' => array(
 			'method'  => 'POST',
@@ -64,12 +64,13 @@ function verify_google_recaptcha( $args ) {
 
 	if ( is_user_logged_in() || ! boomerang_board_recaptcha_enabled( $board ) ) {
 		// We don't need to check logged-in users for spam, or if the current board has recaptcha disabled.
-		return;
-	}
+	return;
+}
 
-	$recaptcha = sanitize_text_field( $_POST['g-recaptcha-response'] );
+// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in boomerang form submission
+$recaptcha = isset( $_POST['g-recaptcha-response'] ) ? sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ) : '';
 
-	if ( empty( $recaptcha ) ) {
+if ( empty( $recaptcha ) ) {
 		$error = new \WP_Error(
 			'Boomerang: Spam Error (empty token)',
 			esc_html__( 'There was a problem', 'boomerang' )

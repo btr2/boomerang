@@ -63,7 +63,7 @@ class Boomerang_BuddyPress {
 		<li id="wp-admin-bar-my-account-boomerang" class="menupop">
 			<a class="ab-item" aria-haspopup="true" href="<?php echo esc_attr( $item_link ); ?>">
 				<i class="bb-icon-lightbulb bb-icon-l"></i>
-				<span class="wp-admin-bar-arrow" aria-hidden="true"></span><?php echo ucwords( get_plural_global() ); ?>
+				<span class="wp-admin-bar-arrow" aria-hidden="true"></span><?php echo esc_html( ucwords( get_plural_global() ) ); ?>
 			</a>
 		</li>
 		<?php
@@ -88,10 +88,11 @@ class Boomerang_BuddyPress {
 	public function render_screen() {
 		do_action( 'boomerang_render_screen_start' );
 
-		add_action( 'bp_template_content', array( $this, 'render_screen_content' ) );
+	add_action( 'bp_template_content', array( $this, 'render_screen_content' ) );
 
-		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-	}
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- BuddyPress core filter
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+}
 
 	/**
 	 * Render the content for the user Boomerang screen.
@@ -118,11 +119,11 @@ class Boomerang_BuddyPress {
 				$color_meta            = get_term_meta( $term->term_id, 'color', true );
 				$background_color_meta = get_term_meta( $term->term_id, 'background_color', true );
 
-				$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
-				$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
+			$color            = ! empty( $color_meta ) ? esc_attr( $color_meta ) : '#FFFFFF';
+			$background_color = ! empty( $background_color_meta ) ? esc_attr( $background_color_meta ) : '#FFFFFF';
 
-				echo '.boomerang_status-' . $term->slug . ' .data-table-status .boomerang-status {color:' . $color . ';border-color:' . $color . ';background-color:' . $background_color . ';}' . "\r\n";
-			}
+			echo '.boomerang_status-' . esc_attr( $term->slug ) . ' .data-table-status .boomerang-status {color:' . esc_attr( $color ) . ';border-color:' . esc_attr( $color ) . ';background-color:' . esc_attr( $background_color ) . ';}' . "\r\n";
+		}
 			echo '</style>';
 		}
 	}
@@ -193,16 +194,17 @@ class Boomerang_BuddyPress {
 			// Post was created by our anonymous guest user
 			$author = 'A guest user';
 		} else {
-			// Must be user created, so use the post author email.
-			$author_id = $post->post_author;
-			$author    = bp_core_get_userlink( $author_id );
-		}
+		// Must be user created, so use the post author email.
+		$author_id = $post->post_author;
+		$author    = bp_core_get_userlink( $author_id );
+	}
 
-		$action = sprintf(
-			esc_attr__( '%1$s posted a new %2$s', 'boomerang' ),
-			$author,
-			ucwords( $label )
-		);
+	$action = sprintf(
+		/* translators: 1: Author name, 2: Post type label */
+		esc_attr__( '%1$s posted a new %2$s', 'boomerang' ),
+		$author,
+		ucwords( $label )
+	);
 
 		ob_start();
 		include BOOMERANG_PATH . 'pro/templates/bp-boomerang-activity.php';

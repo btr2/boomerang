@@ -70,11 +70,11 @@ add_action( 'boomerang_admin_actions_start', __NAMESPACE__ . '\add_mab_action' )
  * @return void
  */
 function process_mark_as_bug() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 		'boomerang_admin_area'
 	) ) {
-		$error = new WP_Error(
+		$error = new \WP_Error(
 			'Boomerang: Failed Security Check on Change of Bug Status',
 			__( 'Something went wrong.', 'boomerang' )
 		);
@@ -82,7 +82,7 @@ function process_mark_as_bug() {
 		wp_send_json_error( $error );
 	}
 
-	$post_id = sanitize_text_field( $_POST['post_id'] );
+	$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
 
 	if ( isset( $post_id ) ) {
 		if ( is_a_bug( get_post( $post_id ) ) ) {

@@ -19,23 +19,38 @@ get_header(); ?>
 				the_post();
 				?>
 
-				<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
-					<div class="boomerang-single-aside">
-						<?php do_action( 'boomerang_single_boomerang_aside_start', $post ); ?>
-						<?php echo boomerang_get_admin_area_html(); ?>
-						<?php do_action( 'boomerang_single_boomerang_aside_end', $post ); ?>
+		<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
+			<div class="boomerang-single-aside">
+				<?php do_action( 'boomerang_single_boomerang_aside_start', $post ); ?>
+			<?php
+			$allowed_admin_html = array(
+				'div' => array( 'class' => array(), 'id' => array(), 'data-id' => array(), 'data-nonce' => array(), 'data-action' => array(), 'data-plugin' => array() ),
+				'h2' => array( 'class' => array() ),
+				'h3' => array( 'class' => array() ),
+				'h4' => array( 'class' => array() ),
+				'p' => array( 'class' => array() ),
+				'span' => array( 'class' => array() ),
+				'label' => array(),
+				'select' => array( 'name' => array(), 'id' => array(), 'class' => array() ),
+				'option' => array( 'value' => array(), 'selected' => array(), 'class' => array() ),
+				'fieldset' => array(),
+				'a' => array( 'href' => array(), 'class' => array(), 'data-id' => array(), 'data-nonce' => array() ),
+			);
+			echo wp_kses( boomerang_get_admin_area_html(), $allowed_admin_html );
+			?>
+				<?php do_action( 'boomerang_single_boomerang_aside_end', $post ); ?>
+			</div>
+			<div class="boomerang-single-content">
+					<?php do_action( 'boomerang_single_boomerang_start', $post ); ?>
+					<div class="boomerang-single-content-inner">
+					<div class="boomerang-left">
+						<?php if ( boomerang_board_votes_enabled() ) : ?>
+							<div class="votes-container-outer">
+								<?php echo wp_kses_post( boomerang_get_votes_html() ); ?>
+							</div>
+						<?php endif; ?>
 					</div>
-					<div class="boomerang-single-content">
-						<?php do_action( 'boomerang_single_boomerang_start', $post ); ?>
-						<div class="boomerang-single-content-inner">
-						<div class="boomerang-left">
-							<?php if ( boomerang_board_votes_enabled() ) : ?>
-								<div class="votes-container-outer">
-									<?php echo boomerang_get_votes_html(); ?>
-								</div>
-							<?php endif; ?>
-						</div>
-						<div class="boomerang-right">
+					<div class="boomerang-right">
 							<?php do_action( 'boomerang_above_title' ); ?>
 							<div class="boomerang-messages-container"></div>
 							<header class="entry-header">

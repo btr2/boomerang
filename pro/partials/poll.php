@@ -15,14 +15,17 @@
 			foreach ( $poll['poll_boomerangs'] as $boomerang ) {
 				echo '<fieldset class="poll-option">';
 				echo '<input class="poll-option" name="boomerang_poll_' . esc_attr( $poll['poll_id'] ) . '" type="radio" id="boomerang-' . esc_attr( $boomerang ) . '" value="' . esc_attr( $boomerang ) . '">';
-				echo '<label for="boomerang-' . esc_attr( $boomerang ) . '">';
-				echo '<h3>' . esc_html( get_the_title( $boomerang ) ) . '</h3>';
-				$excerpt = get_the_excerpt( $boomerang );
+			echo '<label for="boomerang-' . esc_attr( $boomerang ) . '">';
+			echo '<h3>' . esc_html( get_the_title( $boomerang ) ) . '</h3>';
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
+			$excerpt = get_the_excerpt( $boomerang );
 
-				$excerpt = substr( $excerpt, 0, 100 );
-				$result  = substr( $excerpt, 0, strrpos( $excerpt, ' ' ) );
-				echo '<p>' . esc_html( $result ) . '...</p>';
-				echo '</label>';
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
+			$excerpt = substr( $excerpt, 0, 100 );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
+			$result  = substr( $excerpt, 0, strrpos( $excerpt, ' ' ) );
+			echo '<p>' . esc_html( $result ) . '...</p>';
+			echo '</label>';
 				echo '</fieldset>';
 			}
 			echo '</div>';

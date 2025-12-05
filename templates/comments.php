@@ -19,11 +19,14 @@ if ( post_password_required() ) {
 }
 
 if ( is_user_logged_in() ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 	$class_form = 'comment-form';
 } else {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 	$class_form = 'comment-form logged-out';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Local template variable
 $comment_form_args = array(
 	'label_submit'  => esc_attr__( 'Add comment', 'boomerang' ),
 	'title_reply'   => '',
@@ -51,18 +54,18 @@ $comment_form_args = array(
 			?>
 		</ol><!-- .comment-list -->
 
-		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
-			<nav class="navigation comment-navigation" role="navigation">
+	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
+		<nav class="navigation comment-navigation" role="navigation">
 
-				<h1 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'boomerang' ); ?></h1>
-				<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'boomerang' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'boomerang' ) ); ?></div>
-			</nav><!-- .comment-navigation -->
-		<?php endif; // Check for comment navigation ?>
+			<h1 class="screen-reader-text section-heading"><?php esc_html_e( 'Comment navigation', 'boomerang' ); ?></h1>
+			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'boomerang' ) ); ?></div>
+			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'boomerang' ) ); ?></div>
+		</nav><!-- .comment-navigation -->
+	<?php endif; // Check for comment navigation ?>
 
-		<?php if ( ! comments_open() && get_comments_number() ) : ?>
-			<p class="no-comments"><?php _e( 'Comments are closed.', 'boomerang' ); ?></p>
-		<?php endif; ?>
+	<?php if ( ! comments_open() && get_comments_number() ) : ?>
+		<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'boomerang' ); ?></p>
+	<?php endif; ?>
 
 	<?php endif; // have_comments() ?>
 

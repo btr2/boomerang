@@ -126,7 +126,7 @@ add_action( 'boomerang_admin_actions_start', __NAMESPACE__ . '\add_merge_button'
  * @return void
  */
 function merge_boomerang() {
-	if ( ! wp_verify_nonce(
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 		sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 		'boomerang-merge-nonce'
 	) ) {
@@ -151,25 +151,28 @@ function merge_boomerang() {
 		wp_die();
 	}
 
-	update_post_meta( $_POST['ID'], 'merged_into', sanitize_text_field( $_POST['primary'] ) );
+	$merge_id = isset( $_POST['ID'] ) ? absint( wp_unslash( $_POST['ID'] ) ) : 0;
+	$primary_id = isset( $_POST['primary'] ) ? absint( wp_unslash( $_POST['primary'] ) ) : 0;
 
-	$mergees = get_post_meta( $_POST['primary'], 'swallowed_up', true );
+	update_post_meta( $merge_id, 'merged_into', $primary_id );
+
+	$mergees = get_post_meta( $primary_id, 'swallowed_up', true );
 	if ( ! $mergees ) {
-		$mergees = array( sanitize_text_field( $_POST['ID'] ) );
-		update_post_meta( $_POST['primary'], 'swallowed_up', $mergees );
+		$mergees = array( $merge_id );
+		update_post_meta( $primary_id, 'swallowed_up', $mergees );
 	} else {
-		$mergees[] = intval( $_POST['ID'] );
-		update_post_meta( $_POST['primary'], 'swallowed_up', $mergees );
+		$mergees[] = $merge_id;
+		update_post_meta( $primary_id, 'swallowed_up', $mergees );
 	}
 
-	$primary_votes   = get_post_meta( $_POST['primary'], 'boomerang_votes', true );
-	$secondary_votes = get_post_meta( $_POST['ID'], 'boomerang_votes', true );
+	$primary_votes   = get_post_meta( $primary_id, 'boomerang_votes', true );
+	$secondary_votes = get_post_meta( $merge_id, 'boomerang_votes', true );
 
 	// Combine votes.
 	$merged_votes = (int) $primary_votes + (int) $secondary_votes;
-	update_post_meta( $_POST['primary'], 'boomerang_votes', sanitize_text_field( $merged_votes ) );
+	update_post_meta( $primary_id, 'boomerang_votes', sanitize_text_field( $merged_votes ) );
 
-	$comments = get_comments( array( 'post_id' => $_POST['ID'] ) );
+	$comments = get_comments( array( 'post_id' => $merge_id ) );
 
 	$comment_count = array();
 	if ( $comments ) {
@@ -178,7 +181,7 @@ function merge_boomerang() {
 			$system  = get_comment_meta( $comment->comment_ID, 'system_note', true );
 
 			$data = array(
-				'comment_post_ID'      => $_POST['primary'],
+				'comment_post_ID'      => $primary_id,
 				'comment_content'      => $comment->comment_content,
 				'user_id'              => $comment->user_id,
 				'comment_author'       => $comment->comment_author,
@@ -212,7 +215,7 @@ function merge_boomerang() {
 
 	$commentdata = array(
 		'user_id'         => get_current_user_id(),
-		'comment_post_ID' => $_POST['primary'],
+		'comment_post_ID' => $primary_id,
 		'comment_meta'    => array(
 			'boomerang_private_note' => true,
 			'system_note'            => 'boomerang_merged',
@@ -222,8 +225,8 @@ function merge_boomerang() {
 	$commentdata['comment_content'] = sprintf(
 	/* translators: %1$s: Singular form of this board's Boomerang name %2$s: Link to Boomerang this was merged into %3$s: initial votes */
 		__( '%1$s has been merged into this %2$s, %3$s and %4$s comments, have been carried over.', 'boomerang' ),
-		'<a href="' . esc_url( get_the_permalink( $_POST['ID'] ) ) . '">' . esc_html( $_POST['ID'] ) . '</a>',
-		get_singular( get_post( $_POST['ID'] )->post_parent ),
+		'<a href="' . esc_url( get_the_permalink( $merge_id ) ) . '">' . esc_html( $merge_id ) . '</a>',
+		get_singular( get_post( $merge_id )->post_parent ),
 		isset( $secondary_votes ) ? sanitize_text_field( $secondary_votes ) . ' votes' : '',
 		sanitize_text_field( $migrated_comments ),
 	);
@@ -233,7 +236,7 @@ function merge_boomerang() {
 
 
 	$return = array(
-		'message' => esc_html__( 'Boomerangs merged successfully' ),
+		'message' => esc_html__( 'Boomerangs merged successfully', 'boomerang' ),
 	);
 
 	wp_send_json_success( $return );

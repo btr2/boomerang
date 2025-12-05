@@ -77,13 +77,13 @@ function display_related_ideas( $post ) {
 			$terms = get_the_terms( get_the_ID(), 'boomerang_status' );
 
 			if ( $terms ) {
-				$status = 'boomerang_status-' . $terms[0]->slug;
-			}
-			?>
+			$status = 'boomerang_status-' . $terms[0]->slug;
+		}
+		?>
 
-			<article id="post-<?php the_ID(); ?>" class="boomerang-related-idea <?php echo $status ?? '' ?>">
+		<article id="post-<?php the_ID(); ?>" class="boomerang-related-idea <?php echo esc_attr( $status ?? '' ); ?>">
 
-			<header class="entry-header">
+		<header class="entry-header">
 				<a href="<?php the_permalink(); ?>"><h2 class="entry-title"><?php echo esc_html( get_the_title() ); ?></h2></a>
 			</header>
 

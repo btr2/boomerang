@@ -145,7 +145,7 @@ class Boomerang_Frontend {
 	 * @return void
 	 */
 	public function save_boomerang() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['boomerang_form_nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['boomerang_form_nonce'] ) ),
 			'boomerang-form-nonce'
 		) ) {
@@ -170,17 +170,19 @@ class Boomerang_Frontend {
 			wp_die();
 		}
 
-		$title   = sanitize_text_field( $_POST['title'] );
-		$content = sanitize_textarea_field( $_POST['content'] );
-		$board   = intval( $_POST['board'] );
+		$title   = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
+		$content = isset( $_POST['content'] ) ? sanitize_textarea_field( wp_unslash( $_POST['content'] ) ) : '';
+		$board   = isset( $_POST['board'] ) ? absint( $_POST['board'] ) : 0;
 
-		if ( ! empty( $_POST['tags'] ) ) {
-			if ( is_array( $_POST['tags'] ) ) {
-				$tags = array_map( 'sanitize_text_field', $_POST['tags'] );
-			} else {
-				$tags = sanitize_text_field( $_POST['tags'] );
-			}
+	if ( ! empty( $_POST['tags'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Checked and sanitized below
+		if ( is_array( $_POST['tags'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Sanitized in array_map
+			$tags = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $_POST['tags'] ) );
+		} else {
+			$tags = sanitize_text_field( wp_unslash( $_POST['tags'] ) );
 		}
+	}
 
 		// Do some minor form validation to make sure there is content
 		if ( strlen( $title ) < 3 ) {
@@ -245,28 +247,29 @@ class Boomerang_Frontend {
 				array( 'image/jpeg', 'image/jpg', 'image/png' )
 			);
 
-			//Check if uploaded file doesn't contain any error
-			if ( isset( $_FILES['boomerang_image_upload']['error'] ) && 0 === $_FILES['boomerang_image_upload']['error'] ) {
-				// Check file type
-				if ( ! in_array( $_FILES['boomerang_image_upload']['type'], $allowed_file_types, true ) ) {
-					$error = new WP_Error(
-						'Boomerang: User Input Error',
-						esc_html__( 'Please upload one of the following filetypes: jpg, jpeg, png.', 'boomerang' )
-					);
+		//Check if uploaded file doesn't contain any error
+		if ( isset( $_FILES['boomerang_image_upload']['error'] ) && 0 === $_FILES['boomerang_image_upload']['error'] ) {
+			// Check file type
+			if ( isset( $_FILES['boomerang_image_upload']['type'] ) && ! in_array( $_FILES['boomerang_image_upload']['type'], $allowed_file_types, true ) ) {
+				$error = new \WP_Error(
+					'Boomerang: User Input Error',
+					esc_html__( 'Please upload one of the following filetypes: jpg, jpeg, png.', 'boomerang' )
+				);
 
-					wp_send_json_error( $error );
-				}
-				$file_id = media_handle_upload( 'boomerang_image_upload', $post_id );
+				wp_send_json_error( $error );
+			}
+			$file_id = media_handle_upload( 'boomerang_image_upload', $post_id );
 
-				if ( ! is_wp_error( $file_id ) ) {
-					set_post_thumbnail( $post_id, $file_id );
-				}
+			if ( ! is_wp_error( $file_id ) ) {
+				set_post_thumbnail( $post_id, $file_id );
 			}
 		}
+	}
 
-		if ( isset( $_POST['acf'] ) ) {
-			do_action( 'boomerang_update_acf', $_POST['acf'], $post_id );
-		}
+	if ( isset( $_POST['acf'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- ACF handles its own sanitization
+		do_action( 'boomerang_update_acf', $_POST['acf'], $post_id );
+	}
 
 		do_action( 'boomerang_new_boomerang', $post_id, $board );
 
@@ -324,11 +327,11 @@ class Boomerang_Frontend {
 	 * @return void
 	 */
 	public function process_admin_action() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 			'boomerang_admin_area'
 		) ) {
-			$error = new WP_Error(
+			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Admin Action',
 				__( 'Something went wrong.', 'boomerang' )
 			);
@@ -336,8 +339,8 @@ class Boomerang_Frontend {
 			wp_send_json_error( $error );
 		}
 
-		$post_id = sanitize_text_field( $_POST['post_id'] );
-		$status  = sanitize_text_field( $_POST['status'] );
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		$status  = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
 		$term    = '';
 
 		if ( isset( $status ) ) {
@@ -386,11 +389,11 @@ class Boomerang_Frontend {
 	 * Get our Boomerangs
 	 */
 	public function get_boomerangs() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 			'boomerang_directory'
 		) ) {
-			$error = new WP_Error(
+			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Filtering',
 				__( 'Something went wrong.', 'boomerang' )
 			);
@@ -398,13 +401,13 @@ class Boomerang_Frontend {
 			wp_send_json_error( $error );
 		}
 
-		$base = isset( $_POST['base'] ) ? sanitize_text_field( $_POST['base'] ) : '';
-		$page = isset( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 1;
-		$order  = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : null;
-		$status = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : null;
-		$tags   = isset( $_POST['tags'] ) ? sanitize_text_field( $_POST['tags'] ) : null;
-		$search = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : null;
-		$board = isset( $_POST['board'] ) ? sanitize_text_field( $_POST['board'] ) : '';
+		$base = isset( $_POST['base'] ) ? sanitize_text_field( wp_unslash( $_POST['base'] ) ) : '';
+		$page = isset( $_POST['page'] ) ? absint( wp_unslash( $_POST['page'] ) ) : 1;
+		$order  = isset( $_POST['order'] ) ? sanitize_text_field( wp_unslash( $_POST['order'] ) ) : null;
+		$status = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : null;
+		$tags   = isset( $_POST['tags'] ) ? sanitize_text_field( wp_unslash( $_POST['tags'] ) ) : null;
+		$search = isset( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : null;
+		$board = isset( $_POST['board'] ) ? absint( wp_unslash( $_POST['board'] ) ) : 0;
 
 		$tax_query        = array( 'relation' => 'AND' );
 
@@ -482,14 +485,14 @@ class Boomerang_Frontend {
 				$this->get_pagination( $query->max_num_pages, $page );
 			}
 		} else {
-			echo '<div><p>';
+		echo '<div><p>';
 
-		printf(
-			esc_html( 'Sorry, no %s matched your criteria.' ),
-			get_plural( $board )
-		);
+	printf(
+		esc_html( 'Sorry, no %s matched your criteria.' ),
+		esc_html( get_plural( $board ) )
+	);
 
-				echo '</p></div>';
+			echo '</p></div>';
 		}
 
 		$content = ob_get_clean();
@@ -528,13 +531,13 @@ class Boomerang_Frontend {
 
 		if ( $max_num_pages > 1 && is_array( $paginate ) ) :
 			echo '<ul class="page-numbers">';
-			foreach ( $paginate as $page_html ) {
-				$is_current = strpos( $page_html, 'current' ) !== false;
-		
-				echo '<li class="' . ( $is_current ? 'current' : '' ) . '">';
-				echo $page_html; // Output untouched link or span
-				echo '</li>';
-			}
+		foreach ( $paginate as $page_html ) {
+			$is_current = strpos( $page_html, 'current' ) !== false;
+	
+			echo '<li class="' . ( $is_current ? 'current' : '' ) . '">';
+			echo wp_kses_post( $page_html );
+			echo '</li>';
+		}
 			echo '</ul>';
 		endif;
 	}
@@ -649,7 +652,8 @@ class Boomerang_Frontend {
 	 */
 	public function save_comment_meta_data( $comment_id ) {
 		if ( boo_fs()->can_use_premium_code__premium_only() ) {
-			if ( isset( $_POST['private_note'] ) && 'on' === $_POST['private_note'] ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification handled by WordPress comment_post action
+			if ( isset( $_POST['private_note'] ) && 'on' === sanitize_text_field( wp_unslash( $_POST['private_note'] ) ) ) {
 				add_comment_meta( $comment_id, 'boomerang_private_note', true );
 			}
 
@@ -708,11 +712,11 @@ class Boomerang_Frontend {
 	 * @return void
 	 */
 	public function process_approve_now() {
-		if ( ! wp_verify_nonce(
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(
 			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
 			'boomerang_approve_now'
 		) ) {
-			$error = new WP_Error(
+			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Boomerang Approval',
 				__( 'Something went wrong.', 'boomerang' )
 			);
@@ -720,7 +724,7 @@ class Boomerang_Frontend {
 			wp_send_json_error( $error );
 		}
 
-		$post_id = sanitize_text_field( $_POST['post_id'] );
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
 
 		wp_update_post(
 			array(

@@ -15,13 +15,13 @@ if ( ! class_exists( 'CSF_Field_better_accordion' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-		public function render() {
+	public function render() {
 
-			$unallows = array( 'accordion' );
+		$unallows = array( 'accordion' );
 
-			echo $this->field_before();
+		echo wp_kses_post( $this->field_before() );
 
-			echo '<div class="csf-accordion-items" data-depend-id="' . esc_attr( $this->field['id'] ) . '">';
+		echo '<div class="csf-accordion-items" data-depend-id="' . esc_attr( $this->field['id'] ) . '">';
 
 			foreach ( $this->field['accordions'] as $key => $accordion ) {
 				$key = $accordion['id'];
@@ -57,13 +57,13 @@ if ( ! class_exists( 'CSF_Field_better_accordion' ) ) {
 
 				echo '</div>';
 
-			}
-
-			echo '</div>';
-
-			echo $this->field_after();
-
 		}
+
+		echo '</div>';
+
+		echo wp_kses_post( $this->field_after() );
+
+	}
 	}
 }
 

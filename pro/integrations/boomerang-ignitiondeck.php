@@ -39,7 +39,9 @@ function render_ignitiondeck_panel( $post ) {
 	}
 
 	$the_deck = $deck->the_deck();
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- IgnitionDeck plugin filter
 	$custom   = apply_filters( 'idcf_custom_deck', $custom, $the_deck->post_id );
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- IgnitionDeck plugin filter
 	$attrs    = apply_filters( 'idcf_deck_attrs', ( isset( $attrs ) ? $attrs : null ), $the_deck->post_id );
 
 	include BOOMERANG_PATH . 'pro/templates/ignitiondeckpanel.php';

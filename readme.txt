@@ -1,10 +1,10 @@
-=== Boomerang ===
+=== Boomerang - Feature Request Platform ===
 Tags: feature requests, requests, customer feedback, ideas, crowdfunding
 Contributors: bouncingsprout
 Requires at least: 5.2
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,10 +78,15 @@ We have a huge number of premium features available. To see how powerful our Pro
 [Facebook](https://www.facebook.com/boomerangWP/)
 
 == Screenshots ==
-1. Boomerang Listing Page (Pro Edition - coming soon)
-2. Single Boomerang Page (Pro Edition - coming soon)
+1. Boomerang Listing Page
+2. Single Boomerang Page
 
 == Changelog ==
+
+= 1.1.4 =
+* Freemius update
+* WP Version Bump
+* Various bug fixes and improvements
 
 = 1.1.3 =
 [//]: # fs_premium_only_begin

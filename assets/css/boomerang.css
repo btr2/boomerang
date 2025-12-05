@@ -370,6 +370,7 @@ Single Boomerang
 }
 .single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .comment-container {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 .single-boomerang .boomerang-container .entry-footer #comments .comment-list .comment .children {

@@ -72,12 +72,12 @@ function add_board_pro_sections( $prefix ) {
 			'id'     => 'safety',
 			'title'  => 'Safety',
 			'fields' => array(
-				array(
-					'id'    => 'enable_recaptcha',
-					'type'  => 'switcher',
-					'title' => esc_html__( 'Enable Google reCAPTCHA v3', 'boomerang' ),
-					'desc'  => esc_html__( 'Switch on Google reCAPTCHA for this board. Ensure you have set your Google API keys under Boomerang\'s Global Settings.' ),
-				),
+			array(
+				'id'    => 'enable_recaptcha',
+				'type'  => 'switcher',
+				'title' => esc_html__( 'Enable Google reCAPTCHA v3', 'boomerang' ),
+				'desc'  => esc_html__( 'Switch on Google reCAPTCHA for this board. Ensure you have set your Google API keys under Boomerang\'s Global Settings.', 'boomerang' ),
+			),
 			),
 		)
 	);
@@ -189,20 +189,20 @@ function render_poll_results( $board_id = false ) {
 	ob_start();
 
 	foreach ( $results as $result ) : ?>
-			<div class="boomerang-result" data-id="<?php echo $result['poll_id']; ?>" style="display: none; padding: 20px 0;">
-				<?php
-				foreach ( $result['data'] as $boomerang ) :
-					$title = ! empty( $boomerang['title'] ) ? $boomerang['title'] : 'None';
+		<div class="boomerang-result" data-id="<?php echo esc_attr( $result['poll_id'] ); ?>" style="display: none; padding: 20px 0;">
+			<?php
+			foreach ( $result['data'] as $boomerang ) :
+				$title = ! empty( $boomerang['title'] ) ? $boomerang['title'] : 'None';
 
-					$width = $boomerang['votes'] / $result['max'] * 100;
-					?>
-			<p><?php echo $title; ?></p>
-			<div class="outer-bar" style="height: 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500">
-				<div class="inner-bar" style="width: <?php echo $width; ?>%; height: 100%; background: darkred"></div>
-				<span style="white-space: nowrap"><?php echo $boomerang['votes']; ?> votes</span>
-			</div>
+				$width = $boomerang['votes'] / $result['max'] * 100;
+				?>
+		<p><?php echo esc_html( $title ); ?></p>
+		<div class="outer-bar" style="height: 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500">
+			<div class="inner-bar" style="width: <?php echo esc_attr( $width ); ?>%; height: 100%; background: darkred"></div>
+			<span style="white-space: nowrap"><?php echo esc_html( $boomerang['votes'] ); ?> votes</span>
+		</div>
 
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 			</div>
 	<?php endforeach; ?>
 	<div class="boomerang-result-null" style="display: none"><?php esc_html_e( 'Data will appear once the first vote is submitted...', 'boomerang' ); ?></div>
@@ -215,7 +215,8 @@ function render_poll_results( $board_id = false ) {
 
 
 function render_polls_fields() {
-	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin settings display, no nonce needed for GET parameter
+	$post_id = isset( $_GET['post'] ) ? absint( wp_unslash( $_GET['post'] ) ) : 0;
 
 	$fields = array();
 
@@ -413,7 +414,8 @@ add_filter( 'csf_boomerang_board_options_save', __NAMESPACE__ . '\generate_poll_
  * @return array
  */
 function render_guest_fields() {
-	$post_id = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin settings display, no nonce needed for GET parameter
+	$post_id = isset( $_GET['post'] ) ? absint( wp_unslash( $_GET['post'] ) ) : 0;
 
 	$text = '<h3>Guest Submissions and Voting</h3><p>Allowing guest submissions means your site visitors don\'t need to create accounts to post new Boomerangs or vote on existing ones. While this offers a quick and efficient experience for your visitors, there are disadvantages, including spam, malicious posts, duplicated statistics and human error. By using some or all of the settings below, you can reduce this.</p><p>When you first turn on guest submissions, a new user will be created. You can find this user under the username <i>boomerang_guest</i>. All guest submissions will be attributed to this user.</p>';
 
@@ -549,7 +551,8 @@ add_action( 'csf_boomerang_board_options_save_after', __NAMESPACE__ . '\create_g
  * @return array
  */
 function render_custom_fields_section() {
-	$board  = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin settings display, no nonce needed for GET parameter
+	$board  = isset( $_GET['post'] ) ? absint( wp_unslash( $_GET['post'] ) ) : 0;
 	$fields = array();
 
 	if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) && ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {

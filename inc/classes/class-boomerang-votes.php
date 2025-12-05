@@ -35,8 +35,8 @@ class Boomerang_Votes {
 	 * @return void
 	 */
 	public function process_vote() {
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['boomerang_process_vote'] ) ), 'boomerang_process_vote' ) ) {
-			$error = new WP_Error(
+		if ( ! isset( $_POST['boomerang_process_vote'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['boomerang_process_vote'] ) ), 'boomerang_process_vote' ) ) {
+			$error = new \WP_Error(
 				'Boomerang: Failed Security Check on Vote Submission',
 				__( 'Something went wrong.', 'boomerang' )
 			);
@@ -44,8 +44,8 @@ class Boomerang_Votes {
 			wp_send_json_error( $error );
 		}
 
-		$post_id  = sanitize_text_field( $_POST['post_id'] );
-		$modifier = sanitize_text_field( $_POST['modifier'] );
+		$post_id  = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		$modifier = isset( $_POST['modifier'] ) ? sanitize_text_field( wp_unslash( $_POST['modifier'] ) ) : '';
 		$current  = intval( get_post_meta( $post_id, 'boomerang_votes', true ) ?? 0 );
 		$post     = get_post( $post_id );
 		$can_vote = false;

@@ -42,15 +42,15 @@ function boomerang_get_boomerangs( $board = false, $args = false, $base = false 
 			?>
 			<article <?php post_class( 'boomerang' ); ?> id="post-<?php the_ID(); ?>">
 				<?php do_action( 'boomerang_archive_boomerang_start', $post ); ?>
-				<div class="boomerang-inner">
-				<div class="boomerang-left">
-					<?php if ( boomerang_board_votes_enabled() ) : ?>
-					<div class="votes-container-outer">
-						<?php echo boomerang_get_votes_html(); ?>
-					</div>
-					<?php endif; ?>
+			<div class="boomerang-inner">
+			<div class="boomerang-left">
+				<?php if ( boomerang_board_votes_enabled() ) : ?>
+				<div class="votes-container-outer">
+					<?php echo wp_kses_post( boomerang_get_votes_html() ); ?>
 				</div>
-				<div class="boomerang-right">
+				<?php endif; ?>
+			</div>
+			<div class="boomerang-right">
 					<?php do_action( 'boomerang_above_title' ); ?>
 					<div class="boomerang-messages-container"></div>
 					<header class="entry-header">
@@ -142,9 +142,9 @@ function boomerang_get_boomerangs( $board = false, $args = false, $base = false 
 	<?php else : ?>
 		<div><p>
 		<?php
-		print_r(
+		printf(
 			esc_html( 'Sorry, no %s matched your criteria.' ),
-			get_plural( $board )
+			esc_html( get_plural( $board ) )
 		);
 		?>
 				</p></div>
@@ -624,7 +624,7 @@ function boomerang_get_admin_area_html( $post = false ) {
 						<div class="control-content">
 							<fieldset>
 								<?php wp_dropdown_categories( $args ); ?>
-								<div class=control-content-inline-button icon-only" id="boomerang-status-submit">
+								<div class="control-content-inline-button icon-only" id="boomerang-status-submit">
 									<?php if ( boomerang_google_fonts_disabled() ) : ?>
 										<span><?php esc_attr_e( 'Submit', 'boomerang' ); ?></span>
 									<?php else : ?>
@@ -642,16 +642,16 @@ function boomerang_get_admin_area_html( $post = false ) {
 				</div>
 			</div>
 			<div class="boomerang-actions-container">
-				<?php do_action( 'boomerang_actions_container_start', $post ); ?>
-				<h3 class="boomerang-actions-heading"><?php esc_html_e( 'Actions', 'boomerang' ); ?></h3>
-				<div class="boomerang-actions">
-					<?php do_action( 'boomerang_admin_actions_start', $post ); ?>
-					<a class="boomerang-action" href="<?php echo get_edit_post_link(); ?>">
-						<?php if ( boomerang_google_fonts_disabled() ) : ?>
-							<span><?php esc_html_e( 'Edit', 'boomerang' ); ?></span>
-						<?php else : ?>
-							<span class="material-symbols-outlined">edit</span>
-						<?php endif; ?>
+			<?php do_action( 'boomerang_actions_container_start', $post ); ?>
+			<h3 class="boomerang-actions-heading"><?php esc_html_e( 'Actions', 'boomerang' ); ?></h3>
+			<div class="boomerang-actions">
+				<?php do_action( 'boomerang_admin_actions_start', $post ); ?>
+				<a class="boomerang-action" href="<?php echo esc_url( get_edit_post_link() ); ?>">
+					<?php if ( boomerang_google_fonts_disabled() ) : ?>
+						<span><?php esc_html_e( 'Edit', 'boomerang' ); ?></span>
+					<?php else : ?>
+						<span class="material-symbols-outlined">edit</span>
+					<?php endif; ?>
 					</a>
 					<a class="boomerang-action" href="<?php echo esc_url( add_query_arg( 'frontend', 'true', get_delete_post_link() ) ); ?>">
 						<?php if ( boomerang_google_fonts_disabled() ) : ?>
@@ -701,7 +701,7 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 <li id="li-comment-<?php comment_ID(); ?>" <?php comment_class( $classes ); ?>>
 	<div class="comment-container">
 		<div class="comment-author-avatar vcard">
-			<a href="<?php echo esc_url_raw( $url ); ?>">
+			<a href="<?php echo esc_url( $url ); ?>">
 				<?php
 				if ( 0 !== $args['avatar_size'] ) {
 					echo get_avatar( $comment, $args['avatar_size'] );
@@ -713,7 +713,7 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 			<?php do_action( 'boomerang_comment_above_author_name', $comment ); ?>
 			<div class="comment-author vcard">
-				<a href="<?php echo esc_url_raw( $url ); ?>"><?php echo esc_html( $author ); ?></a>
+				<a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $author ); ?></a>
 			</div><!-- .comment-author -->
 
 			<div class="comment-content">
@@ -744,7 +744,7 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 							?>
 						</time>
 					</a>
-					<?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
+					<?php edit_comment_link( __( 'Edit', 'boomerang' ), '<span class="edit-link">', '</span>' ); ?>
 					<?php
 					if ( get_comment_type() == 'comment' ) {
 						comment_reply_link(
@@ -761,12 +761,12 @@ function boomerang_comment_template( $comment, $args, $depth ) {
 						);
 					}
 					?>
-				</div><!-- .comment-metadata -->
+			</div><!-- .comment-metadata -->
 
-				<?php if ( '0' == $comment->comment_approved ) : ?>
-					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
-				<?php endif; ?>
-			</footer><!-- .comment-meta -->
+			<?php if ( '0' == $comment->comment_approved ) : ?>
+				<p class="comment-awaiting-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'boomerang' ); ?></p>
+			<?php endif; ?>
+		</footer><!-- .comment-meta -->
 		</article><!-- .comment-body -->
 
 	</div>

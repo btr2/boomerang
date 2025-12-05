@@ -148,12 +148,16 @@ add_filter( 'boomerang_form_fields_start', __NAMESPACE__ . '\add_name_and_email_
  * @return void
  */
 function save_name_and_email( $post_id, $board ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in boomerang form submission
 	if ( ! empty( $_POST['guest_name'] ) ) {
-		update_post_meta( $post_id, 'guest_user_name', sanitize_text_field( $_POST['guest_name'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in boomerang form submission
+		update_post_meta( $post_id, 'guest_user_name', sanitize_text_field( wp_unslash( $_POST['guest_name'] ) ) );
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in boomerang form submission
 	if ( ! empty( $_POST['guest_email'] ) ) {
-		update_post_meta( $post_id, 'guest_user_email', sanitize_text_field( $_POST['guest_email'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in boomerang form submission
+		update_post_meta( $post_id, 'guest_user_email', sanitize_email( wp_unslash( $_POST['guest_email'] ) ) );
 	}
 }
 add_action( 'boomerang_new_boomerang', __NAMESPACE__ . '\save_name_and_email', 10, 2 );
@@ -196,12 +200,12 @@ add_filter( 'query_vars', __NAMESPACE__ . '\add_boomerang_query_var' );
 
 function boomerang_get_ip() {
 	if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
+		$ip = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
 	} else {
 		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = ( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$ip = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 		} else {
-			$ip = ( $_SERVER['REMOTE_ADDR'] );
+			$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 		}
 	}
 

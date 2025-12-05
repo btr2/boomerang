@@ -66,32 +66,35 @@ if ( ! class_exists( 'Boomerang_Block' ) ) {
 		public function render_block_styles() {
 			?>
 
-			<style>
-                .placeholder-boomerang-block .components-placeholder {
-                    background: #027AD0;
-                }
-                .placeholder-boomerang-block .components-placeholder.is-large {
-                    align-items: center !important;
-                }
-                .placeholder-boomerang-block .components-base-control {
-                    width: 100%;
-                    text-align: center;
+		<style>
+            .placeholder-boomerang-block .components-placeholder {
+                background: #027AD0;
+            }
+            .placeholder-boomerang-block .components-placeholder.is-large {
+                align-items: center !important;
+            }
+            .placeholder-boomerang-block .components-base-control {
+                width: 100%;
+                text-align: center;
 
-                }
-                .placeholder-boomerang-block .components-placeholder__label{
-                    display: block;
-                    text-align: center;
-                    width: 100%;
-                }
-                .placeholder-boomerang-block .boomerang-logo{
-                    display: block !important;
-                    margin: 0 auto;
-                }
+            }
+            .placeholder-boomerang-block .components-placeholder__label{
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+            .placeholder-boomerang-block .boomerang-logo{
+                display: block !important;
+                margin: 0 auto;
+                width: 150px !important;
+                height: auto !important;
+                max-width: 150px !important;
+            }
 
-                .placeholder-boomerang-block select{
-                    min-height: 40px !important;
-                }
-			</style>
+            .placeholder-boomerang-block select{
+                min-height: 40px !important;
+            }
+		</style>
 
 			<?php
 		}

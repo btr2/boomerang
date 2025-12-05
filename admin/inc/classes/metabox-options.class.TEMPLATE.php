@@ -40,7 +40,9 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
     public function __construct( $key, $params = array() ) {
 
       $this->unique         = $key;
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       $this->args           = apply_filters( "csf_{$this->unique}_args", wp_parse_args( $params['args'], $this->args ), $this );
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       $this->sections       = apply_filters( "csf_{$this->unique}_sections", $params['sections'], $this );
       $this->post_type      = ( is_array( $this->args['post_type'] ) ) ? $this->args['post_type'] : array_filter( (array) $this->args['post_type'] );
       $this->post_formats   = ( is_array( $this->args['post_formats'] ) ) ? $this->args['post_formats'] : array_filter( (array) $this->args['post_formats'] );
@@ -203,12 +205,12 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
                   continue;
                 }
 
-                $tab_error = ( ! empty( $errors['sections'][$tab_key] ) ) ? '<i class="csf-label-error csf-error">!</i>' : '';
-                $tab_icon  = ( ! empty( $section['icon'] ) ) ? '<i class="csf-tab-icon '. esc_attr( $section['icon'] ) .'"></i>' : '';
+              $tab_error = ( ! empty( $errors['sections'][$tab_key] ) ) ? '<i class="csf-label-error csf-error">!</i>' : '';
+              $tab_icon  = ( ! empty( $section['icon'] ) ) ? '<i class="csf-tab-icon '. esc_attr( $section['icon'] ) .'"></i>' : '';
 
-                echo '<li><a id="' . $section['id'] . '" href="#">'. $tab_icon . $section['title'] . $tab_error .'</a></li>';
+              echo '<li><a id="' . esc_attr( $section['id'] ) . '" href="#">' . wp_kses_post( $tab_icon ) . esc_html( $section['title'] ) . wp_kses_post( $tab_error ) . '</a></li>';
 
-                $tab_key++;
+              $tab_key++;
 
               }
 
@@ -235,10 +237,10 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
               $section_title  = ( ! empty( $section['title'] ) ) ? $section['title'] : '';
               $section_icon   = ( ! empty( $section['icon'] ) ) ? '<i class="csf-section-icon '. esc_attr( $section['icon'] ) .'"></i>' : '';
 
-              echo '<div id="' . $section['id'] . '" class="csf-section hidden'. esc_attr( $section_onload . $section_class ) .'">';
+              echo '<div id="' . esc_attr( $section['id'] ) . '" class="csf-section hidden'. esc_attr( $section_onload . $section_class ) .'">';
 
-              echo ( $section_title || $section_icon ) ? '<div class="csf-section-title"><h3>'. $section_icon . $section_title .'</h3></div>' : '';
-              echo ( ! empty( $section['description'] ) ) ? '<div class="csf-field csf-section-description">'. $section['description'] .'</div>' : '';
+              echo ( $section_title || $section_icon ) ? '<div class="csf-section-title"><h3>' . wp_kses_post( $section_icon ) . esc_html( $section_title ) . '</h3></div>' : '';
+              echo ( ! empty( $section['description'] ) ) ? '<div class="csf-field csf-section-description">' . wp_kses_post( $section['description'] ) . '</div>' : '';
 
               if ( ! empty( $section['fields'] ) ) {
 
@@ -258,7 +260,7 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
 
               } else {
 
-                echo '<div class="csf-no-option">'. esc_html__( 'No data available.', 'csf' ) .'</div>';
+                echo '<div class="csf-no-option">'. esc_html__( 'No data available.', 'boomerang' ) .'</div>';
 
               }
 
@@ -275,8 +277,8 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
               echo '<div class="csf-sections-reset">';
               echo '<label>';
               echo '<input type="checkbox" name="'. esc_attr( $this->unique ) .'[_reset]" />';
-              echo '<span class="button csf-button-reset">'. esc_html__( 'Reset', 'csf' ) .'</span>';
-              echo '<span class="button csf-button-cancel">'. sprintf( '<small>( %s )</small> %s', esc_html__( 'update post', 'csf' ), esc_html__( 'Cancel', 'csf' ) ) .'</span>';
+              echo '<span class="button csf-button-reset">'. esc_html__( 'Reset', 'boomerang' ) .'</span>';
+              echo '<span class="button csf-button-cancel">'. sprintf( '<small>( %s )</small> %s', esc_html__( 'update post', 'boomerang' ), esc_html__( 'Cancel', 'boomerang' ) ) .'</span>';
               echo '</label>';
               echo '</div>';
 
@@ -309,7 +311,8 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
 
       // XSS ok.
       // No worries, This "POST" requests is sanitizing in the below foreach.
-      $request = ( ! empty( $_POST[ $this->unique ] ) ) ? $_POST[ $this->unique ] : array();
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Data is sanitized in the foreach loop below
+      $request = ( ! empty( $_POST[ $this->unique ] ) ) ? wp_unslash( $_POST[ $this->unique ] ) : array();
 
       if ( ! empty( $request ) ) {
 
@@ -370,8 +373,10 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
 
       }
 
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       $data = apply_filters( "csf_{$this->unique}_save", $data, $post_id, $this );
 
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       do_action( "csf_{$this->unique}_save_before", $data, $post_id, $this );
 
       if ( empty( $data ) || ! empty( $request['_reset'] ) ) {
@@ -402,8 +407,10 @@ if ( ! class_exists( 'CSF_Metabox' ) ) {
 
       }
 
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       do_action( "csf_{$this->unique}_saved", $data, $post_id, $this );
 
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CodeStar Framework hook
       do_action( "csf_{$this->unique}_save_after", $data, $post_id, $this );
 
     }

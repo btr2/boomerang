@@ -23,7 +23,7 @@ use function Bouncingsprout_Boomerang\boomerang_the_status;
 		<div class="boomerang-left">
 			<?php if ( boomerang_board_votes_enabled() ) : ?>
 				<div class="votes-container-outer">
-					<?php echo boomerang_get_votes_html(); ?>
+					<?php echo wp_kses_post( boomerang_get_votes_html() ); ?>
 				</div>
 			<?php endif; ?>
 		</div>
